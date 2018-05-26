@@ -19,8 +19,8 @@ client.login(process.env.TOKENchat);
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const chanIm2 = "images_videos_trop_lentes";
-const chanIm = "images";
+const chanIm = "images_videos_trop_lentes";
+//const chanIm = "images";
 
 
 // Extract the required classes from the discord.js module
