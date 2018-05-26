@@ -20,7 +20,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 const chanIm = "images_videos_trop_lentes";
-//const chanIm = "images";
+const chanIm2 = "images";
 
 
 // Extract the required classes from the discord.js module
@@ -64,21 +64,27 @@ client.on('message', msg => {
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{  file : msg.MessageAttachment })
             //client.channels.find('name',chanIm).send("1")
 		
-	    client.channels.find('name',chanIm).send("wesh")
-            client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content)
+
 		
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.proxyURL })
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.url })
 		
-            client.channels.find('name',chanIm).send( { file : value.url } )
-
+	    client.channels.find('name',chanIm).send("wesh")
+            client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content)
+            //client.channels.find('name',chanIm).send( { file : value.url } )
             client.channels.find('name',chanIm).send( { file : value.proxyURL } )
+            msg.channel.send(""+msg.author+" "+client.channels.find("name",chanIm))
+		
+	    client.channels.find('name',chanIm2).send("wesh")
+            client.channels.find('name',chanIm2).send(""+msg.author+" : "+msg.content)
+            //client.channels.find('name',chanIm2).send( { file : value.url } )
+            client.channels.find('name',chanIm2).send( { file : value.proxyURL } )
+            msg.channel.send(""+msg.author+" "+client.channels.find("name",chanIm2))
 
 
             //client.channels.find('name',chanIm).send("2")
             //client.channels.find(val => val.name === chanIm).send(""+msg.author+" : "+msg.content,{ file : value.proxyURL })
 	
-            msg.channel.send(""+msg.author+" "+client.channels.find("name",chanIm))
 		
             //msg.channel.send(value.message)
             //client.channels.find('name','images').send("lolilol")
