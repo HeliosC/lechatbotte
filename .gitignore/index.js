@@ -75,8 +75,10 @@ client.on('message', msg => {
             //const attachment = new MessageAttachment('https://i.imgur.com/w3duR07.png');
             //const attachment = new MessageAttachment(value.);
             //msg.channel.send(`${msg.author},`, attachment)
+
+	    msg.delete()
+
         }
-    msg.delete()
     }}
 
 
