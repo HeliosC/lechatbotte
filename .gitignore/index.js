@@ -65,7 +65,7 @@ client.on('message', msg => {
             //client.channels.find('name',chanIm).send("1")
 		
 	    client.channels.find('name',chanIm).send("wesh")
-            client.channels.find('name',chanIm).send(msg.content)
+            client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content)
 		
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.proxyURL })
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.url })
