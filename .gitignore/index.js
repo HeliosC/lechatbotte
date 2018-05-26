@@ -95,7 +95,7 @@ client.on('message', msg => {
             //msg.channel.send(`${msg.author},`, attachment)
 
 	    msg.delete()
-	    break
+	    //break
 
         }
     }}
