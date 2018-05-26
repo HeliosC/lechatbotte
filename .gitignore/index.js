@@ -63,15 +63,21 @@ client.on('message', msg => {
             //client.channels.find('name',chanIm).send("0")
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{  file : msg.MessageAttachment })
             //client.channels.find('name',chanIm).send("1")
-            client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.proxyURL })
-            client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.url })
 		
-            client.channels.find('name',chanIm).send("wesh")
+	    client.channels.find('name',chanIm).send("wesh")
             client.channels.find('name',chanIm).send(msg.content)
+		
+            //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.proxyURL })
+            //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.url })
+		
+            client.channels.find('name',chanIm).send( { file : value.proxyURL } )
+
 
             //client.channels.find('name',chanIm).send("2")
             //client.channels.find(val => val.name === chanIm).send(""+msg.author+" : "+msg.content,{ file : value.proxyURL })
+	
             msg.channel.send(""+msg.author+" "+client.channels.find("name",chanIm))
+		
             //msg.channel.send(value.message)
             //client.channels.find('name','images').send("lolilol")
             //client.channels.find('name','images').send(msg.content,{   file: "https://www.sciencesetavenir.fr/assets/img/2017/03/29/cover-r4x3w1000-58dbbd655242b-capture-d-e-cran-2017-03-29-a-15-55-40.png"    })
