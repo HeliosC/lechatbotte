@@ -29,7 +29,7 @@ client.on('message', msg => {
     for (user of client.users){
       if( user[1].username == "Le Chat Botté" && user[1].bot){
         if(msg.isMemberMentioned(user[1])){
-          msg.reply("reste tranquile")
+          //msg.reply("reste tranquile")
         }
       }
     }  
