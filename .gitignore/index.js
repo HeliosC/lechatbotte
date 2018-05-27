@@ -98,7 +98,7 @@ client.on('message', msg => {
             //const attachment = new MessageAttachment(value.);
             //msg.channel.send(`${msg.author},`, attachment)
 
-	    //break
+	break
 
 	msg.delete()
 
