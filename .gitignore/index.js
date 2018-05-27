@@ -17,6 +17,10 @@ client.on('ready', () => {
 
 client.on('message', msg => {
 	
+  if(msg.content.indexOf("kalista")!=-1){
+    msg.reply("kali quoi ?")
+  }
+	
 
 
   if(!msg.author.bot){
