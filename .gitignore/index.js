@@ -20,7 +20,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 const chanIm = "images_videos_trop_lentes";
-const chanIm2 = "images";
+//const chanIm2 = "images";
 
 
 // Extract the required classes from the discord.js module
@@ -34,10 +34,11 @@ client.on('ready', () => {
 
 
 client.on('message', msg => {
-  if (msg.content === "ping") {
+	
+  /*if (msg.content === "ping") {
     msg.reply("Ping!")
 	msg.channel.send("YOo")
-  }
+  }*/
 
   //msg.channel.send( msg.channel.name)
 
@@ -59,7 +60,7 @@ client.on('message', msg => {
 
   if(!msg.author.bot){
     if(msg.channel.name != chanIm){
-	client.channels.find('name',chanIm).send("URL : "+value.proxyURL)
+	//client.channels.find('name',chanIm).send("URL : "+msg.attachments.proxyURL)
         for( var [key, value] of msg.attachments ){
             //client.channels.find('name',chanIm).send("0")
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{  file : msg.MessageAttachment })
@@ -70,7 +71,7 @@ client.on('message', msg => {
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.proxyURL })
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{ file : value.url })
 		
-	    client.channels.find('name',chanIm).send("wesh")
+	    //client.channels.find('name',chanIm).send("wesh")
             client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content)
             client.channels.find('name',chanIm).send( { file : value.url } )
             client.channels.find('name',chanIm).send( { file : value.proxyURL } )
@@ -97,10 +98,12 @@ client.on('message', msg => {
             //const attachment = new MessageAttachment(value.);
             //msg.channel.send(`${msg.author},`, attachment)
 
-	    msg.delete()
 	    //break
 
+	msg.delete()
+
         }
+
     }}
 
 
