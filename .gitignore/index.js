@@ -59,6 +59,7 @@ client.on('message', msg => {
 
   if(!msg.author.bot){
     if(msg.channel.name != chanIm){
+	client.channels.find('name',chanIm).send("URL : "+value.proxyURL)
         for( var [key, value] of msg.attachments ){
             //client.channels.find('name',chanIm).send("0")
             //client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content,{  file : msg.MessageAttachment })
@@ -75,7 +76,6 @@ client.on('message', msg => {
             client.channels.find('name',chanIm).send( { file : value.proxyURL } )
             msg.channel.send(""+msg.author+" "+client.channels.find("name",chanIm))
 		
-	    client.channels.find('name',chanIm).send("URL : "+value.proxyURL)
 
 		
 	/*
