@@ -20,6 +20,9 @@ client.on('message', msg => {
   if(msg.content.indexOf("kalista")!=-1){
     msg.reply("kali quoi ?")
   }
+  if(msg.content.indexOf("permis")!=-1){
+    msg.channel.send("https://www.youtube.com/watch?v=MpQEi1Dw3_k&t=4s&ab_channel=Chatdesbois")
+  }
 	
 
 
