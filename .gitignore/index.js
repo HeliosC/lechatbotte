@@ -24,6 +24,14 @@ client.on('message', msg => {
 
 
   if(!msg.author.bot){
+	  
+    for (user of client.users){
+      if( user[1].username == "Le chat botté" && user[1].bot){
+        if(msg.isMemberMentioned(user[1])){
+          msg.reply("reste tranquile")
+        }
+      }
+    }  
 
     let modRole = msg.guild.roles.find("name", "🐾Chats sous chef");
     let adminRole = msg.guild.roles.find("name", "🦄Le Chat en chef");
