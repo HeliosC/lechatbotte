@@ -26,7 +26,7 @@ client.on('message', msg => {
   if(!msg.author.bot){
 	  
     for (user of client.users){
-      if( user[1].username == "Le chat botté" && user[1].bot){
+      if( user[1].username == "Le Chat Botté" && user[1].bot){
         if(msg.isMemberMentioned(user[1])){
           msg.reply("reste tranquile")
         }
