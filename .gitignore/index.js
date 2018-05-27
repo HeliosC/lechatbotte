@@ -98,7 +98,7 @@ client.on('message', msg => {
             //const attachment = new MessageAttachment(value.);
             //msg.channel.send(`${msg.author},`, attachment)
 
-      setTimeout(suiteTraitement, 500) //Attendez 10 secondes avant de continuer dans la fonction suivante
+      setTimeout(suiteTraitement, 2000) //Attendez 10 secondes avant de continuer dans la fonction suivante
       function suiteTraitement()
           {
             msg.delete()
