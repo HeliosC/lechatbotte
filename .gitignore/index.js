@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 const chanIm = "images_videos_trop_lentes";
-//const chanIm2 = "images";
+const chanIm2 = "cest_ta_vie";
 
 
 // Extract the required classes from the discord.js module
@@ -39,7 +39,7 @@ client.on('message', msg => {
 
 
 
-    if(msg.channel.name != chanIm && !(msg.member.roles.has(modRole.id) || msg.member.roles.has(adminRole.id) ) ){
+    if(msg.channel.name == chanIm2 && !(msg.member.roles.has(modRole.id) || msg.member.roles.has(adminRole.id) ) ){
         for( var [key, value] of msg.attachments ){
   
             client.channels.find('name',chanIm).send(""+msg.author+" : "+msg.content)
