@@ -26,7 +26,6 @@ client.on('message', msg => {
 
   if (!msg.author.bot) {
 
-    if( msg.embeds.length)
 
     let modRole = msg.guild.roles.find("name", nommodo);
     let adminRole = msg.guild.roles.find("name", nomadmin);
