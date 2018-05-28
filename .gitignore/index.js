@@ -4,6 +4,8 @@ const { Client, MessageAttachment } = require('discord.js')
 
 
 const chanIm = "images_videos_trop_lentes"
+//const chanCh = "test"
+const chanCh = "cest_ta_vie"
 const nombot = "Le Chat Botté"
 var nommodo = "🐾Chats sous chef"
 var nomadmin = "🦄Le Chat en chef"
@@ -29,7 +31,7 @@ client.on('message', msg => {
 
     let modRole = msg.guild.roles.find("name", nommodo);
     let adminRole = msg.guild.roles.find("name", nomadmin);
-    if (msg.channel.name != chanIm && !(msg.member.roles.has(modRole.id) || msg.member.roles.has(adminRole.id))) {
+    if (msg.channel.name == chanCh && !(msg.member.roles.has(modRole.id) || msg.member.roles.has(adminRole.id))) {
       for (var [key, value] of msg.attachments) {
         client.channels.find('name', chanIm).send("" + msg.author + " : " + msg.content)
         client.channels.find('name', chanIm).send({ file: value.proxyURL })
