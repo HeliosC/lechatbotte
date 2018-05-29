@@ -14,13 +14,13 @@ client.on('message', msg => {
 
   if (!msg.author.bot) {
 
-    let modRole = msg.guild.roles.find("name", nommodo);
-    let adminRole = msg.guild.roles.find("name", nomadmin);
+    let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+    let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
 
-    mentionsBot(msg, modRole, adminRole)
-    reponsesBot(msg, modRole, adminRole)
+    reponsesBot(msg, modo, admin)
+    mentionsBot(msg, modo, admin)
 
-    if (!(msg.member.roles.has(modRole.id) || msg.member.roles.has(adminRole.id))) {
+    if (!(modo||admin)) {
       deplaceImage(msg)
     }
 
@@ -29,8 +29,8 @@ client.on('message', msg => {
 })
 
 
-function reponsesBot(msg, mod, ad) {
-  if (!(msg.member.roles.has(mod.id) || msg.member.roles.has(ad.id))) {
+function reponsesBot(msg, modo, admin) {
+  if (!(modo||admin)) {
     if (msg.content.toLowerCase().indexOf("pain au chocolat") != -1) {
       msg.reply("Chocolatine*")
     }
@@ -43,14 +43,14 @@ function reponsesBot(msg, mod, ad) {
   }
 }
 
-function mentionsBot(msg, mod, ad) {
+function mentionsBot(msg, modo, admin) {
   if (msg.mentions.everyone) { } else {
     for (user of client.users) {
       if (user[1].username == nombot && user[1].bot && msg.isMemberMentioned(user[1])) {
-        if (msg.member.roles.has(ad.id)) {
+        if (admin) {
           const h = client.emojis.find("name", "cheart");
           msg.react(h)
-        } else if (msg.member.roles.has(mod.id)) {
+        } else if (modo) {
           if (msg.author.username == "Poui des bois") {
             msg.react("😍")
           } else {
