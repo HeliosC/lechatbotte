@@ -51,7 +51,11 @@ function mentionsBot(msg, mod, ad) {
           const h = client.emojis.find("name", "cheart");
           msg.react(h)
         } else if (msg.member.roles.has(mod.id)) {
-          msg.react("❤")
+          if (msg.author.username == "Poui des bois") {
+            msg.react("😍")
+          } else {
+            msg.react("❤")
+          }
         } else {
           msg.reply("reste tranquille")
         }
