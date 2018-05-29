@@ -28,7 +28,7 @@ client.on('message', msg => {
       if (msg.content.toLocaleLowerCase().indexOf("pain au chocolat") != -1) {
         msg.reply("Chocolatine*")
       }
-      
+
       if (msg.mentions.everyone) {
         //msg.channel.send("wow")
       } else {
@@ -43,12 +43,27 @@ client.on('message', msg => {
         for (var [key, value] of msg.attachments) {
           client.channels.find('name', chanIm).send("" + msg.author + " : " + msg.content)
           client.channels.find('name', chanIm).send({ file: value.proxyURL })
-          msg.channel.send("" + msg.author + " " + client.channels.find("name", chanIm))
+          msg.channel.send("" + msg.author + " : " + client.channels.find("name", chanIm))
           setTimeout(suiteTraitement, 500)
           function suiteTraitement() { msg.delete() }
           break
         }
       }
+    }else{
+
+      if (msg.mentions.everyone) {
+        //msg.channel.send("wow")
+      } else {
+        for (user of client.users) {
+          if (user[1].username == nombot && user[1].bot && msg.isMemberMentioned(user[1])) {
+            if(msg.author.username == "Poui des bois"){
+              msg.reply(":heart:")
+            }
+          }
+        }
+      }
+
+
     }
 
     if (msg.content.indexOf("kalista") != -1) {
