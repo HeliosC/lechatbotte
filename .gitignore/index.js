@@ -25,6 +25,10 @@ client.on('message', msg => {
     let adminRole = msg.guild.roles.find("name", nomadmin);
     if (!(msg.member.roles.has(modRole.id) || msg.member.roles.has(adminRole.id))) {
 
+      if (msg.content.toLocaleLowerCase().indexOf("pain au chocolat") != -1) {
+        msg.reply("Chocolatine*")
+      }
+      
       if (msg.mentions.everyone) {
         //msg.channel.send("wow")
       } else {
