@@ -53,6 +53,11 @@ function mentionsBot(msg, modo, admin) {
         } else if (modo) {
           if (msg.author.username == "Poui des bois") {
             msg.react("😍")
+          } else if (msg.author.username == "Solis Le Soleil") {
+            msg.react("🌞")
+          } else if (msg.author.username == "Helios") {
+            const h = client.emojis.find("name", "peachDab");
+            msg.react(h)
           } else {
             msg.react("❤")
           }
@@ -76,5 +81,6 @@ function deplaceImage(msg) {
     }
   }
 }
+
 
 client.login(process.env.TOKENchat);
