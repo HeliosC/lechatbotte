@@ -4,8 +4,8 @@ const { Client, MessageAttachment } = require('discord.js')
 
 
 const chanIm = "images_videos_trop_lentes"
-const chanCh = "test"
-//const chanCh = "cest_ta_vie"
+//const chanCh = "test"
+const chanCh = "cest_ta_vie"
 const nombot = "Le Chat Botté"
 var nommodo = "🐾Chats sous chef"
 var nomadmin = "🦄Le Chat en chef"
