@@ -5,6 +5,8 @@ const { Client, MessageAttachment } = require('discord.js')
 const chanIm = "images_videos_trop_lentes"
 const chanCh = "cest_ta_vie"
 const nombot = "Le Chat Botté"
+var nomdon = "🐱Chats de qualité supérieure"
+var nomsub = "💕PUTAIN DE CHATONS"
 var nommodo = "🐾Chats sous chef"
 var nomadmin = "🦄Le Chat en chef"
 var tagS = "²"
@@ -15,11 +17,13 @@ client.on('message', msg => {
 
   if (!msg.author.bot) {
 
+    let don = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    let sub = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
     let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
     let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
 
     reponsesBot(msg, modo, admin)
-    mentionsBot(msg, modo, admin)
+    mentionsBot(msg, modo, admin,sub,don)
 
     if (!(modo || admin)) {
       deplaceImage(msg)
@@ -71,7 +75,7 @@ function reponsesBot(msg, modo, admin) {
 
 }
 
-function mentionsBot(msg, modo, admin) {
+function mentionsBot(msg, modo, admin,sub,don) {
   if (msg.mentions.everyone) { } else {
     for (user of client.users) {
       if (user[1].username == nombot && user[1].bot && msg.isMemberMentioned(user[1])) {
@@ -89,7 +93,11 @@ function mentionsBot(msg, modo, admin) {
           } else {
             msg.react("❤")
           }
-        } else {
+        } else if(sub){
+          msg.react("💕")
+        }else if(don){
+          msg.react("🐱")
+        }else{
           msg.reply("reste tranquille")
         }
       }
@@ -109,6 +117,8 @@ function deplaceImage(msg) {
     }
   }
 }
+
+
 
 
 
