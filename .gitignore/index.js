@@ -7,6 +7,7 @@ const chanCh = "cest_ta_vie"
 const nombot = "Le Chat Botté"
 var nommodo = "🐾Chats sous chef"
 var nomadmin = "🦄Le Chat en chef"
+var tagS = "²"
 
 
 client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) })
@@ -22,12 +23,32 @@ client.on('message', msg => {
 
     if (!(modo || admin)) {
       deplaceImage(msg)
+    } else {
+      if (msg.author.username == "Helios") {
+        parleBot(msg)
+      }
     }
-
   }
 
 })
 
+function parleBot(msg) {
+  if (msg.content.startsWith(tagS)) {
+    msg.channel.send(msg.content.replace(tagS, ""))
+    var boo = false
+    for (var [key, value] of msg.attachments) {
+      msg.channel.send({ file: value.proxyURL })
+      boo = true
+      break
+    }
+    if (boo) {
+      setTimeout(suiteTraitement, 500)
+      function suiteTraitement() { msg.delete() }
+    } else {
+      msg.delete()
+    }
+  }
+}
 
 function reponsesBot(msg, modo, admin) {
   var cont = msg.content.toLowerCase()
@@ -45,11 +66,6 @@ function reponsesBot(msg, modo, admin) {
   if (!(modo || admin)) {
     if (cont.indexOf("pain au chocolat") != -1) {
       msg.reply("Chocolatine*")
-    }
-  }else{
-    if(msg.author.username == "Helios" && cont.startsWith("&&&")){
-      msg.delete()
-      msg.channel.send(msg.content.replace("&&&",""))
     }
   }
 
@@ -93,6 +109,8 @@ function deplaceImage(msg) {
     }
   }
 }
+
+
 
 
 client.login(process.env.TOKENchat);
