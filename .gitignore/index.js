@@ -20,7 +20,7 @@ client.on('message', msg => {
     reponsesBot(msg, modo, admin)
     mentionsBot(msg, modo, admin)
 
-    if (!(modo||admin)) {
+    if (!(modo || admin)) {
       deplaceImage(msg)
     }
 
@@ -30,17 +30,23 @@ client.on('message', msg => {
 
 
 function reponsesBot(msg, modo, admin) {
-  if (!(modo||admin)) {
-    if (msg.content.toLowerCase().indexOf("pain au chocolat") != -1) {
+  var cont = msg.content.toLowerCase()
+  if (!(modo || admin)) {
+    if (cont.indexOf("pain au chocolat") != -1) {
       msg.reply("Chocolatine*")
     }
   }
-  if (msg.content.toLowerCase().indexOf("kalista") != -1) {
+  if (cont.indexOf("kalista") != -1) {
     msg.reply("kali quoi ?")
   }
-  if (msg.content.toLowerCase().indexOf("permis") != -1) {
+  if (cont.indexOf("permis") != -1) {
     msg.channel.send("https://www.youtube.com/watch?v=MpQEi1Dw3_k&t=4s&ab_channel=Chatdesbois")
   }
+  if (cont.indexOf("ddlc") != -1 || cont.indexOf("doki") != -1 || cont.indexOf("monika") != -1 || cont.indexOf("yuri") != -1 || cont.indexOf("sayori") != -1 || cont.indexOf("natsuki") != -1) {
+    const h = client.emojis.find("name", "monika");
+    msg.react(h)
+  }
+
 }
 
 function mentionsBot(msg, modo, admin) {
@@ -81,6 +87,8 @@ function deplaceImage(msg) {
     }
   }
 }
+
+
 
 
 client.login(process.env.TOKENchat);
