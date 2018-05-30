@@ -31,11 +31,6 @@ client.on('message', msg => {
 
 function reponsesBot(msg, modo, admin) {
   var cont = msg.content.toLowerCase()
-  if (!(modo || admin)) {
-    if (cont.indexOf("pain au chocolat") != -1) {
-      msg.reply("Chocolatine*")
-    }
-  }
   if (cont.indexOf("kalista") != -1) {
     msg.reply("kali quoi ?")
   }
@@ -45,6 +40,17 @@ function reponsesBot(msg, modo, admin) {
   if (cont.indexOf("ddlc") != -1 || cont.indexOf("doki") != -1 || cont.indexOf("monika") != -1 || cont.indexOf("yuri") != -1 || cont.indexOf("sayori") != -1 || cont.indexOf("natsuki") != -1) {
     const h = client.emojis.find("name", "monika");
     msg.react(h)
+  }
+
+  if (!(modo || admin)) {
+    if (cont.indexOf("pain au chocolat") != -1) {
+      msg.reply("Chocolatine*")
+    }
+  }else{
+    if(msg.author.username == "Helios" && cont.startsWith("&&&")){
+      msg.delete()
+      msg.channel.send(msg.content.replace("&&&",""))
+    }
   }
 
 }
@@ -87,8 +93,6 @@ function deplaceImage(msg) {
     }
   }
 }
-
-
 
 
 client.login(process.env.TOKENchat);
