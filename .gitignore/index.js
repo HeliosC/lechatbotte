@@ -99,7 +99,7 @@ client.on('message', msg => {
 
 
 
-        if (msg.content.startsWith("!play") && !IG) {
+        if (msg.content.startsWith("*playC4") && !IG) {
 
             msg.channel.send(fleche.repeat(7))
             areact = true
