@@ -17,15 +17,15 @@ client.on('message', msg => {
 
   if (!msg.author.bot) {
 
-    let don = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-    let sub = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    let don = msg.member.roles.has(msg.guild.roles.find("name", nomdon).id);
+    let sub = msg.member.roles.has(msg.guild.roles.find("name", nomsub).id);
     let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
     let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
 
-    reponsesBot(msg, modo, admin)
-    mentionsBot(msg, modo, admin,sub,don)
+    reponsesBot(msg, admin, modo)
+    mentionsBot(msg, admin, modo, sub, don)
 
-    if (!(modo || admin)) {
+    if (!(admin||modo)) {
       deplaceImage(msg)
     } else {
       if (msg.author.username == "Helios") {
@@ -54,7 +54,7 @@ function parleBot(msg) {
   }
 }
 
-function reponsesBot(msg, modo, admin) {
+function reponsesBot(msg, admin, modo) {
   var cont = msg.content.toLowerCase()
   if (cont.indexOf("kalista") != -1) {
     msg.reply("kali quoi ?")
@@ -75,7 +75,7 @@ function reponsesBot(msg, modo, admin) {
 
 }
 
-function mentionsBot(msg, modo, admin,sub,don) {
+function mentionsBot(msg, admin, modo, sub, don) {
   if (msg.mentions.everyone) { } else {
     for (user of client.users) {
       if (user[1].username == nombot && user[1].bot && msg.isMemberMentioned(user[1])) {
@@ -117,10 +117,5 @@ function deplaceImage(msg) {
     }
   }
 }
-
-
-
-
-
 
 client.login(process.env.TOKENchat);
