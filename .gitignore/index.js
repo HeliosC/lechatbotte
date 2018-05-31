@@ -99,7 +99,7 @@ client.on('message', msg => {
 
 
 
-        if (msg.content.startsWith("²play") && !IG) {
+        if (msg.content.startsWith("!play") && !IG) {
 
             msg.channel.send(fleche.repeat(7))
             areact = true
@@ -232,4 +232,8 @@ client.on('message', msg => {
       }
     }
   }
+
+
+client.login(process.env.TOKENCHAT);
+
 
