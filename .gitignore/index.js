@@ -234,6 +234,6 @@ client.on('message', msg => {
   }
 
 
-client.login(process.env.TOKENCHAT);
+client.login(process.env.TOKENchat);
 
 
