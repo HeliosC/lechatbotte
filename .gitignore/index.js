@@ -101,6 +101,8 @@ client.on('message', msg => {
 
         if (msg.content.startsWith("*C4") && !IG) {
 
+            
+
             msg.channel.send(fleche.repeat(7))
             areact = true
 
