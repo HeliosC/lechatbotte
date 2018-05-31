@@ -11,6 +11,7 @@ var nommodo = "🐾Chats sous chef"
 var nomadmin = "🦄Le Chat en chef"
 var tagS = "²"
 
+/*
 var Lmin = ["a","b","c","d","e","f","g"]
 
 
@@ -128,7 +129,7 @@ function affiche() {
     return (tab)
 }
 
-
+*/
 client.on('message', msg => {
 
   if (!msg.author.bot) {
