@@ -11,8 +11,7 @@ var nommodo = "🐾Chats sous chef"
 var nomadmin = "🦄Le Chat en chef"
 var tagS = "²"
 
-/*
-var Lmin = ["a","b","c","d","e","f","g"]
+var Lmin = ["a", "b", "c", "d", "e", "f", "g"]
 
 
 const fleche = "⬇️       "
@@ -22,12 +21,16 @@ const blanc = "⚪️       "
 //const l = "🔵🔵🔵🔵🔵🔵🔵\n"
 //const l2 = "⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n"
 const L = ["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬"]
+
 var MSG
+var MSGreact
 var jeu = [[blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc]]
 var j1 = true
+var user1, user2
 
 var areact = false
 var IG = false
+var remov = false
 var joue = false
 var msgb = false
 
@@ -41,24 +44,35 @@ client.on('messageReactionAdd', (reaction, user) => {
     if (user.bot) { return }
     //channel.send(""+reaction)
 
-    if (joue) {
+    console.log(reaction.message.id)
+    console.log(MSGr.content.id)
+
+    if (reaction.message.id == MSG.id) {console.log("ok");reaction.remove(user); return } 
+    if (reaction.message.id == MSGr.id) {console.log("okr") } else {console.log("pas okr"); return }
+
+
+
+    if (remov) {
         reaction.remove(user)
-        x= L.indexOf( reaction.emoji.toString() ) 
+        if (!joue) { return }
+
+        x = L.indexOf(reaction.emoji.toString())
         //MSG.edit("oups")
         y = 5
         while (y >= 0 && jeu[y][x] != blanc) { y -= 1 }
         if (y == -1) {
-            console.log("c'est plein")
+            //console.log("c'est plein")
         } else {
             //console.log(n)
-            if (j1) {
+            if (j1 && user == user1) {
                 jeu[y][x] = bleu
-                j1=false
-            }else{
+                j1 = false
+                MSG.edit(affiche() + "\nTour de : " + user2)
+            } else if (!j1 && user == user2) {
                 jeu[y][x] = rouge
-                j1=true
+                j1 = true
+                MSG.edit(affiche() + "\nTour de : " + user1)
             }
-            MSG.edit(affiche())
             //console.log(jeu[n][1])
 
 
@@ -69,13 +83,20 @@ client.on('messageReactionAdd', (reaction, user) => {
 
 client.on('message', msg => {
 
+    let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+    let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
 
-    if (joue && msg.author.bot && !msgb) {
-        MSG = msg
+
+    if (remov && msg.author.bot && !msgb) {
         msgb = true
+        MSG = msg
     }
 
-    if (areact) {
+    if (areact && msg.author.bot) {
+
+            MSGr = msg
+
+        //console.log(" MSGr " + MSGr.content)
         areact = false
         var n = 0
         A()
@@ -88,10 +109,11 @@ client.on('message', msg => {
         }
 
         //msg.channel.send((blanc.repeat(7) + "\n").repeat(6))
+        remov = true
         msg.channel.send(affiche())
-        joue = true
         setTimeout(() => {
-            //msg.channel.send("joue")
+            joue = true
+            MSG.edit(affiche() + "\nTour de : " + user1)
         }, 7000);
 
     }
@@ -99,13 +121,33 @@ client.on('message', msg => {
     if (!msg.author.bot) {
 
 
+        if (msg.content == "*stop" && IG && (msg.author == user1 || msg.author == user2 || admin || modo)) {
+            MSG.edit(affiche() + "\nPartie annulée")
+            reset()
+            console.log("" + IG)
+        }
 
         if (msg.content.startsWith("*C4") && !IG) {
 
-            
+            var pls = Array.from(msg.mentions.users.values())
+            if (pls.length == 0) { return }
+
+            var pl = pls[0].username
+
+            user1 = msg.author
+            user2 = pls[0]
+
+            console.log(user1.username + "  " + user2.username)
+
+            console.log("a " + pl)
+            //console.log("a " +pl[0].username )
+
+
+
 
             msg.channel.send(fleche.repeat(7))
             areact = true
+            //client.emit('message', fleche.repeat(7));
 
             IG = true
         }
@@ -129,7 +171,18 @@ function affiche() {
     return (tab)
 }
 
-*/
+function reset() {
+    jeu = [[blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc]]
+    j1 = true
+    user1, user2
+
+    areact = false
+    IG = false
+    remov = false
+    joue = false
+    msgb = false
+}
+
 client.on('message', msg => {
 
   if (!msg.author.bot) {
