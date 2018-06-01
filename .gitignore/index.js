@@ -21,6 +21,8 @@ const blanc = "⚪️       "
 //const l = "🔵🔵🔵🔵🔵🔵🔵\n"
 //const l2 = "⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n"
 const L = ["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬"]
+bw = [bleu, bleu, bleu, bleu]
+rw = [rouge, rouge, rouge, rouge]
 
 var MSG
 var MSGreact
@@ -47,8 +49,8 @@ client.on('messageReactionAdd', (reaction, user) => {
     console.log(reaction.message.id)
     console.log(MSGr.content.id)
 
-    if (reaction.message.id == MSG.id) {console.log("ok");reaction.remove(user); return } 
-    if (reaction.message.id == MSGr.id) {console.log("okr") } else {console.log("pas okr"); return }
+    if (reaction.message.id == MSG.id) { console.log("ok"); reaction.remove(user); return }
+    if (reaction.message.id == MSGr.id) { console.log("okr") } else { console.log("pas okr"); return }
 
 
 
@@ -68,10 +70,12 @@ client.on('messageReactionAdd', (reaction, user) => {
                 jeu[y][x] = bleu
                 j1 = false
                 MSG.edit(affiche() + "\nTour de : " + user2)
+                chackwin()
             } else if (!j1 && user == user2) {
                 jeu[y][x] = rouge
                 j1 = true
                 MSG.edit(affiche() + "\nTour de : " + user1)
+                chackwin()
             }
             //console.log(jeu[n][1])
 
@@ -94,7 +98,7 @@ client.on('message', msg => {
 
     if (areact && msg.author.bot) {
 
-            MSGr = msg
+        MSGr = msg
 
         //console.log(" MSGr " + MSGr.content)
         areact = false
@@ -121,16 +125,22 @@ client.on('message', msg => {
     if (!msg.author.bot) {
 
 
-        if (msg.content == "*stop" && IG && (msg.author == user1 || msg.author == user2 || admin || modo)) {
-            MSG.edit(affiche() + "\nPartie annulée")
-            reset()
-            console.log("" + IG)
+        if (msg.content.toLowerCase() == "*stop") {
+            if (IG && (msg.author == user1 || msg.author == user2 || admin || modo)) {
+                MSG.edit(affiche() + "\nPartie annulée")
+                reset()
+                console.log("" + IG)
+            }
+            msg.delete()
         }
 
-        if (msg.content.startsWith("*C4") && !IG) {
+        if (msg.content.toLowerCase().startsWith("*c4")) {
+
+            if (IG || msg.channel.name.indexOf("jeux") == -1) { msg.delete(); return }
+
 
             var pls = Array.from(msg.mentions.users.values())
-            if (pls.length == 0) { return }
+            if (pls.length == 0) { msg.delete(); return }
 
             var pl = pls[0].username
 
@@ -172,6 +182,8 @@ function affiche() {
 }
 
 function reset() {
+    //MSG = null
+    //MSGr = null
     jeu = [[blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc]]
     j1 = true
     user1, user2
@@ -181,6 +193,33 @@ function reset() {
     remov = false
     joue = false
     msgb = false
+}
+
+function chackwin() {
+
+    //console.log( [  jeu[i][j], x[i + 1][j], x[i + 2][j], x[i + 3][j]  ] )
+    for (const [i, x] of jeu.entries()) {
+        for (var [j, y] of x.entries()) {
+
+            //console.log(x+i)
+            if (j < 4 && x[j] == x[j + 1] && x[j + 1] == x[j + 2] && x[j + 2] == x[j + 3]) { win(y) }
+            if (i < 3 && jeu[i][j] == jeu[i + 1][j] && jeu[i + 1][j] == jeu[i + 2][j] && jeu[i + 2][j] == jeu[i + 3][j]) { win(y) }
+            if (j < 4 && i < 3 && jeu[i][j] == jeu[i + 1][j + 1] && jeu[i + 1][j + 1] == jeu[i + 2][j + 2] && jeu[i + 2][j + 2] == jeu[i + 3][j + 3]) { win(y) }
+            if (j < 4 && i > 2 && jeu[i][j] == jeu[i - 1][j - 1] && jeu[i - 1][j - 1] == jeu[i - 2][j - 2] && jeu[i - 2][j - 2] == jeu[i - 3][j - 3]) { win(y) }
+
+        }
+    }
+}
+
+function win(e) {
+    if (e == bleu) {
+        MSG.edit(affiche() + "\n" + user1 + " a gagné !")
+        setTimeout(reset,500)
+    } else if (e == rouge) {
+        MSG.edit(affiche() + "\n" + user2 + " a gagné !")
+        setTimeout(reset,500)
+    }
+
 }
 
 client.on('message', msg => {
