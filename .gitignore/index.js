@@ -53,20 +53,22 @@ client.on('messageReactionAdd', (reaction, user) => {
             if (j1 && user == user1) {
                 jeu[y][x] = bleu
                 j1 = false
-                MSG.edit(affiche() + "\nTour de : " + user2)
+                //MSG.edit(affiche() + "\nTour de : " + user2)
+                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de : " + user2 } })
                 chackwin()
             } else if (!j1 && user == user2) {
                 jeu[y][x] = rouge
                 j1 = true
-                MSG.edit(affiche() + "\nTour de : " + user1)
+                //MSG.edit(affiche() + "\nTour de : " + user1)
+                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de : " + user1 } })
                 chackwin()
             }
         }
     }
     if (accept && MSGa.id == reaction.message.id) {
-        console.log(user+" / "+user2)
+        console.log(user + " / " + user2)
         if (user == user2) {
-            console.log( reaction.emoji.name )
+            console.log(reaction.emoji.name)
             if (reaction.emoji.name == "yea") {
                 accept = false
                 MSGa.channel.send(fleche.repeat(7))
@@ -103,10 +105,13 @@ client.on('message', msg => {
             }
         }
         remov = true
-        msg.channel.send(affiche())
+        //msg.channel.send(affiche())
+        msg.channel.send({ embed: { color: 3447003, description: affiche() } })
         setTimeout(() => {
             joue = true
-            MSG.edit(affiche() + "\nTour de : " + user1)
+            //MSG.edit(affiche() + "\nTour de : " + user1)
+            MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de : " + user1 } })
+
         }, 7000);
     }
 
@@ -123,7 +128,8 @@ client.on('message', msg => {
     if (!msg.author.bot) {
         if (msg.content.toLowerCase() == "*stop") {
             if (IG && (msg.author == user1 || msg.author == user2 || admin || modo)) {
-                MSG.edit(affiche() + "\nPartie annulée")
+                //MSG.edit(affiche() + "\nPartie annulée")
+                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nPartie annulée" } })
                 reset()
                 console.log("" + IG)
             }
@@ -153,7 +159,7 @@ function affiche() {
         for (var y of x) {
             tab += y
         }
-        tab += "\n"
+        tab += "\n\n"
     }
     return (tab)
 }
@@ -181,14 +187,15 @@ function chackwin() {
 
 function win(e) {
     if (e == bleu) {
-        MSG.edit(affiche() + "\n" + user1 + " a gagné !")
+        //MSG.edit(affiche() + "\n" + user1 + " a gagné !")
+        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" + user1 + " a gagné !" } })
         setTimeout(reset, 500)
     } else if (e == rouge) {
-        MSG.edit(affiche() + "\n" + user2 + " a gagné !")
+        //MSG.edit(affiche() + "\n" + user2 + " a gagné !")
+        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" + user2 + " a gagné !" } })
         setTimeout(reset, 500)
     }
 }
-
 client.on('message', msg => {
 
   if (!msg.author.bot) {
