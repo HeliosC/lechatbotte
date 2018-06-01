@@ -49,12 +49,11 @@ client.on('messageReactionAdd', (reaction, user) => {
     console.log(reaction.message.id)
     console.log(MSGr.content.id)
 
-    if (reaction.message.id == MSG.id) { console.log("ok"); reaction.remove(user); return }
-    if (reaction.message.id == MSGr.id) { console.log("okr") } else { console.log("pas okr"); return }
-
-
 
     if (remov) {
+        if (reaction.message.id == MSG.id) { console.log("ok"); reaction.remove(user); return }
+        if (reaction.message.id == MSGr.id) { console.log("okr") } else { console.log("pas okr"); return }
+        
         reaction.remove(user)
         if (!joue) { return }
 
