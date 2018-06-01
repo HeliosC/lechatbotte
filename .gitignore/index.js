@@ -136,7 +136,7 @@ client.on('message', msg => {
 
         if (msg.content.toLowerCase().startsWith("*c4")) {
 
-            if (IG || msg.channel.name.indexOf("jeux") == -1) { msg.delete(); return }
+            if (IG || (msg.channel.name.indexOf("jeux") == -1 && !admin && !modo) ) { msg.delete(); return }
 
 
             var pls = Array.from(msg.mentions.users.values())
