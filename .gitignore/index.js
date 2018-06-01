@@ -63,7 +63,7 @@ client.on('messageReactionAdd', (reaction, user) => {
             }
         }
     }
-    if (accept) {
+    if (accept && MSGa.id == reaction.message.id) {
         console.log(user+" / "+user2)
         if (user == user2) {
             console.log( reaction.emoji.name )
@@ -174,7 +174,7 @@ function chackwin() {
             if (j < 4 && x[j] == x[j + 1] && x[j + 1] == x[j + 2] && x[j + 2] == x[j + 3]) { win(y) }
             if (i < 3 && jeu[i][j] == jeu[i + 1][j] && jeu[i + 1][j] == jeu[i + 2][j] && jeu[i + 2][j] == jeu[i + 3][j]) { win(y) }
             if (j < 4 && i < 3 && jeu[i][j] == jeu[i + 1][j + 1] && jeu[i + 1][j + 1] == jeu[i + 2][j + 2] && jeu[i + 2][j + 2] == jeu[i + 3][j + 3]) { win(y) }
-            if (j < 4 && i > 2 && jeu[i][j] == jeu[i - 1][j - 1] && jeu[i - 1][j - 1] == jeu[i - 2][j - 2] && jeu[i - 2][j - 2] == jeu[i - 3][j - 3]) { win(y) }
+            if (j > 3 && i > 2 && jeu[i][j] == jeu[i - 1][j - 1] && jeu[i - 1][j - 1] == jeu[i - 2][j - 2] && jeu[i - 2][j - 2] == jeu[i - 3][j - 3]) { win(y) }
         }
     }
 }
