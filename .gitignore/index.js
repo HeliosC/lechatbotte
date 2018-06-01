@@ -18,53 +18,38 @@ const fleche = "⬇️       "
 const bleu = "🔵       "
 const rouge = "🔴       "
 const blanc = "⚪️       "
-//const l = "🔵🔵🔵🔵🔵🔵🔵\n"
-//const l2 = "⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n"
 const L = ["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬"]
-bw = [bleu, bleu, bleu, bleu]
-rw = [rouge, rouge, rouge, rouge]
-
 var MSG
 var MSGreact
+var MSGa
 var jeu = [[blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc]]
 var j1 = true
 var user1, user2
-
 var areact = false
 var IG = false
 var remov = false
 var joue = false
 var msgb = false
+var acceptr = false
+var accept = false
 
 client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) })
-
 client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
 client.on("debug", (e) => console.info(e));
 
 client.on('messageReactionAdd', (reaction, user) => {
     if (user.bot) { return }
-    //channel.send(""+reaction)
-
-    console.log(reaction.message.id)
-    console.log(MSGr.content.id)
-
-
     if (remov) {
         if (reaction.message.id == MSG.id) { console.log("ok"); reaction.remove(user); return }
         if (reaction.message.id == MSGr.id) { console.log("okr") } else { console.log("pas okr"); return }
-        
         reaction.remove(user)
         if (!joue) { return }
-
         x = L.indexOf(reaction.emoji.toString())
-        //MSG.edit("oups")
         y = 5
         while (y >= 0 && jeu[y][x] != blanc) { y -= 1 }
         if (y == -1) {
-            //console.log("c'est plein")
         } else {
-            //console.log(n)
             if (j1 && user == user1) {
                 jeu[y][x] = bleu
                 j1 = false
@@ -76,19 +61,29 @@ client.on('messageReactionAdd', (reaction, user) => {
                 MSG.edit(affiche() + "\nTour de : " + user1)
                 chackwin()
             }
-            //console.log(jeu[n][1])
-
-
         }
     }
-
+    if (accept) {
+        console.log(user+" / "+user2)
+        if (user == user2) {
+            console.log( reaction.emoji.name )
+            if (reaction.emoji.name == "yea") {
+                accept = false
+                MSGa.channel.send(fleche.repeat(7))
+                areact = true
+                IG = true
+            }
+            if (reaction.emoji.name == "nay") {
+                MSGa.delete()
+                reset()
+            }
+        }
+    }
 })
 
 client.on('message', msg => {
-
     let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
     let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-
 
     if (remov && msg.author.bot && !msgb) {
         msgb = true
@@ -96,10 +91,7 @@ client.on('message', msg => {
     }
 
     if (areact && msg.author.bot) {
-
         MSGr = msg
-
-        //console.log(" MSGr " + MSGr.content)
         areact = false
         var n = 0
         A()
@@ -110,20 +102,25 @@ client.on('message', msg => {
                 setTimeout(A, 1000)
             }
         }
-
-        //msg.channel.send((blanc.repeat(7) + "\n").repeat(6))
         remov = true
         msg.channel.send(affiche())
         setTimeout(() => {
             joue = true
             MSG.edit(affiche() + "\nTour de : " + user1)
         }, 7000);
+    }
 
+    if (acceptr && msg.author.bot) {
+        acceptr = false
+        MSGa = msg
+        var h = client.emojis.find("name", "yea");
+        msg.react(h)
+        h = client.emojis.find("name", "nay");
+        msg.react(h)
+        accept = true
     }
 
     if (!msg.author.bot) {
-
-
         if (msg.content.toLowerCase() == "*stop") {
             if (IG && (msg.author == user1 || msg.author == user2 || admin || modo)) {
                 MSG.edit(affiche() + "\nPartie annulée")
@@ -134,40 +131,21 @@ client.on('message', msg => {
         }
 
         if (msg.content.toLowerCase().startsWith("*c4")) {
-
-            if (IG || (msg.channel.name.indexOf("jeux") == -1 && !admin && !modo) ) { msg.delete(); return }
-
-
+            if (IG || (msg.channel.name.indexOf("jeux") == -1 && !admin && !modo)) { msg.delete(); return }
             var pls = Array.from(msg.mentions.users.values())
             if (pls.length == 0) { msg.delete(); return }
-
-            var pl = pls[0].username
-
             user1 = msg.author
             user2 = pls[0]
-
-            console.log(user1.username + "  " + user2.username)
-
-            console.log("a " + pl)
-            //console.log("a " +pl[0].username )
+            msg.channel.send(pls[0] + ", une game contre " + msg.author + "?")
+            acceptr = true
 
 
-
-
-            msg.channel.send(fleche.repeat(7))
+            /*msg.channel.send(fleche.repeat(7))
             areact = true
-            //client.emit('message', fleche.repeat(7));
-
-            IG = true
+            IG = true*/
         }
-
     }
-
-
-
 })
-
-
 
 function affiche() {
     tab = ""
@@ -181,12 +159,8 @@ function affiche() {
 }
 
 function reset() {
-    //MSG = null
-    //MSGr = null
     jeu = [[blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc]]
     j1 = true
-    user1, user2
-
     areact = false
     IG = false
     remov = false
@@ -195,17 +169,12 @@ function reset() {
 }
 
 function chackwin() {
-
-    //console.log( [  jeu[i][j], x[i + 1][j], x[i + 2][j], x[i + 3][j]  ] )
     for (const [i, x] of jeu.entries()) {
         for (var [j, y] of x.entries()) {
-
-            //console.log(x+i)
             if (j < 4 && x[j] == x[j + 1] && x[j + 1] == x[j + 2] && x[j + 2] == x[j + 3]) { win(y) }
             if (i < 3 && jeu[i][j] == jeu[i + 1][j] && jeu[i + 1][j] == jeu[i + 2][j] && jeu[i + 2][j] == jeu[i + 3][j]) { win(y) }
             if (j < 4 && i < 3 && jeu[i][j] == jeu[i + 1][j + 1] && jeu[i + 1][j + 1] == jeu[i + 2][j + 2] && jeu[i + 2][j + 2] == jeu[i + 3][j + 3]) { win(y) }
             if (j < 4 && i > 2 && jeu[i][j] == jeu[i - 1][j - 1] && jeu[i - 1][j - 1] == jeu[i - 2][j - 2] && jeu[i - 2][j - 2] == jeu[i - 3][j - 3]) { win(y) }
-
         }
     }
 }
@@ -213,12 +182,11 @@ function chackwin() {
 function win(e) {
     if (e == bleu) {
         MSG.edit(affiche() + "\n" + user1 + " a gagné !")
-        setTimeout(reset,500)
+        setTimeout(reset, 500)
     } else if (e == rouge) {
         MSG.edit(affiche() + "\n" + user2 + " a gagné !")
-        setTimeout(reset,500)
+        setTimeout(reset, 500)
     }
-
 }
 
 client.on('message', msg => {
