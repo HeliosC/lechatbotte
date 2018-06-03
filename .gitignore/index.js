@@ -178,10 +178,10 @@ function chackwin() {
 
 function win(e) {
     if (e == bleu) {
-        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" + user1 + " a gagné !" } })
+        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" + bleu + " " + user1 + " a gagné !" } })
         setTimeout(reset, 500)
     } else if (e == rouge) {
-        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" + user2 + " a gagné !" } })
+        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" +rouge + " " + user2 + " a gagné !" } })
         setTimeout(reset, 500)
     }
 }
