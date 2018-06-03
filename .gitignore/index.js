@@ -53,12 +53,12 @@ client.on('messageReactionAdd', (reaction, user) => {
             if (j1 && user == user1) {
                 jeu[y][x] = bleu
                 j1 = false
-                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + rouge +" : " + user2} })
+                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + rouge + " : " + user2 } })
                 chackwin()
             } else if (!j1 && user == user2) {
                 jeu[y][x] = rouge
                 j1 = true
-                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + bleu +" : " + user1} })
+                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + bleu + " : " + user1 } })
                 chackwin()
             }
         }
@@ -67,7 +67,7 @@ client.on('messageReactionAdd', (reaction, user) => {
         if (user == user2) {
             if (reaction.emoji.name == "yea") {
                 accept = false
-                MSGa.channel.send(fleche.repeat(7))
+                MSGa.channel.send({ embed: { description: fleche.repeat(7) } })
                 areact = true
                 IG = true
             }
@@ -105,7 +105,7 @@ client.on('message', msg => {
         msg.channel.send({ embed: { color: 3447003, description: affiche() } })
         setTimeout(() => {
             joue = true
-            MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + bleu +" : " + user1 } })
+            MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + bleu + " : " + user1 } })
 
         }, 7000);
     }
@@ -148,7 +148,7 @@ function affiche() {
     tab = ""
     for (var x of jeu) {
         for (var y of x) {
-            tab += y +"       "
+            tab += y + "       "
         }
         tab += "\n\n"
     }
