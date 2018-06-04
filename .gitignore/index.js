@@ -1,6 +1,10 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
 const { Client, MessageAttachment } = require('discord.js')
+client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) })
+client.on("error", (e) => console.error(e));
+client.on("warn", (e) => console.warn(e));
+client.on("debug", (e) => console.info(e));
 
 const chanIm = "images_videos_trop_lentes"
 const chanCh = "cest_ta_vie"
@@ -11,17 +15,16 @@ var nommodo = "🐾Chats sous chef"
 var nomadmin = "🦄Le Chat en chef"
 var tagS = "²"
 
-var Lmin = ["a", "b", "c", "d", "e", "f", "g"]
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////PUISSANCE 4/////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const fleche = "⬇️       "
 const bleu = "🔵"
 const rouge = "🔴"
 const blanc = "⚪️"
 const L = ["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬"]
-var MSG
-var MSGreact
-var MSGa
+var MSG, MSGa, MSGreact
 var jeu = [[blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc], [blanc, blanc, blanc, blanc, blanc, blanc, blanc]]
 var j1 = true
 var user1, user2
@@ -32,11 +35,6 @@ var joue = false
 var msgb = false
 var acceptr = false
 var accept = false
-
-client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) })
-client.on("error", (e) => console.error(e));
-client.on("warn", (e) => console.warn(e));
-client.on("debug", (e) => console.info(e));
 
 client.on('messageReactionAdd', (reaction, user) => {
     if (user.bot) { return }
@@ -186,7 +184,69 @@ function win(e) {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////LISTE D'ATTENTE///////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var listeAtt = []
+client.on('message', msg => {
+  var msgl = msg.content.toLowerCase()
+  let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+  let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+  if (msg.channel.name.indexOf("ttente") != -1) {
+    if (msgl == "*join queue" || msgl == "*joinqueue" || msgl == "*jq") {
+      if (listeAtt.indexOf(msg.author) == -1) {
+        listeAtt[listeAtt.length] = msg.author
+        msg.channel.send(msg.author + " est ajouté à la liste d'attente")
+      } else {
+        msg.channel.send(msg.author + " est déjà dans la liste d'attente")
+      }
+    }
+    if (msgl == "*leave queue" || msgl == "*leavequeue" || msgl == "*lq") {
+      var index = listeAtt.indexOf(msg.author)
+      if (index != -1) {
+        listeAtt.splice(index, 1)
+        msg.channel.send(msg.author + " est retiré de la liste d'attente")
+      } else {
+        msg.channel.send(msg.author + " n'est pas déjà dans la liste d'attente")
+      }
+    }
+    if (msgl == "*queue" || msgl == "*q") {
+      if (listeAtt.length != 0) {
+        afficheListe(msg.channel)
+        //msg.author.tag
+      } else {
+        msg.channel.send("La liste d'attente est vide")
+      }
+    }
+  }
+  if (admin || modo) {
+    if (msgl == "*next") {
+      msg.channel.send(listeAtt.shift() + ", c'est a ton tour !")
+    }
+    if (msgl == "*clear") {
+      listeAtt = []
+      msg.channel.send("La liste d'attente a été vidée")
+    }
+    /*if (msgl == "*add") {
+      msg.channel.send(listeAtt.shift() + ", c'est a ton tour !")
+    }
+    if (msgl == "*remove") {
+      msg.channel.send(listeAtt.shift() + ", c'est a ton tour !")
+    }*/
+  }
+})
+function afficheListe(ch) {
+  var msg = "Liste d'attente :\n"
+  for (const [i, user] of listeAtt.entries()) {
+    msg += (i + 1 + ": " + user.tag + "\n")
+  }
+  ch.send({ embed: { color: 3447003, description: msg } })
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////REPONSES ET REACTIONS////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 client.on('message', msg => {
 
@@ -294,61 +354,9 @@ function deplaceImage(msg) {
     }
   }
 }
-/////////////////////////////////////////////////////////////////////////////
-var listeAtt = []
-client.on('message', msg => {
-  var msgl = msg.content.toLowerCase()
-  let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-  let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-  if (msg.channel.name.indexOf("ttente") != -1) {
-    if (msgl == "*join queue" || msgl == "*joinqueue" || msgl == "*jq") {
-      if (listeAtt.indexOf(msg.author) == -1) {
-        listeAtt[listeAtt.length] = msg.author
-        msg.channel.send(msg.author + " est ajouté à la liste d'attente")
-      } else {
-        msg.channel.send(msg.author + " est déjà dans la liste d'attente")
-      }
-    }
-    if (msgl == "*leave queue" || msgl == "*leavequeue" || msgl == "*lq") {
-      var index = listeAtt.indexOf(msg.author)
-      if (index != -1) {
-        listeAtt.splice(index, 1)
-        msg.channel.send(msg.author + " est retiré de la liste d'attente")
-      } else {
-        msg.channel.send(msg.author + " n'est pas déjà dans la liste d'attente")
-      }
-    }
-    if (msgl == "*queue" || msgl == "*q") {
-      if (listeAtt.length != 0) {
-        afficheListe(msg.channel)
-        //msg.author.tag
-      } else {
-        msg.channel.send("La liste d'attente est vide")
-      }
-    }
-  }
-  if (admin || modo) {
-    if (msgl == "*next") {
-      msg.channel.send(listeAtt.shift() + ", c'est a ton tour !")
-    }
-    if (msgl == "*clear") {
-      listeAtt = []
-      msg.channel.send("La liste d'attente a été vidée")
-    }
-    /*if (msgl == "*add") {
-      msg.channel.send(listeAtt.shift() + ", c'est a ton tour !")
-    }
-    if (msgl == "*remove") {
-      msg.channel.send(listeAtt.shift() + ", c'est a ton tour !")
-    }*/
-  }
-})
-function afficheListe(ch) {
-  var msg = "Liste d'attente :\n"
-  for (const [i, user] of listeAtt.entries()) {
-    msg += (i + 1 + ": " + user.tag + "\n")
-  }
-  ch.send({ embed: { color: 3447003, description: msg } })
-}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 client.login(process.env.TOKENchat);
