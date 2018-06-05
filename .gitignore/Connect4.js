@@ -1,18 +1,5 @@
-const chanIm = "images_videos_trop_lentes"
-const chanCh = "cest_ta_vie"
-const nombot = "Le Chat Botté"
-var nomdon = "🐱Chats de qualité supérieure"
-var nomsub = "💕PUTAIN DE CHATONS"
-var nommodo = "🐾Chats sous chef"
-var nomadmin = "🦄Le Chat en chef"
-var tagS = "²"
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////PUISSANCE 4/////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//const Discord = require("discord.js")
-//const client = new Discord.Client()
+var index = require('./index.js');
+var chanJeux, nommodo, nomadmin, client
 
 const fleche = "⬇️       "
 const bleu = "🔵"
@@ -31,10 +18,7 @@ var msgb = false
 var acceptr = false
 var accept = false
 
-var client
-
-//client.on('messageReactionAdd', (reaction, user) => {
-var messageReactionAdd = function(reaction, user){
+var messageReactionAdd = function (reaction, user) {
     if (user.bot) { return }
     if (remov) {
         if (reaction.message.id == MSG.id) { reaction.remove(user); return }
@@ -73,15 +57,12 @@ var messageReactionAdd = function(reaction, user){
             }
         }
     }
-}//)
+}
 
-//client.on('message', msg => {
- var message = function(msg){
+var message = function (msg) {
     let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
     let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
 
-    //let modo = msg.member.roles.find("name", nommodo)
-    //let admin = msg.member.roles.find("name", nomadmin)
 
     if (remov && msg.author.bot && !msgb) {
         msgb = true
@@ -132,7 +113,7 @@ var messageReactionAdd = function(reaction, user){
         }
 
         if (msg.content.toLowerCase().startsWith("*c4")) {
-            if (IG || (msg.channel.name.indexOf("jeux") == -1 && !admin && !modo)) { msg.delete(); return }
+            if (IG || (msg.channel.name.indexOf(chanJeux) == -1 && !admin && !modo)) { msg.delete(); return }
             var pls = Array.from(msg.mentions.users.values())
             if (pls.length == 0) { msg.delete(); return }
             user1 = msg.author
@@ -141,7 +122,7 @@ var messageReactionAdd = function(reaction, user){
             acceptr = true
         }
     }
-}//)
+}
 
 function affiche() {
     tab = ""
@@ -180,15 +161,21 @@ function win(e) {
         MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" + bleu + " " + user1 + " a gagné !" } })
         setTimeout(reset, 500)
     } else if (e == rouge) {
-        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" +rouge + " " + user2 + " a gagné !" } })
+        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" + rouge + " " + user2 + " a gagné !" } })
         setTimeout(reset, 500)
     }
 }
 
-function setClient(cl){
-    client = cl
-  }
-  
-exports.message=message
-exports.setClient=setClient
+
+
+
+var setParam = function (Mclient, MchanJeux, Mnomadmin, Mnommodo) {
+    chanJeux = MchanJeux
+    nomadmin = Mnomadmin
+    nommodo = Mnommodo
+    client = Mclient
+}
+
+exports.message = message
 exports.messageReactionAdd = messageReactionAdd
+exports.setParam = setParam
