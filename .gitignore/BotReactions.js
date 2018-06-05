@@ -1,23 +1,7 @@
-const chanIm = "images_videos_trop_lentes"
-const chanCh = "cest_ta_vie"
-const nombot = "Le Chat Botté"
-var nomdon = "🐱Chats de qualité supérieure"
-var nomsub = "💕PUTAIN DE CHATONS"
-var nommodo = "🐾Chats sous chef"
-var nomadmin = "🦄Le Chat en chef"
-var tagS = "²"
+var index = require('./index.js');
+var nomdon, nomsub, nommodo, nomadmin, client, nombot, chanCh, chanIm, TagS
 
-var client
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////REPONSES ET REACTIONS////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//var cl = require('./main.js')
-//const client = cl.client
-
-//client.on('message', msg => {
-var message = function(msg){
+var message = function (msg) {
   if (!msg.author.bot) {
 
     let don = msg.member.roles.has(msg.guild.roles.find("name", nomdon).id);
@@ -25,11 +9,11 @@ var message = function(msg){
     let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
     let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
 
-    reponsesBot(msg, admin, modo,client)
-    mentionsBot(msg, admin, modo, sub, don,client)
+    reponsesBot(msg, admin, modo, client)
+    mentionsBot(msg, admin, modo, sub, don, client)
 
-    if (!(admin||modo)) {
-      deplaceImage(msg,client)
+    if (!(admin || modo)) {
+      deplaceImage(msg, client)
     } else {
       if (msg.author.username == "Helios") {
         parleBot(msg)
@@ -37,7 +21,7 @@ var message = function(msg){
     }
   }
 
-}//)
+}
 
 function parleBot(msg) {
   if (msg.content.startsWith(tagS)) {
@@ -67,8 +51,8 @@ function reponsesBot(msg, admin, modo) {
   }
   if (cont.indexOf("ddlc") != -1 || cont.indexOf("doki") != -1 || cont.indexOf("monika") != -1 || cont.indexOf("yuri") != -1 || cont.indexOf("sayori") != -1 || cont.indexOf("natsuki") != -1) {
     const h = client.emojis.find("name", "monika");
-    //msg.react(h)
-    msg.channel.send(""+h)
+    msg.react(h)
+    //msg.channel.send("" + h)
   }
 
   if (!(modo || admin)) {
@@ -97,11 +81,11 @@ function mentionsBot(msg, admin, modo, sub, don) {
           } else {
             msg.react("❤")
           }
-        } else if(sub){
+        } else if (sub) {
           msg.react("💕")
-        }else if(don){
+        } else if (don) {
           msg.react("🐱")
-        }else{
+        } else {
           msg.reply("reste tranquille")
         }
       }
@@ -123,9 +107,18 @@ function deplaceImage(msg) {
   }
 }
 
-function setClient(cl){
-  client = cl
+
+var setParam = function (MchanIm, MchanCh, Mnombot, Mnomadmin, Mnommodo, Mnomsub, Mnomdon, Mclient, MtagS) {
+  chanIm = MchanIm
+  chanCh = MchanCh
+  nombot = Mnombot
+  nomadmin = Mnomadmin
+  nommodo = Mnommodo
+  nomsub = Mnomsub
+  nomdon = Mnomdon
+  client = Mclient
+  tagS = MtagS
 }
 
-exports.message=message
-exports.setClient=setClient
+exports.message = message
+exports.setParam = setParam
