@@ -1,4 +1,3 @@
-var index = require('./index.js');
 var chanJeux, nommodo, nomadmin, client
 
 const fleche = "⬇️       "
