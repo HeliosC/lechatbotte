@@ -1,4 +1,4 @@
-const q = require('./bddquizz/nourriture2.js');
+const q = require('./bddquiz/nourriture2.js');
 
 
 var chanJeux, client
