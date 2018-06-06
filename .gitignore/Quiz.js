@@ -1,4 +1,4 @@
-const q = require('./qptest.js');
+const q = require('./qq.js');
 
 
 var chanJeux, client
