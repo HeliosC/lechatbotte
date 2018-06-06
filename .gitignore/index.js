@@ -1,4 +1,4 @@
-const Param = require('./Param.js');
+const Param = require('./Packages/Param.js');
 const Discord = require("discord.js")
 const client = new Discord.Client()
 
