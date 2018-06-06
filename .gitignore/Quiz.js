@@ -63,7 +63,7 @@ var messageReactionAdd = function (reaction, user) {
                 if (rep[15] == "F") {
                     mes = "GAGNE"
                 } else {
-                    mes + "PERDU"
+                    mes = "PERDU"
                 }
                 MSGa.edit({ embed: { color: 3447003, description: joueur + "\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
             }
