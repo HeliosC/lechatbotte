@@ -1,4 +1,3 @@
-var index = require('./index.js');
 var chanQ, nomadmin, nommodo
 
 var listeAtt = []
