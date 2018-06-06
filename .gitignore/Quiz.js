@@ -15,7 +15,7 @@ accept = false
 var message = function (msg) {
     //client.on('message', msg => {
 
-    if (msg.channel.name.indexOf(chanJeux)) {
+    if (msg.channel.name.indexOf(chanJeux)!=-1) {
         if (msg.content.toLowerCase() == "*qq" || msg.content.toLowerCase() == "*quipoquiz") {
             [quest, rep] = Q(rd())
             joueur = msg.author
