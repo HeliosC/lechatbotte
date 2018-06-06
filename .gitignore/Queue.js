@@ -32,6 +32,10 @@ var message = function (msg) {
       }
     }
   }
+  if (msgl == "*help" || msgl == "*?") {
+      msg.channel.send({ embed: { color: 3447003, description: 
+        "Pour rejoindre la liste d'attente : *joinqueue / *jq \nPour la quitter : *leavequeue / *lq \nPour l'afficher : *queue / *q" } })        
+  }
   if (admin || modo) {
     if (msgl == "*next") {
       msg.channel.send(listeAtt.shift() + ", c'est a ton tour !")
