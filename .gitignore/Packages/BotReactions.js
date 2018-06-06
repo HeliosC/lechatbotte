@@ -1,4 +1,3 @@
-var index = require('./index.js');
 var nomdon, nomsub, nommodo, nomadmin, client, nombot, chanCh, chanIm, TagS
 
 var message = function (msg) {
