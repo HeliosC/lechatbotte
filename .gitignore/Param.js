@@ -1,6 +1,7 @@
 const Queue = require('./Queue.js');
 const BotReactions = require('./BotReactions.js');
 const Connect4 = require('./Connect4.js')
+const Quiz = require('./Quiz.js')
 
 
 const chanIm = "images_videos_trop_lentes"
@@ -21,16 +22,19 @@ var message = function (msg) {
     Queue.message(msg)
     BotReactions.message(msg)
     Connect4.message(msg)
+    Quiz.message(msg)
 }
 
 var messageReactionAdd = function (reaction, user) {
     Connect4.messageReactionAdd(reaction, user)
+    Quiz.messageReactionAdd(reaction, user)
 }
 
 var setParam = function (client) {
     BotReactions.setParam(chanIm, chanCh, nombot, nomadmin, nommodo, nomsub, nomdon, client, tagS)
     Queue.setParam(chanQ, nomadmin, nommodo)
     Connect4.setParam(client, chanJeux, nomadmin, nommodo)
+    Quiz.setParam(client,chanJeux)
 }
 
 exports.message = message
