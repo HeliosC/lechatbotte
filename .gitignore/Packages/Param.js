@@ -8,6 +8,7 @@ const chanIm = "images_videos_trop_lentes"
 const chanCh = "cest_ta_vie"
 const chanQ = "attente"
 const chanJeux = "jeux"
+const chanQuiz = "quiz"
 
 const nombot = "Le Chat Botté"
 
@@ -34,7 +35,7 @@ var setParam = function (client) {
     BotReactions.setParam(chanIm, chanCh, nombot, nomadmin, nommodo, nomsub, nomdon, client, tagS)
     Queue.setParam(chanQ, nomadmin, nommodo)
     Connect4.setParam(client, chanJeux, nomadmin, nommodo)
-    Quiz.setParam(client,chanJeux)
+    Quiz.setParam(client,chanQuiz)
 }
 
 exports.message = message
