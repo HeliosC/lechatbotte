@@ -3,10 +3,9 @@ const terre = require('./bddquiz/terre.js')
 const chat = require('./bddquiz/chat.js')
 
 const themes = ["food", "terre", "chat"]
-const foods = food.str
-const terres = terre.str
-const chats = chat.str
 const questions = [food, terre, chat]
+const nbq =       [100,  50,    50]
+
 
 var chanJeux, client
 
@@ -17,7 +16,7 @@ var chanJeux, client
 //const s = food.str
 //const n = s.length
 
-var quest, rep, MSGa, joueur, q
+var quest, rep, MSGa, joueur, q,I
 areact = false
 accept = false
 
@@ -31,7 +30,7 @@ var message = function (msg) {
             if (msg.content.toLowerCase().substr(4) == "themes" || msg.content.toLowerCase().substr(4) == "?") {
                 themeslist(msg.channel)
             } else {
-                var I = themes.indexOf(msg.content.toLowerCase().substr(4))
+                I = themes.indexOf(msg.content.toLowerCase().substr(4))
 
                 if (I == -1) {
                     I = rd(0, themes.length - 1)
@@ -43,12 +42,12 @@ var message = function (msg) {
                 console.log(p.substr(2, 10))
 
 
-                q = Q(I, rd())
+                q = Q(I, rd(1,nbq[I]))
                 quest = q[0]
                 rep = q[1]
                 //[quest, rep] = Q(2,rd())//Q(questions[I],rd())
                 joueur = msg.author
-                msg.channel.send({ embed: { color: 3447003, description: joueur + "\n" + quest } })
+                msg.channel.send({ embed: { color: 3447003, description: joueur + " [Thème : "+themes[I]+"]\n" + quest } })
                 areact = true
 
             }
@@ -83,7 +82,8 @@ var messageReactionAdd = function (reaction, user) {
                 } else {
                     mes = "PERDU"
                 }
-                MSGa.edit({ embed: { color: 3447003, description: joueur + "\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
+                //MSGa.edit({ embed: { color: 3447003, description: joueur + "\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
+                MSGa.edit({ embed: { color: 3447003, description: joueur + " [Thème : "+themes[I]+"]\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
                 //reaction.message.channel.send({ embed: { color: 3447003, description: mes+"\n"+rep } })         
                 //reaction.message.channel.send(MSGa.content)
                 //MSGa.embed.description("rer")
@@ -95,7 +95,7 @@ var messageReactionAdd = function (reaction, user) {
                 } else {
                     mes = "PERDU"
                 }
-                MSGa.edit({ embed: { color: 3447003, description: joueur + "\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
+                MSGa.edit({ embed: { color: 3447003, description: joueur + " [Thème : "+themes[I]+"]\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
             }
 
             accept = false
