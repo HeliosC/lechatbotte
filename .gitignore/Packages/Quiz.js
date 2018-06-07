@@ -8,7 +8,7 @@ const questions = [food, terre, chat, q2017]
 const nbq =       [100,  50,    50,   26]
 
 
-var chanJeux, client
+var chanJeux, client, nomadmin,nommodo
 
 //const s = chat.str
 //const s = questions[2]
