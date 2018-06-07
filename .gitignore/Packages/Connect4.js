@@ -63,66 +63,71 @@ var message = function (msg) {
     let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
 
 
-    if (remov && msg.author.bot && !msgb) {
-        msgb = true
-        MSG = msg
-    }
+    if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
 
-    if (areact && msg.author.bot) {
-        MSGr = msg
-        areact = false
-        var n = 0
-        A()
-        function A() {
-            if (n < 7) {
-                msg.react(L[n])
-                n++
-                setTimeout(A, 1000)
-            }
+        if (remov && msg.author.bot && !msgb) {
+            msgb = true
+            MSG = msg
         }
-        remov = true
-        msg.channel.send({ embed: { color: 3447003, description: affiche() } })
-        setTimeout(() => {
-            joue = true
-            MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + bleu + " : " + user1 } })
 
-        }, 7000);
-    }
+        if (areact && msg.author.bot) {
+            MSGr = msg
+            areact = false
+            var n = 0
+            A()
+            function A() {
+                if (n < 7) {
+                    msg.react(L[n])
+                    n++
+                    setTimeout(A, 1000)
+                }
+            }
+            remov = true
+            msg.channel.send({ embed: { color: 3447003, description: affiche() } })
+            setTimeout(() => {
+                joue = true
+                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + bleu + " : " + user1 } })
 
-    if (acceptr && msg.author.bot) {
-        acceptr = false
-        MSGa = msg
-        var h = client.emojis.find("name", "yea");
-        msg.react(h)
-        setTimeout(() => {
-            var h = client.emojis.find("name", "nay");
+            }, 7000);
+        }
+
+        if (acceptr && msg.author.bot) {
+            acceptr = false
+            MSGa = msg
+            var h = client.emojis.find("name", "yea");
             msg.react(h)
-        }, 500);
+            setTimeout(() => {
+                var h = client.emojis.find("name", "nay");
+                msg.react(h)
+            }, 500);
 
-        accept = true
-    }
+            accept = true
+        }
 
-    if (!msg.author.bot) {
-        if (msg.content.toLowerCase() == "*stop") {
-            if (IG && (msg.author == user1 || msg.author == user2 || admin || modo)) {
-                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nPartie annulée" } })
-                reset()
+        if (!msg.author.bot) {
+            if (msg.content.toLowerCase() == "*stop") {
+                if (IG && (msg.author == user1 || msg.author == user2 || admin || modo)) {
+                    MSG.edit({ embed: { color: 3447003, description: affiche() + "\nPartie annulée" } })
+                    reset()
+                }
+                msg.delete()
             }
-            msg.delete()
+
+            if (msg.content.toLowerCase().startsWith("*c4")) {
+                if (IG || (msg.channel.name.indexOf(chanJeux) == -1 && !admin && !modo)) { msg.delete(); return }
+                var pls = Array.from(msg.mentions.users.values())
+                if (pls.length == 0) { msg.delete(); return }
+                user1 = msg.author
+                user2 = pls[0]
+                msg.channel.send(pls[0] + ", une game contre " + msg.author + "?")
+                acceptr = true
+            }
         }
 
-        if (msg.content.toLowerCase().startsWith("*c4")) {
-            if (IG || (msg.channel.name.indexOf(chanJeux) == -1 && !admin && !modo)) { msg.delete(); return }
-            var pls = Array.from(msg.mentions.users.values())
-            if (pls.length == 0) { msg.delete(); return }
-            user1 = msg.author
-            user2 = pls[0]
-            msg.channel.send(pls[0] + ", une game contre " + msg.author + "?")
-            acceptr = true
-        }
+
     }
-}
 
+}
 function affiche() {
     tab = ""
     for (var x of jeu) {
