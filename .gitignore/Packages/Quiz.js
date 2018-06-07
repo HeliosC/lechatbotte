@@ -3,9 +3,9 @@ const terre = require('./bddquiz/terre.js')
 const chat = require('./bddquiz/chat.js')
 const q2017 = require('./bddquiz/2017.js')
 
-const themes = ["food", "terre", "chat","2017"]
+const themes = ["food", "terre", "chat", "2017"]
 const questions = [food, terre, chat, q2017]
-const nbq =       [100,  50,    50,   26]
+const nbq = [100, 50, 50, 26]
 
 
 var chanJeux, client, nomadmin,nommodo
@@ -17,14 +17,16 @@ var chanJeux, client, nomadmin,nommodo
 //const s = food.str
 //const n = s.length
 
-var quest, rep, MSGa, joueur, q,I
+var quest, rep, MSGa, joueur, q, I
 areact = false
 accept = false
 
 var message = function (msg) {
     //client.on('message', msg => {
+    let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+    let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
 
-    if (msg.channel.name.indexOf(chanJeux) != -1) {
+    if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
         if (msg.content.toLowerCase().startsWith("*qq") || msg.content.toLowerCase().startsWith("*quipoquiz")) {
 
 
@@ -43,12 +45,12 @@ var message = function (msg) {
                 //console.log(p.substr(2, 10))
 
 
-                q = Q(I, rd(1,nbq[I]))
+                q = Q(I, rd(1, nbq[I]))
                 quest = q[0]
                 rep = q[1]
                 //[quest, rep] = Q(2,rd())//Q(questions[I],rd())
                 joueur = msg.author
-                msg.channel.send({ embed: { color: 3447003, description: joueur + " [Thème : "+themes[I]+"]\n" + quest } })
+                msg.channel.send({ embed: { color: 3447003, description: joueur + " [Thème : " + themes[I] + "]\n" + quest } })
                 areact = true
 
             }
@@ -84,7 +86,7 @@ var messageReactionAdd = function (reaction, user) {
                     mes = "PERDU"
                 }
                 //MSGa.edit({ embed: { color: 3447003, description: joueur + "\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
-                MSGa.edit({ embed: { color: 3447003, description: joueur + " [Thème : "+themes[I]+"]\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
+                MSGa.edit({ embed: { color: 3447003, description: joueur + " [Thème : " + themes[I] + "]\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
                 //reaction.message.channel.send({ embed: { color: 3447003, description: mes+"\n"+rep } })         
                 //reaction.message.channel.send(MSGa.content)
                 //MSGa.embed.description("rer")
@@ -96,7 +98,7 @@ var messageReactionAdd = function (reaction, user) {
                 } else {
                     mes = "PERDU"
                 }
-                MSGa.edit({ embed: { color: 3447003, description: joueur + " [Thème : "+themes[I]+"]\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
+                MSGa.edit({ embed: { color: 3447003, description: joueur + " [Thème : " + themes[I] + "]\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } })
             }
 
             accept = false
@@ -172,8 +174,8 @@ function Q(I, ent) {
 
     //console.log(s.substr(D + 3 , F - D -3))
     rep = s.substr(D + 3, F - D - 3)
-    console.log(quest)
-    console.log(rep)
+    //console.log(quest)
+    //console.log(rep)
 
     //console.log("("+ent+")")
     //console.log(ent.toString().length)
@@ -190,12 +192,12 @@ function Q(I, ent) {
     return ([quest, rep])
 }
 
-function themeslist(ch){
+function themeslist(ch) {
     var st = "Liste des themes :\n"
-    for(a of themes){
-        st=st+" - "+a+"\n"
+    for (a of themes) {
+        st = st + " - " + a + "\n"
     }
-    ch.send( {embed: { color: 3447003, description: st } })
+    ch.send({ embed: { color: 3447003, description: st } })
 }
 
 function rd(min = 1, max = 25) {
@@ -204,9 +206,11 @@ function rd(min = 1, max = 25) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var setParam = function (Mclient, MchanJeux) {
+var setParam = function (Mclient, MchanJeux,Mnomadmin,Mnommodo) {
     client = Mclient
     chanJeux = MchanJeux
+    nomadmin = Mnomadmin
+    nommodo = Mnommodo
 }
 
 exports.message = message
