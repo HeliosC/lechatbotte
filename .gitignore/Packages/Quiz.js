@@ -1,10 +1,11 @@
 const food = require('./bddquiz/food.js')
 const terre = require('./bddquiz/terre.js')
 const chat = require('./bddquiz/chat.js')
+const q2017 = require('./bddquiz/2017.js')
 
-const themes = ["food", "terre", "chat"]
-const questions = [food, terre, chat]
-const nbq =       [100,  50,    50]
+const themes = ["food", "terre", "chat","2017"]
+const questions = [food, terre, chat, q2017]
+const nbq =       [100,  50,    50,   26]
 
 
 var chanJeux, client
@@ -35,11 +36,11 @@ var message = function (msg) {
                 if (I == -1) {
                     I = rd(0, themes.length - 1)
                 }
-                console.log(I)
+                //console.log(I)
 
                 var p = questions[2].str
 
-                console.log(p.substr(2, 10))
+                //console.log(p.substr(2, 10))
 
 
                 q = Q(I, rd(1,nbq[I]))
@@ -192,7 +193,7 @@ function Q(I, ent) {
 function themeslist(ch){
     var st = "Liste des themes :\n"
     for(a of themes){
-        st=st+a+"\n"
+        st=st+" - "+a+"\n"
     }
     ch.send( {embed: { color: 3447003, description: st } })
 }
