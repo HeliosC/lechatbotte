@@ -35,7 +35,7 @@ var setParam = function (client) {
     BotReactions.setParam(chanIm, chanCh, nombot, nomadmin, nommodo, nomsub, nomdon, client, tagS)
     Queue.setParam(chanQ, nomadmin, nommodo)
     Connect4.setParam(client, chanJeux, nomadmin, nommodo)
-    Quiz.setParam(client,chanQuiz)
+    Quiz.setParam(client,chanQuiz,nomadmin,nommodo)
 }
 
 exports.message = message
