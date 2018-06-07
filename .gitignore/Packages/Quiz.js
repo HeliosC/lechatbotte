@@ -1,27 +1,57 @@
-const q = require('./bddquiz/nourriture2.js');
+const food = require('./bddquiz/food.js')
+const terre = require('./bddquiz/terre.js')
+const chat = require('./bddquiz/chat.js')
 
+const themes = ["food", "terre", "chat"]
+const foods = food.str
+const terres = terre.str
+const chats = chat.str
+const questions = [food, terre, chat]
 
 var chanJeux, client
 
+//const s = chat.str
+//const s = questions[2]
 
 
-const s = q.str
-const n = s.length
+//const s = food.str
+//const n = s.length
 
-var quest, rep, MSGa, joueur
+var quest, rep, MSGa, joueur, q
 areact = false
 accept = false
 
 var message = function (msg) {
     //client.on('message', msg => {
 
-    if (msg.channel.name.indexOf(chanJeux)!=-1) {
-        if (msg.content.toLowerCase() == "*qq" || msg.content.toLowerCase() == "*quipoquiz") {
-            [quest, rep] = Q(rd())
-            joueur = msg.author
-            msg.channel.send({ embed: { color: 3447003, description: joueur + "\n" + quest } })
-            areact = true
+    if (msg.channel.name.indexOf(chanJeux) != -1) {
+        if (msg.content.toLowerCase().startsWith("*qq") || msg.content.toLowerCase().startsWith("*quipoquiz")) {
 
+
+            if (msg.content.toLowerCase().substr(4) == "themes" || msg.content.toLowerCase().substr(4) == "?") {
+                themeslist(msg.channel)
+            } else {
+                var I = themes.indexOf(msg.content.toLowerCase().substr(4))
+
+                if (I == -1) {
+                    I = rd(0, themes.length - 1)
+                }
+                console.log(I)
+
+                var p = questions[2].str
+
+                console.log(p.substr(2, 10))
+
+
+                q = Q(I, rd())
+                quest = q[0]
+                rep = q[1]
+                //[quest, rep] = Q(2,rd())//Q(questions[I],rd())
+                joueur = msg.author
+                msg.channel.send({ embed: { color: 3447003, description: joueur + "\n" + quest } })
+                areact = true
+
+            }
         }
     }
 
@@ -109,7 +139,9 @@ var messageReactionAdd = function(reaction, user){
 
 
 
-function Q(ent) {
+function Q(I, ent) {
+
+    var s = questions[I].str
 
     var t = "(" + ent + ")"
     var t1 = "(" + (ent + 1) + ")"
@@ -139,6 +171,8 @@ function Q(ent) {
 
     //console.log(s.substr(D + 3 , F - D -3))
     rep = s.substr(D + 3, F - D - 3)
+    console.log(quest)
+    console.log(rep)
 
     //console.log("("+ent+")")
     //console.log(ent.toString().length)
@@ -155,8 +189,15 @@ function Q(ent) {
     return ([quest, rep])
 }
 
+function themeslist(ch){
+    var st = "Liste des themes :\n"
+    for(a of themes){
+        st=st+a+"\n"
+    }
+    ch.send( {embed: { color: 3447003, description: st } })
+}
 
-function rd(min = 1, max = 50) {
+function rd(min = 1, max = 25) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -165,8 +206,8 @@ function rd(min = 1, max = 50) {
 var setParam = function (Mclient, MchanJeux) {
     client = Mclient
     chanJeux = MchanJeux
-}          
+}
 
 exports.message = message
 exports.messageReactionAdd = messageReactionAdd
-exports.setParam=setParam
+exports.setParam = setParam
