@@ -8,7 +8,7 @@ const questions = [food, terre, chat, q2017]
 const nbq = [100, 50, 50, 26]
 
 
-var chanJeux, client, nomadmin,nommodo
+var chanJeux, client, nomadmin, nommodo
 
 //const s = chat.str
 //const s = questions[2]
@@ -55,19 +55,21 @@ var message = function (msg) {
 
             }
         }
-    }
 
-    if (areact && msg.author.bot) {
-        areact = false
-        MSGa = msg
-        var h = client.emojis.find("name", "yea");
-        msg.react(h)
-        setTimeout(() => {
-            var h = client.emojis.find("name", "nay");
+
+        if (areact && msg.author.bot) {
+            areact = false
+            MSGa = msg
+            var h = client.emojis.find("name", "yea");
             msg.react(h)
-        }, 500);
+            setTimeout(() => {
+                var h = client.emojis.find("name", "nay");
+                msg.react(h)
+            }, 500);
 
-        accept = true
+            accept = true
+
+        }
 
     }
 
@@ -206,7 +208,7 @@ function rd(min = 1, max = 25) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var setParam = function (Mclient, MchanJeux,Mnomadmin,Mnommodo) {
+var setParam = function (Mclient, MchanJeux, Mnomadmin, Mnommodo) {
     client = Mclient
     chanJeux = MchanJeux
     nomadmin = Mnomadmin
