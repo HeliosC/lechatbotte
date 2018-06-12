@@ -20,7 +20,7 @@ client.on('messageReactionAdd', (reaction, user) => {
     Param.messageReactionAdd(reaction, user)
 })
 
-/*setTimeout(test,60*5*1000)
+setTimeout(test,60*5*1000)
 
 var I = 0
 function test(){
@@ -30,6 +30,6 @@ function test(){
         client.channels.find('name', "testbotquiz").send("test "+I)
         test()
     }, 60*5*1000);
-}*/
+}
 
 client.login(process.env.TOKENchat)
