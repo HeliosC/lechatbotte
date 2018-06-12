@@ -9,7 +9,10 @@ client.on("debug", (e) => console.info(e));
 
 Param.setParam(client)
 
+
+var t = "0123456"
 client.on('message', msg => {
+    //console.log( msg.content.toLowerCase().substr(4) )
     Param.message(msg)
 })
 
@@ -17,5 +20,14 @@ client.on('messageReactionAdd', (reaction, user) => {
     Param.messageReactionAdd(reaction, user)
 })
 
+setTimeout(test,60*5*1000)
 
-client.login(process.env.TOKENchat);
+var I = 0
+function test(){
+    setTimeout(() => {
+        //console.log("a")
+        I=I+1
+        client.channels.find('name', "testbotquiz").send("test "+I)
+        test()
+    }, 60*5*1000);
+}
