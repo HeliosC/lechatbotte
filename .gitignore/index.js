@@ -31,3 +31,5 @@ function test(){
         test()
     }, 60*5*1000);
 }*/
+
+client.login(process.env.TOKENchat)
