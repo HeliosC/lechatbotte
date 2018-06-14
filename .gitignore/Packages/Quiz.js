@@ -21,10 +21,20 @@ var quest, rep, MSGa, joueur, q, I
 areact = false
 accept = false
 
+jmodo = false
+
 var message = function (msg) {
     //client.on('message', msg => {
-    let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-    let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+       // try {
+            let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+            let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+         /* }
+          catch (error) {
+            modo = false
+            admin = false
+            //console.log(error)
+          }*/
+
 
     if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
         if (msg.content.toLowerCase().startsWith("*qq") || msg.content.toLowerCase().startsWith("*quipoquiz")) {
@@ -53,11 +63,17 @@ var message = function (msg) {
                 msg.channel.send({ embed: { color: 3447003, description: joueur + " [Thème : " + themes[I] + "]\n" + quest } })
                 areact = true
 
+                jmodo = (admin || modo)
+
             }
         }
+    }
 
+    if (msg.channel.name.indexOf(chanJeux) != -1 || jmodo) {
 
         if (areact && msg.author.bot) {
+            jmodo = false
+            
             areact = false
             MSGa = msg
             var h = client.emojis.find("name", "yea");
