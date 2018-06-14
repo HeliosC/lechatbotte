@@ -17,6 +17,8 @@ var msgb = false
 var acceptr = false
 var accept = false
 
+var jmodo
+
 var messageReactionAdd = function (reaction, user) {
     if (user.bot) { return }
     if (remov) {
@@ -59,11 +61,19 @@ var messageReactionAdd = function (reaction, user) {
 }
 
 var message = function (msg) {
-    let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-    let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+  
+   // try {
+        let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+        let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    /*  }
+      catch (error) {
+        modo = false
+        admin = false
+        //console.log(error)
+      }*/
 
 
-    if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
+    if (msg.channel.name.indexOf(chanJeux) != -1 || jmodo) {
 
         if (remov && msg.author.bot && !msgb) {
             msgb = true
@@ -103,6 +113,9 @@ var message = function (msg) {
 
             accept = true
         }
+    }
+
+    if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
 
         if (!msg.author.bot) {
             if (msg.content.toLowerCase() == "*stop") {
@@ -121,6 +134,8 @@ var message = function (msg) {
                 user2 = pls[0]
                 msg.channel.send(pls[0] + ", une game contre " + msg.author + "?")
                 acceptr = true
+
+                jmodo = (admin||modo)
             }
         }
 
