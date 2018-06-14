@@ -62,15 +62,15 @@ var messageReactionAdd = function (reaction, user) {
 
 var message = function (msg) {
   
-   // try {
+    try {
         let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
         let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-    /*  }
+      }
       catch (error) {
         modo = false
         admin = false
         //console.log(error)
-      }*/
+      }
 
 
     if (msg.channel.name.indexOf(chanJeux) != -1 || jmodo) {
