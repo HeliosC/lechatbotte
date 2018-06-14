@@ -2,10 +2,12 @@ const food = require('./bddquiz/food.js')
 const terre = require('./bddquiz/terre.js')
 const chat = require('./bddquiz/chat.js')
 const q2017 = require('./bddquiz/2017.js')
+const genre = require('./bddquiz/genre.js')
+const quebec = require('./bddquiz/quebec.js')
 
-const themes = ["food", "terre", "chat", "2017"]
-const questions = [food, terre, chat, q2017]
-const nbq = [100, 50, 50, 26]
+const themes = ["food", "terre", "chat", "2017", "genre","quebec"]
+const questions = [food, terre, chat, q2017,genre,quebec]
+const nbq = [100, 50, 50, 26,50,26]
 
 
 var chanJeux, client, nomadmin, nommodo
@@ -25,15 +27,15 @@ jmodo = false
 
 var message = function (msg) {
     //client.on('message', msg => {
-       // try {
+        try {
             let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
             let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-         /* }
+          }
           catch (error) {
             modo = false
             admin = false
             //console.log(error)
-          }*/
+          }
 
 
     if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
