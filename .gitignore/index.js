@@ -13,7 +13,7 @@ Param.setParam(client)
 var t = "0123456"
 client.on('message', msg => {
     //console.log( msg.content.toLowerCase().substr(4) )
-    //Param.message(msg)
+    Param.message(msg)
 
     if( msg.content == "***bite***" && msg.author.username == "Helios" && msg.channel.name == "testbotquiz"){
         msg.reply("ca va")
@@ -22,7 +22,7 @@ client.on('message', msg => {
 })
 
 client.on('messageReactionAdd', (reaction, user) => {
-    //Param.messageReactionAdd(reaction, user)
+    Param.messageReactionAdd(reaction, user)
 })
 
 
@@ -35,7 +35,7 @@ function test(){
         I=I+1
         client.channels.find('name', "testbotquiz").send("test "+I)
         test()
-    }, 30*1000);
+    }, 5*60*1000);
 }
 
 client.login(process.env.TOKENchat)
