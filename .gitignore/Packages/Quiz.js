@@ -4,7 +4,7 @@ const chat = require('./bddquiz/chat.js')
 const q2017 = require('./bddquiz/2017.js')
 const genre = require('./bddquiz/genre.js')
 const quebec = require('./bddquiz/quebec.js')
-const motrigolo = require('./bddquiz/quebec.js')
+const motrigolo = require('./bddquiz/motrigolo.js')
 
 const themes = ["food", "terre", "chat", "2017", "genre", "quebec", "motrigolo"]
 const questions = [food, terre, chat, q2017, genre, quebec, motrigolo]
