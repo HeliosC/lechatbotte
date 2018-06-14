@@ -81,7 +81,7 @@ var message = function (msg) {
           n = 1
           msg.channel.send(p + " est ajouté à la liste d'attente en position : " + n)
           listeAtt.splice(0, 0, p)
-        } else if (n < listeAtt.length1) {
+        } else if (n <= listeAtt.length) {
           msg.channel.send(p + " est ajouté à la liste d'attente en position : " + n)
           listeAtt.splice(n - 1, 0, p)
         } else {
