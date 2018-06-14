@@ -4,15 +4,15 @@ var listeAtt = []
 var message = function (msg) {
   var msgl = msg.content.toLowerCase()
 
-  //try {
+  try {
   let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
   let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-  /* }
+   }
    catch (error) {
      modo = false
      admin = false
      //console.log(error)
-   }*/
+   }
   if (msg.channel.name.indexOf(chanQ) != -1 || modo || admin) {
     if (msgl == "*join queue" || msgl == "*joinqueue" || msgl == "*jq") {
       /*
