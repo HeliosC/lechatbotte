@@ -13,7 +13,7 @@ var message = function (msg) {
      admin = false
      //console.log(error)
    }*/
-  if (msg.channel.name.indexOf(chanQ) != -1) {
+  if (msg.channel.name.indexOf(chanQ) != -1 || modo || admin) {
     if (msgl == "*join queue" || msgl == "*joinqueue" || msgl == "*jq") {
       /*
       if (listeAtt.indexOf(msg.author) == -1) {
