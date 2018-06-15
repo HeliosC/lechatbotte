@@ -72,10 +72,11 @@ var message = function (msg) {
         //console.log(error)
       }*/
 
-    if (msg.guild.roles.find("name", nommodo) != null) {
-        let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-        let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-    } else { admin = false; modo = false; }
+      admin = false; modo = false;
+      if (msg.guild.roles.find("name", nommodo) != null) {
+         modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+         admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+      } 
 
 
     if (msg.channel.name.indexOf(chanJeux) != -1 || jmodo) {
