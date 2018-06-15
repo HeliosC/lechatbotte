@@ -21,7 +21,7 @@ var message = function (msg) {
       modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
       admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
    } 
-}
+//}
 
 
   if (msg.channel.name.indexOf(chanQ) != -1 || modo || admin) {
