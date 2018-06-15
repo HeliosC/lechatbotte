@@ -28,15 +28,20 @@ jmodo = false
 
 var message = function (msg) {
     //client.on('message', msg => {
-        try {
-            let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-            let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-          }
-          catch (error) {
-            modo = false
-            admin = false
-            //console.log(error)
-          }
+    /*try {
+        let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+        let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    }
+    catch (error) {
+        modo = false
+        admin = false
+        //console.log(error)
+    }*/
+
+    if (msg.guild.roles.find("name", nommodo) != null) {
+        let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+        let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    } else { admin = false; modo = false; }
 
 
     if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
@@ -76,7 +81,7 @@ var message = function (msg) {
 
         if (areact && msg.author.bot) {
             jmodo = false
-            
+
             areact = false
             MSGa = msg
             var h = client.emojis.find("name", "yea");
