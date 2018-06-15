@@ -4,15 +4,23 @@ var listeAtt = []
 var message = function (msg) {
   var msgl = msg.content.toLowerCase()
 
+  /*modo = false
+  admin = false
   try {
   let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
   let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
    }
    catch (error) {
-     modo = false
-     admin = false
+     //modo = false
+     //admin = false
      //console.log(error)
-   }
+   }*/
+
+  if (msg.guild.roles.find("name", nommodo) != null) {
+    let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+    let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+  } else { admin = false; modo = false; }
+
   if (msg.channel.name.indexOf(chanQ) != -1 || modo || admin) {
     if (msgl == "*join queue" || msgl == "*joinqueue" || msgl == "*jq") {
       /*
@@ -26,7 +34,7 @@ var message = function (msg) {
       add(msg.author, msg.channel)
     }
     if (msgl == "*leave queue" || msgl == "*leavequeue" || msgl == "*lq") {
-      rem(msg.author,msg.channel)
+      rem(msg.author, msg.channel)
       /*
       var index = listeAtt.indexOf(msg.author)
       if (index != -1) {
@@ -119,7 +127,7 @@ var message = function (msg) {
         var pls = Array.from(msg.mentions.users.values())
         if (pls.length == 0) { return }
         p = pls[0]
-        rem(p,msg.channel)
+        rem(p, msg.channel)
 
 
       }
@@ -144,7 +152,7 @@ function add(p, ch) {
   }
 }
 
-function rem(p,ch){
+function rem(p, ch) {
   var index = listeAtt.indexOf(p)
   if (index != -1) {
     listeAtt.splice(index, 1)
