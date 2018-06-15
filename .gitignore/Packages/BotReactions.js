@@ -1,20 +1,18 @@
 var nomdon, nomsub, nommodo, nomadmin, client, nombot, chanCh, chanIm, TagS
 
-/*var modo = false
-var admin
-var sub
-var don*/
+
 
 var message = function (msg) {
   if (!msg.author.bot) {
 
 
+    admin = false; modo = false; sub = false; don = false;
     if (msg.guild.roles.find("name", nommodo) != null) {
-      let don = msg.member.roles.has(msg.guild.roles.find("name", nomdon).id);
-      let sub = msg.member.roles.has(msg.guild.roles.find("name", nomsub).id);
-      let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-      let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-    } else { admin = false; modo = false; sub = false; don = false; }
+       don = msg.member.roles.has(msg.guild.roles.find("name", nomdon).id);
+       sub = msg.member.roles.has(msg.guild.roles.find("name", nomsub).id);
+       modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+       admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    } 
 
 
     reponsesBot(msg, admin, modo, client)
