@@ -61,8 +61,8 @@ var messageReactionAdd = function (reaction, user) {
 }
 
 var message = function (msg) {
-  
-    try {
+
+    /*try {
         let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
         let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
       }
@@ -70,7 +70,12 @@ var message = function (msg) {
         modo = false
         admin = false
         //console.log(error)
-      }
+      }*/
+
+    if (msg.guild.roles.find("name", nommodo) != null) {
+        let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+        let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    } else { admin = false; modo = false; }
 
 
     if (msg.channel.name.indexOf(chanJeux) != -1 || jmodo) {
@@ -135,7 +140,7 @@ var message = function (msg) {
                 msg.channel.send(pls[0] + ", une game contre " + msg.author + "?")
                 acceptr = true
 
-                jmodo = (admin||modo)
+                jmodo = (admin || modo)
             }
         }
 
