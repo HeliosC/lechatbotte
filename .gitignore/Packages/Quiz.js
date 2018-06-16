@@ -5,11 +5,17 @@ const q2017 = require('./bddquiz/2017.js')
 const genre = require('./bddquiz/genre.js')
 const quebec = require('./bddquiz/quebec.js')
 const motrigolo = require('./bddquiz/motrigolo.js')
+const solaire = require('./bddquiz/solaire.js')
+const mars = require('./bddquiz/mars.js')
+const jo = require('./bddquiz/jo.js')
 
-const themes = ["food", "terre", "chat", "2017", "genre", "quebec", "motrigolo"]
-const questions = [food, terre, chat, q2017, genre, quebec, motrigolo]
-const nbq = [100, 50, 50, 26, 50, 26, 26]
-
+const themes =    ["food", "terre", "chat", "2017", "genre", "quebec", "motrigolo", "solaire", "mars", "jo"]
+const questions = [ food,   terre,   chat,   q2017,  genre,   quebec,   motrigolo,   solaire,   mars,   jo ]
+const nbq =       [ 100,    50,      50,     26,     50,      42,       26,          36,        26,     50 ]
+//456
+//const themes =    ["food", "terre", "chat", "2017", "genre", "quebec", "motrigolo", "solaire", "mars", "jo"]
+//const questions = [ food,   terre,   chat,   q2017,  genre,   quebec,   motrigolo,   solaire,   mars,   jo ]
+//const nbq =       [ 100,    50,      50,     26,     50,      42,       26,          36,        26,     50 ]
 
 var chanJeux, client, nomadmin, nommodo
 
@@ -40,9 +46,9 @@ var message = function (msg) {
 
     admin = false; modo = false;
     if (msg.guild.roles.find("name", nommodo) != null) {
-       modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-       admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-    } 
+        modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+        admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    }
 
 
     if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
