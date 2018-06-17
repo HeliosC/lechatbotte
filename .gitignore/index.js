@@ -21,6 +21,6 @@ client.on('messageReactionAdd', (reaction, user) => {
 
 //setTimeout(test,60*5*1000)
 
-setTimeout(Param.testsleepauto2,5*60*1000)
+setTimeout(Param.testsleepauto2,1*60*1000)
 
 client.login(process.env.TOKENchat)
