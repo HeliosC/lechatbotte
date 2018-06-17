@@ -17,7 +17,8 @@ client.on('message', msg => {
     //console.log( msg.content.toLowerCase().substr(4) )
     Param.message(msg)
 
-    if (msg.content == "***bite***" && msg.author.username == "Helios" && msg.channel.name == "testbotquiz") {
+    //if (msg.content == "***bite***" && msg.author.username == "Helios" && msg.channel.name == "testbotquiz") {
+    if (msg.content == "***bite***" && msg.channel.name == "testbotquiz") {
         testo = true
         msg.channel.send("test 0")
         test()
