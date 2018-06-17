@@ -9,8 +9,6 @@ client.on("debug", (e) => console.info(e));
 
 Param.setParam(client)
 
-var testo = false
-
 var t = "0123456"
 client.on('message', msg => {
     Param.message(msg)
