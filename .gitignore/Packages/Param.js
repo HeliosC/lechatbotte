@@ -18,6 +18,7 @@ const nommodo = "🐾Chats sous chef"
 const nomadmin = "🦄Le Chat en chef"
 
 var Pclient
+var testo=false
 
 tagS = "²"
 
