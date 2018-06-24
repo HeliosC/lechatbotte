@@ -108,7 +108,9 @@ var message = function (msg) {
 
 var messageReactionAdd = function (reaction, user) {
 
-    if (reaction.message.channel.name.indexOf(chanJeux) != -1
+
+    if ((msg.channel.name.indexOf(chanJeux) != -1
+        || msg.channel.name.indexOf("testbotquiz") != -1)
         && !user.bot && reaction.message.id == MSG.id) {
 
         //reaction.remove(user)
@@ -217,7 +219,7 @@ function level(i) {
         LvlColors[LvlColors.length] = n
         console.log(LvlColors)
     }, 2200);
-
+ 
     setTimeout(() => {
         clearInterval(x)
         //MSG.edit({
@@ -227,7 +229,7 @@ function level(i) {
         //    }
         //})
         SetColor(0, 500, "<-- A TOI3 ")
-
+ 
         console.log("a toi")
         InLevel = true
     }, 2200 * i + 500);*/
