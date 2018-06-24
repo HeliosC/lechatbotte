@@ -34,7 +34,8 @@ L = ["❤", "💙", "💚", "💛"]
 
 var message = function (msg) {
 
-    if (msg.channel.name.indexOf(chanJeux) != -1) {
+    if (msg.channel.name.indexOf(chanJeux) != -1
+        || msg.channel.name.indexOf("testbotquiz") != -1) {
 
         if (msg.content.toLowerCase().startsWith("*simon")) {
             start = true
@@ -143,7 +144,7 @@ var messageReactionAdd = function (reaction, user) {
                         description: "PERDU, SCORE : " + (lvl - 1)
                     }
                 })
-            },1000)
+            }, 1000)
 
             /*MSG.edit({
                 embed: {
