@@ -2,6 +2,8 @@ const Queue = require('./Queue.js');
 const BotReactions = require('./BotReactions.js');
 const Connect4 = require('./Connect4.js')
 const Quiz = require('./Quiz.js')
+const Test = require('./Test.js')
+const Simon = require('./Simon.js')
 
 
 const chanIm = "images_videos_trop_lentes"
@@ -17,9 +19,6 @@ const nomsub = "💕PUTAIN DE CHATONS"
 const nommodo = "🐾Chats sous chef"
 const nomadmin = "🦄Le Chat en chef"
 
-var Pclient
-var testo=false
-
 tagS = "²"
 
 var message = function (msg) {
@@ -27,27 +26,32 @@ var message = function (msg) {
     BotReactions.message(msg)
     Connect4.message(msg)
     Quiz.message(msg)
-
-    testsleep(msg)
+    Test.message(msg)
+    Simon.message(msg)
 }
 
 var messageReactionAdd = function (reaction, user) {
     Connect4.messageReactionAdd(reaction, user)
     Quiz.messageReactionAdd(reaction, user)
+    Simon.messageReactionAdd(reaction, user)
 }
 
 var setParam = function (client) {
-    Pclient = client
     BotReactions.setParam(chanIm, chanCh, nombot, nomadmin, nommodo, nomsub, nomdon, client, tagS)
     Queue.setParam(chanQ, nomadmin, nommodo)
     Connect4.setParam(client, chanJeux, nomadmin, nommodo)
     Quiz.setParam(client, chanQuiz, nomadmin, nommodo)
+    Test.setParam(client)
+    Simon.setParam(client)
+
+    setTimeout(Test.testsleepauto, 60 * 1000)
 }
 
 exports.message = message
 exports.messageReactionAdd = messageReactionAdd
 exports.setParam = setParam
 
+/*
 var I = 1
 function test() {
     setTimeout(() => {
@@ -78,4 +82,4 @@ function testsleepauto2() {
     //test()
 }
 
-exports.testsleepauto2 = testsleepauto2
+exports.testsleepauto2 = testsleepauto2*/
