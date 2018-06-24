@@ -44,7 +44,7 @@ var setParam = function (client) {
     Test.setParam(client)
     //Simon.setParam(client)
 
-    setTimeout(Test.testsleepauto, 60 * 1000)
+    //setTimeout(Test.testsleepauto, 60 * 1000)
 }
 
 exports.message = message
