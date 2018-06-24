@@ -109,8 +109,8 @@ var message = function (msg) {
 var messageReactionAdd = function (reaction, user) {
 
 
-    if ((msg.channel.name.indexOf(chanJeux) != -1
-        || msg.channel.name.indexOf("testbotquiz") != -1)
+    if ((reaction.message.channel.name.indexOf(chanJeux) != -1
+        || reaction.message.channel.name.indexOf("testbotquiz") != -1)
         && !user.bot && reaction.message.id == MSG.id) {
 
         //reaction.remove(user)
