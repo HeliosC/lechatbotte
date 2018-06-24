@@ -3,7 +3,7 @@ const BotReactions = require('./BotReactions.js');
 const Connect4 = require('./Connect4.js')
 const Quiz = require('./Quiz.js')
 const Test = require('./Test.js')
-//const Simon = require('./Simon.js')
+const Simon = require('./Simon.js')
 
 
 const chanIm = "images_videos_trop_lentes"
@@ -27,13 +27,13 @@ var message = function (msg) {
     Connect4.message(msg)
     Quiz.message(msg)
     Test.message(msg)
-    //Simon.message(msg)
+    Simon.message(msg)
 }
 
 var messageReactionAdd = function (reaction, user) {
     Connect4.messageReactionAdd(reaction, user)
     Quiz.messageReactionAdd(reaction, user)
-    //Simon.messageReactionAdd(reaction, user)
+    Simon.messageReactionAdd(reaction, user)
 }
 
 var setParam = function (client) {
