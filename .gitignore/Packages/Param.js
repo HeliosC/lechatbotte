@@ -4,6 +4,8 @@ const Connect4 = require('./Connect4.js')
 const Quiz = require('./Quiz.js')
 const Test = require('./Test.js')
 const Simon = require('./Simon.js')
+//const Shifumi = require('./Shifumi.js')
+const Role = require('./Roles.js')
 
 
 const chanIm = "images_videos_trop_lentes"
@@ -11,6 +13,7 @@ const chanCh = "cest_ta_vie"
 const chanQ = "attente"
 const chanJeux = "jeux"
 const chanQuiz = "quiz"
+const chanRole = "rôle"
 
 const nombot = "Le Chat Botté"
 
@@ -28,12 +31,15 @@ var message = function (msg) {
     Quiz.message(msg)
     Test.message(msg)
     Simon.message(msg)
+    //Shifumi.message(msg)
+    Role.message(msg)
 }
 
 var messageReactionAdd = function (reaction, user) {
     Connect4.messageReactionAdd(reaction, user)
     Quiz.messageReactionAdd(reaction, user)
     Simon.messageReactionAdd(reaction, user)
+    //Shifumi.messageReactionAdd(reaction, user)
 }
 
 var setParam = function (client) {
@@ -42,9 +48,11 @@ var setParam = function (client) {
     Connect4.setParam(client, chanJeux, nomadmin, nommodo)
     Quiz.setParam(client, chanQuiz, nomadmin, nommodo)
     Test.setParam(client)
-    //Simon.setParam(client)
+    Simon.setParam(client)
+    //Shifumi.setParam(client, chanJeux, nomadmin, nommodo)
+    Role.setParam(client, chanRole, nomadmin, nommodo)
 
-    //setTimeout(Test.testsleepauto, 60 * 1000)
+    setTimeout(Test.testsleepauto, 60 * 1000)
 }
 
 exports.message = message
