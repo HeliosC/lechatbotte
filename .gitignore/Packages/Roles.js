@@ -17,7 +17,7 @@ var message = function (msg) {
 
         role = trouveRole(msg)
 
-        //msg.delete()
+        msg.delete()
 
 
 
