@@ -50,10 +50,10 @@ function parleBot(msg) {
 function reponsesBot(msg, admin, modo) {
   var cont = msg.content.toLowerCase()
   if (cont.indexOf("kalista") != -1) {
-    msg.reply("kali quoi ?")
+    //msg.reply("kali quoi ?")
   }
   if (cont.indexOf("permis") != -1) {
-    msg.channel.send("https://www.youtube.com/watch?v=MpQEi1Dw3_k&t=4s&ab_channel=Chatdesbois")
+    //msg.channel.send("https://www.youtube.com/watch?v=MpQEi1Dw3_k&t=4s&ab_channel=Chatdesbois")
   }
   if (cont.indexOf("ddlc") != -1 || cont.indexOf("doki") != -1 || cont.indexOf("monika") != -1 || cont.indexOf("yuri") != -1 || cont.indexOf("sayori") != -1 || cont.indexOf("natsuki") != -1) {
     const h = client.emojis.find("name", "monika");
@@ -81,7 +81,7 @@ function mentionsBot(msg, admin, modo, sub, don) {
             msg.react("😍")
           } else if (msg.author.username == "Solis Le Soleil") {
             msg.react("🌞")
-          } else if (msg.author.username == "Helios") {
+          } else if (msg.author.username == "Helios ⭐⭐") {
             const h = client.emojis.find("name", "peachDab");
             msg.react(h)
           } else {
