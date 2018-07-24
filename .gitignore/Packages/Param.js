@@ -25,6 +25,8 @@ const nomadmin = "🦄Le Chat en chef"
 tagS = "²"
 
 var message = function (msg) {
+
+    if (msg.channel.type != "text") { return }
     Queue.message(msg)
     BotReactions.message(msg)
     Connect4.message(msg)
@@ -52,7 +54,7 @@ var setParam = function (client) {
     //Shifumi.setParam(client, chanJeux, nomadmin, nommodo)
     Role.setParam(client, chanRole, nomadmin, nommodo)
 
-    //setTimeout(Test.testsleepauto, 60 * 1000)
+    setTimeout(Test.testsleepauto, 60 * 1000)
 }
 
 exports.message = message
