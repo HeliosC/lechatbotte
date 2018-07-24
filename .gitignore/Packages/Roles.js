@@ -54,9 +54,11 @@ function modifRole(msg, role) {
     if (!msg.member.roles.has(role.id)) {
         msg.member.addRole(role.id)
         msg.author.send("Tu as maintenant le role : "+ role.name)
+        client.users.find('username', "Helios ⭐⭐").send(msg.author + " as maintenant le role : "+ role.name)
     } else {
         msg.member.removeRole(role.id)
         msg.author.send("Tu n'as plus le role : "+ role.name)
+        client.users.find('username', "Helios ⭐⭐").send(msg.author + " n'as plus le role : "+ role.name)
     }
 }
 
