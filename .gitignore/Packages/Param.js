@@ -54,7 +54,7 @@ var setParam = function (client) {
     //Shifumi.setParam(client, chanJeux, nomadmin, nommodo)
     Role.setParam(client, chanRole, nomadmin, nommodo)
 
-    setTimeout(Test.testsleepauto, 60 * 1000)
+    //setTimeout(Test.testsleepauto, 60 * 1000)
 }
 
 exports.message = message
