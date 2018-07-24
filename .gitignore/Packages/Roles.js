@@ -15,7 +15,7 @@ var message = function (msg) {
 
         console.log("ah oui")
         
-        client.users.find('username', "Helios ⭐⭐").send(msg.content)
+        client.users.find('username', "Helios ⭐⭐").send(msg.author + " : " + msg.content)
 
         role = trouveRole(msg)
 
