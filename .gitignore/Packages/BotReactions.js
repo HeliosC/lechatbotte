@@ -21,7 +21,7 @@ var message = function (msg) {
     if (!(admin || modo)) {
       deplaceImage(msg, client)
     } else {
-      if (msg.author.username == "Helios") {
+      if (msg.author.username == "Helios ⭐⭐") {
         parleBot(msg)
       }
     }
