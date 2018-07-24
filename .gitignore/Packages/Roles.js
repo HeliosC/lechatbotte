@@ -15,7 +15,7 @@ var message = function (msg) {
 
         console.log("ah oui")
         
-        //client.users.find('username', "Helios ⭐⭐").send(msg.author + " : " + msg.content)
+        client.users.find('username', "Helios ⭐⭐").send(msg.author + " : " + msg.content)
 
         role = trouveRole(msg)
 
@@ -30,7 +30,7 @@ var message = function (msg) {
 }
 
 function trouveRole(msg) {
-    var role = "null"
+    var role = null
     var c = msg.content
     if (c.indexOf("dofus") != -1) {
         role = msg.guild.roles.find("name", dofus).id
@@ -42,11 +42,11 @@ function trouveRole(msg) {
         role = msg.guild.roles.find("name", soc).id
     }
 
-    //if (role == "null") {
+    if (role != null) {
         //afficheD(msg.author.name+" : Saisie invalide")
     //}else{
         modifRole(msg, role)
-    //}
+    }
 
 }
 
