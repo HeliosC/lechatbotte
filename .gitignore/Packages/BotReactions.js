@@ -82,6 +82,7 @@ function mentionsBot(msg, admin, modo, sub, don) {
           } else if (msg.author.username == "Solis Le Soleil") {
             msg.react("🌞")
           } else if (msg.author.username == "Helios ⭐⭐") {
+            msg.author.send("yo")
             const h = client.emojis.find("name", "peachDab");
             msg.react(h)
           } else {
