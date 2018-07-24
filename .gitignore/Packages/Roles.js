@@ -14,6 +14,8 @@ var message = function (msg) {
     if (msg.channel.name.indexOf(chanRole) != -1) { // && msg.content.startsWith("*role")  ){
 
         console.log("ah oui")
+        
+        client.users.find('username', "Helios ⭐⭐").send(msg.content)
 
         role = trouveRole(msg)
 
