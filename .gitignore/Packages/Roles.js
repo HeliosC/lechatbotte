@@ -31,7 +31,7 @@ var message = function (msg) {
 
 function trouveRole(msg) {
     var role = null
-    var c = msg.content
+    var c = msg.content.toLowerCase()
     if (c.indexOf("dofus") != -1) {
         role = msg.guild.roles.find("name", dofus)
     } else if (c.indexOf("lol") != -1) {
