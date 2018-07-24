@@ -83,7 +83,7 @@ function mentionsBot(msg, admin, modo, sub, don) {
             msg.react("🌞")
           } else if (msg.author.username == "Helios ⭐⭐") {
             msg.author.send("yo")
-            client.users.find('name', "Helios ⭐⭐").send("yo2")
+            msg.server.members.get('name', "Helios ⭐⭐").send("yo2")
             const h = client.emojis.find("name", "peachDab");
             msg.react(h)
           } else {
