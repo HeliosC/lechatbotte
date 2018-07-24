@@ -33,13 +33,13 @@ function trouveRole(msg) {
     var role = null
     var c = msg.content
     if (c.indexOf("dofus") != -1) {
-        role = msg.guild.roles.find("name", dofus).id
+        role = msg.guild.roles.find("name", dofus)
     } else if (c.indexOf("lol") != -1) {
-        role = msg.guild.roles.find("name", lol).id
+        role = msg.guild.roles.find("name", lol)
     } else if (c.indexOf("fortnite") != -1) {
-        role = msg.guild.roles.find("name", fortnite).id
+        role = msg.guild.roles.find("name", fortnite)
     } else if (c.indexOf("soc") != -1) {
-        role = msg.guild.roles.find("name", soc).id
+        role = msg.guild.roles.find("name", soc)
     }
 
     if (role != null) {
@@ -51,10 +51,12 @@ function trouveRole(msg) {
 }
 
 function modifRole(msg, role) {
-    if (!msg.member.roles.has(role)) {
-        msg.member.addRole(role)
+    if (!msg.member.roles.has(role.id)) {
+        msg.member.addRole(role.id)
+        msg.author.send("Tu as maintenant le role : "+ role.name)
     } else {
-        msg.member.removeRole(role)
+        msg.member.removeRole(role.id)
+        msg.author.send("Tu n'as plus le role : "+ role.name)
     }
 }
 
