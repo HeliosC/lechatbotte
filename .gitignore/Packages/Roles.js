@@ -41,7 +41,7 @@ function trouveRole(msg) {
     } else if (c.indexOf("soc") != -1) {
         role = msg.guild.roles.find("name", soc)
     } else if (c.indexOf("ow")  != -1) {
-        rôle = msg.guild.roles.find("name", ow)
+        role = msg.guild.roles.find("name", ow)
     }
 
     if (role != null) {
