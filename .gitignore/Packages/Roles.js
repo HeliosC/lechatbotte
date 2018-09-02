@@ -4,7 +4,7 @@ const dofus = "Joueurs de Dofus"
 const lol = "Joueurs de League of Legends"
 const fortnite = "Joueurs de Fortnite"
 const soc = "Jeux de société"
-
+const ow = "Joueurs d'Overwatch"
 
 
 var message = function (msg) {
@@ -40,6 +40,8 @@ function trouveRole(msg) {
         role = msg.guild.roles.find("name", fortnite)
     } else if (c.indexOf("soc") != -1) {
         role = msg.guild.roles.find("name", soc)
+    } else if (c.indexOf("ow")  != -1) {
+        rôle = msg.guild.roles.find("name", ow)
     }
 
     if (role != null) {
