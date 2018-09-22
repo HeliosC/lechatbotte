@@ -17,10 +17,10 @@ const chanRole = "rôle"
 
 const nombot = "Le Chat Botté"
 
-const nomdon = "🐱Chats de qualité supérieure"
-const nomsub = "💕PUTAIN DE CHATONS"
-const nommodo = "🐾Chats sous chef"
-const nomadmin = "🦄Le Chat en chef"
+const nomdon = "Chats de qualité supérieure 🐱" // "🐱Chats de qualité supérieure"
+const nomsub = "PUTAIN DE CHATONS 💕" //"💕PUTAIN DE CHATONS"
+const nommodo = "Chats sous chef 🐾"  //"🐾Chats sous chef"
+const nomadmin = "Le Chat en chef 🦄" //"🦄Le Chat en chef"
 
 tagS = "²"
 
