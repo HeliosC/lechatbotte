@@ -1,6 +1,7 @@
 var chanJeux, nommodo, nomadmin, client
 
-const fleche = "⬇️       "
+//const fleche = "⬇️       "
+const fleche = "⬇️----"//+"_______"
 const bleu = "🔵"
 const rouge = "🔴"
 const blanc = "⚪️"
@@ -152,8 +153,14 @@ var message = function (msg) {
 function affiche() {
     tab = ""
     for (var x of jeu) {
+        var i=0
         for (var y of x) {
-            tab += y + "       "
+            //tab += y + "       "
+            tab += y //+ "----"
+            i+=1
+            if(i!=7){
+                tab+= "----"
+            }
         }
         tab += "\n\n"
     }

@@ -54,7 +54,7 @@ var setParam = function (client) {
     Connect4.setParam(client, chanJeux, nomadmin, nommodo)
     Quiz.setParam(client, chanQuiz, nomadmin, nommodo)
     Test.setParam(client)
-    Simon.setParam(client)
+    //Simon.setParam(client)
     //Shifumi.setParam(client, chanJeux, nomadmin, nommodo)
     Role.setParam(client, chanRole, nomadmin, nommodo)
     Mdp.setParam(client, chanMdp)
