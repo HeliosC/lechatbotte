@@ -6,6 +6,7 @@ const Test = require('./Test.js')
 const Simon = require('./Simon.js')
 //const Shifumi = require('./Shifumi.js')
 const Role = require('./Roles.js')
+const Mdp = require('./Motdepasse.js')
 
 
 const chanIm = "images_videos_trop_lentes"
@@ -14,6 +15,7 @@ const chanQ = "attente"
 const chanJeux = "jeux"
 const chanQuiz = "quiz"
 const chanRole = "rôle"
+const chanMdp = "mot_de_passe"
 
 const nombot = "Le Chat Botté"
 
@@ -35,6 +37,7 @@ var message = function (msg) {
     Simon.message(msg)
     //Shifumi.message(msg)
     Role.message(msg)
+    Mdp.message(msg)
 }
 
 var messageReactionAdd = function (reaction, user) {
@@ -42,6 +45,7 @@ var messageReactionAdd = function (reaction, user) {
     Quiz.messageReactionAdd(reaction, user)
     Simon.messageReactionAdd(reaction, user)
     //Shifumi.messageReactionAdd(reaction, user)
+    Mdp.messageReactionAdd(reaction, user)
 }
 
 var setParam = function (client) {
@@ -53,6 +57,7 @@ var setParam = function (client) {
     Simon.setParam(client)
     //Shifumi.setParam(client, chanJeux, nomadmin, nommodo)
     Role.setParam(client, chanRole, nomadmin, nommodo)
+    Mdp.setParam(client, chanMdp)
 
     //setTimeout(Test.testsleepauto, 60 * 1000)
 }
