@@ -10,6 +10,7 @@ var score = 0
 IG = false
 IPG = false
 t = 30
+k = 5
 
 listeMots = BDD.str
 mot = listeMots[rd(0, BDD.str.length - 1)]
@@ -89,15 +90,14 @@ var message = function (msg) {
     }
 }
 
-k = 5
 
 function countdown() {
     setTimeout(() => {
         if (t > 0) {
             t -= k
-            if(t==5){
-                k=1
-            }
+            //if(t==5){
+            //    k=1
+            //}
             affichage()
             countdown()
         }
@@ -110,7 +110,7 @@ function affichage() {
             color: 3447003, description: "Temps : " + t + "\n"
                 + "Score : " + score
                 //          + "\nmot " + Nmot + ":"
-                + "\n" + mot
+                + "\n\nMot : " + mot
         }
     })
 }
