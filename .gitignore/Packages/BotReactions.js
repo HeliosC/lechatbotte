@@ -8,11 +8,11 @@ var message = function (msg) {
 
     admin = false; modo = false; sub = false; don = false;
     if (msg.guild.roles.find("name", nommodo) != null) {
-       don = msg.member.roles.has(msg.guild.roles.find("name", nomdon).id);
-       sub = msg.member.roles.has(msg.guild.roles.find("name", nomsub).id);
-       modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-       admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-    } 
+      don = msg.member.roles.has(msg.guild.roles.find("name", nomdon).id);
+      sub = msg.member.roles.has(msg.guild.roles.find("name", nomsub).id);
+      modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+      admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    }
 
 
     reponsesBot(msg, admin, modo, client)
@@ -105,7 +105,8 @@ function deplaceImage(msg) {
   if (msg.channel.name == chanCh) {
     for (var [key, value] of msg.attachments) {
       //client.channels.find('name', chanIm).send("" + msg.author + " : " + msg.content,{ file: value.proxyURL })
-      client.channels.find('name', chanIm).send(msg.author + " : " + msg.content)
+      //client.channels.find('name', chanIm).send(msg.author + " : " + msg.content)
+      client.channels.find('name', chanIm).send(client.channels.find("name", chanCh) + "\n" + msg.author + " : " + msg.content)
       client.channels.find('name', chanIm).send({ file: value.proxyURL })
       msg.channel.send(msg.author + " : " + client.channels.find("name", chanIm))
       setTimeout(suiteTraitement, 500)
