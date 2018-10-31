@@ -9,7 +9,7 @@ var Nmot = 1
 var score = 0
 IG = false
 IPG = false
-t = 30
+t = 90
 k = 5
 
 listeMots = BDD.str
@@ -29,8 +29,8 @@ var messageReactionAdd = function (reaction, user) {
                     begin()
                 } else {
                     mot = listeMots[rd(0, BDD.str.length - 1)]
-                    score += 1
-                    Nmot += 1
+                    score++
+                    Nmot++
                     affichage()
                 }
             }
@@ -41,7 +41,7 @@ var messageReactionAdd = function (reaction, user) {
                     MSG.channel.send("Annulé !")
                 } else {
                     mot = listeMots[rd(0, BDD.str.length - 1)]
-                    Nmot += 1
+                    Nmot++
                     affichage()
                 }
             }
@@ -101,13 +101,13 @@ function countdown() {
             affichage()
             countdown()
         }
-    }, k*1000);
+    }, k * 1000);
 }
 
 function affichage() {
     MSG.edit({
         embed: {
-            color: 3447003, description: "Temps : " + t + "\n"
+            color: 3447003, description: "Temps : " + Math.trunc(t / 60) + "' " + t % 60 + "''" + "\n"
                 + "Score : " + score
                 //          + "\nmot " + Nmot + ":"
                 + "\n\nMot : " + mot
