@@ -18,6 +18,11 @@ client.on('messageReactionAdd', (reaction, user) => {
     Param.messageReactionAdd(reaction, user)
 })
 
+client.on('guildMemberAdd', (member) => {
+    const h = client.emojis.find("name", "hey");
+    client.channels.find('name', "cest_ta_vie").send("Bienvenu par minou "+member+" ! "+h)
+})
+
 
 //setTimeout(test,60*5*1000)
 
