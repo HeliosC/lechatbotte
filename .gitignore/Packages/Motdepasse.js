@@ -116,6 +116,7 @@ function affichage() {
 }
 
 function begin() {
+    t = 90
     score = 0
     IPG = false
     IG = true
