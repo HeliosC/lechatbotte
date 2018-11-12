@@ -13,7 +13,7 @@ t = 90
 k = 5
 
 listeMots = BDD.str
-mot = listeMots[rd(0, BDD.str.length - 1)]
+//mot = listeMots[rd(0, BDD.str.length - 1)]
 
 
 var messageReactionAdd = function (reaction, user) {
@@ -116,6 +116,7 @@ function affichage() {
 }
 
 function begin() {
+    mot = listeMots[rd(0, BDD.str.length - 1)]
     t = 90
     score = 0
     IPG = false
