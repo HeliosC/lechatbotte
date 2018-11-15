@@ -11,9 +11,10 @@ IG = false
 IPG = false
 t = 90
 k = 5
+var player
+//var userO = false
 
 listeMots = BDD.str
-//mot = listeMots[rd(0, BDD.str.length - 1)]
 
 
 var messageReactionAdd = function (reaction, user) {
@@ -22,10 +23,11 @@ var messageReactionAdd = function (reaction, user) {
     if (reaction.message.channel.name.indexOf(chanMdp) != -1) {
         reaction.remove(user)
 
-        if (IPG || IG) {
+        if (IPG || IG && player == user) {
 
             if (reaction.emoji.name == "yea") {
                 if (IPG) {
+                    player = user
                     begin()
                 } else {
                     mot = listeMots[rd(0, BDD.str.length - 1)]
@@ -60,7 +62,7 @@ var message = function (msg) {
 
         // if (!IPG) { return }
 
-        if (!msg.author.bot && msg.content.toLowerCase() == "*mdp") {
+        if (!msg.author.bot && msg.content.toLowerCase() == "*mdp" && !IG) {
 
             msg.channel.send({
                 embed: {
@@ -117,7 +119,6 @@ function affichage() {
 
 function begin() {
     mot = listeMots[rd(0, BDD.str.length - 1)]
-    t = 90
     score = 0
     IPG = false
     IG = true
