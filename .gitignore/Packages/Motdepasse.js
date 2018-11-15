@@ -27,7 +27,6 @@ var messageReactionAdd = function (reaction, user) {
 
             if (reaction.emoji.name == "yea") {
                 if (IPG) {
-                    player = user
                     begin()
                 } else {
                     mot = listeMots[rd(0, BDD.str.length - 1)]
@@ -64,6 +63,7 @@ var message = function (msg) {
 
         if (!msg.author.bot && msg.content.toLowerCase() == "*mdp" && !IG) {
 
+            player = user
             msg.channel.send({
                 embed: {
                     color: 3447003, description: //"SCORE : " + score
