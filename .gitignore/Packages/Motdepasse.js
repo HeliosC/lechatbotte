@@ -63,7 +63,7 @@ var message = function (msg) {
 
         if (!msg.author.bot && msg.content.toLowerCase() == "*mdp" && !IG) {
 
-            player = user
+            player = msg.member
             msg.channel.send({
                 embed: {
                     color: 3447003, description: //"SCORE : " + score
