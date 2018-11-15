@@ -63,7 +63,8 @@ var message = function (msg) {
 
         if (!msg.author.bot && msg.content.toLowerCase() == "*mdp" && !IG) {
 
-            player = msg.member
+            player = msg.member.user
+            console.log (msg.user)
             msg.channel.send({
                 embed: {
                     color: 3447003, description: //"SCORE : " + score
@@ -76,7 +77,7 @@ var message = function (msg) {
 
         }
 
-        else if (!IPG && !IG) {      //IF BOT
+        else if (!IG){// !IPG && !IG) {      //IF BOT
             if (areact) {
                 areact = false
                 MSG = msg
