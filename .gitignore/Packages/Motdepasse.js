@@ -23,7 +23,7 @@ var messageReactionAdd = function (reaction, user) {
     if (reaction.message.channel.name.indexOf(chanMdp) != -1) {
         reaction.remove(user)
 
-        if (IPG || IG && player == user) {
+        if ( (IPG || IG) && player == user) {
 
             if (reaction.emoji.name == "yea") {
                 if (IPG) {
