@@ -27,6 +27,7 @@ var messageReactionAdd = function (reaction, user) {
 
             if (reaction.emoji.name == "yea") {
                 if (IPG) {
+                    IPG = false
                     begin()
                 } else {
                     mot = listeMots[rd(0, BDD.str.length - 1)]
