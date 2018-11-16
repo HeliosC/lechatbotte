@@ -27,7 +27,7 @@ var messageReactionAdd = function (reaction, user) {
 
             if (reaction.emoji.name == "yea") {
                 if (IPG) {
-                    IPG = false
+                    
                     begin()
                 } else {
                     mot = listeMots[rd(0, BDD.str.length - 1)]
@@ -114,7 +114,7 @@ function affichage() {
     MSG.edit({
         embed: {
             color: 3447003, description: 
-            msg.author +"\n"
+            player +"\n"
             +"Temps : " + Math.trunc(t / 60) + "' " + t % 60 + "''" + "\n"
                 + "Score : " + score
                 //          + "\nmot " + Nmot + ":"
