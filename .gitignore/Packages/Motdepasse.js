@@ -69,7 +69,8 @@ var message = function (msg) {
                 embed: {
                     color: 3447003, description: //"SCORE : " + score
                         //           + "\nmot " + Nmot
-                       "\n" + msg.author.username +
+                    //   "\n" +
+                    msg.author.tag +
                     "\n" + client.emojis.find("name", "yea") + " pour commencer"
                         + "\n" + client.emojis.find("name", "nay") + " pour annuler"
                 }
@@ -111,7 +112,9 @@ function countdown() {
 function affichage() {
     MSG.edit({
         embed: {
-            color: 3447003, description: "Temps : " + Math.trunc(t / 60) + "' " + t % 60 + "''" + "\n"
+            color: 3447003, description: "
+            msg.author.tag +"\"+
+            Temps : " + Math.trunc(t / 60) + "' " + t % 60 + "''" + "\n"
                 + "Score : " + score
                 //          + "\nmot " + Nmot + ":"
                 + "\n\nMot : " + mot
