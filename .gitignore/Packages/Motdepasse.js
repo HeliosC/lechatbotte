@@ -69,7 +69,7 @@ var message = function (msg) {
                 embed: {
                     color: 3447003, description: //"SCORE : " + score
                         //           + "\nmot " + Nmot
-                       "\n" + msg.author.name +
+                       "\n" + msg.author.username +
                     "\n" + client.emojis.find("name", "yea") + " pour commencer"
                         + "\n" + client.emojis.find("name", "nay") + " pour annuler"
                 }
