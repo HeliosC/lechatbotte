@@ -113,8 +113,8 @@ function affichage() {
     MSG.edit({
         embed: {
             color: 3447003, description: "
-            msg.author.tag +"\"+
-            Temps : " + Math.trunc(t / 60) + "' " + t % 60 + "''" + "\n"
+            msg.author.tag +"\n"
+            +"Temps : " + Math.trunc(t / 60) + "' " + t % 60 + "''" + "\n"
                 + "Score : " + score
                 //          + "\nmot " + Nmot + ":"
                 + "\n\nMot : " + mot
