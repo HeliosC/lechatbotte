@@ -70,7 +70,7 @@ var message = function (msg) {
                     color: 3447003, description: //"SCORE : " + score
                         //           + "\nmot " + Nmot
                     //   "\n" +
-                    msg.author.tag +
+                    msg.author +
                     "\n" + client.emojis.find("name", "yea") + " pour commencer"
                         + "\n" + client.emojis.find("name", "nay") + " pour annuler"
                 }
@@ -113,7 +113,7 @@ function affichage() {
     MSG.edit({
         embed: {
             color: 3447003, description: 
-            msg.author.tag +"\n"
+            msg.author +"\n"
             +"Temps : " + Math.trunc(t / 60) + "' " + t % 60 + "''" + "\n"
                 + "Score : " + score
                 //          + "\nmot " + Nmot + ":"
