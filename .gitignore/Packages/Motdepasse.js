@@ -69,7 +69,8 @@ var message = function (msg) {
                 embed: {
                     color: 3447003, description: //"SCORE : " + score
                         //           + "\nmot " + Nmot
-                        "\n" + client.emojis.find("name", "yea") + " pour commencer"
+                       "\n" + msg.author.name +
+                    "\n" + client.emojis.find("name", "yea") + " pour commencer"
                         + "\n" + client.emojis.find("name", "nay") + " pour annuler"
                 }
             })
@@ -121,6 +122,7 @@ function affichage() {
 function begin() {
     mot = listeMots[rd(0, BDD.str.length - 1)]
     score = 0
+    t=90
     IPG = false
     IG = true
     affichage()
