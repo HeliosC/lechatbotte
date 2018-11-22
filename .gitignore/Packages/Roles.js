@@ -5,6 +5,7 @@ const lol = "Joueurs de League of Legends"
 const fortnite = "Joueurs de Fortnite"
 const soc = "Jeux de société"
 const ow = "Joueurs d'Overwatch"
+const br = "Joueurs de Battlerite"
 
 
 var message = function (msg) {
@@ -30,25 +31,38 @@ var message = function (msg) {
 }
 
 function trouveRole(msg) {
-    var role = null
+    //var role = null
     var c = msg.content.toLowerCase()
     if (c.indexOf("dofus") != -1) {
         role = msg.guild.roles.find("name", dofus)
-    } else if (c.indexOf("lol") != -1) {
-        role = msg.guild.roles.find("name", lol)
-    } else if (c.indexOf("fortnite") != -1) {
-        role = msg.guild.roles.find("name", fortnite)
-    } else if (c.indexOf("soc") != -1) {
-        role = msg.guild.roles.find("name", soc)
-    } else if (c.indexOf("ow")  != -1) {
-        role = msg.guild.roles.find("name", ow)
-    }
-
-    if (role != null) {
-        //afficheD(msg.author.name+" : Saisie invalide")
-    //}else{
         modifRole(msg, role)
     }
+    if (c.indexOf("lol") != -1) {
+        role = msg.guild.roles.find("name", lol)
+        modifRole(msg, role)
+    }
+    if (c.indexOf("fortnite") != -1) {
+        role = msg.guild.roles.find("name", fortnite)
+        modifRole(msg, role)
+    }
+    if (c.indexOf("soc") != -1) {
+        role = msg.guild.roles.find("name", soc)
+        modifRole(msg, role)
+    }
+    if (c.indexOf("ow")  != -1) {
+        role = msg.guild.roles.find("name", ow)
+        modifRole(msg, role)
+    }
+    if (c.indexOf("battlerite")  != -1) {
+        role = msg.guild.roles.find("name", br)
+        modifRole(msg, role)
+    }
+
+    //if (role != null) {
+        //afficheD(msg.author.name+" : Saisie invalide")
+    //}else{
+    //    modifRole(msg, role)
+    //}
 
 }
 
