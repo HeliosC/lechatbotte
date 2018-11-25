@@ -49,6 +49,21 @@ function parleBot(msg) {
 
 function reponsesBot(msg, admin, modo) {
   var cont = msg.content.toLowerCase()
+
+
+  if (cont.startsWith("!snap")) {
+    msg.channel.send("Tu veux vraiment voir tout le ramassis de merde que j'peux produire ? A tes risques et périls l'ami : chat_desbois")
+  }
+
+  if (cont.startsWith("!facebook") || cont.startsWith("!fb")) {
+    msg.channel.send("J'suis aussi présente sur le Facebook game, donc viens lâcher un follow, ça mange pas d'chèvres, et ça fait augmenter les stats, donc stop faire pd d'homophobe, stp. ♥ https://www.facebook.com/Chatsdesbois/")
+  }
+
+  if (cont.startsWith("!instagram") || cont.startsWith("!ig")) {
+    msg.channel.send("Viens voir mes petites photo de mes chats et autres beautés artistiques ! ♥ https://www.instagram.com/unejeune/")
+  }
+
+
   if (cont.indexOf("kalista") != -1) {
     //msg.reply("kali quoi ?")
   }
