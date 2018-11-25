@@ -63,6 +63,10 @@ function reponsesBot(msg, admin, modo) {
     msg.channel.send("Viens voir mes petites photo de mes chats et autres beautés artistiques ! ♥ https://www.instagram.com/unejeune/")
   }
 
+  if (cont.startsWith("!twitter")) {
+    msg.channel.send("Follow pour suivre mes actus ! ♥ https://twitter.com/Chatdesbois_?lang=fr")
+  }
+
 
   if (cont.indexOf("kalista") != -1) {
     //msg.reply("kali quoi ?")
