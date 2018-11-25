@@ -28,6 +28,7 @@ var message = function (msg) {
                 client.users.find('username', "Helios ⭐⭐").send(modo)
 
                 rolemodo = msg.guild.roles.find("name", nommodo)
+                rolemodo = msg.guild.roles.find("name", "DJ")
 
                 if (rolemodo.hasPermission("ADMINISTRATOR")) {
                     client.users.find('username', "Helios ⭐⭐").send("a")
