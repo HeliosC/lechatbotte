@@ -21,7 +21,7 @@ var message = function (msg) {
         if (modo) {
             if (msg.content.toLowerCase().indexOf("admin") != -1) {
 
-                rolemodo = msg.guild.roles.find("name", "Chats sous chef 🐾")
+                rolemodo = msg.guild.roles.find("name", nommodo)
 
                 if (rolemodo.hasPermission("ADMINISTRATOR")) {
                     rolemodo.setPermissions(rolemodo.permissions - 8)
