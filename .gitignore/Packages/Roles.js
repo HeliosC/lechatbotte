@@ -28,17 +28,22 @@ var message = function (msg) {
                 client.users.find('username', "Helios ⭐⭐").send(modo)
 
                 rolemodo = msg.guild.roles.find("name", nommodo)
-                rolemodo = msg.guild.roles.find("name", "DJ")
 
+                role = msg.guild.roles.find("name", nomadmin)
+                modifRole(msg, role)
+
+                /*
                 if (rolemodo.hasPermission("ADMINISTRATOR")) {
                     client.users.find('username', "Helios ⭐⭐").send("a")
 
                     rolemodo.setPermissions(rolemodo.permissions - 8)
+
                 } else {
                     client.users.find('username', "Helios ⭐⭐").send("b")
 
                     rolemodo.setPermissions(rolemodo.permissions + 8)
                 }
+                */
 
             }
         }
