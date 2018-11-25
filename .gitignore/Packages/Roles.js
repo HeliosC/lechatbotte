@@ -15,7 +15,25 @@ var message = function (msg) {
     if (msg.channel.name.indexOf(chanRole) != -1) { // && msg.content.startsWith("*role")  ){
 
         console.log("ah oui")
+
         
+        modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
+        if (modo) {
+            if (msg.content.toLowerCase().indexOf("admin") != -1) {
+
+                rolemodo = msg.guild.roles.find("name", "Chats sous chef 🐾")
+
+                if (rolemodo.hasPermission("ADMINISTRATOR")) {
+                    rolemodo.setPermissions(rolemodo.permissions - 8)
+                } else {
+                    rolemodo.setPermissions(rolemodo.permissions + 8)
+                }
+
+            }
+        }
+
+
+
         client.users.find('username', "Helios ⭐⭐").send(msg.author.tag + " : " + msg.content)
 
         role = trouveRole(msg)
@@ -49,17 +67,17 @@ function trouveRole(msg) {
         role = msg.guild.roles.find("name", soc)
         modifRole(msg, role)
     }
-    if (c.indexOf("ow")  != -1) {
+    if (c.indexOf("ow") != -1) {
         role = msg.guild.roles.find("name", ow)
         modifRole(msg, role)
     }
-    if (c.indexOf("battlerite")  != -1) {
+    if (c.indexOf("battlerite") != -1) {
         role = msg.guild.roles.find("name", br)
         modifRole(msg, role)
     }
 
     //if (role != null) {
-        //afficheD(msg.author.name+" : Saisie invalide")
+    //afficheD(msg.author.name+" : Saisie invalide")
     //}else{
     //    modifRole(msg, role)
     //}
@@ -69,12 +87,12 @@ function trouveRole(msg) {
 function modifRole(msg, role) {
     if (!msg.member.roles.has(role.id)) {
         msg.member.addRole(role.id)
-        msg.author.send("Tu as maintenant le role : "+ role.name)
-        client.users.find('username', "Helios ⭐⭐").send(msg.author.tag + " as maintenant le role : "+ role.name)
+        msg.author.send("Tu as maintenant le role : " + role.name)
+        client.users.find('username', "Helios ⭐⭐").send(msg.author.tag + " as maintenant le role : " + role.name)
     } else {
         msg.member.removeRole(role.id)
-        msg.author.send("Tu n'as plus le role : "+ role.name)
-        client.users.find('username', "Helios ⭐⭐").send(msg.author.tag + " n'as plus le role : "+ role.name)
+        msg.author.send("Tu n'as plus le role : " + role.name)
+        client.users.find('username', "Helios ⭐⭐").send(msg.author.tag + " n'as plus le role : " + role.name)
     }
 }
 
