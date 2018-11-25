@@ -59,7 +59,7 @@ function reponsesBot(msg, admin, modo) {
     msg.channel.send("J'suis aussi présente sur le Facebook game, donc viens lâcher un follow, ça mange pas d'chèvres, et ça fait augmenter les stats, donc stop faire pd d'homophobe, stp. ♥ https://www.facebook.com/Chatsdesbois/")
   }
 
-  if (cont.startsWith("!instagram") || cont.startsWith("!ig")) {
+  if (cont.startsWith("!insta") || cont.startsWith("!ig")) {
     msg.channel.send("Viens voir mes petites photo de mes chats et autres beautés artistiques ! ♥ https://www.instagram.com/unejeune/")
   }
 
