@@ -21,7 +21,9 @@ client.on('messageReactionAdd', (reaction, user) => {
 client.on('guildMemberAdd', (member) => {
     const h = client.emojis.find("name", "hey");
     client.channels.find('name', "cest_ta_vie").send("Bienvenu par minou "+member+" ! "+h + " Prends 30 secondes pour lire l'"+client.channels.find("name", "acceuil_deschats")
-    +" et le discord n'aura plus aucun secret pour toi !" )
+   // +" et le discord n'aura plus aucun secret pour toi !" 
+    +" et réclame tes rôles dans "+client.channels.find("name", "adhesion_rôle") + " !"                                               
+                                                    )
 })
 
 
