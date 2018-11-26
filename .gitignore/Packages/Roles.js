@@ -19,13 +19,13 @@ var message = function (msg) {
         
         modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
 
-        client.users.find('username', "Helios ⭐⭐").send(modo)
+        //client.users.find('username', "Helios ⭐⭐").send(modo)
 
 
         if (modo) {
             if (msg.content.toLowerCase().indexOf("admin") != -1) {
 
-                client.users.find('username', "Helios ⭐⭐").send(modo)
+                //client.users.find('username', "Helios ⭐⭐").send(modo)
 
                 rolemodo = msg.guild.roles.find("name", nommodo)
                 rolemodo = msg.guild.roles.find("name", "DJ")
@@ -35,12 +35,12 @@ var message = function (msg) {
 
                 
                 if (rolemodo.hasPermission("ADMINISTRATOR")) {
-                    client.users.find('username', "Helios ⭐⭐").send("a")
+                    //client.users.find('username', "Helios ⭐⭐").send("a")
 
                     rolemodo.setPermissions(rolemodo.permissions - 8)
 
                 } else {
-                    client.users.find('username', "Helios ⭐⭐").send("b")
+                    //client.users.find('username', "Helios ⭐⭐").send("b")
 
                     rolemodo.setPermissions(rolemodo.permissions + 8)
                 }
