@@ -66,6 +66,10 @@ function reponsesBot(msg, admin, modo) {
   if (cont.startsWith("!twitter")) {
     msg.channel.send("Follow pour suivre mes actus ! ♥ https://twitter.com/Chatdesbois_?lang=fr")
   }
+  
+    if (cont.startsWith("!lis2")) {
+    msg.channel.send("https://www.youtube.com/watch?v=vsZl83ix168&index=2&list=PLJwoNPuLFNbPEgfvRAiQeKWDl8pO4AAWW")
+  }
 
 
   if (cont.indexOf("kalista") != -1) {
