@@ -84,7 +84,7 @@ function trouveRole(msg) {
         role = msg.guild.roles.find("name", soc)
         modifRole(msg, role)
     }
-    if (c.indexOf("ow") != -1) {
+    if (c.indexOf("ow") != -1 || c.indexOf("overwatch") != -1) {
         role = msg.guild.roles.find("name", ow)
         modifRole(msg, role)
     }
