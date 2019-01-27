@@ -67,8 +67,18 @@ function reponsesBot(msg, admin, modo) {
     msg.channel.send("Follow pour suivre mes actus ! ♥ https://twitter.com/Chatdesbois_?lang=fr")
   }
   
-    if (cont.startsWith("!lis2")) {
+  if (cont.startsWith("!lis2")) {
     msg.channel.send("https://www.youtube.com/watch?v=vsZl83ix168&index=2&list=PLJwoNPuLFNbPEgfvRAiQeKWDl8pO4AAWW")
+  }
+
+  if (cont.startsWith("!giveaway")) {
+    const dab = client.emojis.find("name", "peachDab");
+    const or = client.emojis.find("name", "chatENOR");
+    
+    msg.channel.send(" Pour fêter les 4000 followers, il y aura 2 giveaways de 15€ "+dab+":\n"
+    + " - Un sur twitter où tu dois retweet le post https://bit.ly/2CNarAh et follow la page TAS 9 février\n"
+    + " - Un autre le 8 février en stream\n"
+    + "Soyez présents ! "+or)
   }
 
 
