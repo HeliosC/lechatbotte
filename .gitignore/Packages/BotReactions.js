@@ -76,7 +76,7 @@ function reponsesBot(msg, admin, modo) {
     const or = client.emojis.find("name", "chatENOR");
     
     msg.channel.send(" Pour fêter les 4000 followers, il y aura 2 giveaways de 15€ "+dab+":\n"
-    + " - Un sur twitter où tu dois retweet le post https://bit.ly/2CNarAh et follow la page TAS 9 février\n"
+    + " - Un sur twitter où tu dois retweet le post https://bit.ly/2CNarAh et follow la page, TAS le 9 février\n"
     + " - Un autre le 8 février en stream\n"
     + "Soyez présents ! "+or)
   }
