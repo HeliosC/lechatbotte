@@ -70,6 +70,10 @@ function reponsesBot(msg, admin, modo) {
   if (cont.startsWith("!lis2")) {
     msg.channel.send("https://www.youtube.com/watch?v=vsZl83ix168&index=2&list=PLJwoNPuLFNbPEgfvRAiQeKWDl8pO4AAWW")
   }
+  
+  if (cont.startsWith("!code") || cont.startsWith("!créateur")) {
+    msg.channel.send("Vous voulez supporter encore plus le stream ? N'hésitez pas à utiliser le code Créateur : CHAT-DES-BOIS lors de vos prochains achats Fortnite")
+  }
 
   if (cont.startsWith("!giveaway")) {
     const dab = client.emojis.find("name", "peachDab");
