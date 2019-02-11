@@ -74,6 +74,10 @@ function reponsesBot(msg, admin, modo) {
   if (cont.startsWith("!code") || cont.startsWith("!créateur")) {
     msg.channel.send("Vous voulez supporter encore plus le stream ? N'hésitez pas à utiliser le code Créateur : CHAT-DES-BOIS lors de vos prochains achats Fortnite")
   }
+  
+  if (cont.startsWith("!extension")) {
+    msg.channel.send("L'EXTENSION à avoir pour entendre ma douce voix et voir des chats trop mimis ! + hyper bien codée, donc WOLA un must have ! > bit.ly/2qXtylM")
+  }
 
   if (cont.startsWith("!giveaway")) {
     const dab = client.emojis.find("name", "peachDab");
@@ -115,7 +119,8 @@ function mentionsBot(msg, admin, modo, sub, don) {
           msg.react(h)
         } else if (modo) {
           if (msg.author.username == "Poui des bois") {
-            msg.react("😍")
+            //msg.react("😍")
+            msg.react("🔪")
           } else if (msg.author.username == "Solis Le Soleil") {
             msg.react("🌞")
           } else if (msg.author.username == "Helios ⭐⭐") {
