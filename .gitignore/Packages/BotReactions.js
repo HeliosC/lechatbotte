@@ -80,8 +80,9 @@ function reponsesBot(msg, admin, modo) {
   }
 
   if (cont.startsWith("!giveaway")) {
-    /*
+    
     const dab = client.emojis.find("name", "peachDab");
+    /*
     const or = client.emojis.find("name", "chatENOR");
     
     msg.channel.send(" Pour fêter les 4000 followers, il y aura 2 giveaways de 15€ "+dab+":\n"
@@ -89,7 +90,7 @@ function reponsesBot(msg, admin, modo) {
     + " - Un autre le 8 février en stream\n"
     + "Soyez présents ! "+or)
     */
-        msg.channel.send("RDV aux 5000 follows ! "+dab)
+    msg.channel.send("RDV aux 5000 follows ! "+dab)
   }
 
 
