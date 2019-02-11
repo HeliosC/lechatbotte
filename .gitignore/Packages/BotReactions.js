@@ -76,10 +76,11 @@ function reponsesBot(msg, admin, modo) {
   }
   
   if (cont.startsWith("!extension")) {
-    msg.channel.send("L'EXTENSION à avoir pour entendre ma douce voix et voir des chats trop mimis ! + hyper bien codée, donc WOLA un must have ! > bit.ly/2qXtylM")
+    msg.channel.send("L'EXTENSION à avoir pour entendre ma douce voix et voir des chats trop mimis ! + hyper bien codée, donc WOLA un must have ! > http://bit.ly/2qXtylM")
   }
 
   if (cont.startsWith("!giveaway")) {
+    /*
     const dab = client.emojis.find("name", "peachDab");
     const or = client.emojis.find("name", "chatENOR");
     
@@ -87,6 +88,8 @@ function reponsesBot(msg, admin, modo) {
     + " - Un sur twitter où tu dois retweet le post https://bit.ly/2CNarAh et follow la page, TAS le 9 février\n"
     + " - Un autre le 8 février en stream\n"
     + "Soyez présents ! "+or)
+    */
+        msg.channel.send("RDV aux 5000 follows ! "+dab)
   }
 
 
