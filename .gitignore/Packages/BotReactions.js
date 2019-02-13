@@ -125,14 +125,14 @@ function mentionsBot(msg, admin, modo, sub, don) {
         } else if (modo) {
           if (msg.author.username == "Poui des bois") {
             //msg.react("😍")
-            msg.react("🔪")
+            msg.react("🗡")
           } else if (msg.author.username == "Solis Le Soleil") {
             msg.react("🌞")
           } else if (msg.author.username == "Helios ⭐⭐") {
             //msg.author.send("yo")
             //client.users.find('username', "Helios ⭐⭐").send("yo2")
-            //const h = client.emojis.find("name", "peachDab");
-            const h = client.emojis.find("name", "LapinDab");
+            const h = client.emojis.find("name", "peachDab");
+            //const h = client.emojis.find("name", "LapinDab");
             msg.react(h)
           } else {
             msg.react("❤")
