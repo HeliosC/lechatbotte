@@ -119,7 +119,8 @@ function mentionsBot(msg, admin, modo, sub, don) {
     for (user of client.users) {
       if (user[1].username == nombot && user[1].bot && msg.isMemberMentioned(user[1])) {
         if (admin) {
-          const h = client.emojis.find("name", "cheart");
+          //const h = client.emojis.find("name", "cheart");
+          const h = client.emojis.find("name", "LapinDab");
           msg.react(h)
         } else if (modo) {
           if (msg.author.username == "Poui des bois") {
@@ -130,7 +131,8 @@ function mentionsBot(msg, admin, modo, sub, don) {
           } else if (msg.author.username == "Helios ⭐⭐") {
             //msg.author.send("yo")
             //client.users.find('username', "Helios ⭐⭐").send("yo2")
-            const h = client.emojis.find("name", "peachDab");
+            //const h = client.emojis.find("name", "peachDab");
+            const h = client.emojis.find("name", "LapinDab");
             msg.react(h)
           } else {
             msg.react("❤")
