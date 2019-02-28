@@ -127,7 +127,9 @@ function mentionsBot(msg, admin, modo, sub, don) {
             //msg.react("😍")
             msg.react("🗡")
           } else if (msg.author.username == "Solis Le Soleil") {
-            msg.react("🌞")
+            const h = client.emojis.find("name", "lovedesbois");
+            //msg.react("🌞")
+            msg.react(h)
           } else if (msg.author.username == "Helios ⭐⭐") {
             //msg.author.send("yo")
             //client.users.find('username', "Helios ⭐⭐").send("yo2")
