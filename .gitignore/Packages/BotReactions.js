@@ -131,7 +131,8 @@ function mentionsBot(msg, admin, modo, sub, don) {
           } else if (msg.author.username == "Helios ⭐⭐") {
             //msg.author.send("yo")
             //client.users.find('username', "Helios ⭐⭐").send("yo2")
-            const h = client.emojis.find("name", "peachDab");
+            //const h = client.emojis.find("name", "peachDab");
+            const h = client.emojis.find("name", "lovedesbois");
             //const h = client.emojis.find("name", "LapinDab");
             msg.react(h)
           } else {
