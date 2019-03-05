@@ -113,4 +113,3 @@ client.on('chat', (channel, user, message, isSelf) => {
 
 //pas f, mais lol ow brite
 
-exports.cons = cons
