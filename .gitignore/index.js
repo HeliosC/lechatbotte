@@ -2,7 +2,7 @@ const Param = require('./Packages/Param.js');
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const tmi = require('tmi.js');
+const tmi = require('https://github.com/tmijs/tmi.js.git');
 
 //const Twitch = require('./twitch.js');
 
