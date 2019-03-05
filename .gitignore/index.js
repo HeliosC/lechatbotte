@@ -2,9 +2,9 @@ const Param = require('./Packages/Param.js');
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-//const tmi = require('tmi.min.js');
+const tmi = require('tmi.min.js');
 
-const Twitch = require('./twitch.js');
+//const Twitch = require('./twitch.js');
 
 client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) })
 client.on("error", (e) => console.error(e));
