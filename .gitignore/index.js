@@ -2,6 +2,8 @@ const Param = require('./Packages/Param.js');
 const Discord = require("discord.js")
 const client = new Discord.Client()
 
+const Twitch = require('./twitch.js');
+
 client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) })
 client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
