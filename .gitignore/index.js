@@ -2,7 +2,7 @@ const Param = require('./Packages/Param.js');
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const tmi = require('./node_modules/tmi.js/index.js')
+//const tmi = require('./node_modules/tmi.js/index.js')
 
 //const tmi = require("tmi.js");
 //const tmi = require('tmi.js.git');
