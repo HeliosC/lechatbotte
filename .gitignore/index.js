@@ -2,14 +2,14 @@ const Param = require('./Packages/Param.js');
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const tmi = require('./node_modules/tmi.js/index.js')
+const tmi = require('./node_modules/tmi.js/index.js');
 
 //const tmi = require("tmi.js");
 //const tmi = require('tmi.js.git');
 
 //const Twitch = require('./twitch.js');
 
-client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) })
+client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) });
 client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
 client.on("debug", (e) => console.info(e));
