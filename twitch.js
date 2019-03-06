@@ -1,9 +1,9 @@
 
 
-//const tmi = require('tmi.js')
+const tmi = require('tmi.js')
 
 
-const tmi = require('tmi.min.js');
+//const tmi = require('tmi.min.js');
 
 const tmiConfig = {
     options: {
