@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 //const tmi = require('tmi.js');
-const tmi = require('tmi.js.git');
+//const tmi = require('tmi.js.git');
 
 //const Twitch = require('./twitch.js');
 
