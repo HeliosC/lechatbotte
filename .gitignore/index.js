@@ -2,7 +2,7 @@ const Param = require('./Packages/Param.js');
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const TwitchBot = require('node-twitchbot');
+//const TwitchBot = require('node-twitchbot');
 
 //const tmi = require('./node_modules/tmi.js/index.js');
 
