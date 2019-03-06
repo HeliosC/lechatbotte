@@ -6,7 +6,7 @@ const client = new Discord.Client();
 
 //const tmi = require('./node_modules/tmi.js/index.js');
 
-//const tmi = require("tmi.js");
+const tmi = require("tmi.js");
 //const tmi = require('tmi.js.git');
 
 //const Twitch = require('./twitch.js');
@@ -16,7 +16,7 @@ client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
 client.on("debug", (e) => console.info(e));
 
-Param.setParam(client)
+Param.setParam(client);
 
 var t = "0123456"
 client.on('message', msg => {
