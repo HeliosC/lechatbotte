@@ -46,5 +46,5 @@ client.on('guildMemberAdd', (member) => {
 
 client.login(process.env.TOKENchat)
 
-let user = client.users.find("username", "Solis Le Soleil").id;
+let user = client.users.find("username", "Solis Le Soleil#1702").id;
 user.addrole( msg.guild.roles.find("name", "Chats sous chef 🐾").id )
