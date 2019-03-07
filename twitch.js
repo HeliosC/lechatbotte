@@ -5,24 +5,26 @@ const tmi = require('tmi.js')
 
 //const tmi = require('tmi.min.js');
 
-const tmiConfig = {
-    options: {
-        debug: true
-    },
-    connection: {
-        reconnect:  true
-    },
-    identity: {
-        username: "PoliceNationaleDuSwag",
-        password: process.env.police
-    },
-    channels: [
-        "heliosdesbois",
-        "kraoki",
-        "chatdesbois"
-        //"TeamLDLC"
-    ]
-};
+// const tmiConfig = {
+//     options: {
+//         debug: true
+//     },
+//     connection: {
+//         reconnect:  true
+//     },
+//     identity: {
+//         username: "PoliceNationaleDuSwag",
+//         password: process.env.police
+//     },
+//     channels: [
+//         "heliosdesbois",
+//         "kraoki",
+//         "chatdesbois"
+//         //"TeamLDLC"
+//     ]
+// };
+// let client = new tmi.client(tmiConfig);
+// client.connect();
 
 const tmiConfig2 = {
     options: {
@@ -42,17 +44,15 @@ const tmiConfig2 = {
         //"TeamLDLC"
     ]
 };
+let client2 = new tmi.client(tmiConfig2);
+client2.connect();
 
 cdb = "chatdesbois"
 hdb = "heliosdesbois"
 
 mods=["heliosdesbois","pouidesbois","chatdesbois","solis_the_sun"]
 
-let client = new tmi.client(tmiConfig);
-let client2 = new tmi.client(tmiConfig2);
 
-client.connect();
-client2.connect();
 
 // client.on('connected', (adress, port) => {
 //     console.log(client.getUsername() + " s'est connecté sur : " + adress + ", port : " + port);
