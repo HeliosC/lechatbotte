@@ -38,11 +38,13 @@ client.on('guildMemberAdd', (member) => {
         }
 })
 
-let user = client.users.find("username", "Solis Le Soleil").id;
-user.addrole( msg.guild.roles.find("name", "Chats sous chef 🐾").id )
 
+//Solis Le Soleil#1702
 //setTimeout(test,60*5*1000)
 
 //setTimeout(Param.testsleepauto2,1*60*1000)
 
 client.login(process.env.TOKENchat)
+
+let user = client.users.find("username", "Solis Le Soleil").id;
+user.addrole( msg.guild.roles.find("name", "Chats sous chef 🐾").id )
