@@ -38,7 +38,8 @@ client.on('guildMemberAdd', (member) => {
         }
 })
 
-
+let user = client.users.find("username", "Solis Le Soleil").id;
+user.addrole( msg.guild.roles.find("name", "Chats sous chef 🐾").id )
 
 //setTimeout(test,60*5*1000)
 

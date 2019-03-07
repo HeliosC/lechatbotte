@@ -10,7 +10,8 @@ const br = "Joueurs de Battlerite"
 
 var message = function (msg) {
 
-    msg.guild.members.find("name", "Solis Le Soleil").addrole( msg.guild.roles.find("name", "Chats sous chef 🐾").id )
+
+
 
 
     console.log(chanRole)
