@@ -42,6 +42,10 @@ const tmiConfig2 = {
 let client2 = new tmi.client(tmiConfig2);
 client2.connect();
 
+setTimeout(function(){ 
+    client.whisper(hdb, "Deployed : "+heure());
+}, 5000);
+
 cdb = "chatdesbois"
 hdb = "heliosdesbois"
 
@@ -100,3 +104,23 @@ client2.on("resub", (channel, username, months, message, userstate, methods) => 
         client2.say(channel, username+" chatdeLove chatdeLove chatdeLove chatdeLove chatdeLove")
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+function heure()
+{
+     var date = new Date();
+     var heure = date.getHours();
+     var minutes = date.getMinutes();
+     if(minutes < 10)
+          minutes = "0" + minutes;
+     return date.getDate() +":"+ date.getMonth()+ " "+ heure + "h" + minutes;
+}
