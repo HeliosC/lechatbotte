@@ -80,10 +80,10 @@ client.on("whisper", function (from, userstate, message, self) {
 
     }
 
-    if(message.toLowerCase().startsWith("say ") && userstate['display-name'] == hdb ){
+    if(message.toLowerCase().startsWith("say ") && userstate['display-name'].toLowerCase() == hdb ){
         client.say(cdb, m.substr(4));
     }
-    if(message.toLowerCase().startsWith("sayh ") && userstate['display-name'] == hdb ){
+    if(message.toLowerCase().startsWith("sayh ") && userstate['display-name'].toLowerCase() == hdb ){
         client.say(hdb, m.substr(5));
     }
 
