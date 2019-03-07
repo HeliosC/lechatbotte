@@ -116,17 +116,17 @@ client.on('chat', (channel, user, message, isSelf) => {
 
 });
 
-client.on("subscription", (channel, username, method, message, userstate) => {
+client2.on("subscription", (channel, username, method, message, userstate) => {
     // Do your stuff.
-    if(channel == cdb){
+    if(channel == "#"+cdb){
         client2.say(channel, username+" chatdeLove")
     }
 });
 
-client.on("resub", (channel, username, months, message, userstate, methods) => {
+client2.on("resub", (channel, username, months, message, userstate, methods) => {
     // Do your stuff.
     //let cumulativeMonths = ~~userstate["msg-param-cumulative-months"];
-    if(channel == cdb){
+    if(channel == "#"+cdb){
         client2.say(channel, username+" chatdeLove")
     }
 });
