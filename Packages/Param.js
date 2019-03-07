@@ -26,6 +26,7 @@ const nomadmin = "Le Chat en chef 🦄" //"🦄Le Chat en chef"
 
 tagS = "²"
 
+
 var message = function (msg) {
 
     if (msg.channel.type != "text") { return }
