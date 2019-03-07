@@ -14,12 +14,12 @@ const tmiConfig = {
     },
     identity: {
         username: "PoliceNationaleDuSwag",
-        password: "oauth:o72g2bb4savfz9abjlr557opbb9n0g"
+        password: process.env.police
     },
     channels: [
         "heliosdesbois",
         "kraoki",
-        "chatdesbois",
+        "chatdesbois"
         //"TeamLDLC"
     ]
 };
@@ -33,7 +33,7 @@ const tmiConfig2 = {
     },
     identity: {
         username: "HeliosDesBois",
-        password: "oauth:iby8ruh56ztbd2awu0nm9nvf7pi8ct"
+        password: process.env.helios
     },
     channels: [
         "heliosdesbois",
