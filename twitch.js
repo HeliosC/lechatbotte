@@ -94,6 +94,7 @@ client.on("whisper", function (from, userstate, message, self) {
 
 
 client.on('chat', (channel, user, message, isSelf) => {
+    console.log(channel)
     if (isSelf) return;
 
     m=message.toLowerCase()
