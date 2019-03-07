@@ -3,28 +3,27 @@
 const tmi = require('tmi.js')
 
 
-//const tmi = require('tmi.min.js');
 
-// const tmiConfig = {
-//     options: {
-//         debug: true
-//     },
-//     connection: {
-//         reconnect:  true
-//     },
-//     identity: {
-//         username: "PoliceNationaleDuSwag",
-//         password: process.env.police
-//     },
-//     channels: [
-//         "heliosdesbois",
-//         "kraoki",
-//         "chatdesbois"
-//         //"TeamLDLC"
-//     ]
-// };
-// let client = new tmi.client(tmiConfig);
-// client.connect();
+const tmiConfig = {
+    options: {
+        debug: true
+    },
+    connection: {
+        reconnect:  true
+    },
+    identity: {
+        username: "PoliceNationaleDuSwag",
+        password: process.env.police
+    },
+    channels: [
+        "heliosdesbois",
+        "kraoki",
+        "chatdesbois"
+        //"TeamLDLC"
+    ]
+};
+let client = new tmi.client(tmiConfig);
+client.connect();
 
 const tmiConfig2 = {
     options: {
