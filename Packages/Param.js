@@ -19,8 +19,8 @@ const chanMdp = "mot_de_passe"
 
 const nombot = "Le Chat Botté"
 
-const nomdon = "Chats de qualité supérieure 🐱" // "🐱Chats de qualité supérieure"
-const nomsub = "PUTAIN DE CHATONS 💕" //"💕PUTAIN DE CHATONS"
+const nomdon = "Chats de qualité supérieure 🐱 (donateurs)" // "🐱Chats de qualité supérieure"
+const nomsub = "PUTAIN DE CHATONS 💕 (subs)" //"💕PUTAIN DE CHATONS"
 const nommodo = "Chats sous chef 🐾"  //"🐾Chats sous chef"
 const nomadmin = "Le Chat en chef 🦄" //"🦄Le Chat en chef"
 
