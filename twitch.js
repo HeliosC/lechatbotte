@@ -40,18 +40,20 @@ const tmiConfig2 = {
     ]
 };
 let client2 = new tmi.client(tmiConfig2);
-client2.connect();
+client2.connect().then(_ => {
+    client.whisper(hdb, "Deployed: " + heure());
+});
 
-setTimeout(function(){ 
-    client.whisper(hdb, "Deployed : "+heure());
-}, 5000);
+// setTimeout(function(){ 
+//     client.whisper(hdb, "Deployed : "+heure());
+// }, 5000);
 
 cdb = "chatdesbois"
 hdb = "heliosdesbois"
 
 mods=["heliosdesbois","pouidesbois","chatdesbois","solis_the_sun"]
 
-client2.whisper(hdb, "Deployed");
+// client2.whisper(hdb, "Deployed");
 
 client.on("whisper", function (from, userstate, message, self) {
 
