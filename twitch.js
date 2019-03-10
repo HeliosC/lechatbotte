@@ -87,12 +87,16 @@ client.on('chat', (channel, user, message, isSelf) => {
         let words = message.split(" ")
         client.say(channel, words[1]+", vous êtes en état d'arrestation !");
     }
-    if(m.indexOf("je peut")!=-1 || m.indexOf("tu peut")!=-1){// || m.indexOf("je peu")!=-1 || m.indexOf("tu peu")!=-1){
+    //let regex = /\s?sa\s?va/gmi
+    if (/(^|\W)je\speu($|\W|t)/gmi.test(m)) {
         client.say(channel, user['display-name']+" peuX");
-    }
-    if(m.indexOf("on peux")!=-1){
+   }
+   if (/(^|\W)on\speu($|\W|x)/gmi.test(m)) {
         client.say(channel, user['display-name']+" peuT");
-    }
+   }
+   if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {
+        client.say(channel, user['display-name']+" ça va*");
+   }
 
 });
 
