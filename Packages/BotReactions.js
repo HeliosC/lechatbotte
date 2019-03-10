@@ -56,7 +56,7 @@ function reponsesBot(msg, admin, modo) {
   }
 
   if (cont.startsWith("!facebook") || cont.startsWith("!fb")) {
-    msg.channel.send("J'suis aussi présente sur le Facebook game, donc viens lâcher un follow, ça mange pas d'chèvres, et ça fait augmenter les stats, donc stop faire pd d'homophobe, stp. ♥ https://www.facebook.com/Chatsdesbois/")
+    msg.channel.send("J'suis aussi présente sur le Facebook game, donc viens lâcher un follow, ça mange pas d'chèvres, et ça fait augmenter les stats, donc stop faire ton pd d'homophobe, stp. ♥ https://www.facebook.com/Chatsdesbois/")
   }
 
   if (cont.startsWith("!insta") || cont.startsWith("!ig")) {
@@ -72,7 +72,8 @@ function reponsesBot(msg, admin, modo) {
   }
   
   if (cont.startsWith("!code") || cont.startsWith("!créateur")) {
-    msg.channel.send("Vous voulez supporter encore plus le stream ? N'hésitez pas à utiliser le code Créateur : CHAT-DES-BOIS lors de vos prochains achats Fortnite")
+    //msg.channel.send("Vous voulez supporter encore plus le stream ? N'hésitez pas à utiliser le code Créateur : CHAT-DES-BOIS lors de vos prochains achats Fortnite")
+    msg.channel.send("Vous voulez supporter encore plus le stream ? N'hésitez pas à utiliser le code Créateur : CHAT-DES-BOIS lors de vos prochains achats Fortnite ou sur l'Epic Games Store !")
   }
   
   if (cont.startsWith("!extension")) {
