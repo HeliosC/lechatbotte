@@ -87,6 +87,9 @@ client.on('chat', (channel, user, message, isSelf) => {
         let words = message.split(" ")
         client.say(channel, words[1]+", vous êtes en état d'arrestation !");
     }
+    if (m.indexOf("pain au chocolat") != -1) {
+        client.say(channel, user['display-name']+"Chocolatine*");
+      }
     //let regex = /\s?sa\s?va/gmi
     if (/(^|\W)je\speu($|\W|t)/gmi.test(m)) {
         client.say(channel, user['display-name']+" peuX");
@@ -97,6 +100,7 @@ client.on('chat', (channel, user, message, isSelf) => {
    if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {
         client.say(channel, user['display-name']+" ça va*");
    }
+
 
 });
 
