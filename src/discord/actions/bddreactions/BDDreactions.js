@@ -77,7 +77,7 @@ module.exports.messagesReactions = [
     startsWith: ["!giveaway"],
     disabled: false,
     responseChannel: function(client, message) {
-      const dab = client.emojis.find(e => e.name == "peachDab");
+      const dab = client.emojis.find(e => e.name == "LapinDab");
       return "RDV aux 5000 follows ! " + dab;
     }
   }, {
