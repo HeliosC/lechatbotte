@@ -12,7 +12,7 @@ function startBot() {
     let client = new tmi.client(tmiConfig);
     client.connect().then(_ => {
         client.whisper(hdb, "Deployed: " + heure());
-    });
+    }).catch(console.error);
 
     client.on("whisper", function (from, userstate, message, self) {
         if (self) return;

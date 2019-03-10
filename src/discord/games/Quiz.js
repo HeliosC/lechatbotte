@@ -35,8 +35,8 @@ jmodo = false;
 var message = function (msg) {
     //client.on('message', msg => {
     /*try {
-        let modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-        let admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+        let modo = msg.member.roles.has(msg.guild.roles.find(r => r.name == nommodo).id);
+        let admin = msg.member.roles.has(msg.guild.roles.find(r => r.name == nomadmin).id);
     }
     catch (error) {
         modo = false
@@ -45,9 +45,9 @@ var message = function (msg) {
     }*/
 
     admin = false; modo = false;
-    if (msg.guild.roles.find("name", nommodo) != null) {
-        modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-        admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+    if (msg.guild.roles.find(r => r.name == nommodo) != null) {
+        modo = msg.member.roles.has(msg.guild.roles.find(r => r.name == nommodo).id);
+        admin = msg.member.roles.has(msg.guild.roles.find(r => r.name == nomadmin).id);
     }
 
 
@@ -90,10 +90,10 @@ var message = function (msg) {
 
             areact = false;
             MSGa = msg;
-            var h = client.emojis.find("name", "yea");
+            var h = client.emojis.find(e => e.name == "yea");
             msg.react(h);
             setTimeout(() => {
-                var h = client.emojis.find("name", "nay");
+                var h = client.emojis.find(e => e.name == "nay");
                 msg.react(h);
             }, 500);
 

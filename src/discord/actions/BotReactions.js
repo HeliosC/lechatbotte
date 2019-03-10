@@ -1,183 +1,252 @@
-var nomdon, nomsub, nommodo, nomadmin, client, nombot, chanCh, chanIm, TagS;
+const reactionsDB = require("./bddreactions/BDDreactions");
 
-var message = function(msg) {
-  if (msg.author.bot) {
-    return;
-  }
 
-  admin = false; modo = false; sub = false; don = false;
-  if (msg.guild.roles.find("name", nommodo) != null) {
-    don = msg.member.roles.has(msg.guild.roles.find("name", nomdon).id);
-    sub = msg.member.roles.has(msg.guild.roles.find("name", nomsub).id);
-    modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-    admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
-  }
+function BotReactions(
+  botClient,
+  channels,
+  rolesName,
+  commandPrefix) {
 
-  reponsesBot(msg, admin, modo, client);
-  mentionsBot(msg, admin, modo, sub, don, client);
-
-  if (!(admin || modo)) {
-    deplaceImage(msg, client);
-  } else {
-    if (msg.author.username == "Helios ⭐⭐") {
-      parleBot(msg);
-    }
-  }
+  this.botClient = botClient;
+  this.channels = channels;
+  this.rolesName = rolesName;
+  this.commandPrefix = commandPrefix;
 }
 
-function parleBot(msg) {
-  if (!msg.content.startsWith(tagS)) {
-    return;
-  }
+/*
+ * Return false if the message is ignored by this module
+ * Returns true if the message will probably be used
+ */
+BotReactions.prototype.isConcernedByMessage = function(message) {
+  if (message.author.bot) return false;
 
-  msg.channel.send(msg.content.replace(tagS, ""));
-  var boo = false;
-  for (var [key, value] of msg.attachments) {
-    msg.channel.send({ file: value.proxyURL });
-    boo = true;
-    break;
-  }
-  if (boo) {
-    setTimeout(suiteTraitement, 500);
-    function suiteTraitement() { msg.delete() }
-  } else {
-    msg.delete();
-  }
-}
-
-function reponsesBot(msg, admin, modo) {
-  var cont = msg.content.toLowerCase();
-
-
-  if (cont.startsWith("!snap")) {
-    msg.channel.send("Tu veux vraiment voir tout le ramassis de merde que j'peux produire ? A tes risques et périls l'ami : chat_desbois");
-  }
-
-  if (cont.startsWith("!facebook") || cont.startsWith("!fb")) {
-    msg.channel.send("J'suis aussi présente sur le Facebook game, donc viens lâcher un follow, ça mange pas d'chèvres, et ça fait augmenter les stats, donc stop faire pd d'homophobe, stp. ♥ https://www.facebook.com/Chatsdesbois/");
-  }
-
-  if (cont.startsWith("!insta") || cont.startsWith("!ig")) {
-    msg.channel.send("Viens voir mes petites photo de mes chats et autres beautés artistiques ! ♥ https://www.instagram.com/unejeune/");
-  }
-
-  if (cont.startsWith("!twitter")) {
-    msg.channel.send("Follow pour suivre mes actus ! ♥ https://twitter.com/Chatdesbois_?lang=fr");
-  }
-
-  if (cont.startsWith("!lis2")) {
-    msg.channel.send("https://www.youtube.com/watch?v=vsZl83ix168&index=2&list=PLJwoNPuLFNbPEgfvRAiQeKWDl8pO4AAWW");
-  }
-
-  if (cont.startsWith("!code") || cont.startsWith("!créateur")) {
-    msg.channel.send("Vous voulez supporter encore plus le stream ? N'hésitez pas à utiliser le code Créateur : CHAT-DES-BOIS lors de vos prochains achats Fortnite");
-  }
-
-  if (cont.startsWith("!extension")) {
-    msg.channel.send("L'EXTENSION à avoir pour entendre ma douce voix et voir des chats trop mimis ! + hyper bien codée, donc WOLA un must have ! > http://bit.ly/2qXtylM");
-  }
-
-  if (cont.startsWith("!giveaway")) {
-
-    const dab = client.emojis.find("name", "peachDab");
-    /*
-    const or = client.emojis.find("name", "chatENOR");
-
-    msg.channel.send(" Pour fêter les 4000 followers, il y aura 2 giveaways de 15€ "+dab+":\n"
-    + " - Un sur twitter où tu dois retweet le post https://bit.ly/2CNarAh et follow la page, TAS le 9 février\n"
-    + " - Un autre le 8 février en stream\n"
-    + "Soyez présents ! "+or)
-    */
-    msg.channel.send("RDV aux 5000 follows ! "+dab);
-  }
-
-
-  if (cont.indexOf("kalista") != -1) {
-    //msg.reply("kali quoi ?")
-  }
-  if (cont.indexOf("permis") != -1) {
-    //msg.channel.send("https://www.youtube.com/watch?v=MpQEi1Dw3_k&t=4s&ab_channel=Chatdesbois")
-  }
-  if (cont.indexOf("ddlc") != -1 || cont.indexOf("doki") != -1 || cont.indexOf("monika") != -1 || cont.indexOf("yuri") != -1 || cont.indexOf("sayori") != -1 || cont.indexOf("natsuki") != -1) {
-    const h = client.emojis.find("name", "monika");
-    msg.react(h)
-    //msg.channel.send("" + h)
-  }
-
-  if (!(modo || admin)) {
-    if (cont.indexOf("pain au chocolat") != -1) {
-      msg.reply("Chocolatine*");
-    }
-  }
-}
-
-function mentionsBot(msg, admin, modo, sub, don) {
-  if (msg.mentions.everyone) {
-    return
-  }
-
-  for (user of client.users) {
-    if (user[1].username == nombot && user[1].bot && msg.isMemberMentioned(user[1])) {
-      if (admin) {
-        //const h = client.emojis.find("name", "cheart");
-        const h = client.emojis.find("name", "LapinDab");
-        msg.react(h)
-      } else if (modo) {
-        if (msg.author.username == "Poui des bois") {
-          //msg.react("😍");
-          msg.react("🗡");
-        } else if (msg.author.username == "Solis Le Soleil") {
-          const h = client.emojis.find("name", "lovedesbois");
-          //msg.react("🌞");
-          msg.react(h)
-        } else if (msg.author.username == "Helios ⭐⭐") {
-          //msg.author.send("yo");
-          //client.users.find('username', "Helios ⭐⭐").send("yo2");
-          //const h = client.emojis.find("name", "peachDab");
-          const h = client.emojis.find("name", "lovedesbois");
-          //const h = client.emojis.find("name", "LapinDab");
-          msg.react(h);
-        } else {
-          msg.react("❤");
-        }
-      } else if (sub) {
-        msg.react("💕");
-      } else if (don) {
-        msg.react("🐱");
-      } else {
-        msg.reply("reste tranquille");
-      }
-    }
-  }
-}
-
-function deplaceImage(msg) {
-  if (msg.channel.name == chanCh) {
-    for (var [key, value] of msg.attachments) {
-      //client.channels.find('name', chanIm).send("" + msg.author + " : " + msg.content,{ file: value.proxyURL })
-      //client.channels.find('name', chanIm).send(msg.author + " : " + msg.content)
-      client.channels.find('name', chanIm).send(client.channels.find("name", chanCh) + "\n" + msg.author + " : " + msg.content)
-      client.channels.find('name', chanIm).send({ file: value.proxyURL })
-      msg.channel.send(msg.author + " : " + client.channels.find("name", chanIm))
-      setTimeout(suiteTraitement, 500)
-      function suiteTraitement() { msg.delete() }
-      break
-    }
-  }
-}
-
-
-var setParam = function(MchanIm, MchanCh, Mnombot, Mnomadmin, Mnommodo, Mnomsub, Mnomdon, Mclient, MtagS) {
-  chanIm = MchanIm;
-  chanCh = MchanCh;
-  nombot = Mnombot;
-  nomadmin = Mnomadmin;
-  nommodo = Mnommodo;
-  nomsub = Mnomsub;
-  nomdon = Mnomdon;
-  client = Mclient;
-  tagS = MtagS;
+  return true;
 };
 
-exports.message = message;
-exports.setParam = setParam;
+/*
+ * Returns true if the message has been used (It serves to detect conflicts between modules)
+ * Returns false if the message did not trigger any actions
+ */
+BotReactions.prototype.onMessage = function(message) {
+  let actionTriggered = false;
+
+  let memberRoles = this.checkRoles(message.member, message.guild, this.rolesName);
+
+  actionTriggered |= this.reactToMessage(message, memberRoles);
+  actionTriggered |= this.reactToMention(message, memberRoles);
+
+  if (!(memberRoles.administrator || memberRoles.moderator)) {
+    actionTriggered |= this.checkImageToMove(message);
+  } else {
+    if (message.author.username == "Helios ⭐⭐") { // TODO: move the hardcoded values to a better place
+      this.parleBot(message);
+    }
+  }
+
+  return actionTriggered;
+};
+
+BotReactions.prototype.checkRoles = function(member, guild, roles) {
+  var posessedRoles = {};
+
+  for (let roleTitle in roles) {
+    let roleName = roles[roleTitle];
+    let guildRole = guild.roles.find(r => r.name == roleName);
+
+    let hasRole = false;
+
+    if (guildRole !== null) {
+      let roleId = guildRole.id;
+      hasRole = member.roles.has(roleId);
+    }
+
+    posessedRoles[roleTitle] = hasRole;
+  }
+
+  return posessedRoles;
+};
+
+BotReactions.prototype.reactToMessage = function(message, memberRoles) {
+  var triggeredAction = false;
+  for (reaction of reactionsDB.messagesReactions) {
+    // Check if the reaction sould be testes
+    if (reaction.disabled) continue;
+
+    if (isType(Function, reaction.exception, `exception should be a Function in ${JSON.stringify(reaction)}`)
+        && reaction.exception(this.botClient, message, memberRoles)) {
+      continue;
+    }
+
+    let messageContent = message.content.toLowerCase();
+
+    let willBeUsed = false;
+
+    // Check if the reaction sould be used
+    if (isType(Array, reaction.startsWith, `startsWith should be an Array in ${JSON.stringify(reaction)}`)) {
+      for (let value of reaction.startsWith) {
+        if (messageContent.startsWith(value)) {
+          willBeUsed = true;
+          break;
+        }
+      }
+    }
+
+    if (!willBeUsed && isType(Array, reaction.contains, `contains should be an Array in ${JSON.stringify(reaction)}`)) {
+      for (let value of reaction.contains) {
+        if (messageContent.indexOf(value) >= 0) {
+          willBeUsed = true;
+          break;
+        }
+      }
+    }
+
+    if (!willBeUsed) continue;
+
+    let hasBeenUsed = false;
+
+    // We execute the defined actions
+    let getFromValueOrFunction = (value, onExistingValue) => {
+      let response = value;
+      if (isType(Function, value)) {
+        response = value(this.botClient, message, memberRoles);
+      }
+
+      if (response) {
+        onExistingValue(response);
+        hasBeenUsed = true;
+      }
+    };
+
+
+    getFromValueOrFunction(reaction.responseChannel, response => {
+      message.channel.send(response);
+
+      console.debug(`send response to channel: ${response}`);
+    });
+
+    getFromValueOrFunction(reaction.responseReply, response => {
+      message.reply(response);
+
+      console.debug(`reply with: ${response}`);
+    });
+
+    getFromValueOrFunction(reaction.responseReact, emoji => {
+      message.react(emoji);
+
+      console.debug(`react with: ${emoji}`);
+    });
+
+
+    if (!hasBeenUsed) {
+      console.warn(`reaction should have been used, but nothing happend (${JSON.stringify(reaction)})`);
+    } else {
+      triggeredAction = true;
+    }
+  }
+
+  return triggeredAction;
+};
+
+BotReactions.prototype.reactToMention = function(message, memberRoles) {
+  var triggeredAction = false;
+
+  if (message.mentions.everyone) return triggeredAction;
+  if (!message.isMemberMentioned(this.botClient.user)) return triggeredAction;
+
+
+  if (memberRoles.administrator) {
+    message.react(client.emojis.find(e => e.name == "LapinDab"))
+
+  } else if (memberRoles.moderator) {
+    if (message.author.username == "Poui des bois") {
+      message.react("🗡");
+
+    } else if (message.author.username == "Solis Le Soleil") {
+      message.react(client.emojis.find(e => e.name == "lovedesbois"));
+
+    } else if (message.author.username == "Helios ⭐⭐") {
+      message.react(client.emojis.find(e => e.name == "lovedesbois"));
+
+    } else {
+      message.react("❤");
+    }
+  } else if (memberRoles.subscriber) {
+    message.react("💕");
+  } else if (memberRoles.donnator) {
+    message.react("🐱");
+  } else {
+    message.reply("reste tranquille");
+  }
+
+  triggeredAction = true;
+  return triggeredAction;
+};
+
+BotReactions.prototype.checkImageToMove = function(message) {
+  var triggeredAction = false;
+
+  if (message.channel.name != this.channels.chanCh) return triggeredAction;
+
+  for (let [key, value] of message.attachments) {
+    let imageChannel = client.channels.find(c => c.name == this.channels.images);
+    imageChannel.send(client.channels.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
+    imageChannel.send({ file: value.proxyURL })
+
+    message.channel.send(message.author + " : " + client.channels.find(c => c.name == this.channels.images));
+
+    setTimeout(() => { message.delete() }, 500);
+
+    triggeredAction = true;
+    break;
+  }
+
+  return triggeredAction;
+};
+
+BotReactions.prototype.parleBot = function(message) {
+  if (!message.content.startsWith(this.commandPrefix)) {
+    return;
+  }
+
+  message.channel.send(message.content.replace(commandPrefix, ""));
+  var hasAttachment = false;
+  for (var [key, value] of message.attachments) {
+    message.channel.send({ file: value.proxyURL });
+    hasAttachment = true;
+    break;
+  }
+  if (hasAttachment) {
+    setTimeout(() => { message.delete() }, 500);
+  } else {
+    message.delete();
+  }
+}
+
+
+
+/*
+ * Returns true if `value` is an insnance of `type`
+ * If an error message is provided, it will be printed
+ *   if `value` does not have the correct type and is different than null or undefined
+ */
+function isType(type, value, errorMessage) {
+  // Test without log warning
+  if (errorMessage === undefined) {
+    return value instanceof type;
+  }
+
+  // Test with warning
+  if (value === null || value === undefined) {
+    return false;
+  }
+
+  if (value instanceof type) {
+    return true;
+  } else {
+    console.warn(`[WARNING]: ${errorMessage}`)
+  }
+
+  return false;
+}
+
+module.exports = BotReactions;

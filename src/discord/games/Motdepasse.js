@@ -67,8 +67,8 @@ var message = function (msg) {
                         //           + "\nmot " + Nmot
                     //   "\n" +
                     msg.author +
-                    "\n" + client.emojis.find("name", "yea") + " pour commencer"
-                        + "\n" + client.emojis.find("name", "nay") + " pour annuler"
+                    "\n" + client.emojis.find(e => e.name == "yea") + " pour commencer"
+                        + "\n" + client.emojis.find(e => e.name == "nay") + " pour annuler"
                 }
             });
             areact = true;
@@ -79,9 +79,9 @@ var message = function (msg) {
                 areact = false;
                 MSG = msg;
                 IPG = true;
-                var h = client.emojis.find("name", "yea");
+                var h = client.emojis.find(e => e.name == "yea");
                 msg.react(h);
-                h = client.emojis.find("name", "nay");
+                h = client.emojis.find(e => e.name == "nay");
                 setTimeout(() => { msg.react(h) }, 1000);
             }
         }

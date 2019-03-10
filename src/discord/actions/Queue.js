@@ -17,9 +17,9 @@ var message = function (msg) {
    }*/
 
    admin = false; modo = false;
-   if (msg.guild.roles.find("name", nommodo) != null) {
-      modo = msg.member.roles.has(msg.guild.roles.find("name", nommodo).id);
-      admin = msg.member.roles.has(msg.guild.roles.find("name", nomadmin).id);
+   if (msg.guild.roles.find(r => r.name == nommodo) != null) {
+      modo = msg.member.roles.has(msg.guild.roles.find(r => r.name == nommodo).id);
+      admin = msg.member.roles.has(msg.guild.roles.find(r => r.name == nomadmin).id);
    }
 //}
 

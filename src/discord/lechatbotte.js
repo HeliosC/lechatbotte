@@ -3,6 +3,12 @@ const Discord = require("discord.js");
 const Param = require('./Param.js');
 
 
+const constants = require('./constants');
+const Dispatcher = require('./Dispatcher');
+
+const BotReactions = require('./actions/BotReactions')
+
+
 function startBot() {
 	const client = new Discord.Client();
 
@@ -11,25 +17,45 @@ function startBot() {
 	client.on("warn", (e) => console.warn(e));
 	client.on("debug", (e) => console.info(e));
 
+	const dispatcher = new Dispatcher(client);
+
+	dispatcher.addComponent(
+		new BotReactions(
+				client,
+				constants.channels,
+				constants.rolesName,
+				constants.commandPrefix
+		)
+	);
+
+	client.on('message', dispatcher.onMessage.bind(dispatcher));
+	client.on('messageReactionAdd', dispatcher.onReaction.bind(dispatcher));
+
+	/* OLD way, to remove when rework terminated */
+
 	Param.setParam(client);
 
 	client.on('message', msg => {
-	    Param.message(msg);
+		Param.message(msg);
 	});
 
 	client.on('messageReactionAdd', (reaction, user) => {
-	    Param.messageReactionAdd(reaction, user);
+		Param.messageReactionAdd(reaction, user);
 	});
+
+	/* ***** */
 
 	client.on('guildMemberAdd', (member) => {
 
-	    if (member.guild.name.indexOf("chats") != -1) {
-	        const h = client.emojis.find("name", "hidesbois");
-	        client.channels.find('name', "cest_ta_vie").send("Bienvenu par minou "+member+" ! "+h + " Prends 30 secondes pour lire l'"+client.channels.find("name", "accueil_deschats")
-	        // +" et le discord n'aura plus aucun secret pour toi !"
-	        +" et réclame tes rôles dans "+client.channels.find("name", "adhesion_rôle") + " !"
-	        );
-	    }
+		if (member.guild.name.indexOf("chats") != -1) {
+			const h = client.emojis.find(e => e.name == "hidesbois");
+			client.channels.find(c => c.name == "cest_ta_vie").send(
+				"Bienvenu par minou " + member + " ! " + h
+				+ " Prends 30 secondes pour lire l'" + client.channels.find(c => c.name == "accueil_deschats")
+				// +" et le discord n'aura plus aucun secret pour toi !"
+				+ " et réclame tes rôles dans " + client.channels.find(c => c.name == "adhesion_rôle") + " !"
+			);
+		}
 	});
 
 

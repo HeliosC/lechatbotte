@@ -1,5 +1,5 @@
 const Queue = require('./actions/Queue.js');
-const BotReactions = require('./actions/BotReactions.js');
+// const BotReactions = require('./actions/BotReactions.js');
 const Role = require('./actions/Roles.js');
 
 const Connect4 = require('./games/Connect4.js');
@@ -31,7 +31,7 @@ var message = function (msg) {
     if (msg.channel.type != "text") { return }
 
     Queue.message(msg);
-    BotReactions.message(msg);
+    // BotReactions.message(msg);
     Connect4.message(msg);
     Quiz.message(msg);
     Test.message(msg);
@@ -48,7 +48,7 @@ var messageReactionAdd = function (reaction, user) {
 }
 
 var setParam = function (client) {
-    BotReactions.setParam(chanIm, chanCh, nombot, nomadmin, nommodo, nomsub, nomdon, client, tagS);
+    // BotReactions.setParam(chanIm, chanCh, nombot, nomadmin, nommodo, nomsub, nomdon, client, tagS);
     Queue.setParam(chanQ, nomadmin, nommodo);
     Connect4.setParam(client, chanJeux, nomadmin, nommodo);
     Quiz.setParam(client, chanQuiz, nomadmin, nommodo);

@@ -16,7 +16,7 @@ var message = function(msg) {
 
 var testsleepauto = function() {
     testo = true;
-    client.channels.find('name', "testbotquiz").send("last deploy : 0 h 1");
+    client.channels.find(c => c.name == "testbotquiz").send("last deploy : 0 h 1");
 }
 
 var I = 1;
