@@ -18,7 +18,7 @@ This file create an array of reactions, this is how to create/understand one
   // If the message starts with an element of the `startWith` array, the reaction will be used
   startWith: [String]
 
-  // If the message starts with an element of the `startWith` array, the reaction will be used
+  // If the message contains an element of the `contains` array, the reaction will be used
   contains: [String]
 
   // If `responseChannel` is set, the String (or returned String) should be send to the channel
