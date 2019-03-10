@@ -26,6 +26,8 @@ Dispatcher.prototype.onMessage = function(message) {
     for (let component of this.components) {
         if (component.onMessage === undefined) continue;
 
+        if (!component.isConcernedByMessage(message)) continue;
+
         let used = component.onMessage(message);
 
         if (used) {
