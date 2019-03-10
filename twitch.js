@@ -97,12 +97,12 @@ client.on('chat', (channel, user, message, isSelf) => {
 });
 
 client2.on("subscription", (channel, username, method, message, userstate) => {
-    if(channel == "#"+cdb){
+    if(channel == "#"+cdb && username!=hdb){
         client2.say(channel, username+" chatdeLove chatdeLove chatdeLove chatdeLove chatdeLove")
     }
 });
 client2.on("resub", (channel, username, months, message, userstate, methods) => {
-    if(channel == "#"+cdb){
+    if(channel == "#"+cdb && username!=hdb){
         client2.say(channel, username+" chatdeLove chatdeLove chatdeLove chatdeLove chatdeLove")
     }
 });
