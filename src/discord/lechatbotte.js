@@ -6,7 +6,8 @@ const Param = require('./Param.js');
 const constants = require('./constants');
 const Dispatcher = require('./Dispatcher');
 
-const BotReactions = require('./actions/BotReactions')
+const BotReactions = require('./actions/BotReactions');
+const RolesManager = require('./actions/RolesManager');
 
 
 function startBot() {
@@ -19,6 +20,7 @@ function startBot() {
 
 	const dispatcher = new Dispatcher(client);
 
+	/******/
 	dispatcher.addComponent(
 		new BotReactions(
 				client,
@@ -27,6 +29,10 @@ function startBot() {
 				constants.commandPrefix
 		)
 	);
+	dispatcher.addComponent(
+		new RolesManager(client, constants.channels.role)
+	);
+	/******/
 
 	client.on('message', dispatcher.onMessage.bind(dispatcher));
 	client.on('messageReactionAdd', dispatcher.onReaction.bind(dispatcher));

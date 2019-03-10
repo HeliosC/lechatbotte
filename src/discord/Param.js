@@ -1,6 +1,6 @@
 const Queue = require('./actions/Queue.js');
 // const BotReactions = require('./actions/BotReactions.js');
-const Role = require('./actions/Roles.js');
+// const Role = require('./actions/Roles.js');
 
 const Connect4 = require('./games/Connect4.js');
 const Quiz = require('./games/Quiz.js');
@@ -36,7 +36,7 @@ var message = function (msg) {
     Quiz.message(msg);
     Test.message(msg);
     Simon.message(msg);
-    Role.message(msg);
+    // Role.message(msg);
     Mdp.message(msg);
 }
 
@@ -54,7 +54,7 @@ var setParam = function (client) {
     Quiz.setParam(client, chanQuiz, nomadmin, nommodo);
     Test.setParam(client);
     //Simon.setParam(client);
-    Role.setParam(client, chanRole, nomadmin, nommodo);
+    // Role.setParam(client, chanRole, nomadmin, nommodo);
     Mdp.setParam(client, chanMdp);
 }
 
