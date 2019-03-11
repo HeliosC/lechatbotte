@@ -141,7 +141,7 @@ client.on('chat', (channel, user, message, isSelf) => {
     if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
         afficheMassacres()
     }
-    if (mod(user.username) && /^!massacre \d/gmi.test(m)) { //*massacre -> incremente
+    if (mod(user.username) && /^!massacre \d/gmi.test(m)) { 
         massacres=m.substr(9)
         afficheMassacres()
     }
