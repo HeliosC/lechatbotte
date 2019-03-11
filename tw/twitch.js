@@ -9,7 +9,7 @@ const tmiConfig = {
         reconnect:  true
     },
     identity: {
-        username: "PoliceNationaleDuSwag",
+        username: "PoliceDesBois",
         password: process.env.police
     },
     channels: [
@@ -136,11 +136,11 @@ client.on('chat', (channel, user, message, isSelf) => {
 
     //     if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {
 
-    if (/^\*massacre$/gmi.test(m)) { //*massacre -> incremente
+    if (/^\!massacre+1$/gmi.test(m)) { //*massacre -> incremente
         massacres+=1
         afficheMassacres()
     }
-    if (/^\*massacres$/gmi.test(m)) { //*massacres -> affiche le nb
+    if (/^\!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
         afficheMassacres()
     }
     
