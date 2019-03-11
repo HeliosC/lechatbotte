@@ -75,6 +75,15 @@ function startBot() {
 
 
 	client.login(process.env.TOKENchat);
+
+
+	client.on('message', message => {
+		if (message.author
+			&& message.author.id == 255069392780394506 /*poui des bois*/
+			&& message.channel.id == 548283395906600970 /* poui-et-krao-le-soir */) {
+			message.react("🗡");
+		}
+	})
 }
 
 
