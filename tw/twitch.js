@@ -136,11 +136,15 @@ client.on('chat', (channel, user, message, isSelf) => {
 
     //     if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {
 
-    if (/^\!massacre+1$/gmi.test(m)) { //*massacre -> incremente
+    if (/^!massacre\+1$/gmi.test(m)) { //*massacre -> incremente
         massacres+=1
         afficheMassacres()
     }
-    if (/^\!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
+    if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
+        afficheMassacres()
+    }
+    if (/^!massacre \d/gmi.test(m)) { //*massacre -> incremente
+        massacres=m.substr(9)
         afficheMassacres()
     }
     
