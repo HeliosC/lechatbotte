@@ -6,7 +6,7 @@ const Connect4 = require('./games/Connect4.js');
 const Quiz = require('./games/Quiz.js');
 const Test = require('./games/Test.js');
 const Simon = require('./games/Simon.js');
-const Mdp = require('./games/Motdepasse.js');
+// const Mdp = require('./games/Motdepasse.js');
 
 
 const chanIm = "images_videos_trop_lentes";
@@ -37,14 +37,14 @@ var message = function (msg) {
     Test.message(msg);
     Simon.message(msg);
     // Role.message(msg);
-    Mdp.message(msg);
+    // Mdp.message(msg);
 }
 
 var messageReactionAdd = function (reaction, user) {
     Connect4.messageReactionAdd(reaction, user);
     Quiz.messageReactionAdd(reaction, user);
     Simon.messageReactionAdd(reaction, user);
-    Mdp.messageReactionAdd(reaction, user);
+    // Mdp.messageReactionAdd(reaction, user);
 }
 
 var setParam = function (client) {
@@ -55,7 +55,7 @@ var setParam = function (client) {
     Test.setParam(client);
     //Simon.setParam(client);
     // Role.setParam(client, chanRole, nomadmin, nommodo);
-    Mdp.setParam(client, chanMdp);
+    // Mdp.setParam(client, chanMdp);
 }
 
 exports.message = message;

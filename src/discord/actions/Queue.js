@@ -120,7 +120,7 @@ Queue.prototype.isConcernedByMessage = function(message) {
   let userRoles = this.getRoles(message.member, message.guild, this.rolesName);
   let correctRole = userRoles.administrator || userRoles.moderator;
 
-  let correctChannel = msg.channel.name.indexOf(this.channel) != -1
+  let correctChannel = message.channel.name.indexOf(this.channel) != -1
 
   return correctChannel || correctRole;
 };

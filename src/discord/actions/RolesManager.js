@@ -7,7 +7,7 @@ function RolesManager(botClient, roleChannel) {
 }
 
 RolesManager.prototype.isConcernedByMessage = function(message) {
-    return message.channel.name.indexOf(chanRole) != -1;
+    return message.channel.name.indexOf(this.roleChannel) != -1;
 };
 
 RolesManager.prototype.onMessage = function(message) {

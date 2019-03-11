@@ -10,6 +10,8 @@ const BotReactions = require('./actions/BotReactions');
 const RolesManager = require('./actions/RolesManager');
 const Queue = require('./actions/Queue');
 
+const MotDePasse = require('./games/Motdepasse.js');
+
 
 function startBot() {
 	const client = new Discord.Client();
@@ -35,6 +37,9 @@ function startBot() {
 	);
 	dispatcher.addComponent(
 		new Queue(client, constants.channels.queue, constants.rolesName)
+	);
+	dispatcher.addComponent(
+		new MotDePasse(client, constants.channels.password)
 	);
 	/******/
 

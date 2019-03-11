@@ -1,148 +1,158 @@
 const BDD = require('./bddmdp/BDDmdp.js');
 
-
-var chanMdp;
-
-var areact = false;
-var MSG;
-var Nmot = 1;
-var score = 0;
-IG = false;
-IPG = false;
-t = 90;
-k = 5;
-var player;
-//var userO = false;
-
 listeMots = BDD.str;
 
 
-var messageReactionAdd = function (reaction, user) {
-    if (user.bot) { return }
+function MotDePasse(botClient, channel) {
+    this.botClient = botClient;
+    this.channel = channel;
 
-    if (reaction.message.channel.name.indexOf(chanMdp) != -1) {
-        reaction.remove(user);
+    this.inGame = false;
+    this.inGameSetup = false;
 
-        if ( (IPG || IG) && player == user) {
+    this.currentPlayer = null;
+    this.gameMessage = null;
+    this.score = 0;
+    this.currentWord = null;
+    this.wordCount = 0;
 
-            if (reaction.emoji.name == "yea") {
-                if (IPG) {
-
-                    begin();
-                } else {
-                    mot = listeMots[rd(0, BDD.str.length - 1)]
-                    score++;
-                    Nmot++;
-                    affichage();
-                }
-            }
-
-            if (reaction.emoji.name == "nay") {
-                if (IPG) {
-                    IPG = false;
-                    MSG.channel.send("Annulé !");
-                } else {
-                    mot = listeMots[rd(0, BDD.str.length - 1)];
-                    Nmot++;
-                    affichage();
-                }
-            }
-        }
-    }
+    this.countdownTimeoutId = null;
+    this.updateInterval = 5;
+    this.timeRemaining = 0;
 }
 
-var message = function (msg) {
+MotDePasse.prototype.isConcernedByMessage = function(message) {
+    return message.channel.name.indexOf(this.channel) != -1
+};
 
-    if (msg.channel.name.indexOf(chanMdp) != -1) {
+MotDePasse.prototype.onMessage = function(message) {
+    let actionTriggered = false;
 
-        // if (!IPG) { return }
+    if (this.inGameSetup || this.inGame) { return actionTriggered }
+    if (message.author.bot) { return actionTriggered }
 
-        if (!msg.author.bot && msg.content.toLowerCase() == "*mdp" && !IG) {
 
-            player = msg.member.user;
-            console.log (msg.user);
-            msg.channel.send({
-                embed: {
-                    color: 3447003, description: //"SCORE : " + score
-                        //           + "\nmot " + Nmot
-                    //   "\n" +
-                    msg.author +
-                    "\n" + client.emojis.find(e => e.name == "yea") + " pour commencer"
-                        + "\n" + client.emojis.find(e => e.name == "nay") + " pour annuler"
-                }
-            });
-            areact = true;
-        }
+    if (message.content.toLowerCase() == "*mdp") {
+        actionTriggered = true;
 
-        else if (!IG){// !IPG && !IG) {      //IF BOT
-            if (areact) {
-                areact = false;
-                MSG = msg;
-                IPG = true;
-                var h = client.emojis.find(e => e.name == "yea");
-                msg.react(h);
-                h = client.emojis.find(e => e.name == "nay");
-                setTimeout(() => { msg.react(h) }, 1000);
+        this.currentPlayer = message.member.user;
+
+        console.debug(`${this.currentPlayer.username} has started a game 'MotDePasse'`);
+
+        message.channel.send({
+            embed: {
+                color: 3447003,
+                description: message.author + "\n"
+                    + this.botClient.emojis.find(e => e.name == "yea") + " pour commencer"
+                    + "\n" + this.botClient.emojis.find(e => e.name == "nay") + " pour annuler"
             }
-        }
+        }).then(message => {
+            this.gameMessage = message;
+            this.inGameSetup = true;
 
+            var yesEmoji = this.botClient.emojis.find(e => e.name == "yea");
+            var noEmoji = this.botClient.emojis.find(e => e.name == "nay");
+
+            this.gameMessage.react(yesEmoji)
+                .then(() => {
+                    return this.gameMessage.react(noEmoji)
+                }).then(() => {/* The 2 reactions has been send */})
+                .catch(console.error);
+
+        }).catch(console.error);
     }
-}
 
+    return actionTriggered;
+};
 
-function countdown() {
+MotDePasse.prototype.onReaction = function(reaction, user) {
+    let actionTriggered = false;
+
+    if (user.bot) { return actionTriggered }
+    if (reaction.message.channel.name.indexOf(this.channel) == -1) { return actionTriggered }
+
+    // remove every reaction added by any user
+    reaction.remove(user);
+    actionTriggered = true;
+
+    // ignore any reaction of any other users
+    if (this.currentPlayer != user) { return actionTriggered }
+
+    if (this.inGameSetup) {
+        if (reaction.emoji.name == "yea") {
+            this.startGame();
+        } else if (reaction.emoji.name == "nay") {
+            this.inGameSetup = false;
+            this.gameMessage.channel.send("Annulé !");
+        }
+    } else if (this.inGame) {
+        if (reaction.emoji.name == "yea") {
+            this.currentWord = this.getRandomWord();
+            this.score++;
+            this.wordCount++;
+            this.updateGameMessage();
+        } else if (reaction.emoji.name == "nay") {
+            this.currentWord = this.getRandomWord();
+            this.wordCount++;
+            this.updateGameMessage();
+        }
+    }
+
+    return actionTriggered;
+};
+
+MotDePasse.prototype.getRandomWord = function() {
+    return listeMots[randInt(0, BDD.str.length - 1)];
+};
+
+MotDePasse.prototype.startGame = function() {
+    this.currentWord = this.getRandomWord();
+    this.score = 0;
+    this.timeRemaining = 90; // seconds
+    this.inGameSetup = false;
+    this.inGame = true;
+
+    this.updateGameMessage();
+    this.countdown();
     setTimeout(() => {
-        if (t > 0) {
-            t -= k
-            //if(t==5){
-            //    k=1
-            //}
-            affichage();
-            countdown();
-        }
-    }, k * 1000);
-}
+        this.inGame = false;
+        this.gameMessage.channel.send("TIME'S UP !");
+    }, this.timeRemaining * 1000);
+};
 
-function affichage() {
-    MSG.edit({
+MotDePasse.prototype.updateGameMessage = function() {
+    let minutes = Math.trunc(this.timeRemaining / 60);
+    let seconds = this.timeRemaining % 60;
+
+    this.gameMessage.edit({
         embed: {
-            color: 3447003, description:
-            player +"\n"
-            +"Temps : " + Math.trunc(t / 60) + "' " + t % 60 + "''" + "\n"
-                + "Score : " + score
-                //          + "\nmot " + Nmot + ":"
-                + "\n\nMot : " + mot
+            color: 3447003,
+            description: `${this.currentPlayer}\n`
+                + `Temps : ${minutes}' ${seconds}''\n`
+                + `Score : ${this.score}\n\nMot : ${this.currentWord}`
         }
-    })
-}
+    });
+};
 
-function begin() {
-    mot = listeMots[rd(0, BDD.str.length - 1)];
-    score = 0;
-    t = 90;
-    IPG = false;
-    IG = true;
-    affichage();
-    countdown();
-    setTimeout(() => {
-        IG = false;
-        MSG.channel.send("TIME'S UP !");
-    }, t * 1000);
-}
+MotDePasse.prototype.countdown = function() {
+    this.countdownTimeoutId = setTimeout(() => {
+        if (this.timeRemaining > 0) {
+            this.timeRemaining -= this.updateInterval;
+            this.updateGameMessage();
+            this.countdown();
+        } else {
+            this.countdownTimeoutId = null;
+        }
+    }, this.updateInterval * 1000);
+};
 
 
-function rd(min = 1, max = 25) {
+
+function randInt(min = 1, max = 25) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
-var setParam = function (Mclient, MchanMdp) {
-    chanMdp = MchanMdp;
-    client = Mclient;
-}
-
-exports.message = message;
-exports.messageReactionAdd = messageReactionAdd;
-exports.setParam = setParam;
+module.exports = MotDePasse;
