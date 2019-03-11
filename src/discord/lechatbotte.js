@@ -8,6 +8,7 @@ const Dispatcher = require('./Dispatcher');
 
 const BotReactions = require('./actions/BotReactions');
 const RolesManager = require('./actions/RolesManager');
+const Queue = require('./actions/Queue');
 
 
 function startBot() {
@@ -31,6 +32,9 @@ function startBot() {
 	);
 	dispatcher.addComponent(
 		new RolesManager(client, constants.channels.role)
+	);
+	dispatcher.addComponent(
+		new Queue(client, constants.channels.queue, constants.rolesName)
 	);
 	/******/
 

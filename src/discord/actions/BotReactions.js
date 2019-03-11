@@ -30,7 +30,7 @@ BotReactions.prototype.isConcernedByMessage = function(message) {
 BotReactions.prototype.onMessage = function(message) {
   let actionTriggered = false;
 
-  let memberRoles = this.checkRoles(message.member, message.guild, this.rolesName);
+  let memberRoles = this.getRoles(message.member, message.guild, this.rolesName);
 
   actionTriggered |= this.reactToMessage(message, memberRoles);
   actionTriggered |= this.reactToMention(message, memberRoles);
@@ -46,7 +46,7 @@ BotReactions.prototype.onMessage = function(message) {
   return actionTriggered;
 };
 
-BotReactions.prototype.checkRoles = function(member, guild, roles) {
+BotReactions.prototype.getRoles = function(member, guild, roles) {
   var posessedRoles = {};
 
   for (let roleTitle in roles) {
