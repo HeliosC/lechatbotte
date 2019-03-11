@@ -134,8 +134,6 @@ client.on('chat', (channel, user, message, isSelf) => {
 
     m=message.toLowerCase()
 
-    //     if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {
-
     if (/^!massacre\+1$/gmi.test(m)) { //*massacre -> incremente
         massacres+=1
         afficheMassacres()
@@ -143,37 +141,22 @@ client.on('chat', (channel, user, message, isSelf) => {
     if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
         afficheMassacres()
     }
-    if (mod(userstate) && /^!massacre \d/gmi.test(m)) { //*massacre -> incremente
+    if (mod(user.username) && /^!massacre \d/gmi.test(m)) { //*massacre -> incremente
         massacres=m.substr(9)
         afficheMassacres()
     }
     
 });
 
-function mod(userstate){
-    return( mods.indexOf(userstate['display-name'].toLowerCase())!=-1 )
+function mod(username){
+    //return( mods.indexOf(user.userstate['display-name'].toLowerCase())!=-1 )
+    return( mods.indexOf(username.toLowerCase())!=-1 )
 }
 
 function afficheMassacres(){
     client.say(cdb, "Chatdesbois a massacré "+massacres+
     " pseudo"+"s".repeat(massacres>1)+" en toute impunité");
 }
-
-// client.on("whisper", function (from, userstate, message, self) {
-
-//     if (self) return;
-
-//     m=message.toLowerCase()
-
-//     if(m.startsWith("massacres") && mods.indexOf(userstate['display-name'].toLowerCase())!=-1){
-//         massacres=m.substr(10)
-//         afficheMassacres()
-//     }
-// });
-//////////////////////////////////////////////////////////////////
-
-
-
 
 
 
