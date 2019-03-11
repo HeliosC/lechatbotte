@@ -9,7 +9,7 @@ const client = new Discord.Client();
 //const tmi = require("tmi.js");
 //const tmi = require('tmi.js.git');
 
-const Twitch = require('./twitch.js');
+const Twitch = require('./tw/twitch.js');
 
 client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) });
 client.on("error", (e) => console.error(e));

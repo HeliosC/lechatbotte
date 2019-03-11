@@ -1,4 +1,5 @@
 const tmi = require('tmi.js')
+const pseudos = require('./pseudos.js');
 
 const tmiConfig = {
     options: {
@@ -118,6 +119,44 @@ client2.on("resub", (channel, username, months, message, userstate, methods) => 
 
 
 
+////////////////MASSACRES//////////////////////////////////////////////////
+massacres = 0
+
+client.on('chat', (channel, user, message, isSelf) => {
+
+    if (isSelf) return;
+
+    m=message.toLowerCase()
+
+    //     if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {
+
+    if (/^\*massacre$/gmi.test(m)) { //*massacre -> incremente
+        massacres+=1
+        afficheMassacres()
+    }
+    if (/^\*massacres$/gmi.test(m)) { //*massacres -> affiche le nb
+        afficheMassacres()
+    }
+    
+});
+
+function afficheMassacres(){
+    client.say(cdb, "Chatdesbois a massacré "+massacres+
+    " pseudo"+"s".repeat(massacres>1)+" en toute impunité");
+}
+
+client.on("whisper", function (from, userstate, message, self) {
+
+    if (self) return;
+
+    m=message.toLowerCase()
+
+    if(m.startsWith("massacres") && mods.indexOf(userstate['display-name'].toLowerCase())!=-1){
+        massacres=m.substr(10)
+        afficheMassacres()
+    }
+});
+//////////////////////////////////////////////////////////////////
 
 
 
