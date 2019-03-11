@@ -90,17 +90,23 @@ client.on('chat', (channel, user, message, isSelf) => {
     }
     if (m.indexOf("pain au chocolat") != -1) {
         client.say(channel, user['display-name']+" Chocolatine*");
-      }
+    }
     //let regex = /\s?sa\s?va/gmi
-    if (/(^|\W)je\speu($|\W|t)/gmi.test(m)) {
+    if (/(^|\W)(je|tu)\speu($|\W|t)/gmi.test(m)) {           //   je/tu peux
         client.say(channel, user['display-name']+" peuX");
-   }
-   if (/(^|\W)on\speu($|\W|x)/gmi.test(m)) {
+    }
+    if (/(^|\W)on\speu($|\W|x)/gmi.test(m)) {               //   on peut
         client.say(channel, user['display-name']+" peuT");
-   }
-   if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {
+    }
+    if (/(^|\W)(je|tu)\sveu($|\W|t)/gmi.test(m)) {          //   je/tu veux
+        client.say(channel, user['display-name']+" veuX");
+    }
+    if (/(^|\W)on\sveu($|\W|x)/gmi.test(m)) {               //   on veut
+        client.say(channel, user['display-name']+" veuT");
+    }
+    if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {                 // sava
         client.say(channel, user['display-name']+" ça va*");
-   }
+    }
 
 
 });
