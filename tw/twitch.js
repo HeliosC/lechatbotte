@@ -14,7 +14,7 @@ const tmiConfig = {
     },
     channels: [
         "heliosdesbois",
-        "kraoki",
+        //"kraoki",
         "chatdesbois"
         //"TeamLDLC"
     ]
@@ -35,7 +35,7 @@ const tmiConfig2 = {
     },
     channels: [
         "heliosdesbois",
-        "kraoki",
+        //"kraoki",
         "chatdesbois",
         //"TeamLDLC"
     ]
@@ -132,7 +132,10 @@ client.on('chat', (channel, user, message, isSelf) => {
 
     if (isSelf) return;
 
+
     m=message.toLowerCase()
+
+    if(channel != cdb) return;
 
     if (/^!massacre\+1$/gmi.test(m)) { //*massacre -> incremente
         massacres+=1
