@@ -135,7 +135,7 @@ client.on('chat', (channel, user, message, isSelf) => {
 
     m=message.toLowerCase()
 
-    if(channel != cdb) return;
+    if(channel.indexOf(cdb)==-1) return;
 
     if (/^!massacre\+1$/gmi.test(m)) { //*massacre -> incremente
         massacres+=1
