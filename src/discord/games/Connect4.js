@@ -1,224 +1,314 @@
-var chanJeux, nommodo, nomadmin, client;
 
-//const fleche = "⬇️       "
-const fleche = "⬇️----";//+"_______"
+function Connect4(botClient, channel, rolesName) {
+    this.botClient = botClient;
+    this.channel = channel;
+    this.rolesName = rolesName;
+
+    this.inCreationGameMessages = {};
+    this.runningGamesMessages = {};
+}
+
+Connect4.prototype.isConcernedByMessage = function(message) {
+    return message.channel.name.indexOf(this.channel) != -1 && !message.author.bot;
+};
+
+Connect4.prototype.onMessage = function(message) {
+    let actionTriggered = false;
+
+    if (message.content.toLowerCase().startsWith("*c4")) {
+        var players = Array.from(message.mentions.users.values())
+        if (players.length == 0) {
+            message.delete();
+            return
+        }
+        let user1 = message.author;
+        let user2 = players[0];
+        message.channel.send(players[0] + ", une game contre " + message.author + "?")
+            .then(message => {
+                var yesEmoji = this.botClient.emojis.find(e => e.name == "yea");
+                var noEmoji = this.botClient.emojis.find(e => e.name == "nay");
+
+                this.inCreationGameMessages[message.id] = {
+                    user1: use1,
+                    user2: user2
+                };
+
+                message.react(yesEmoji)
+                    .then(() => {
+                        message.react(noEmoji);
+                    })
+
+                setTimeout(() => {
+                    if (message.id in this.inCreationGameMessages) {
+                        delete this.inCreationGameMessages[message];
+                        message.delete();
+                    }
+                }, 5 * 60 * 1000); // After 5 min we remove the message if the game didn't start
+
+            }).catch(console.error);
+    }
+
+    return actionTriggered;
+};
+
+Connect4.prototype.onReaction = function(reaction, user) {
+    let actionTriggered = false;
+
+    if (user.bot) { return actionTriggered }
+
+    // Game confirmation
+    if (reaction.message.id in this.inCreationGameMessages) {
+        let {user1, user2} = this.inCreationGameMessages[reaction.message.id];
+
+        actionTriggered = true;
+
+        if (user != user2) {
+            reaction.remove(user);
+            return actionTriggered;
+        }
+
+        delete this.inCreationGameMessages[reaction.message.id];
+
+        if (reaction.emoji.name == "yea") {
+            var game = Connect4DiscordGame(message.channel, user1, user2, (interactiveMessage) => {
+                this.runningGamesMessages[interactiveMessage.id] = game;
+
+                // Automatically deleted after an hour
+                setTimeout(() => {
+                    if (interactiveMessage.id in this.runningGamesMessages) {
+                        delete this.runningGamesMessages[interactiveMessage.id];
+                        interactiveMessage.delete();
+                    }
+                }, 60 * 60 * 1000);
+            });
+        } else if (reaction.emoji.name == "nay") {
+            // game already deleted -> we delete the message
+            reaction.message.delete();
+        }
+    }
+
+    // Game reaction
+    if (reaction.message.id in this.runningGamesMessages) {
+        actionTriggered = true;
+
+        let game = this.runningGamesMessages[interactiveMessage.id];
+
+        game.userReacted(reaction, user);
+
+        if (game.isEnded()) {
+            delete this.runningGamesMessages[interactiveMessage.id];
+        }
+    }
+
+    return actionTriggered;
+};
+
+module.exports = Connect4;
+
+
 const bleu = "🔵";
 const rouge = "🔴";
 const blanc = "⚪️";
-const L = ["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬"];
-var MSG, MSGa, MSGreact;
-var jeu = getCleanGame();
-var j1 = true;
-var user1, user2;
-var areact = false;
-var IG = false;
-var remov = false;
-var joue = false;
-var msgb = false;
-var acceptr = false;
-var accept = false;
+const separator = "----";
+const reactionEmoji = ["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬"];
 
-var jmodo;
 
-var messageReactionAdd = function (reaction, user) {
-    if (user.bot) { return }
-    if (remov) {
-        if (reaction.message.id == MSG.id) { reaction.remove(user); return }
-        if (reaction.message.id == MSGr.id) { } else { return }
-        reaction.remove(user);
-        if (!joue) { return }
-        x = L.indexOf(reaction.emoji.toString());
-        y = 5;
-        while (y >= 0 && jeu[y][x] != blanc) { y -= 1 }
-        if (y == -1) {
-        } else {
-            if (j1 && user == user1) {
-                jeu[y][x] = bleu;
-                j1 = false;
-                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + rouge + " : " + user2 } })
-                chackwin();
-            } else if (!j1 && user == user2) {
-                jeu[y][x] = rouge;
-                j1 = true;
-                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + bleu + " : " + user1 } })
-                chackwin();
+function Connect4DiscordGame(channel, user1, user2, onControlMessageCreated) {
+    this.connect4Game = Connect4Game(/*width: */7, /*height: */6, /*toAlign: */4);
+
+    this.channel = channel;
+    this.users = [user1, user2];
+
+    this.controlsMessage = null;
+    this.boardMessage = null;
+
+    this.createControlsMessage()
+        .then(() => {
+            return Promise.all([
+                this.createBoardMessage(),
+                this.addReactionToControlsMessage()
+            ])
+        }).then(() => {
+            onControlMessageCreated(this.controlsMessage);
+            return this.updateBoardMessage()
+        })
+        .catch(console.error);
+}
+
+Connect4DiscordGame.prototype.createControlsMessage = function() {
+    return this.channel
+        .send({ embed: { description: "⬇️----".repeat(7) } })
+        .then(message => {
+            this.controlsMessage = message;
+        })
+        .catch(console.error);
+};
+
+Connect4DiscordGame.prototype.addReactionToControlsMessage = function() {
+    return this.controlsMessage.react(reactionEmoji[0])
+        .then(() => this.controlsMessage.react(reactionEmoji[1]))
+        .then(() => this.controlsMessage.react(reactionEmoji[2]))
+        .then(() => this.controlsMessage.react(reactionEmoji[3]))
+        .then(() => this.controlsMessage.react(reactionEmoji[4]))
+        .then(() => this.controlsMessage.react(reactionEmoji[5]))
+        .then(() => this.controlsMessage.react(reactionEmoji[6]))
+        .catch(console.error);
+};
+
+Connect4DiscordGame.prototype.createBoardMessage = function() {
+    return this.channel.send({ embed: {
+        color: 3447003,
+        description: this.getGameStringRepresentation()
+    }}).then(message => {
+        this.boardMessage = message;
+    }).catch(console.error)
+};
+
+Connect4DiscordGame.prototype.userReacted = function(reaction, user) {
+    reaction.remove(user);
+
+    if (user == [null, ...this.users][this.connect4Game.currentPlayer]) {
+        let column = reactionEmoji.indexOf(reaction.emoji.toString());
+
+        this.connect4Game.play(column);
+        this.updateBoardMessage();
+    }
+};
+
+Connect4DiscordGame.prototype.isEnded = function() {
+    return game.winner !== null || game.boardIsFull();
+};
+
+Connect4DiscordGame.prototype.updateBoardMessage = function() {
+    let currentGameStatus = "";
+
+    let currentPlayerColor = [blanc, bleu, rouge][this.connect4Game.currentPlayer];
+    let currentPlayer = [blanc, ...this.users][this.connect4Game.currentPlayer];
+
+    if (this.connect4Game.winner !== null) {
+        currentGameStatus = `${currentPlayerColor} ${currentPlayer} a gagné !`
+    } else if (this.connect4Game.boardIsFull()) {
+        currentGameStatus = "Match nul";
+    } else {
+        currentGameStatus = `\nTour de ${currentPlayerColor}: ${currentPlayer}`;
+    }
+
+    this.boardMessage.edit({ embed: {
+            color: 3447003,
+            description: this.getGameStringRepresentation()
+                + "\n" + currentGameStatus
+        }
+    });
+};
+
+
+Connect4DiscordGame.prototype.getGameStringRepresentation = function() {
+    let stringLines = []
+
+    function playerToSymbol(value) {
+        return [blanc, bleu, rouge][value];
+    }
+
+    for (let line in this.connect4Game.board) {
+        stringLines.push(
+            line.map(playerToSymbol).join(separator)
+        );
+    }
+
+    return stringLines.reverse().join("\n\n") + "\n\n";
+}
+
+
+
+
+function Connect4Game(width, height, toAlign) {
+    this.boardWidth = width;
+    this.boardHeight = height;
+
+    this.board = null;
+    this.toAlign = toAlign;
+    this.resetBoard();
+    this.currentPlayer = 1;
+
+    this.winner = null;
+}
+
+Connect4Game.EMPTY = 0;
+Connect4Game.PLAYER_1 = 1;
+Connect4Game.PLAYER_2 = 2;
+
+Connect4Game.prototype.resetBoard = function() {
+    let board = [];
+
+    for (let i = 0; i < this.boardHeight; i++) {
+        let line = [];
+        for (let j = 0; j < this.boardWidth; j++) {
+            line.push(blanc);
+        }
+        board.push(line);
+    }
+
+    this.board = board;
+};
+
+Connect4Game.prototype.checkWinFromPoint = function(line, column) {
+
+    if (line < 0 || line >= this.boardHeight) { return; }
+    if (column < 0 || column >= this.boardWidth) { return; }
+
+    let playerCell = this.board[line][column];
+
+    if (playerCell == Connect4Game.EMPTY) { return; }
+
+    // Horizontal, Vertical, Diagonal1, Diagonal2
+    let vectors = [[0, 1], [1, 0], [1, 1], [1, -1]];
+    let counts = [0, 0, 0, 0]
+
+    for (let index in vectors) {
+        let [dirLine, dirColumn] = vectors[index];
+
+        for (let factor of [1, -1]) {
+            let nextLine = line + dirLine * factor;
+            let nextColumn = column + dirColumn * factor;
+
+            while (
+                nextLine > 0 && nextLine < this.boardHeight
+                && nextColumn > 0 && nextColumn < this.boardWidth
+                && this.board[nextLine][nextColumn] == playerCell
+            ) {
+                nextLine += dirLine * factor;
+                nextColumn += dirColumn * factor;
+                counts[index] += 1;
             }
         }
     }
-    if (accept && MSGa.id == reaction.message.id) {
-        if (user == user2) {
-            if (reaction.emoji.name == "yea") {
-                accept = false;
-                MSGa.channel.send({ embed: { description: fleche.repeat(7) } })
-                areact = true;
-                IG = true;
-            }
-            if (reaction.emoji.name == "nay") {
-                MSGa.delete();
-                reset();
-            }
-        }
-    }
-}
 
-var message = function (msg) {
-
-    /*try {
-        let modo = msg.member.roles.has(msg.guild.roles.find(r => r.name == nommodo).id);
-        let admin = msg.member.roles.has(msg.guild.roles.find(r => r.name == nomadmin).id);
-      }
-      catch (error) {
-        modo = false
-        admin = false
-        //console.log(error)
-      }*/
-
-      admin = false; modo = false;
-      if (msg.guild.roles.find(r => r.name == nommodo) != null) {
-         modo = msg.member.roles.has(msg.guild.roles.find(r => r.name == nommodo).id);
-         admin = msg.member.roles.has(msg.guild.roles.find(r => r.name == nomadmin).id);
-      }
-
-
-    if (msg.channel.name.indexOf(chanJeux) != -1 || jmodo) {
-
-        if (remov && msg.author.bot && !msgb) {
-            msgb = true;
-            MSG = msg;
-        }
-
-        if (areact && msg.author.bot) {
-            MSGr = msg;
-            areact = false;
-            var n = 0;
-            A();
-            function A() {
-                if (n < 7) {
-                    msg.react(L[n]);
-                    n++;
-                    setTimeout(A, 1000);
-                }
-            }
-            remov = true;
-            msg.channel.send({ embed: { color: 3447003, description: affiche() } })
-            setTimeout(() => {
-                joue = true;
-                MSG.edit({ embed: { color: 3447003, description: affiche() + "\nTour de " + bleu + " : " + user1 } })
-
-            }, 7000);
-        }
-
-        if (acceptr && msg.author.bot) {
-            acceptr = false;
-            MSGa = msg;
-            var h = client.emojis.find(e => e.name == "yea");
-            msg.react(h);
-            setTimeout(() => {
-                var h = client.emojis.find(e => e.name == "nay");
-                msg.react(h);
-            }, 500);
-
-            accept = true;
+    for (let count of counts) {
+        if (count > this.toAlign) {
+            this.winner = playerCell;
+            this.currentPlayer = 0;
         }
     }
 
-    if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
+    return this.winner;
+};
 
-        if (!msg.author.bot) {
-            if (msg.content.toLowerCase() == "*stop") {
-                if (IG && (msg.author == user1 || msg.author == user2 || admin || modo)) {
-                    MSG.edit({ embed: { color: 3447003, description: affiche() + "\nPartie annulée" } })
-                    reset();
-                }
-                msg.delete();
-            }
+Connect4Game.prototype.boardIsFull = function() {
+    return this.board[this.boardHeight - 1].filter(x => x == Connect4Game.EMPTY).length == 0
+};
 
-            if (msg.content.toLowerCase().startsWith("*c4")) {
-                if (IG || (msg.channel.name.indexOf(chanJeux) == -1 && !admin && !modo)) { msg.delete(); return }
-                var pls = Array.from(msg.mentions.users.values())
-                if (pls.length == 0) { msg.delete(); return }
-                user1 = msg.author;
-                user2 = pls[0];
-                msg.channel.send(pls[0] + ", une game contre " + msg.author + "?");
-                acceptr = true;
+Connect4Game.prototype.play = function(column) {
+    if (column < 0 || column >= this.boardWidth) { return; }
 
-                jmodo = (admin || modo);
-            }
-        }
-
-
+    let line = 0;
+    while (line < this.boardHeight && this.board[line][column] != Connect4Game.EMPTY) {
+        line += 1;
     }
 
-}
-function affiche() {
-    tab = "";
-    for (var x of jeu) {
-        var i = 0;
-        for (var y of x) {
-            //tab += y + "       "
-            tab += y; //+ "----"
-            i += 1;
-            if (i != 7){
-                tab += "----";
-            }
-        }
-        tab += "\n\n";
-    }
-    return tab;
-}
+    if (line == this.boardHeight) { return; }
 
-function reset() {
-    jeu = getCleanGame()
-    j1 = true;
-    areact = false;
-    IG = false;
-    remov = false;
-    joue = false;
-    msgb = false;
-}
+    this.board[line][column] = this.currentPlayer;
+    this.currentPlayer = this.currentPlayer == Connect4Game.PLAYER_1 ? Connect4Game.PLAYER_2 : Connect4Game.PLAYER_1;
 
-function chackwin() {
-    for (const [i, x] of jeu.entries()) {
-        for (var [j, y] of x.entries()) {
-            if (j < 4 && x[j] == x[j + 1] && x[j + 1] == x[j + 2] && x[j + 2] == x[j + 3]) { win(y) }
-            if (i < 3 && jeu[i][j] == jeu[i + 1][j] && jeu[i + 1][j] == jeu[i + 2][j] && jeu[i + 2][j] == jeu[i + 3][j]) { win(y) }
-            if (j < 4 && i < 3 && jeu[i][j] == jeu[i + 1][j + 1] && jeu[i + 1][j + 1] == jeu[i + 2][j + 2] && jeu[i + 2][j + 2] == jeu[i + 3][j + 3]) { win(y) }
-            if (j < 4 && i > 2 && jeu[i][j] == jeu[i - 1][j + 1] && jeu[i - 1][j + 1] == jeu[i - 2][j + 2] && jeu[i - 2][j + 2] == jeu[i - 3][j + 3]) { win(y) }
-        }
-    }
-}
-
-function win(e) {
-    if (e == bleu) {
-        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" + bleu + " " + user1 + " a gagné !" } });
-        setTimeout(reset, 500);
-    } else if (e == rouge) {
-        MSG.edit({ embed: { color: 3447003, description: affiche() + "\n" + rouge + " " + user2 + " a gagné !" } });
-        setTimeout(reset, 500);
-    }
-}
-
-
-function getCleanGame() {
-    return [
-        [blanc, blanc, blanc, blanc, blanc, blanc, blanc],
-        [blanc, blanc, blanc, blanc, blanc, blanc, blanc],
-        [blanc, blanc, blanc, blanc, blanc, blanc, blanc],
-        [blanc, blanc, blanc, blanc, blanc, blanc, blanc],
-        [blanc, blanc, blanc, blanc, blanc, blanc, blanc],
-        [blanc, blanc, blanc, blanc, blanc, blanc, blanc]
-    ]
-}
-
-
-
-var setParam = function (Mclient, MchanJeux, Mnomadmin, Mnommodo) {
-    chanJeux = MchanJeux;
-    nomadmin = Mnomadmin;
-    nommodo = Mnommodo;
-    client = Mclient;
-}
-
-exports.message = message;
-exports.messageReactionAdd = messageReactionAdd;
-exports.setParam = setParam;
+    this.checkWinFromPoint(line, column);
+};

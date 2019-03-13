@@ -41,6 +41,9 @@ function startBot() {
 	dispatcher.addComponent(
 		new MotDePasse(client, constants.channels.password)
 	);
+	dispatcher.addComponent(
+		new Connect4(client, constants.channels.games, constants.rolesName)
+	);
 	/******/
 
 	client.on('message', dispatcher.onMessage.bind(dispatcher));

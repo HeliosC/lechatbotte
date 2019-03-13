@@ -2,7 +2,7 @@
 // const BotReactions = require('./actions/BotReactions.js');
 // const Role = require('./actions/Roles.js');
 
-const Connect4 = require('./games/Connect4.js');
+// const Connect4 = require('./games/Connect4.js');
 const Quiz = require('./games/Quiz.js');
 const Test = require('./games/Test.js');
 const Simon = require('./games/Simon.js');
@@ -32,7 +32,7 @@ var message = function (msg) {
 
     // Queue.message(msg);
     // BotReactions.message(msg);
-    Connect4.message(msg);
+    // Connect4.message(msg);
     Quiz.message(msg);
     Test.message(msg);
     Simon.message(msg);
@@ -41,7 +41,7 @@ var message = function (msg) {
 }
 
 var messageReactionAdd = function (reaction, user) {
-    Connect4.messageReactionAdd(reaction, user);
+    // Connect4.messageReactionAdd(reaction, user);
     Quiz.messageReactionAdd(reaction, user);
     Simon.messageReactionAdd(reaction, user);
     // Mdp.messageReactionAdd(reaction, user);
@@ -50,7 +50,7 @@ var messageReactionAdd = function (reaction, user) {
 var setParam = function (client) {
     // BotReactions.setParam(chanIm, chanCh, nombot, nomadmin, nommodo, nomsub, nomdon, client, tagS);
     // Queue.setParam(chanQ, nomadmin, nommodo);
-    Connect4.setParam(client, chanJeux, nomadmin, nommodo);
+    // Connect4.setParam(client, chanJeux, nomadmin, nommodo);
     Quiz.setParam(client, chanQuiz, nomadmin, nommodo);
     Test.setParam(client);
     //Simon.setParam(client);
