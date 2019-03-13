@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
 
-const Param = require('./Param.js');
-
 
 const constants = require('./constants');
 const Dispatcher = require('./Dispatcher');
@@ -54,19 +52,6 @@ function startBot() {
 	client.on('message', dispatcher.onMessage.bind(dispatcher));
 	client.on('messageReactionAdd', dispatcher.onReaction.bind(dispatcher));
 
-	/* OLD way, to remove when rework terminated */
-
-	Param.setParam(client);
-
-	client.on('message', msg => {
-		Param.message(msg);
-	});
-
-	client.on('messageReactionAdd', (reaction, user) => {
-		Param.messageReactionAdd(reaction, user);
-	});
-
-	/* ***** */
 
 	client.on('guildMemberAdd', (member) => {
 
@@ -75,7 +60,6 @@ function startBot() {
 			client.channels.find(c => c.name == "cest_ta_vie").send(
 				"Bienvenu par minou " + member + " ! " + h
 				+ " Prends 30 secondes pour lire l'" + client.channels.find(c => c.name == "accueil_deschats")
-				// +" et le discord n'aura plus aucun secret pour toi !"
 				+ " et réclame tes rôles dans " + client.channels.find(c => c.name == "adhesion_rôle") + " !"
 			);
 		}
