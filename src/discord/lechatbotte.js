@@ -11,6 +11,8 @@ const RolesManager = require('./actions/RolesManager');
 const Queue = require('./actions/Queue');
 
 const MotDePasse = require('./games/Motdepasse.js');
+const Connect4 = require('./games/Connect4.js');
+const Quiz = require('./games/Quiz.js');
 
 
 function startBot() {
@@ -43,6 +45,9 @@ function startBot() {
 	);
 	dispatcher.addComponent(
 		new Connect4(client, constants.channels.games, constants.rolesName)
+	);
+	dispatcher.addComponent(
+		new Quiz(client, constants.channels.games)
 	);
 	/******/
 

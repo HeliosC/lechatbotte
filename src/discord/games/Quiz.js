@@ -1,211 +1,204 @@
-const food = require('./bddquiz/food.js');
-const terre = require('./bddquiz/terre.js');
-const chat = require('./bddquiz/chat.js');
-const q2017 = require('./bddquiz/2017.js');
-const genre = require('./bddquiz/genre.js');
-const quebec = require('./bddquiz/quebec.js');
-const motrigolo = require('./bddquiz/motrigolo.js');
-const solaire = require('./bddquiz/solaire.js');
-const mars = require('./bddquiz/mars.js');
-const jo = require('./bddquiz/jo.js');
+const food = require('./bddquiz/food.js').str;
+const terre = require('./bddquiz/terre.js').str;
+const chat = require('./bddquiz/chat.js').str;
+const q2017 = require('./bddquiz/2017.js').str;
+const genre = require('./bddquiz/genre.js').str;
+const quebec = require('./bddquiz/quebec.js').str;
+const motrigolo = require('./bddquiz/motrigolo.js').str;
+const solaire = require('./bddquiz/solaire.js').str;
+const mars = require('./bddquiz/mars.js').str;
+const jo = require('./bddquiz/jo.js').str;
 
 const themes =    ["food", "terre", "chat", "2017", "genre", "quebec", "motrigolo", "solaire", "mars", "jo"];
 const questions = [ food,   terre,   chat,   q2017,  genre,   quebec,   motrigolo,   solaire,   mars,   jo ];
-const nbq =       [ 100,    50,      50,     26,     50,      42,       26,          36,        26,     50 ];
-//456
-//const themes =    ["food", "terre", "chat", "2017", "genre", "quebec", "motrigolo", "solaire", "mars", "jo"]
-//const questions = [ food,   terre,   chat,   q2017,  genre,   quebec,   motrigolo,   solaire,   mars,   jo ]
-//const nbq =       [ 100,    50,      50,     26,     50,      42,       26,          36,        26,     50 ]
-
-var chanJeux, client, nomadmin, nommodo;
-
-//const s = chat.str
-//const s = questions[2]
+const nbQuestionsForTheme = [ 100,    50,      50,     26,     50,      42,       26,          36,        26,     50 ];
 
 
-//const s = food.str
-//const n = s.length
 
-var quest, rep, MSGa, joueur, q, I;
-areact = false;
-accept = false;
+function Quiz(botClient, channel) {
+    this.botClient = botClient;
+    this.channel = channel;
 
-jmodo = false;
-
-var message = function (msg) {
-    //client.on('message', msg => {
-    /*try {
-        let modo = msg.member.roles.has(msg.guild.roles.find(r => r.name == nommodo).id);
-        let admin = msg.member.roles.has(msg.guild.roles.find(r => r.name == nomadmin).id);
-    }
-    catch (error) {
-        modo = false
-        admin = false
-        //console.log(error)
-    }*/
-
-    admin = false; modo = false;
-    if (msg.guild.roles.find(r => r.name == nommodo) != null) {
-        modo = msg.member.roles.has(msg.guild.roles.find(r => r.name == nommodo).id);
-        admin = msg.member.roles.has(msg.guild.roles.find(r => r.name == nomadmin).id);
-    }
-
-
-    if (msg.channel.name.indexOf(chanJeux) != -1 || admin || modo) {
-        if (msg.content.toLowerCase().startsWith("*qq") || msg.content.toLowerCase().startsWith("*quipoquiz")) {
-
-
-            if (msg.content.toLowerCase().substr(4) == "themes" || msg.content.toLowerCase().substr(4) == "?") {
-                themeslist(msg.channel);
-            } else {
-                I = themes.indexOf(msg.content.toLowerCase().substr(4));
-
-                if (I == -1) {
-                    I = rd(0, themes.length - 1);
-                }
-                //console.log(I)
-
-                var p = questions[2].str;
-
-                //console.log(p.substr(2, 10))
-
-
-                q = Q(I, rd(1, nbq[I]));
-                quest = q[0];
-                rep = q[1];
-                //[quest, rep] = Q(2,rd())//Q(questions[I],rd())
-                joueur = msg.author;
-                msg.channel.send({ embed: { color: 3447003, description: joueur + " [Thème : " + themes[I] + "]\n" + quest } });
-                areact = true;
-
-                jmodo = (admin || modo);
-            }
-        }
-    }
-
-    if (msg.channel.name.indexOf(chanJeux) != -1 || jmodo) {
-
-        if (areact && msg.author.bot) {
-            jmodo = false;
-
-            areact = false;
-            MSGa = msg;
-            var h = client.emojis.find(e => e.name == "yea");
-            msg.react(h);
-            setTimeout(() => {
-                var h = client.emojis.find(e => e.name == "nay");
-                msg.react(h);
-            }, 500);
-
-            accept = true;
-        }
-    }
+    this.runningGameMessage = {};
 }
 
-//client.on('messageReactionAdd', (reaction, user) => {
-var messageReactionAdd = function (reaction, user) {
+Quiz.prototype.isConcernedByMessage = function(message) {
+    return message.channel.name.indexOf(this.channel) != -1;
+};
 
-    if (accept && MSGa.id == reaction.message.id) {
-        if (user == joueur) {
-            if (reaction.emoji.name == "yea") {
-                var mes;
-                if (rep[15] == "V") {
-                    mes = "GAGNE";
-                } else {
-                    mes = "PERDU";
-                }
-                //MSGa.edit({ embed: { color: 3447003, description: joueur + "\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } });
-                MSGa.edit({ embed: { color: 3447003, description: joueur + " [Thème : " + themes[I] + "]\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } });
-                //reaction.message.channel.send({ embed: { color: 3447003, description: mes+"\n"+rep } });
-                //reaction.message.channel.send(MSGa.content);
-                //MSGa.embed.description("rer");
+Quiz.prototype.onMessage = function(message) {
+    let actionTriggered = false;
 
-            }
-            if (reaction.emoji.name == "nay") {
-                if (rep[15] == "F") {
-                    mes = "GAGNE";
-                } else {
-                    mes = "PERDU";
+    let lowerContent = message.content.toLowerCase();
+    let [commandName, ...args] = lowerContent.split(" ");
+
+    if (commandName == "*qq" || commandName == "*quipoquiz") {
+        actionTriggered = true;
+
+        if (args.length >= 1 && (args[0] == "themes" || args[0] == "?")) {
+            this.displayThemes(message.channel);
+        } else {
+            let themeIndex = null;
+            if (args.length >= 1) {
+                let themeName = args[0];
+                let index = themes.indexOf(themeName);
+                if (index != -1) {
+                    themeIndex = index;
                 }
-                MSGa.edit({ embed: { color: 3447003, description: joueur + " [Thème : " + themes[I] + "]\n" + quest + "\n" + " " + "\n" + mes + "\n" + rep } });
             }
 
-            accept = false;
+            if (themeIndex === null) {
+                themeIndex = randInt(0, themes.length - 1);
+            }
+
+            this.createNewQuestionMessage(message.channel, message.author, themeIndex);
         }
     }
-}
 
-function Q(I, ent) {
+    return actionTriggered;
+};
 
-    var s = questions[I].str;
+Quiz.prototype.onReaction = function(reaction, user) {
+    let actionTriggered = false;
 
-    var t = "(" + ent + ")";
-    var t1 = "(" + (ent + 1) + ")";
-    var tr = "(R)";
-    var tn = ent.toString().length + 2;
-    var tn1 = (ent + 1).toString().length + 2;
+    let message = reaction.message;
 
-    var m = 0;
-    while (s.substr(m, tn) != t) {
-        m++;
+    if (!(message.id in this.runningGameMessage)) {
+        return actionTriggered;
     }
-    var D = m;
-    while (s.substr(m, 3) != tr) {
-        m++;
+
+    let {themeName, question, reponse, userId, timeoutId} = this.runningGameMessage[message.id];
+
+    if (user.id != userId) {
+        return actionTriggered;
     }
-    var F = m;
 
-    //console.log(s.substr(D + 3 + tn, F - D - 3 - tn))
-    quest = s.substr(D + 3 + tn, F - D - 3 - tn);
 
-    var D = m;
+    let positiveAnswer = response[15] == "V";
 
-    while (s.substr(m, tn1) != t1) {
-        m++;
-    }
-    var F = m;
+    let statusMessage = null;
 
-    //console.log(s.substr(D + 3 , F - D -3))
-    rep = s.substr(D + 3, F - D - 3);
-    //console.log(quest)
-    //console.log(rep)
-
-    //console.log("("+ent+")")
-    //console.log(ent.toString().length)
-    /*var nb = 0
-    var i = 0
-    while (nb < ent) {
-        if (s[i] == '\n'){
-            nb=nb+1
+    if (reaction.emoji.name == "yea") {
+        if (positiveAnswer) {
+            statusMessage = "GAGNE";
+        } else {
+            statusMessage = "PERDU";
+        }
+    } else if (reaction.emoji.name == "nay") {
+        if (positiveAnswer) {
+            statusMessage = "PERDU";
+        } else {
+            statusMessage = "GAGNE";
         }
     }
-    return(i)*/
 
-
-    return ([quest, rep]);
-}
-
-function themeslist(ch) {
-    var st = "Liste des themes :\n";
-    for (a of themes) {
-        st = st + " - " + a + "\n";
+    if (statusMessage === null) {
+        return actionTriggered;
     }
-    ch.send({ embed: { color: 3447003, description: st } });
-}
 
-function rd(min = 1, max = 25) {
+    message.edit({ embed: {
+        color: 3447003,
+        description: `${user} [Thème : ${themeName}]\n${question}\n\n${statusMessage}\n${response}`
+    }});
+
+    this.terminateGameMessage(message.id);
+
+    actionTriggered = true;
+
+    return actionTriggered;
+};
+
+
+Quiz.prototype.displayThemes = function(channel) {
+    var description = "Liste des themes :\n";
+    for (let themeName of themes) {
+        description =  `${description} - ${themeName}\n`;
+    }
+    channel.send({ embed: { color: 3447003, description: description } });
+};
+
+Quiz.prototype.createNewQuestionMessage = function(channel, user, themeIndex) {
+    let [question, reponse] = getQuestion(themeIndex, randInt(1, nbQuestionsForTheme[themeIndex]));
+    let themeName = themes[themeIndex];
+
+    channel.send({ embed: {
+        color: 3447003,
+        description: `${user} [Thème : ${themeName}]\n${question}`
+    }}).then(message => {
+        const timeoutId = setTimeout(() => {
+            delete this.runningGameMessage[message.id];
+            message.delete();
+        }, 60 * 60 * 1000); // autodelete after 1h
+
+        this.runningGameMessage[message.id] = {
+            themeName: themeName,
+            question: question,
+            response: response,
+            userId: user.id,
+            timeoutId: timeoutId
+        };
+
+        var yesEmoji = this.botClient.emojis.find(e => e.name == "yea");
+        var noEmoji = this.botClient.emojis.find(e => e.name == "nay");
+        message.react(yesEmoji)
+            .then(_ => {
+                return message.react(noEmoji);
+            }).catch(console.error);
+    }).catch(console.error);
+};
+
+Quiz.prototype.terminateGameMessage = function(messageId) {
+    if (messageId in this.runningGameMessage) {
+        clearTimeout(this.runningGameMessage[messageId].timeoutId);
+        delete this.runningGameMessage[messageId];
+    }
+};
+
+module.exports = Quiz;
+
+
+function randInt(min = 1, max = 25) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var setParam = function (Mclient, MchanJeux, Mnomadmin, Mnommodo) {
-    client = Mclient;
-    chanJeux = MchanJeux;
-    nomadmin = Mnomadmin;
-    nommodo = Mnommodo;
-}
+function getQuestion(themeIndex, randomNumber) {
 
-exports.message = message;
-exports.messageReactionAdd = messageReactionAdd;
-exports.setParam = setParam;
+    let themeDB = questions[themeIndex];
+
+    let questionSymbol = "(" + randomNumber + ")";
+    let nextQuestionSymbol = "(" + (randomNumber + 1) + ")";
+    let responseSymbol = "(R)";
+    let questionSymbolSize = randomNumber.toString().length + 2;
+    let nextQuestionSymbolSize = (randomNumber + 1).toString().length + 2;
+
+
+    let index = 0;
+    while (themeDB.substr(index, questionSymbolSize) != questionSymbol) {
+        index++;
+    }
+    let indexSymbolQuestion = index;
+    while (themeDB.substr(index, 3) != responseSymbol) {
+        index++;
+    }
+    let indexSymbolResponse = index;
+
+    let question = themeDB.substr(
+        indexSymbolQuestion + 3 + questionSymbolSize,
+        indexSymbolResponse - indexSymbolQuestion - 3 - questionSymbolSize
+    );
+
+    while (themeDB.substr(index, nextQuestionSymbolSize) != nextQuestionSymbol) {
+        index++;
+    }
+    let indexSymbolNextQuestion = index;
+
+    response = themeDB.substr(
+        indexSymbolResponse + 3,
+        indexSymbolNextQuestion - indexSymbolResponse - 3
+    );
+
+
+    return [question, response];
+}
