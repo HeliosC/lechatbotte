@@ -29,7 +29,7 @@ Connect4.prototype.onMessage = function(message) {
                 var noEmoji = this.botClient.emojis.find(e => e.name == "nay");
 
                 this.inCreationGameMessages[message.id] = {
-                    user1: use1,
+                    user1: user1,
                     user2: user2
                 };
 
@@ -70,7 +70,7 @@ Connect4.prototype.onReaction = function(reaction, user) {
         delete this.inCreationGameMessages[reaction.message.id];
 
         if (reaction.emoji.name == "yea") {
-            var game = Connect4DiscordGame(message.channel, user1, user2, (interactiveMessage) => {
+            var game = new Connect4DiscordGame(reaction.message.channel, user1, user2, (interactiveMessage) => {
                 this.runningGamesMessages[interactiveMessage.id] = game;
 
                 // Automatically deleted after an hour
@@ -91,12 +91,12 @@ Connect4.prototype.onReaction = function(reaction, user) {
     if (reaction.message.id in this.runningGamesMessages) {
         actionTriggered = true;
 
-        let game = this.runningGamesMessages[interactiveMessage.id];
+        let game = this.runningGamesMessages[reaction.message.id];
 
         game.userReacted(reaction, user);
 
         if (game.isEnded()) {
-            delete this.runningGamesMessages[interactiveMessage.id];
+            delete this.runningGamesMessages[reaction.message.id];
         }
     }
 
@@ -114,7 +114,7 @@ const reactionEmoji = ["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬"];
 
 
 function Connect4DiscordGame(channel, user1, user2, onControlMessageCreated) {
-    this.connect4Game = Connect4Game(/*width: */7, /*height: */6, /*toAlign: */4);
+    this.connect4Game = new Connect4Game(/*width: */7, /*height: */6, /*toAlign: */4);
 
     this.channel = channel;
     this.users = [user1, user2];
@@ -137,7 +137,7 @@ function Connect4DiscordGame(channel, user1, user2, onControlMessageCreated) {
 
 Connect4DiscordGame.prototype.createControlsMessage = function() {
     return this.channel
-        .send({ embed: { description: "⬇️----".repeat(7) } })
+        .send({ embed: { description: `${separator}⬇️`.repeat(7).slice(separator.length) } })
         .then(message => {
             this.controlsMessage = message;
         })
@@ -176,16 +176,18 @@ Connect4DiscordGame.prototype.userReacted = function(reaction, user) {
 };
 
 Connect4DiscordGame.prototype.isEnded = function() {
-    return game.winner !== null || game.boardIsFull();
+    return this.connect4Game.winner !== null || this.connect4Game.boardIsFull();
 };
 
 Connect4DiscordGame.prototype.updateBoardMessage = function() {
     let currentGameStatus = "";
 
     let currentPlayerColor = [blanc, bleu, rouge][this.connect4Game.currentPlayer];
-    let currentPlayer = [blanc, ...this.users][this.connect4Game.currentPlayer];
+    let currentPlayer = [null, ...this.users][this.connect4Game.currentPlayer];
 
     if (this.connect4Game.winner !== null) {
+        currentPlayerColor = [blanc, bleu, rouge][this.connect4Game.winner];
+        currentPlayer = [null, ...this.users][this.connect4Game.winner];
         currentGameStatus = `${currentPlayerColor} ${currentPlayer} a gagné !`
     } else if (this.connect4Game.boardIsFull()) {
         currentGameStatus = "Match nul";
@@ -209,7 +211,7 @@ Connect4DiscordGame.prototype.getGameStringRepresentation = function() {
         return [blanc, bleu, rouge][value];
     }
 
-    for (let line in this.connect4Game.board) {
+    for (let line of this.connect4Game.board) {
         stringLines.push(
             line.map(playerToSymbol).join(separator)
         );
@@ -243,7 +245,7 @@ Connect4Game.prototype.resetBoard = function() {
     for (let i = 0; i < this.boardHeight; i++) {
         let line = [];
         for (let j = 0; j < this.boardWidth; j++) {
-            line.push(blanc);
+            line.push(Connect4Game.EMPTY);
         }
         board.push(line);
     }
@@ -262,7 +264,7 @@ Connect4Game.prototype.checkWinFromPoint = function(line, column) {
 
     // Horizontal, Vertical, Diagonal1, Diagonal2
     let vectors = [[0, 1], [1, 0], [1, 1], [1, -1]];
-    let counts = [0, 0, 0, 0]
+    let counts = [1, 1, 1, 1]
 
     for (let index in vectors) {
         let [dirLine, dirColumn] = vectors[index];
@@ -272,8 +274,8 @@ Connect4Game.prototype.checkWinFromPoint = function(line, column) {
             let nextColumn = column + dirColumn * factor;
 
             while (
-                nextLine > 0 && nextLine < this.boardHeight
-                && nextColumn > 0 && nextColumn < this.boardWidth
+                nextLine >= 0 && nextLine < this.boardHeight
+                && nextColumn >= 0 && nextColumn < this.boardWidth
                 && this.board[nextLine][nextColumn] == playerCell
             ) {
                 nextLine += dirLine * factor;
@@ -284,7 +286,7 @@ Connect4Game.prototype.checkWinFromPoint = function(line, column) {
     }
 
     for (let count of counts) {
-        if (count > this.toAlign) {
+        if (count >= this.toAlign) {
             this.winner = playerCell;
             this.currentPlayer = 0;
         }
