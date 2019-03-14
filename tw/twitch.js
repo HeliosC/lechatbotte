@@ -45,6 +45,27 @@ client2.connect().then(_ => {
     client.whisper(hdb, "Deployed: " + heure());
 });
 
+const tmiConfig3 = {
+    options: {
+        debug: true
+    },
+    connection: {
+        reconnect:  true
+    },
+    identity: {
+        username: "PouiDesBois",
+        password: process.env.poui
+    },
+    channels: [
+        "heliosdesbois",
+        //"kraoki",
+        "chatdesbois"
+        //"TeamLDLC"
+    ]
+};
+let client3 = new tmi.client(tmiConfig3);
+client3.connect();
+
 // setTimeout(function(){ 
 //     client.whisper(hdb, "Deployed : "+heure());
 // }, 5000);
@@ -114,11 +135,13 @@ client.on('chat', (channel, user, message, isSelf) => {
 client2.on("subscription", (channel, username, method, message, userstate) => {
     if(channel == "#"+cdb && username!=hdb){
         client2.say(channel, username+" chatdeLove chatdeLove chatdeLove chatdeLove chatdeLove")
+        client3.say(channel, username+" chatdeLove chatdeLove chatdeLove chatdeLove chatdeLove")
     }
 });
 client2.on("resub", (channel, username, months, message, userstate, methods) => {
     if(channel == "#"+cdb && username!=hdb){
         client2.say(channel, username+" chatdeLove chatdeLove chatdeLove chatdeLove chatdeLove")
+        client3.say(channel, username+" chatdeLove chatdeLove chatdeLove chatdeLove chatdeLove")
     }
 });
 
