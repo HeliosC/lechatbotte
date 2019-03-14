@@ -1,6 +1,6 @@
 module.exports = {
     options: {
-        debug: true
+        debug: false
     },
     connection: {
         reconnect:  true

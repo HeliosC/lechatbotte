@@ -16,9 +16,9 @@ function Queue(botClient, channel, rolesName) {
 
     if (this.listeAtt.indexOf(user) == -1) {
       this.listeAtt.push(user);
-      this.channel.send(user + " est ajouté à la liste d'attente");
+      message.channel.send(user + " est ajouté à la liste d'attente");
     } else {
-      this.channel.send(user + " est déjà dans la liste d'attente");
+      message.channel.send(user + " est déjà dans la liste d'attente");
     }
   });
 
@@ -28,19 +28,19 @@ function Queue(botClient, channel, rolesName) {
     var index = this.listeAtt.indexOf(user);
     if (index != -1) {
       this.listeAtt.splice(index, 1);
-      this.channel.send(user + " est retiré de la liste d'attente");
+      message.channel.send(user + " est retiré de la liste d'attente");
     } else {
-      this.channel.send(user + " n'est pas dans la liste d'attente");
+      message.channel.send(user + " n'est pas dans la liste d'attente");
     }
   });
 
   this.addCommand(["*queue", "*q"] , (message, userRoles) => {
     if (this.listeAtt.length != 0) {
       var msg = "Liste d'attente :\n";
-      for (let [index, user] of listeAtt.entries()) {
+      for (let [index, user] of this.listeAtt.entries()) {
         msg += (index + 1 + ": " + user.tag + "\n");
       }
-      this.channel.send({ embed: { color: 3447003, description: msg } });
+      message.channel.send({ embed: { color: 3447003, description: msg } });
     } else {
       message.channel.send("La liste d'attente est vide");
     }
@@ -76,16 +76,20 @@ function Queue(botClient, channel, rolesName) {
   });
 
   this.addModeratorCommand(["*add"], (message, userRoles) => {
-    let args = message.content.slice(4).toLowerCase().split(" ");
-    let insertIndex = parseInt(args.length > 0 && args[0]);
+    let args = message.content.toLowerCase().split(" ");
 
-    if (Number.isNaN(insertIndex)) {
-      let insertIndex = this.listeAtt.length;
+    let insertIndex;
 
-    } else if (insertIndex <= 1) {
-      insertIndex = 1;
+    if (args.length > 1) {
+      insertIndex = parseInt(args[1]) - 1
+    } else {
+      insertIndex = this.listeAtt.length;
+    }
 
-    } else if (insertIndex - 1 > this.listeAtt.length) {
+
+    if (insertIndex <= 0) {
+      insertIndex = 0;
+    } else if (insertIndex > this.listeAtt.length) {
       insertIndex = this.listeAtt.length;
     }
 
@@ -94,23 +98,24 @@ function Queue(botClient, channel, rolesName) {
     let firstMention = mentions[0];
 
 
-    this.listeAtt.splice(insertIndex - 1, 0, firstMention);
-    message.channel.send(firstMention + " est ajouté à la liste d'attente en position : " + insertIndex);
+    this.listeAtt.splice(insertIndex, 0, firstMention);
+    message.channel.send(firstMention + " est ajouté à la liste d'attente en position : " + (insertIndex + 1));
   });
 
   this.addModeratorCommand(["*remove"], (message, userRoles) => {
-    let args = message.content.slice(7).toLowerCase().split(" ");
-    let removeIndex = parseInt(args.length > 0 && args[0]);
+    let args = message.content.toLowerCase().split(" ");
 
-    if (Number.isNaN(insertIndex)) {
-      let removeIndex = 0;
+    let removeIndex = 0;
 
-    } else if (insertIndex <= 0 || insertIndex > this.listeAtt.length) {
+    if (args.length > 1) {
+      removeIndex = parseInt(args[1]) - 1;
+    }
+    if (removeIndex < 0 || removeIndex >= this.listeAtt.length) {
       message.channel.send("Personne n'est à cete position");
       return;
     }
 
-    let removedUsers = this.listeAtt.splice(removeIndex - 1, 1);
+    let removedUsers = this.listeAtt.splice(removeIndex, 1);
     let removedUser = removedUsers[0];
     message.channel.send(removedUser.username + " est retiré de la liste d'attente");
   });
@@ -133,11 +138,27 @@ Queue.prototype.addCommand = function(commands, callback) {
   }
 };
 
+Queue.prototype.callCommand = function(command, message, userRoles) {
+  if (!(command in this.commands)) { return }
+
+  for (let commandFunction of this.commands[command]) {
+    commandFunction(message, userRoles);
+  }
+};
+
 Queue.prototype.addModeratorCommand = function(commands, callback) {
   for (let command of commands) {
     this.moderatorCommands[command] = this.moderatorCommands[command] || [];
 
     this.moderatorCommands[command].push(callback.bind(this));
+  }
+};
+
+Queue.prototype.callModeratorCommand = function(command, message, userRoles) {
+  if (!(command in this.moderatorCommands)) { return }
+
+  for (let commandFunction of this.moderatorCommands[command]) {
+    commandFunction(message, userRoles);
   }
 };
 
@@ -147,9 +168,12 @@ Queue.prototype.onMessage = function(message) {
   let userRoles = this.getRoles(message.member, message.guild, this.rolesName);
   let messageContent = message.content.toLowerCase();
 
+  let messageArgs = messageContent.split(" ");
+  let messageCommandName = messageArgs.length > 0 ? messageArgs[0] : "";
+
   for (let cmdName in this.commands) {
-    if (messageContent.startsWith(cmdName)) {
-      this.commands[cmdName](message, userRoles);
+    if (messageCommandName == cmdName) {
+      this.callCommand(cmdName, message, userRoles);
 
       actionTriggered = true;
     }
@@ -157,8 +181,8 @@ Queue.prototype.onMessage = function(message) {
 
   if (userRoles.administrator || userRoles.moderator) {
     for (let cmdName in this.moderatorCommands) {
-      if (messageContent.startsWith(cmdName)) {
-        this.moderatorCommands[cmdName](message, userRoles);
+      if (messageCommandName == cmdName) {
+        this.callModeratorCommand(cmdName, message, userRoles);
 
         actionTriggered = true;
       }

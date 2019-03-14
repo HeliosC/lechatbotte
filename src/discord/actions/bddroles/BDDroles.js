@@ -1,22 +1,22 @@
 module.exports.roles = [
 	{
-		keyword: ["dofus"],
-		roleName: "Joueurs de Dofus"
+		roleName: ["dofus"],
+		roleTitle: "Joueurs de Dofus"
 	}, {
-		keyword: ["lol"],
-		roleName: "Joueurs de League of Legends"
+		roleName: ["lol"],
+		roleTitle: "Joueurs de League of Legends"
 	}, {
-		keyword: ["fortnite"],
-		roleName: "Joueurs de Fortnite"
+		roleName: ["fortnite"],
+		roleTitle: "Joueurs de Fortnite"
 	}, {
-		keyword: ["soc"],
-		roleName: "Jeux de société"
+		roleName: ["soc"],
+		roleTitle: "Jeux de société"
 	}, {
-		keyword: ["ow", "overwatch"],
-		roleName: "Joueurs d'Overwatch"
+		roleName: ["ow", "overwatch"],
+		roleTitle: "Joueurs d'Overwatch"
 	}, {
-		keyword: ["battlerite"],
-		roleName: "Joueurs de Battlerite"
+		roleName: ["battlerite"],
+		roleTitle: "Joueurs de Battlerite"
 	}
 ];
 

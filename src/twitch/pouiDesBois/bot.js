@@ -5,7 +5,9 @@ const tmiConfig = require("./config");
 
 function startBot() {
     let client = new tmi.client(tmiConfig);
-    client.connect();
+    client.connect().then((server, port) => {
+        console.log(`${tmiConfig.identity.username} logged in on twitch !`)
+    });
 
 
     client.on("subscription", (channel, username, method, message, userstate) => {

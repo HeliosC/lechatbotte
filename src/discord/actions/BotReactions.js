@@ -155,17 +155,17 @@ BotReactions.prototype.reactToMention = function(message, memberRoles) {
 
 
   if (memberRoles.administrator) {
-    message.react(client.emojis.find(e => e.name == "LapinDab"))
+    message.react(this.botClient.emojis.find(e => e.name == "LapinDab"))
 
   } else if (memberRoles.moderator) {
     if (message.author.username == "Poui des bois") {
       message.react("🗡");
 
     } else if (message.author.username == "Solis Le Soleil") {
-      message.react(client.emojis.find(e => e.name == "lovedesbois"));
+      message.react(this.botClient.emojis.find(e => e.name == "lovedesbois"));
 
     } else if (message.author.username == "Helios ⭐⭐") {
-      message.react(client.emojis.find(e => e.name == "lovedesbois"));
+      message.react(this.botClient.emojis.find(e => e.name == "lovedesbois"));
 
     } else {
       message.react("❤");
@@ -188,11 +188,11 @@ BotReactions.prototype.checkImageToMove = function(message) {
   if (message.channel.name != this.channels.chanCh) return triggeredAction;
 
   for (let [key, value] of message.attachments) {
-    let imageChannel = client.channels.find(c => c.name == this.channels.images);
-    imageChannel.send(client.channels.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
+    let imageChannel = this.botClient.channels.find(c => c.name == this.channels.images);
+    imageChannel.send(this.botClient.channels.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
     imageChannel.send({ file: value.proxyURL })
 
-    message.channel.send(message.author + " : " + client.channels.find(c => c.name == this.channels.images));
+    message.channel.send(message.author + " : " + this.botClient.channels.find(c => c.name == this.channels.images));
 
     setTimeout(() => { message.delete() }, 500);
 

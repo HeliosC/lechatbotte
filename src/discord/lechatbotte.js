@@ -45,7 +45,7 @@ function startBot() {
 		new Connect4(client, constants.channels.games, constants.rolesName)
 	);
 	dispatcher.addComponent(
-		new Quiz(client, constants.channels.games)
+		new Quiz(client, constants.channels.quiz)
 	);
 	/******/
 

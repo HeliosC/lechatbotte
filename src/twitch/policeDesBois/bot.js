@@ -11,6 +11,7 @@ const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_su
 function startBot() {
     let client = new tmi.client(tmiConfig);
     client.connect().then(_ => {
+        console.log(`${tmiConfig.identity.username} logged in on twitch !`)
         client.whisper(hdb, "Deployed: " + heure());
     }).catch(console.error);
 
@@ -73,18 +74,18 @@ function startBot() {
 
             }else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
                 massacres = parseInt(m.slice(9)) || 0;
-                afficheMassacres();
+                afficheMassacres(client, channel, massacres);
             }
         }
     });
 }
 
 
-function isModerateur(username){
+function isModerateur(username) {
     return moderators.indexOf(username.toLowerCase()) != -1;
 }
 
-function afficheMassacres(client, channel, massacres){
+function afficheMassacres(client, channel, massacres) {
     client.say(
         channel,
         `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité`
