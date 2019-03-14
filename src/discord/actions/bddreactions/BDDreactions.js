@@ -52,7 +52,7 @@ module.exports.messagesReactions = [
   }, {
     startsWith: ["!facebook", "!fb"],
     disabled: false,
-    responseChannel: "J'suis aussi présente sur le Facebook game, donc viens lâcher un follow, ça mange pas d'chèvres, et ça fait augmenter les stats, donc stop faire pd d'homophobe, stp. ♥ https://www.facebook.com/Chatsdesbois/"
+    responseChannel: "J'suis aussi présente sur le Facebook game, donc viens lâcher un follow, ça mange pas d'chèvres, et ça fait augmenter les stats, donc stop faire ton pd d'homophobe, stp. ♥ https://www.facebook.com/Chatsdesbois/"
   }, {
     startsWith: ["!insta", "!ig"],
     disabled: false,
@@ -68,7 +68,7 @@ module.exports.messagesReactions = [
   }, {
     startsWith: ["!code", "!créateur"],
     disabled: false,
-    responseChannel: "Vous voulez supporter encore plus le stream ? N'hésitez pas à utiliser le code Créateur : CHAT-DES-BOIS lors de vos prochains achats Fortnite"
+    responseChannel: "Vous voulez supporter encore plus le stream ? N'hésitez pas à utiliser le code Créateur : CHAT-DES-BOIS lors de vos prochains achats Fortnite ou sur l'Epic Games Store !"
   }, {
     startsWith: ["!extension"],
     disabled: false,

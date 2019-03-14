@@ -1,8 +1,11 @@
 const lechatbotte = require('./src/discord/lechatbotte');
-const twitchBotHelios = require('./src/twitch/heliosDesBois/bot.js');
-const twitchBotPolice = require('./src/twitch/policeNationaleDuSwag/bot.js');
+const twitchBotHeliosDesBois = require('./src/twitch/heliosDesBois/bot.js');
+const twitchBotPoliceDesBois = require('./src/twitch/policeDesBois/bot.js');
+const twitchBotPouiDesBois = require('./src/twitch/pouiDesBois/bot.js');
 
 lechatbotte.start()
 
-twitchBotHelios.start()
-twitchBotPolice.start()
+
+twitchBotHeliosDesBois.start()
+twitchBotPoliceDesBois.start()
+twitchBotPouiDesBois.start()
