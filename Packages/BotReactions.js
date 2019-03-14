@@ -82,7 +82,7 @@ function reponsesBot(msg, admin, modo) {
 
   if (cont.startsWith("!giveaway")) {
     
-    const dab = client.emojis.find("name", "peachDab");
+    const dab = client.emojis.find("name", "LapinDab");
     /*
     const or = client.emojis.find("name", "chatENOR");
     
