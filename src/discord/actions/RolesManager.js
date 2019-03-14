@@ -47,13 +47,13 @@ RolesManager.prototype.modifRole = function(message, role) {
         message.author.send("Tu as maintenant le role : " + role.name);
         this.botClient.users
             .find(u => u.username == BDDRoles.advertisedUser)
-            .send(message.author.tag + " as maintenant le role : " + role.name);
+            .send(message.author.tag + " a maintenant le role : " + role.name);
     } else {
         message.member.removeRole(role.id);
         message.author.send("Tu n'as plus le role : " + role.name);
         this.botClient.users
             .find(u => u.username == BDDRoles.advertisedUser)
-            .send(message.author.tag + " n'as plus le role : " + role.name);
+            .send(message.author.tag + " n'a plus le role : " + role.name);
     }
 };
 
