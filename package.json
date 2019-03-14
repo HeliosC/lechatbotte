@@ -1,10 +1,36 @@
 {
-  "name": "",
-  "version": "",
+  "name": "lechatbotte",
   "dependencies": {
     "discord.js": "^11.3.2",
     "form-data": "^2.3.2",
     "tmi.js": "^1.4.2",
     "xmlhttprequest": "^1.8.0"
-  }
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HeliosC/lechatbotte.git"
+  },
+  "author": {
+    "name": "HeliosC",
+    "url": "https://github.com/HeliosC"
+  },
+  "contributor": [
+    {
+      "name": "TheIpple",
+      "url": "https://github.com/TheIpple"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HeliosC/lechatbotte/issues"
+  },
+  "homepage": "https://github.com/HeliosC/lechatbotte#readme",
+  "description": ""
 }
