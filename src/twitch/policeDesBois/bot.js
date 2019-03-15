@@ -7,6 +7,7 @@ redis.on('connect', function() {
     console.log('connected');
 });
 
+//redis.set('key', 'value');
 
 
 // redis.get('key', function(err, reply) {
@@ -81,25 +82,9 @@ function startBot() {
                 afficheMassacres(client, channel, massacres);
 
             } else if (/^!massacres$/gmi.test(m)) { //*massacres -> affiche le nb
-                //afficheMassacres(client, channel, massacres);
-                console.log("reply?"); // "value"
-                var r
-                redis.set('key', 'value');
-                redis.get('key', function(err, reply) {
-                    //r=reply
-                    console.log("rep "+reply); // "value"
-                    client.say(
-                        channel,
-                        "rep "+reply
-                    );
-                });
-                //console.log("r "+r);
-                // redis.get('key', function(err, reply) {
-                //     client.say(
-                //         channel,
-                //         r
-                //     );
-                // });
+                afficheMassacres(client, channel, massacres);
+
+
 
 
 
@@ -117,10 +102,19 @@ function isModerateur(username) {
 }
 
 function afficheMassacres(client, channel, massacres) {
-    client.say(
-        channel,
-        `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité`
-    );
+    // client.say(
+    //     channel,
+    //     `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité`
+    // );
+
+    redis.get('key', function(err, reply) {
+        client.say(
+            channel,
+            "rep "+reply
+        );
+        //redis.set('key', 'value');
+    });
+
 }
 
 
