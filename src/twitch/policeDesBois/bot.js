@@ -86,20 +86,21 @@ function startBot() {
                 var r
                 redis.set('key', 'value');
                 redis.get('key', function(err, reply) {
-                    r=reply
+                    //r=reply
                     console.log("rep "+reply); // "value"
+                    client.say(
+                        channel,
+                        "rep "+reply
+                    );
                 });
-                console.log("r "+r);
+                //console.log("r "+r);
                 // redis.get('key', function(err, reply) {
                 //     client.say(
                 //         channel,
                 //         r
                 //     );
                 // });
-                client.say(
-                    channel,
-                    "r "+r
-                );
+
 
 
             }else if (isModerateur(user.username) && /^!massacres \d/gmi.test(m)) {
