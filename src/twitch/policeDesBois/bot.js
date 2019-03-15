@@ -102,10 +102,10 @@ function startBot() {
                     if (!error && response.statusCode == 200) {
                         let data = JSON.parse(body)
                         let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
-                        let words = m.split(" ")
+                        let words = message.split(" ")
                         if(words.length > 0 ){
                             let word = words[1]
-                            if(viewers.indexOf(word)!=-1){
+                            if(viewers.indexOf(word.toLowerCase())!=-1){
                                 client.say(channel, word + ", vous êtes en état d'arrestation !");
                             }
                         }
