@@ -6,13 +6,13 @@ module.exports = {
         reconnect:  true
     },
     identity: {
-        username: "PoliceDesBois",
-        password: process.env.police
+        username: "PoliceNationaleDuSwag",
+        password: process.env.policeSwag
     },
     channels: [
         //"heliosdesbois",
-        // "kraoki",
-        "chatdesbois"
+        "kraoki",
+        //"chatdesbois"
         //"TeamLDLC"
     ]
 };

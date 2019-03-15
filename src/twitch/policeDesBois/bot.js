@@ -93,6 +93,25 @@ function startBot() {
                 afficheMassacres(client, channel, massacres);
                 redis.set('massacres', massacres);
             }
+
+            if (m.startsWith("arretez")) {
+                console.log(channel)
+                request('https://tmi.twitch.tv/group/user/'+channel.slice(1)+'/chatters', function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        let data = JSON.parse(body)
+                        let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
+                        let words = m.split(" ")
+                        if(words.length > 0 ){
+                            let word = words[1]
+                            if(viewers.indexOf(word)!=-1){
+                                client.say(channel, word + ", vous êtes en état d'arrestation !");
+                            }
+                        }
+                    } else {
+                        console.error("unable ")
+                    }
+                })
+            }
         }
     });
 }

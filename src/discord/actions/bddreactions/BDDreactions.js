@@ -84,7 +84,7 @@ module.exports.messagesReactions = [
      + "2⃣ Télécharge l'extension : https://bit.ly/2qXtylM\n"
      + "3⃣ Inscris toi au giveaway (dans l'extension elle-même)\n"
      + "(Ne sois qu'amour ! ♥)\n"
-     + "🏁 TAS 30/03\n"
+     + "🏁 TAS 30/03" 
     }
   }, {
     contains: ["kalista"],
