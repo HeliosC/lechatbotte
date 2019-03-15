@@ -75,20 +75,20 @@ function startBot() {
 
         /* Specific to chatDesBois's channel */
         if (channel.indexOf(cdb) != -1) {
-            if (/^!massacres\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
+            if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
                 //massacres += 1;
                 redis.get('massacres', function(err, reply) {
                     afficheMassacres(client, channel, parseInt(reply)+1);
                     redis.set('massacres', parseInt(reply)+1);
                 });
 
-            } else if (/^!massacres$/gmi.test(m)) { //*massacres -> affiche le nb
+            } else if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
                 redis.get('massacres', function(err, reply) {
                     afficheMassacres(client, channel, parseInt(reply));
                     //redis.set('massacres', parseInt(reply));
                 });
 
-            }else if (isModerateur(user.username) && /^!massacres \d/gmi.test(m)) {
+            }else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
                 massacres = parseInt(m.slice(9+1)) || 0;
                 afficheMassacres(client, channel, massacres);
                 redis.set('massacres', massacres);
