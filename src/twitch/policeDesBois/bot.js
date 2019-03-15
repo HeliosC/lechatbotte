@@ -90,13 +90,16 @@ function startBot() {
                     console.log("rep "+reply); // "value"
                     console.log("r "+r);
                 });
-                redis.get('key', function(err, reply) {
-                    client.say(
-                        channel,
-                        r
-                    );
-                });
-
+                // redis.get('key', function(err, reply) {
+                //     client.say(
+                //         channel,
+                //         r
+                //     );
+                // });
+                client.say(
+                    channel,
+                     r
+                );
 
 
             }else if (isModerateur(user.username) && /^!massacres \d/gmi.test(m)) {
