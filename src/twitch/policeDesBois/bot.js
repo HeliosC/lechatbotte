@@ -2,6 +2,18 @@ const tmi = require('tmi.js')
 
 const tmiConfig = require("./config")
 
+var redis = require('redis').createClient(process.env.REDIS_URL);
+redis.on('connect', function() {
+    console.log('connected');
+});
+
+
+redis.set('key', 'value');
+
+// redis.get('key', function(err, reply) {
+//     console.log(reply); // "value"
+// });
+
 const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
 
@@ -71,6 +83,13 @@ function startBot() {
 
             } else if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
                 afficheMassacres(client, channel, massacres);
+                redis.get('key', function(err, reply) {
+                    client.say(
+                        channel,
+                        `salut + `+reply
+                    );
+                });
+
 
             }else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
                 massacres = parseInt(m.slice(9)) || 0;
