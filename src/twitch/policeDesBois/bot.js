@@ -83,16 +83,20 @@ function startBot() {
             } else if (/^!massacres$/gmi.test(m)) { //*massacres -> affiche le nb
                 afficheMassacres(client, channel, massacres);
                 console.log("reply?"); // "value"
+                var r
                 redis.set('key', 'value');
+                redis.get('key', function(err, reply) {
+                    r=reply
+                    console.log("rep "+reply); // "value"
+                    console.log("r "+r);
+                });
                 redis.get('key', function(err, reply) {
                     client.say(
                         channel,
-                        reply
+                        r
                     );
                 });
-                redis.get('key', function(err, reply) {
-                    console.log(reply); // "value"
-                });
+
 
 
             }else if (isModerateur(user.username) && /^!massacres \d/gmi.test(m)) {
