@@ -79,13 +79,13 @@ function startBot() {
         if (channel.indexOf(cdb) != -1) {
             if (/^!massacres\+1$/gmi.test(m)) { //*massacre -> incremente
                 //massacres += 1;
-                client.get('massacres', function(err, reply) {
+                redis.get('massacres', function(err, reply) {
                     afficheMassacres(client, channel, reply+1);
                     redis.set('massacres', reply+1);
                 });
 
             } else if (/^!massacres$/gmi.test(m)) { //*massacres -> affiche le nb
-                client.get('massacres', function(err, reply) {
+                redis.get('massacres', function(err, reply) {
                     afficheMassacres(client, channel, reply);
                 });
 
