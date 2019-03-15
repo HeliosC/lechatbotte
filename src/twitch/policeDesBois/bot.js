@@ -105,7 +105,7 @@ function isModerateur(username) {
 function afficheMassacres(client, channel, massacres) {
     client.say(
         channel,
-        `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité`
+        `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité ! 👌🏻`
     );
 
 }
