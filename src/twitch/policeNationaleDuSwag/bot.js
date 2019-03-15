@@ -2,6 +2,8 @@ const tmi = require('tmi.js')
 
 const tmiConfig = require("./config")
 
+const request = require('request')
+
 function startBot() {
     let client = new tmi.client(tmiConfig);
     client.connect().then(_ => {

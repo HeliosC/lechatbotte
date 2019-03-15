@@ -2,6 +2,8 @@ const tmi = require('tmi.js')
 
 const tmiConfig = require("./config")
 
+const request = require('request')
+
 var redis = require('redis').createClient(process.env.REDIS_URL);
 redis.on('connect', function() {
     console.log('connected');
