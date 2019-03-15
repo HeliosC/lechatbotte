@@ -80,8 +80,7 @@ module.exports.messagesReactions = [
       const dab = client.emojis.find(e => e.name == "LapinDab");
       // return "RDV aux 5000 follows ! " + dab;
       return "[#GIVEAWAY] [#CONCOURS] 15€ PAYPAL ! 🎁\n"
-      +Pour fêter l'arrivée de l'extension !\n
-      
+     + "Pour fêter l'arrivée de l'extension !\n"
      + "1⃣ #Follow le stream ((link: https://www.twitch.tv/chatdesbois) twitch.tv/chatdesbois)\n"
      + "2⃣ Télécharge l'extension ((link: http://bit.ly/2qXtylM) bit.ly/2qXtylM)\n"
      + "3⃣ Inscris toi au giveaway (dans l'extension elle-même)\n"
