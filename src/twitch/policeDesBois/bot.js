@@ -84,12 +84,12 @@ function startBot() {
                 afficheMassacres(client, channel, massacres);
                 console.log("reply?"); // "value"
                 redis.set('key', 'value');
-                // redis.get('key', function(err, reply) {
-                //     client.say(
-                //         channel,
-                //         reply
-                //     );
-                // });
+                redis.get('key', function(err, reply) {
+                    client.say(
+                        channel,
+                        reply
+                    );
+                });
                 redis.get('key', function(err, reply) {
                     console.log(reply); // "value"
                 });
