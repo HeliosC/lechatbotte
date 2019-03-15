@@ -7,12 +7,7 @@ redis.on('connect', function() {
     console.log('connected');
 });
 
-//redis.set('massacres', 0);
 
-
-// redis.get('key', function(err, reply) {
-//     console.log(reply); // "value"
-// });
 
 const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
@@ -60,19 +55,22 @@ function startBot() {
         // }
 
         if (/(^|\W)(je|tu)\speu($|\W|t)/gmi.test(m)) {           //   je/tu peux
-            client.say(channel, user['display-name'] + " peuX");
+            client.say(channel, user['display-name'] + " peuX, l'orthographe veut ton bien-être !");
         }
         if (/(^|\W)on\speu($|\W|x)/gmi.test(m)) {               //   on peut
-            client.say(channel, user['display-name'] + " peuT");
+            client.say(channel, user['display-name'] + " peuT, l'orthographe veut ton bien-être !");
         }
         if (/(^|\W)(je|tu)\sveu($|\W|t)/gmi.test(m)) {          //   je/tu veux
-            client.say(channel, user['display-name'] + " veuX");
+            client.say(channel, user['display-name'] + " veuX, l'orthographe veut ton bien-être !");
         }
         if (/(^|\W)on\sveu($|\W|x)/gmi.test(m)) {               //   on veut
-            client.say(channel, user['display-name'] + " veuT");
+            client.say(channel, user['display-name'] + " veuT, l'orthographe veut ton bien-être !");
         }
         if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {                 //   sava
-            client.say(channel, user['display-name'] + " ça va*");
+            client.say(channel, user['display-name'] + " *ça va, l'orthographe est ton ami, l'ami !");
+        }
+        if (/(^|\W)au final($|\W)/gmi.test(m)) {                 //   sava
+            client.say(channel, user['display-name'] + " *finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ");
         }
 
         /* Specific to chatDesBois's channel */
