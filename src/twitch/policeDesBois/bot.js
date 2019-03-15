@@ -105,7 +105,7 @@ function startBot() {
                         let words = message.split(" ")
                         if(words.length > 0 ){
                             let word = words[1]
-                            if(viewers.indexOf(word.toLowerCase())!=-1){
+                            if(word.toLowerCase()!="heliosdesbois" && viewers.indexOf(word.toLowerCase())!=-1){
                                 client.say(channel, word + ", vous êtes en état d'arrestation !");
                             }
                         }
