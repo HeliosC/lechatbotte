@@ -77,7 +77,7 @@ function startBot() {
 
         /* Specific to chatDesBois's channel */
         if (channel.indexOf(cdb) != -1) {
-            if (/^!massacres\s\+\s1$/gmi.test(m)) { //*massacre -> incremente
+            if (/^!massacres\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
                 //massacres += 1;
                 redis.get('massacres', function(err, reply) {
                     afficheMassacres(client, channel, parseInt(reply)+1);
