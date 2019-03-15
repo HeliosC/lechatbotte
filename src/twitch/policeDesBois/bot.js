@@ -65,7 +65,7 @@ function startBot() {
         if (/(^|\W)(je|tu)\sveu($|\W|t)/gmi.test(m)) {          //   je/tu veux
             client.say(channel, user['display-name'] + " veuX, l'orthographe veut ton bien-être !");
         }
-        if (/(^|\W)on\sveu($|\W|x)/gmi.test(m)) {               //   on veut
+        if (/(^|\W)(il|elle|on)\sveu($|\W|x)/gmi.test(m)) {               //   on veut
             client.say(channel, user['display-name'] + " veuT, l'orthographe veut ton bien-être !");
         }
         if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {                 //   sava
