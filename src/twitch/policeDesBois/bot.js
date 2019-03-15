@@ -28,7 +28,7 @@ function startBot() {
     }).catch(console.error);
 
     /* bot variables */
-    var massacres = 0;
+    //var massacres = 0;
 
 
     client.on("whisper", function (from, userstate, message, self) {
@@ -81,7 +81,7 @@ function startBot() {
                 //massacres += 1;
                 redis.get('massacres', function(err, reply) {
                     afficheMassacres(client, channel, parseInt(reply)+1);
-                    redis.set('massacres', reply+1);
+                    redis.set('massacres', parseInt(reply)+1);
                 });
 
             } else if (/^!massacres$/gmi.test(m)) { //*massacres -> affiche le nb
