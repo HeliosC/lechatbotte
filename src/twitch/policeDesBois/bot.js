@@ -87,6 +87,7 @@ function startBot() {
             } else if (/^!massacres$/gmi.test(m)) { //*massacres -> affiche le nb
                 redis.get('massacres', function(err, reply) {
                     afficheMassacres(client, channel, parseInt(reply));
+                    redis.set('massacres', parseInt(reply));
                 });
 
             }else if (isModerateur(user.username) && /^!massacres \d/gmi.test(m)) {
