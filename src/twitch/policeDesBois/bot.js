@@ -91,10 +91,8 @@ function startBot() {
 
             }else if (isModerateur(user.username) && /^!massacres \d/gmi.test(m)) {
                 massacres = parseInt(m.slice(9)) || 0;
-                client.get('massacres', function(err, reply) {
-                    afficheMassacres(client, channel, massacres);
-                    redis.set('massacres', massacres);
-                });
+                afficheMassacres(client, channel, massacres);
+                redis.set('massacres', massacres);
             }
         }
     });
