@@ -119,7 +119,7 @@ function heure() {
     if (minutes < 10) {
         minutes = "0" + minutes;
     }
-    return date.getDate() + ":" + date.getMonth()+1 + " " + heure+1 + "h" + minutes;
+    return date.getDate() + ":" + (date.getMonth()+1) + " " + (heure+1) + "h" + minutes;
 }
 
 
