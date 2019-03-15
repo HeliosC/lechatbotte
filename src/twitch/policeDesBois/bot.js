@@ -7,7 +7,7 @@ redis.on('connect', function() {
     console.log('connected');
 });
 
-//redis.set('key', 'value');
+//redis.set('massacres', 0);
 
 
 // redis.get('key', function(err, reply) {
@@ -78,19 +78,23 @@ function startBot() {
         /* Specific to chatDesBois's channel */
         if (channel.indexOf(cdb) != -1) {
             if (/^!massacres\+1$/gmi.test(m)) { //*massacre -> incremente
-                massacres += 1;
-                afficheMassacres(client, channel, massacres);
+                //massacres += 1;
+                client.get('massacres', function(err, reply) {
+                    afficheMassacres(client, channel, reply+1);
+                    redis.set('massacres', reply+1);
+                });
 
             } else if (/^!massacres$/gmi.test(m)) { //*massacres -> affiche le nb
-                afficheMassacres(client, channel, massacres);
-
-
-
-
+                client.get('massacres', function(err, reply) {
+                    afficheMassacres(client, channel, reply);
+                });
 
             }else if (isModerateur(user.username) && /^!massacres \d/gmi.test(m)) {
                 massacres = parseInt(m.slice(9)) || 0;
-                afficheMassacres(client, channel, massacres);
+                client.get('massacres', function(err, reply) {
+                    afficheMassacres(client, channel, massacres);
+                    redis.set('massacres', massacres);
+                });
             }
         }
     });
@@ -102,18 +106,10 @@ function isModerateur(username) {
 }
 
 function afficheMassacres(client, channel, massacres) {
-    // client.say(
-    //     channel,
-    //     `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité`
-    // );
-
-    redis.get('key', function(err, reply) {
-        client.say(
-            channel,
-            "rep "+reply
-        );
-        //redis.set('key', 'value');
-    });
+    client.say(
+        channel,
+        `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité`
+    );
 
 }
 
