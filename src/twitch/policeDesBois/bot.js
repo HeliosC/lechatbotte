@@ -8,7 +8,6 @@ redis.on('connect', function() {
 });
 
 
-redis.set('key', 'value');
 
 // redis.get('key', function(err, reply) {
 //     console.log(reply); // "value"
@@ -77,21 +76,22 @@ function startBot() {
 
         /* Specific to chatDesBois's channel */
         if (channel.indexOf(cdb) != -1) {
-            if (/^!massacre\+1$/gmi.test(m)) { //*massacre -> incremente
+            if (/^!massacres\+1$/gmi.test(m)) { //*massacre -> incremente
                 massacres += 1;
                 afficheMassacres(client, channel, massacres);
 
-            } else if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
+            } else if (/^!massacres$/gmi.test(m)) { //*massacres -> affiche le nb
                 afficheMassacres(client, channel, massacres);
+                redis.set('key', 'value');
                 redis.get('key', function(err, reply) {
                     client.say(
                         channel,
-                        `salut + `+reply
+                        reply
                     );
                 });
 
 
-            }else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
+            }else if (isModerateur(user.username) && /^!massacres \d/gmi.test(m)) {
                 massacres = parseInt(m.slice(9)) || 0;
                 afficheMassacres(client, channel, massacres);
             }
