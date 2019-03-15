@@ -82,12 +82,16 @@ function startBot() {
 
             } else if (/^!massacres$/gmi.test(m)) { //*massacres -> affiche le nb
                 afficheMassacres(client, channel, massacres);
+                console.log("reply?"); // "value"
                 redis.set('key', 'value');
+                // redis.get('key', function(err, reply) {
+                //     client.say(
+                //         channel,
+                //         reply
+                //     );
+                // });
                 redis.get('key', function(err, reply) {
-                    client.say(
-                        channel,
-                        reply
-                    );
+                    console.log(reply); // "value"
                 });
 
 
