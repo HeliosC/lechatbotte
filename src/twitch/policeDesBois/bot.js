@@ -53,7 +53,7 @@ function startBot() {
 
 
 /////////* Specific to chatDesBois's channel *//////////////////////////////////
-        if (channel.indexOf(cdb) == -1) { return }
+        if (channel.indexOf(cdb) != -1) { //return }
 
         if (/(^|\W)(je|tu)\speu($|\W|t)/gmi.test(m)) {           //   je/tu peux
             client.say(channel, user['display-name'] + " peuX, l'orthographe veut ton bien-être !");
@@ -112,6 +112,7 @@ function startBot() {
                     console.error("unable ")
                 }
             })
+        }
         }
     });
 }
