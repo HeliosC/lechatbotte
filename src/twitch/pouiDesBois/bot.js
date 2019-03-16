@@ -2,6 +2,8 @@ const tmi = require('tmi.js');
 
 const tmiConfig = require("./config");
 
+const cdb = "chatdesbois"
+const hdb = "heliosdesbois"
 
 function startBot() {
     let client = new tmi.client(tmiConfig);
