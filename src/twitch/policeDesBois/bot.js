@@ -37,11 +37,8 @@ function startBot() {
         redis.exists('chattedesbois', function(err, reply) {
             if (reply === 1) {
                 console.log('exists');
-                redis.get('chattedesbois', function(err, reply2) {
-                    console.log(reply2);
-                })
-                redis.hgetall('chattedesbois', function(err, object) {
-                    console.log(object);
+                resis.lrange('chattedesbois', 0, -1, function(err, reply) {
+                    console.log(reply); 
                 });
             }else{
                 console.log('do not exists');
