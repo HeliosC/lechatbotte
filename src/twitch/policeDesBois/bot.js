@@ -51,10 +51,9 @@ function startBot() {
 
         let m = message.toLowerCase()
 
-        // if (m.startsWith("arretez")) {
-        //     let words = message.split(" ")
-        //     client.say(channel, words[1] + ", vous êtes en état d'arrestation !");
-        // }
+
+/////////* Specific to chatDesBois's channel *//////////////////////////////////
+        if (channel.indexOf(cdb) == -1) { return }
 
         if (/(^|\W)(je|tu)\speu($|\W|t)/gmi.test(m)) {           //   je/tu peux
             client.say(channel, user['display-name'] + " peuX, l'orthographe veut ton bien-être !");
@@ -74,46 +73,47 @@ function startBot() {
         if (/(^|\W)au final($|\W)/gmi.test(m)) {                 //   sava
             client.say(channel, user['display-name'] + " *finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ");
         }
+        if (/chatt?e\s?(des|dé|de)\s?(bois?|boa)/gmi.test(m)) {                 //   sava
+            client.say(channel, user['display-name'] + " je vais te soulever");
+        }
 
-        /* Specific to chatDesBois's channel */
-        if (channel.indexOf(cdb) != -1) {
-            if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
-                //massacres += 1;
-                redis.get('massacres', function(err, reply) {
-                    afficheMassacres(client, channel, parseInt(reply)+1);
-                    redis.set('massacres', parseInt(reply)+1);
-                });
 
-            } else if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
-                redis.get('massacres', function(err, reply) {
-                    afficheMassacres(client, channel, parseInt(reply));
-                    //redis.set('massacres', parseInt(reply));
-                });
+        if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
+            //massacres += 1;
+            redis.get('massacres', function(err, reply) {
+                afficheMassacres(client, channel, parseInt(reply)+1);
+                redis.set('massacres', parseInt(reply)+1);
+            });
 
-            }else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
-                massacres = parseInt(m.slice(9+1)) || 0;
-                afficheMassacres(client, channel, massacres);
-                redis.set('massacres', massacres);
-            }
+        } else if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
+            redis.get('massacres', function(err, reply) {
+                afficheMassacres(client, channel, parseInt(reply));
+                //redis.set('massacres', parseInt(reply));
+            });
 
-            if (m.startsWith("arretez")) {
-                console.log(channel)
-                request('https://tmi.twitch.tv/group/user/'+channel.slice(1)+'/chatters', function (error, response, body) {
-                    if (!error && response.statusCode == 200) {
-                        let data = JSON.parse(body)
-                        let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
-                        let words = message.split(" ")
-                        if(words.length > 0 ){
-                            let word = words[1]
-                            if( isModerateur(user.username) || (word.toLowerCase()!="policedesbois" && word.toLowerCase()!="heliosdesbois" && viewers.indexOf(word.toLowerCase())!=-1) ){
-                                client.say(channel, word + ", vous êtes en état d'arrestation !");
-                            }
+        }else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
+            massacres = parseInt(m.slice(9+1)) || 0;
+            afficheMassacres(client, channel, massacres);
+            redis.set('massacres', massacres);
+        }
+
+        if (m.startsWith("arretez")) {
+            console.log(channel)
+            request('https://tmi.twitch.tv/group/user/'+channel.slice(1)+'/chatters', function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    let data = JSON.parse(body)
+                    let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
+                    let words = message.split(" ")
+                    if(words.length > 0 ){
+                        let word = words[1]
+                        if( isModerateur(user.username) || (word.toLowerCase()!="policedesbois" && word.toLowerCase()!="heliosdesbois" && viewers.indexOf(word.toLowerCase())!=-1) ){
+                            client.say(channel, word + ", vous êtes en état d'arrestation !");
                         }
-                    } else {
-                        console.error("unable ")
                     }
-                })
-            }
+                } else {
+                    console.error("unable ")
+                }
+            })
         }
     });
 }
