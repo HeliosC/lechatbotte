@@ -50,15 +50,16 @@ function startBot() {
         if (isSelf) return;
 
         let m = message.toLowerCase()
+        let username = user.username
 
-        if (/chatt?e\s?(des|dé|de)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
+        if (/chatt?e\s?(des|dé|de|d)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
             redis.lrange('chattedesbois', 0, -1, function(err, reply) {
-                if(reply.indexOf(user.username)==-1){
-                    client.say(channel, user['display-name'] + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
-                    redis.rpush('chattedesbois',user.username)
+                if(reply.indexOf(username)==-1){
+                    client.say(channel, username + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
+                    redis.rpush('chattedesbois',username)
                 }else{
-                    client.say(channel, user['display-name'] + " je t'avais prévenu !");
-                    client.timeout(channel, user.username, 5, user['display-name'] + " je t'avais prévenu !") //.then(function(data) {
+                    client.say(channel, username + " je t'avais prévenu !");
+                    client.timeout(channel, username, 5) //.then(function(data) {
                     // }).catch(function(err) {
                     // });
                 }
