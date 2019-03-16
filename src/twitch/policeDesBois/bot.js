@@ -31,6 +31,32 @@ function startBot() {
     client.on("whisper", function (from, userstate, message, self) {
         if (self) return;
 
+
+
+        
+        redis.exists('chattedesbois', function(err, reply) {
+            if (reply === 1) {
+                console.log('exists');
+                redis.get('chattedesbois', function(err, reply2) {
+                    console.log(reply2);
+                })
+            }else{
+                console.log('do not exists');
+                redis.rpush('chattedesbois','a', function(err, reply) {
+                    console.log(reply)
+                    redis.rpush('chattedesbois','5', function(err, reply1) {
+                        console.log(reply1)
+                        redis.get('chattedesbois', function(err, reply2) {
+                            console.log(reply2);
+                        })
+                    })
+                })
+            }
+        });
+
+
+
+
         let m = message.toLowerCase()
 
         if (m.startsWith("zboub") && moderators.indexOf(userstate['display-name'].toLowerCase()) != -1) {
