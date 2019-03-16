@@ -33,13 +33,16 @@ function startBot() {
 
 
 
-        
+
         redis.exists('chattedesbois', function(err, reply) {
             if (reply === 1) {
                 console.log('exists');
                 redis.get('chattedesbois', function(err, reply2) {
                     console.log(reply2);
                 })
+                redis.hgetall('chattedesbois', function(err, object) {
+                    console.log(object);
+                });
             }else{
                 console.log('do not exists');
                 redis.rpush('chattedesbois','a', function(err, reply) {
@@ -100,7 +103,7 @@ function startBot() {
             client.say(channel, user['display-name'] + " *finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ");
         }
         if (/chatt?e\s?(des|dé|de)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
-            client.say(channel, user['display-name'] + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :upside_down_face: Next time, j'te goume !");
+            client.say(channel, user['display-name'] + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
         }
 
 
@@ -120,6 +123,10 @@ function startBot() {
             afficheMassacres(client, channel, massacres);
             redis.set('massacres', massacres);
         }
+
+        // if (m.startsWith("!game")) {
+        //     client.say(channel, "Chatdesbois ne fait pas de games viewers sur Fortnite");
+        // }
 
         if (m.startsWith("arretez")) {
             console.log(channel)
