@@ -58,10 +58,13 @@ function startBot() {
                     redis.rpush('chattedesbois',user.username)
                 }else{
                     client.say(channel, user['display-name'] + " je t'avais prévenu !");
+                    client.timeout(channel, user.username, 5, user['display-name'] + " je t'avais prévenu !") //.then(function(data) {
+                    // }).catch(function(err) {
+                    // });
                 }
             });
         }
-        
+
 /////////* Specific to chatDesBois's channel *//////////////////////////////////
         if (channel.indexOf(cdb) != -1) { //return }
 
