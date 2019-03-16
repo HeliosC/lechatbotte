@@ -80,15 +80,13 @@ function startBot() {
 
         if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
             //massacres += 1;
-            redis.get('massacres', function(err, reply) {
-                afficheMassacres(client, channel, parseInt(reply)+1);
-                redis.set('massacres', parseInt(reply)+1);
+            redis.incr('massacres', function(err, reply) {
+                afficheMassacres(client, channel, parseInt(reply));
             });
 
         } else if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
             redis.get('massacres', function(err, reply) {
                 afficheMassacres(client, channel, parseInt(reply));
-                //redis.set('massacres', parseInt(reply));
             });
 
         }else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
