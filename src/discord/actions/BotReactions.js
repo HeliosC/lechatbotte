@@ -57,7 +57,7 @@ BotReactions.prototype.getRoles = function(member, guild, roles) {
 
     if (guildRole !== null) {
       let roleId = guildRole.id;
-      hasRole = member.roles.has(roleId);
+      hasRole = member !== null && member.roles.has(roleId);
     }
 
     posessedRoles[roleTitle] = hasRole;
