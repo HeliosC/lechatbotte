@@ -37,7 +37,7 @@ function startBot() {
         redis.exists('chattedesbois', function(err, reply) {
             if (reply === 1) {
                 console.log('exists');
-                resis.lrange('chattedesbois', 0, -1, function(err, reply) {
+                redis.lrange('chattedesbois', 0, -1, function(err, reply) {
                     console.log(reply); 
                 });
             }else{
