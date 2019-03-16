@@ -31,32 +31,6 @@ function startBot() {
     client.on("whisper", function (from, userstate, message, self) {
         if (self) return;
 
-
-
-
-        redis.exists('chattedesbois', function(err, reply) {
-            if (reply === 1) {
-                console.log('exists');
-                redis.lrange('chattedesbois', 0, -1, function(err, reply) {
-                    console.log(reply); 
-                });
-            }else{
-                console.log('do not exists');
-                redis.rpush('chattedesbois','a', function(err, reply) {
-                    console.log(reply)
-                    redis.rpush('chattedesbois','5', function(err, reply1) {
-                        console.log(reply1)
-                        redis.get('chattedesbois', function(err, reply2) {
-                            console.log(reply2);
-                        })
-                    })
-                })
-            }
-        });
-
-
-
-
         let m = message.toLowerCase()
 
         if (m.startsWith("zboub") && moderators.indexOf(userstate['display-name'].toLowerCase()) != -1) {
@@ -77,7 +51,17 @@ function startBot() {
 
         let m = message.toLowerCase()
 
-
+        if (/chatt?e\s?(des|dé|de)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
+            redis.lrange('chattedesbois', 0, -1, function(err, reply) {
+                if(reply.indexOf(user.username)==-1){
+                    client.say(channel, user['display-name'] + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
+                    redis.rpush('chattedesbois',user.username)
+                }else{
+                    client.say(channel, user['display-name'] + " je t'avais prévenu !");
+                }
+            });
+        }
+        
 /////////* Specific to chatDesBois's channel *//////////////////////////////////
         if (channel.indexOf(cdb) != -1) { //return }
 
@@ -99,9 +83,17 @@ function startBot() {
         if (/(^|\W)au final($|\W)/gmi.test(m)) {                 //   au final
             client.say(channel, user['display-name'] + " *finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ");
         }
-        if (/chatt?e\s?(des|dé|de)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
-            client.say(channel, user['display-name'] + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
-        }
+
+        // if (/chatt?e\s?(des|dé|de)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
+        //     redis.lrange('chattedesbois', 0, -1, function(err, reply) {
+        //         if(reply.indexOf(user.username)==-1){
+        //             client.say(channel, user['display-name'] + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
+        //             redis.rpush('chattedesbois',user.username)
+        //         }else{
+        //             client.say(channel, user['display-name'] + " je t'avais prévenu !");
+        //         }
+        //     });
+        // }
 
 
         if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
