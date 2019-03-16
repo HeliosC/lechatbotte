@@ -70,11 +70,11 @@ function startBot() {
         if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {                 //   sava
             client.say(channel, user['display-name'] + " *ça va, l'orthographe est ton ami, l'ami !");
         }
-        if (/(^|\W)au final($|\W)/gmi.test(m)) {                 //   sava
+        if (/(^|\W)au final($|\W)/gmi.test(m)) {                 //   au final
             client.say(channel, user['display-name'] + " *finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ");
         }
-        if (/chatt?e\s?(des|dé|de)\s?(bois?|boa)/gmi.test(m)) {                 //   sava
-            client.say(channel, user['display-name'] + " je vais te soulever");
+        if (/chatt?e\s?(des|dé|de)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
+            client.say(channel, user['display-name'] + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :upside_down_face: Next time, j'te goume !");
         }
 
 
