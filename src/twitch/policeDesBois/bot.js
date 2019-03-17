@@ -106,7 +106,7 @@ function startBot() {
             }
 
             if (/(je|ont?)\s?(peu.?|)\s?(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|$|\?)/gmi.test(m)  //ON PEUT JOUER ?
-            ||  /tu.{0,}jou(|.|..)\s?ave.\s?(moi|t|tes|té|les|lé)\s?(vie|fol)/gmi.test(m)
+            ||  /tu.{0,}jou(|.|..)\s?ave.\s?(moi|(t|tes|té|les|lé)\s?(vie|fol))/gmi.test(m)
             ||  /tu\s?(f...|f..|f.)\s?(des|dé|d).{0,}gam.{0,}vi(uv|ew|ev|ouv)eu?r/gmi.test(m)
             //||  //gmi.test(m)
             ) {
