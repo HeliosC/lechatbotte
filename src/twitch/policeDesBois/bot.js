@@ -10,6 +10,8 @@ redis.on('connect', function() {
 });
 
 
+let clientID = process.env.clientID
+let url = "https://api.twitch.tv/kraken/channels/chatdesbois?client_id="
 
 const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
@@ -132,7 +134,7 @@ function startBot() {
             }
 
 
-            
+
 
         if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
             //massacres += 1;
