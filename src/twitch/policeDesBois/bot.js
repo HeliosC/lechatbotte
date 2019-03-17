@@ -116,21 +116,27 @@ function startBot() {
                                     let data = JSON.parse(body)
                                     console.log(data.game)
                                     if(data.game.toLowerCase() == "fortnite"  ){
+                                            console.log("bite2")
                                             // client.say(channel,"Pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !")
                                             answer+=vide(answer)+"pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !"
-                                    }
+                                            onAnswer(answer)
+                                    }else{ onAnswer(answer) }
                             } else {
                                     console.error("unable ")
                             }
                     })
+            }else{
+                onAnswer(answer)
             }
 
             function vide(answer){
                     return answer == "" ? "" : " Et "
             }
 
-            if(answer!=""){
-                    client.say(channel,username+" "+answer)
+            function onAnswer(answer){
+                if(answer!=""){
+                        client.say(channel,username+" "+answer)
+                }
             }
 
 
