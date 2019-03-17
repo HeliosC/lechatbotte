@@ -111,7 +111,7 @@ function startBot() {
 
             if ( !isModerateur(username) && (joueursFortnite.indexOf(username.toLowerCase()) == -1)
             &&( /(je|ont?).{0,}(duo|squad|skad)\s?((a|e)ns|ave.\s?toi|\?|$)/gmi.test(m)  //ON PEUT JOUER ?   |$
-            ||  /(je|ont?)\speu.?jou(|er|é|es|e|et)\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)
+            ||  /(je|ont?)\s(peu.?|pourr?ai.?)\s?jou(|er|é|es|e|et)\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)
             ||  /tu.{0,}jou(|.|..)\s?ave.\s?(moi|(t|tes|té|les|lé)\s?(vie|fol))/gmi.test(m)
             ||  /tu\s?(f...|f..|f.)\s?(des|dé|d).{0,}gam.{0,}(vi(uv|ew|ev|ouv)eu?r|abo)/gmi.test(m)
             )
