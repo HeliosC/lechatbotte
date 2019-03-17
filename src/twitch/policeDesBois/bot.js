@@ -106,8 +106,12 @@ function startBot() {
             });
             }
 
+//            &&( /(je|ont?)\s(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)  //ON PEUT JOUER ?   |$
+//jou(|.|..|...)
+
             if ( !isModerateur(username) && (joueursFortnite.indexOf(username.toLowerCase()) == -1)
-            &&( /(je|ont?)\s(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|$|\?)/gmi.test(m)  //ON PEUT JOUER ?
+            &&( /(je|ont?).{0,}(duo|squad|skad)\s?((a|e)ns|ave.\s?toi|\?|$)/gmi.test(m)  //ON PEUT JOUER ?   |$
+            ||  /(je|ont?)\speu.?jou(|er|é|es|e|et)\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)
             ||  /tu.{0,}jou(|.|..)\s?ave.\s?(moi|(t|tes|té|les|lé)\s?(vie|fol))/gmi.test(m)
             ||  /tu\s?(f...|f..|f.)\s?(des|dé|d).{0,}gam.{0,}(vi(uv|ew|ev|ouv)eu?r|abo)/gmi.test(m)
             )
