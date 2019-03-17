@@ -54,44 +54,85 @@ function startBot() {
 
 
 /////////* Specific to chatDesBois's channel *//////////////////////////////////
+
+        var answer = ""
         if (channel.indexOf(cdb) != -1) { //return }
 
         if (/(^|\W)(je|tu)\speu($|\W|t)/gmi.test(m)) {           //   je/tu peux
-            client.say(channel, username + " peuX, l'orthographe veut ton bien-être !");
-        }
+            // client.say(channel, username + " peuX, l'orthographe veut ton bien-être !");
+            answer+=vide(answer)+"je/tu peuX"
+            }
 
-        if (/(^|\W)on\speu($|\W|x)/gmi.test(m)) {               //   on peut
-            client.say(channel, username + " peuT, l'orthographe veut ton bien-être !");
-        }
+            if (/(^|\W)(il|elle|ont?)\speu($|\W|x)/gmi.test(m)) {               //   on peut
+            // client.say(channel, username + " peuT, l'orthographe veut ton bien-être !");
+            answer+=vide(answer)+"on peuT"
+            }
 
-        if (/(^|\W)(je|tu)\sveu($|\W|t)/gmi.test(m)) {          //   je/tu veux
-            client.say(channel, username + " veuX, l'orthographe veut ton bien-être !");
-        }
+            if (/(^|\W)(je|tu)\sveu($|\W|t)/gmi.test(m)) {          //   je/tu veux
+            // client.say(channel, username + " veuX, l'orthographe veut ton bien-être !");
+            answer+=vide(answer)+"je/tu veuX"
+            }
 
-        if (/(^|\W)(il|elle|on)\sveu($|\W|x)/gmi.test(m)) {               //   on veut
-            client.say(channel, username + " veuT, l'orthographe veut ton bien-être !");
-        }
+            if (/(^|\W)(il|elle|ont?)\sveu($|\W|x)/gmi.test(m)) {               //   on veut
+            // client.say(channel, username + " veuT, l'orthographe veut ton bien-être !");
+            answer+=vide(answer)+"on veuT"
+            }
 
-        if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {                 //   sava
-            client.say(channel, username + " *ça va, l'orthographe est ton ami, l'ami !");
-        }
+            if( answer!=""){ answer+=" , l'orthographe veut ton bien-être !"}
 
-        if (/(^|\W)au final($|\W)/gmi.test(m)) {                 //   au final
-            client.say(channel, username + " *finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ");
-        }
-        
-        if (!isModerateur(username) && /chatt?e\s?(des|dé|de|d)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
+            if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {                 //   sava
+            // client.say(channel, username + " *ça va, l'orthographe est ton ami, l'ami !");
+            answer+=vide(answer)+"*ça va, l'orthographe est ton ami, l'ami !"
+            }
+
+            if (/(^|\W)au final($|\W)/gmi.test(m)) {                 //   au final
+            //client.say(channel, username + " *finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ");
+            answer+=vide(answer)+"*finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ."
+            }
+            
+            if (!isModerateur(username) && /chatt?e\s?(des|dé|de|d)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
             redis.lrange('chattedesbois', 0, -1, function(err, reply) {
-                if(reply.indexOf(username)==-1){
-                    client.say(channel, username + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
+                    if(reply.indexOf(username)==-1){
+                    // client.say(channel, username + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
+                    answer+=vide(answer)+"raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !"
                     redis.rpush('chattedesbois',username)
-                }else {
+                    }else {
                     client.say(channel, username + " je t'avais prévenu !");
                     client.timeout(channel, username, 5)
-                }
+                    }
             });
-        }
+            }
 
+            if (/(je|ont?)\s?(peu.?|)\s?(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|$|\?)/gmi.test(m)  //ON PEUT JOUER ?
+            ||  /tu.{0,}jou(|.|..)\s?ave.\s?(moi|t|tes|té|les|lé)\s?(vie|fol)/gmi.test(m)
+            ||  /tu\s?(f...|f..|f.)\s?(des|dé|d).{0,}gam.{0,}vi(uv|ew|ev|ouv)eu?r/gmi.test(m)
+            //||  //gmi.test(m)
+            ) {
+                    console.log("bite")
+                    request(url+clientID, function (error, response, body) {
+                            if (!error && response.statusCode == 200) {
+                                    let data = JSON.parse(body)
+                                    console.log(data.game)
+                                    if(data.game.toLowerCase() == "fortnite"  ){
+                                            // client.say(channel,"Pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !")
+                                            answer+=vide(answer)+"pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !"
+                                    }
+                            } else {
+                                    console.error("unable ")
+                            }
+                    })
+            }
+
+            function vide(answer){
+                    return answer == "" ? "" : " Et "
+            }
+
+            if(answer!=""){
+                    client.say(channel,username+" "+answer)
+            }
+
+
+            
 
         if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
             //massacres += 1;
