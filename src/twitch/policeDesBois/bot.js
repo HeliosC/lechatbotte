@@ -17,7 +17,7 @@ const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
 
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
-const joueursFortnite = ["toxiicdust","lhotz","threshbard","tutofeeding","carottounet","vause","kraoki"]
+const joueursFortnite = ["toxiicdust","lhotzl","threshbard","tutofeeding","carottounet","vause","kraoki"]
 
 
 function startBot() {
