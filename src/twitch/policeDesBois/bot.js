@@ -17,7 +17,7 @@ const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
 
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
-const joueursFortnite = ["toxiicdust","lhotz"]
+const joueursFortnite = ["toxiicdust","lhotz","threshbard","tutofeeding","carottounet","vause","kraoki"]
 
 
 function startBot() {
@@ -106,10 +106,11 @@ function startBot() {
             });
             }
 
-            if (/(je|ont?)\s?(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|$|\?)/gmi.test(m)  //ON PEUT JOUER ?
+            if ( !isModerateur(username) && (joueursFortnite.indexOf(username.toLowerCase()) == -1)
+            &&( /(je|ont?)\s?(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|$|\?)/gmi.test(m)  //ON PEUT JOUER ?
             ||  /tu.{0,}jou(|.|..)\s?ave.\s?(moi|(t|tes|té|les|lé)\s?(vie|fol))/gmi.test(m)
-            ||  /tu\s?(f...|f..|f.)\s?(des|dé|d).{0,}gam.{0,}vi(uv|ew|ev|ouv)eu?r/gmi.test(m)
-            //||  //gmi.test(m)
+            ||  /tu\s?(f...|f..|f.)\s?(des|dé|d).{0,}gam.{0,}(vi(uv|ew|ev|ouv)eu?r|abo)/gmi.test(m)
+            )
             ) {
                     console.log("bite")
                     request(url+clientID, function (error, response, body) {
