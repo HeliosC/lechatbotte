@@ -93,7 +93,7 @@ function startBot() {
             answer+=vide(answer)+"*finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ."
             }
 
-            if (/(^|/s)tu/s?(su(sse|se|ce|ss|ç|çe)|susses|suses)(/s|$)/gmi.test(m)) {                 //   au final
+            if (/(^|\s)tu\s?(su(sse|se|ce|ss|ç|çe)|susses|suses)(\s|$)/gmi.test(m)) {                 //   au final
                 answer+=vide(answer)+"*tu suçes"
             }
             
