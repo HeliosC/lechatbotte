@@ -42,7 +42,7 @@ RolesManager.prototype.extractRoles = function(message) {
 };
 
 RolesManager.prototype.modifRole = function(message, role) {
-    if (!message.member.roles.has(role.id)) {
+    if (message.member == null || !message.member.roles.has(role.id)) {
         message.member.addRole(role.id);
         message.author.send("Tu as maintenant le role : " + role.name);
         this.botClient.users
