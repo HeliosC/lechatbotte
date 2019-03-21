@@ -113,11 +113,17 @@ function startBot() {
 //            &&( /(je|ont?)\s(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)  //ON PEUT JOUER ?   |$
 //jou(|.|..|...)
 
+            if ( !isModerateur(username) && (joueursFortnite.indexOf(username.toLowerCase()) == -1
+            && /can\s?i\s?pl..\s?wi..\s?(you|u)/gmi.test(m)){
+
+            }
+
             if ( !isModerateur(username) && (joueursFortnite.indexOf(username.toLowerCase()) == -1)
             &&( /(je|ont?).{0,}(duo|squad|skad)\s?((a|e)ns|ave.\s?toi|\?|$)/gmi.test(m)  //ON PEUT JOUER ?   |$
             ||  /(je|ont?)\s(peu.?|pourr?ai.?)\s?jou(|er|é|es|e|et)\s?((a|e)ns|ave.\s?(toi|vou|vous)|\?)/gmi.test(m)
             ||  /tu.{0,}jou(|.|..)\s?ave.\s?(moi|(t|tes|té|les|lé)\s?(vie|fol|abo))/gmi.test(m)
             ||  /tu\s.{0,}(fait|fé|faire|fai|fais|fair)\s.{0,}(des|dé|d).{0,}gam.{0,}(vi(uv|ew|ev|ouv)eu?r|abo)/gmi.test(m)
+            ||  /can\s?i\s?pl..\s?wi..\s?(you|u)/gmi.test(m)
             )
             ) {
                     console.log("bite")
@@ -128,7 +134,11 @@ function startBot() {
                                     if(data.game.toLowerCase() == "fortnite"  ){
                                             console.log("bite2")
                                             // client.say(channel,"Pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !")
-                                            answer+=vide(answer)+"pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !"
+                                            if( /can\s?i\s?pl..\s?wi..\s?(you|u)/gmi.test(m) ){
+                                                answer+=vide(answer)+"chatdesbois doesn't play with the viouveurs !"
+                                            }else{
+                                                answer+=vide(answer)+"pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !"
+                                            }
                                             onAnswer(answer)
                                     }else{ onAnswer(answer) }
                             } else {
