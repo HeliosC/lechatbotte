@@ -22,11 +22,11 @@ function startBot() {
             client.say(channel, username + " chatdeLove chatdeLove chatdeLove");
         }        
     });
-    client.on("subgift", (channel, username, streakMonths, recipient, methods, userstate) => {
-        if(channel == "#" + cdb){
-            client.say(channel, username + " chatdeLove chatdeLove chatdeLove");
-        }        
-    });
+    // client.on("subgift", (channel, username, streakMonths, recipient, methods, userstate) => {
+    //     if(channel == "#" + cdb){
+    //         client.say(channel, username + " chatdeLove chatdeLove chatdeLove");
+    //     }        
+    // });
     client.on("submysterygift", (channel, username, numbOfSubs, methods, userstate) => {
         if(channel == "#" + cdb){
             client.say(channel, username + " chatdeLove chatdeLove chatdeLove");
