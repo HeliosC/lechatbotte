@@ -98,7 +98,7 @@ function startBot() {
                 }
 
                 if (/(^|\s)tu\s?(su(sse|se|ce|ss|ç|çe)|susses|suses)(\s|$)/gmi.test(m)) {                 //   au final
-                    answer += vide(answer) + "*tu suçes"
+                    answer += vide(answer) + "*tu suces"
                 }
 
                 if (!isModerateur(username) && /chatt?e\s?(des|dé|de|d)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
