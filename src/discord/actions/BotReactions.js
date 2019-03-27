@@ -210,7 +210,7 @@ BotReactions.prototype.parleBot = function(message) {
     return;
   }
 
-  message.channel.send(message.content.replace(commandPrefix, ""));
+  message.channel.send(message.content.replace(this.commandPrefix, ""));
   var hasAttachment = false;
   for (var [key, value] of message.attachments) {
     message.channel.send({ file: value.proxyURL });
