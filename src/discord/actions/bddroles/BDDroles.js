@@ -15,6 +15,9 @@ module.exports.roles = [
 		roleName: ["ow", "overwatch"],
 		roleTitle: "Joueurs d'Overwatch"
 	}, {
+		roleName: ["gta"],
+		roleTitle: "Joueurs de GTA"
+	}, {
 		roleName: ["battlerite"],
 		roleTitle: "Joueurs de Battlerite"
 	}
