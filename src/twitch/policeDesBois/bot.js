@@ -48,6 +48,10 @@ function startBot() {
         if (m.startsWith("sayh ") && userstate['display-name'].toLowerCase() == hdb) {
             client.say(hdb, m.substr(5));
         }
+
+        if (m.startsWith("sayldlc ") && userstate['display-name'].toLowerCase() == hdb) {
+            client.say(ldlc, m.substr(8));
+        }
     });
 
     client.on('chat', (channel, user, message, isSelf) => {
@@ -68,6 +72,9 @@ function startBot() {
                 }
             })
         }
+
+        console.log("LALA ")
+
 
         /////////* Specific to chatDesBois's channel *//////////////////////////////////
 
