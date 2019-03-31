@@ -15,6 +15,7 @@ let url = "https://api.twitch.tv/kraken/channels/chatdesbois?client_id="
 
 const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
+const ldlc = "teamldlc"
 
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
@@ -55,10 +56,22 @@ function startBot() {
         let m = message.toLowerCase()
         let username = user.username
 
+        if( channel.indexOf(ldlc)!=-1  ){
+            request('https://api.twitch.tv/kraken/channels/'+ldlc+'?client_id='+process.env.clientID, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    let data = JSON.parse(body)
+                    if( data.status.toLowerCase().indexOf(cdb)==-1 ){
+                        return;
+                    }
+                } else {
+                    console.error("unable ")
+                }
+            })
+        }
 
         /////////* Specific to chatDesBois's channel *//////////////////////////////////
 
-        if (channel.indexOf(cdb) != -1) { //return }
+        if (channel.indexOf(cdb) != -1 || channel.indexOf(ldlc)!=-1) { //return }
 
             if (username.toLowerCase() != hdb) {
 

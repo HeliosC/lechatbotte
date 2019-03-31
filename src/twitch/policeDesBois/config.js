@@ -12,7 +12,7 @@ module.exports = {
     channels: [
         "heliosdesbois",
         // "kraoki",
-        "chatdesbois"
-        //"TeamLDLC"
+        "chatdesbois",
+        "TeamLDLC"
     ]
 };
