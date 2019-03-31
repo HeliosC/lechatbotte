@@ -11,7 +11,8 @@ redis.on('connect', function () {
 
 
 let clientID = process.env.clientID
-let url = "https://api.twitch.tv/kraken/channels/chatdesbois?client_id="
+// let url = "https://api.twitch.tv/kraken/channels/chatdesbois?client_id="
+let url = "https://api.twitch.tv/kraken/channels/"
 
 const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
@@ -137,7 +138,7 @@ function startBot() {
                 //            &&( /(je|ont?)\s(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)  //ON PEUT JOUER ?   |$
                 //jou(|.|..|...)
 
-
+                //je/tu peux m/t'ajouter en ami
                 if (!isModerateur(username) && (joueursFortnite.indexOf(username.toLowerCase()) == -1)
                     && (/(je|ont?).{0,}(duo|squad|skad)\s?((a|e)ns|ave.\s?toi|\?|$)/gmi.test(m)  //ON PEUT JOUER ?   |$
                         || /(je|ont?)\s(peu.?|pourr?ai.?)\s?jou(|er|é|es|e|et)\s?((a|e)ns|ave.\s?(toi|vou|vous)|\?|apr)/gmi.test(m)
@@ -148,7 +149,10 @@ function startBot() {
                     )
                 ) {
                     console.log("bite")
-                    request(url + clientID, function (error, response, body) {
+                    // request(url + clientID, function (error, response, body) {
+                    request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
+                            
+
                         if (!error && response.statusCode == 200) {
                             let data = JSON.parse(body)
                             console.log(data.game)
