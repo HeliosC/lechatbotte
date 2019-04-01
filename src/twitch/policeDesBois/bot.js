@@ -62,10 +62,12 @@ function startBot() {
         let username = user.username
 
         if( channel.indexOf(ldlc)!=-1  ){
+            console.log("ldlc")
             request('https://api.twitch.tv/kraken/channels/'+ldlc+'?client_id='+process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body)
                     if( data.status.toLowerCase().indexOf(cdb)==-1 ){
+                        console.log("cbd")
                         return;
                     }
                 } else {
@@ -73,6 +75,9 @@ function startBot() {
                 }
             })
         }
+
+        //console.log("ldlc")
+
 
         console.log("LALA ")
 
