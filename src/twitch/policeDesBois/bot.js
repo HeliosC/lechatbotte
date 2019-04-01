@@ -56,7 +56,7 @@ function startBot() {
 
         let m = message.toLowerCase()
 
-        if (m.startsWith("chat") && userstate['display-name'] == hdb) {
+        if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb ){
             let chatredis = "chat" + m.substr(5)
             redis.exists(chatredis, function (err, reply) {
                 if (reply === 1) {
