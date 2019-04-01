@@ -24,13 +24,14 @@ const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_su
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 
 let date = new Date();
-let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
+// let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
+let chatredis = 'chat' + '/' + date.getDate() +'/' + (date.getMonth() + 1) + '/' + date.getFullYear()
 console.log("**************************************"+chatredis)
 redis.exists(chatredis, function (err, reply) {
     if (reply === 1) {
         console.log('exists');
     } else {
-        redis.set(chatredis, 'Chat du ' + date.getDate() + (date.getMonth() + 1));
+        redis.set(chatredis, "******************************** "+ 'Chat du ' + date.getDate() +'/' + (date.getMonth() + 1) + '/' + date.getFullYear() +" ********************************");
     }
 });
 
