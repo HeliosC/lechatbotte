@@ -23,7 +23,7 @@ const hood = "helioshood"
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 
-const ete = 3
+const ete = 2
 
 let date = new Date();
 // let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
