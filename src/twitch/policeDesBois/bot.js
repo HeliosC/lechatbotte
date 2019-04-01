@@ -58,7 +58,7 @@ function startBot() {
     });
 
     client.on('chat', (channel, user, message, isSelf) => {
-        client.whisper(hood, user + " : "+message);
+        client.whisper(hood, user.username + " : "+message);
         if (isSelf) return;
 
         if( channel.indexOf(ldlc)!=-1  ){
