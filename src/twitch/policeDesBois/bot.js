@@ -18,6 +18,7 @@ const pdb = "policedesbois"
 const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
 const ldlc = "teamldlc"
+const hood = "helioshood"
 
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
@@ -57,7 +58,7 @@ function startBot() {
     });
 
     client.on('chat', (channel, user, message, isSelf) => {
-        client.whisper(pdb, user + " : "+message);
+        client.whisper(hood, user + " : "+message);
         if (isSelf) return;
 
         if( channel.indexOf(ldlc)!=-1  ){
