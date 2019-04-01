@@ -74,7 +74,7 @@ function startBot() {
 
         redis.get(chatredis, function(err, reply) {
             console.log(reply);
-            client.set(chatredis, reply+"\n"+user.username+" : "+message);
+            redis.set(chatredis, reply+"\n"+user.username+" : "+message);
         });
 
         // client.whisper(hood, user.username + " : "+message);
