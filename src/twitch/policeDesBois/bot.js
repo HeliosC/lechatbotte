@@ -23,6 +23,8 @@ const hood = "helioshood"
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 
+const ete = 0
+
 let date = new Date();
 // let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
 let chatredis = 'chat' + '/' + date.getDate() +'/' + (date.getMonth() + 1) + '/' + date.getFullYear()
@@ -126,8 +128,10 @@ function startBot() {
 function channelCdb(client, channel, user, message, isSelf) {
 
     redis.get(chatredis, function (err, reply) {
-        // console.log(reply);
-        redis.set(chatredis, reply + "\n" + user.username + " : " + message);
+
+
+        redis.set(chatredis, reply + "\n" 
+            + heureOnly() + ' [' + user.username + '] : ' + message);
     });
 
     let m = message.toLowerCase();
@@ -306,7 +310,21 @@ function heure() {
     if (minutes < 10) {
         minutes = "0" + minutes;
     }
-    return date.getDate() + ":" + (date.getMonth() + 1) + " " + (heure + 1) + "h" + minutes;
+    return date.getDate() + ":" + (date.getMonth() + 1) + " " + (heure + ete) + "h" + minutes;
+}
+
+function heureOnly() {
+    let date = new Date();
+    let heure = date.getHours();
+    let minutes = date.getMinutes();
+    if (heure < 10) {
+        heure = "0" + heure;
+    }
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+
+    return (heure + ete) + ":" + minutes 
 }
 
 
