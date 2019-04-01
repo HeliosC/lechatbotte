@@ -159,8 +159,8 @@ function startBot() {
                 if (!isModerateur(username) && /chatt?e\s?(des|dé|de|d)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
                     redis.lrange('chattedesbois', 0, -1, function (err, reply) {
                         if (reply.indexOf(username) == -1) {
-                            // client.say(channel, username + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
-                            answer += vide(answer) + "raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !"
+                            client.say(channel, username + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
+                            // answer += vide(answer) + "raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !"
                             redis.rpush('chattedesbois', username)
                         } else {
                             client.say(channel, username + " je t'avais prévenu !");
