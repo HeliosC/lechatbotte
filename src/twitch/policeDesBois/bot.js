@@ -49,11 +49,6 @@ function startBot() {
 
     client.on("whisper", function (from, userstate, message, self) {
 
-        redis.get(chatredis, function(err, reply) {
-            console.log(reply);
-            client.set(chatredis, reply+"\n"+user.username+" : "+message);
-        });
-
         if (self) return;
 
         let m = message.toLowerCase()
@@ -76,9 +71,15 @@ function startBot() {
     });
 
     client.on('chat', (channel, user, message, isSelf) => {
-        client.whisper(hood, user.username + " : "+message);
+
+        redis.get(chatredis, function(err, reply) {
+            console.log(reply);
+            client.set(chatredis, reply+"\n"+user.username+" : "+message);
+        });
+
+        // client.whisper(hood, user.username + " : "+message);
         if (isSelf){
-            client.whisper(hood, user.username + " : "+message);
+            // client.whisper(hood, user.username + " : "+message);
             return;
         } 
 
