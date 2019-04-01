@@ -59,7 +59,10 @@ function startBot() {
 
     client.on('chat', (channel, user, message, isSelf) => {
         client.whisper(hood, user.username + " : "+message);
-        if (isSelf) return;
+        if (isSelf){
+            client.whisper(hood, user.username + " : "+message);
+            return;
+        } 
 
         if( channel.indexOf(ldlc)!=-1  ){
             request('https://api.twitch.tv/kraken/channels/'+ldlc+'?client_id='+process.env.clientID, function (error, response, body) {
