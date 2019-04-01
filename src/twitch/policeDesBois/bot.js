@@ -72,16 +72,16 @@ function startBot() {
 
     client.on('chat', (channel, user, message, isSelf) => {
 
-        redis.get(chatredis, function(err, reply) {
-            console.log(reply);
-            redis.set(chatredis, reply+"\n"+user.username+" : "+message);
-        });
+        // redis.get(chatredis, function(err, reply) {
+        //     console.log(reply);
+        //     redis.set(chatredis, reply+"\n"+user.username+" : "+message);
+        // });
 
         // client.whisper(hood, user.username + " : "+message);
-        if (isSelf){
-            // client.whisper(hood, user.username + " : "+message);
-            return;
-        } 
+        // if (isSelf){
+        //     // client.whisper(hood, user.username + " : "+message);
+        //     return;
+        // } 
 
         if( channel.indexOf(ldlc)!=-1  ){
             request('https://api.twitch.tv/kraken/channels/'+ldlc+'?client_id='+process.env.clientID, function (error, response, body) {
@@ -105,6 +105,11 @@ function startBot() {
         //if (channel.indexOf(cdb) != -1 || channel.indexOf(ldlc)!=-1) { //return }
 
         function channelCdb(client,channel, user, message, isSelf){
+
+            redis.get(chatredis, function(err, reply) {
+                console.log(reply);
+                redis.set(chatredis, reply+"\n"+user.username+" : "+message);
+            });
 
             let m = message.toLowerCase();
             let username = user.username;
