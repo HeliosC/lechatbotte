@@ -134,7 +134,7 @@ function channelCdb(client, channel, user, message, isSelf) {
         let date2 = new Date();
         let month = date2.getMonth()+1;
         let jour = date2.getDate();
-        let heure = date2.getHours();
+        let heure = date2.getUTCHours();// getHours();
         let minute = date2.getMinutes();
 
         console.log(heureOnly() + ' [' + user.username + '] : ' + message)
