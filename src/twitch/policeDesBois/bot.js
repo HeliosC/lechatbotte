@@ -23,18 +23,19 @@ const hood = "helioshood"
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 
+let date = new Date();
+let chatredis = "chat"+date.getDate() +""+ date.getMonth()
+redis.exists(chatredis, function(err, reply) {
+    if (reply === 1) {
+        console.log('exists');
+    } else {
+        redis.set(chatredis, 'Chat du '+ date.getDate() + (date.getMonth()+1));
+    }
+});
 
 function startBot() {
 
-    let date = new Date();
-    let chatredis = "chat"+date.getDate() +""+ date.getMonth()
-    redis.exists(chatredis, function(err, reply) {
-        if (reply === 1) {
-            console.log('exists');
-        } else {
-            redis.set(chatredis, 'Chat du '+ date.getDate() + (date.getMonth()+1));
-        }
-    });
+
 
 
     let client = new tmi.client(tmiConfig);
@@ -107,7 +108,7 @@ function startBot() {
         function channelCdb(client,channel, user, message, isSelf){
 
             redis.get(chatredis, function(err, reply) {
-                console.log(reply);
+                // console.log(reply);
                 redis.set(chatredis, reply+"\n"+user.username+" : "+message);
             });
 
