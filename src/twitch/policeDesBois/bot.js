@@ -131,6 +131,8 @@ function channelCdb(client, channel, user, message, isSelf) {
 
     redis.get(chatredis, function (err, reply) {
 
+        console.log(heureOnly() + ' [' + user.username + '] : ' + message)
+        // console.log(heureOnly)
 
         redis.set(chatredis, reply + "\n" 
             + heureOnly() + ' [' + user.username + '] : ' + message);
