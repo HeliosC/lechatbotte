@@ -25,8 +25,9 @@ const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "c
 
 
 function startBot() {
-    let chatredis = "chat"+date.getDate() +""+ date.getMonth()
 
+    let date = new Date();
+    let chatredis = "chat"+date.getDate() +""+ date.getMonth()
     redis.exists(chatredis, function(err, reply) {
         if (reply === 1) {
             console.log('exists');
