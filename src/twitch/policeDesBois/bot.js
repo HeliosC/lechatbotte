@@ -58,9 +58,6 @@ function startBot() {
     client.on('chat', (channel, user, message, isSelf) => {
         if (isSelf) return;
 
-        let m = message.toLowerCase();
-        let username = user.username;
-
         if( channel.indexOf(ldlc)!=-1  ){
             console.log("ldlc");
             request('https://api.twitch.tv/kraken/channels/'+ldlc+'?client_id='+process.env.clientID, function (error, response, body) {
@@ -92,6 +89,9 @@ function startBot() {
         //if (channel.indexOf(cdb) != -1 || channel.indexOf(ldlc)!=-1) { //return }
 
         function channelCdb(channel, user, message, isSelf){
+
+            let m = message.toLowerCase();
+            let username = user.username;
 
             if (username.toLowerCase() != hdb) {
 
