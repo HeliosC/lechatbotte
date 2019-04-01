@@ -23,7 +23,7 @@ const hood = "helioshood"
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 
-const ete = 0
+const ete = 3
 
 let date = new Date();
 // let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
@@ -131,15 +131,15 @@ function channelCdb(client, channel, user, message, isSelf) {
 
     redis.get(chatredis, function (err, reply) {
 
-        let date2 = new Date();
-        let month = date2.getMonth()+1;
-        let jour = date2.getDate();
-        let heure = date2.getUTCHours();// getHours();
-        let minute = date2.getMinutes();
+        // let date2 = new Date();
+        // let month = date2.getMonth()+1;
+        // let jour = date2.getDate();
+        // let heure = date2.getUTCHours();// getHours();
+        // let minute = date2.getMinutes();
 
-        console.log(heureOnly() + ' [' + user.username + '] : ' + message)
+        // console.log(heureOnly() + ' [' + user.username + '] : ' + message)
         
-        console.log(month+" "+jour+" "+heure+" "+minute)
+        // console.log(month+" "+jour+" "+heure+" "+minute)
 
         redis.set(chatredis, reply + "\n" 
             + heureOnly() + ' [' + user.username + '] : ' + message);
