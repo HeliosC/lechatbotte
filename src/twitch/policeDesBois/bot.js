@@ -58,33 +58,40 @@ function startBot() {
     client.on('chat', (channel, user, message, isSelf) => {
         if (isSelf) return;
 
-        let m = message.toLowerCase()
-        let username = user.username
+        let m = message.toLowerCase();
+        let username = user.username;
 
         if( channel.indexOf(ldlc)!=-1  ){
-            console.log("ldlc")
+            console.log("ldlc");
             request('https://api.twitch.tv/kraken/channels/'+ldlc+'?client_id='+process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    let data = JSON.parse(body)
-                    if( data.status.toLowerCase().indexOf(cdb)==-1 ){
-                        console.log("cbd")
-                        return;
+                    let data = JSON.parse(body);
+                    if( data.status.toLowerCase().indexOf(cdb)!=-1 ){
+                        console.log("cbd");
+                        channelCdb(channel, user, message, isSelf);
                     }
                 } else {
-                    console.error("unable ")
+                    console.error("unable ");
                 }
             })
+        }else{
+            console.log("pas ldlc");
+            channelCdb(channel, user, message, isSelf);
         }
 
         //console.log("ldlc")
 
 
-        console.log("LALA ")
+        console.log("LALA ");
 
+    });
+}
 
         /////////* Specific to chatDesBois's channel *//////////////////////////////////
 
-        if (channel.indexOf(cdb) != -1 || channel.indexOf(ldlc)!=-1) { //return }
+        //if (channel.indexOf(cdb) != -1 || channel.indexOf(ldlc)!=-1) { //return }
+
+        function channelCdb(channel, user, message, isSelf){
 
             if (username.toLowerCase() != hdb) {
 
@@ -232,9 +239,10 @@ function startBot() {
                     }
                 })
             }
-        }
-    });
-}
+        }//fin if channel cdb
+
+
+
 
 
 function isModerateur(username) {
