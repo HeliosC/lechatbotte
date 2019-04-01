@@ -14,6 +14,7 @@ let clientID = process.env.clientID
 // let url = "https://api.twitch.tv/kraken/channels/chatdesbois?client_id="
 let url = "https://api.twitch.tv/kraken/channels/"
 
+const pdb = "policedesbois"
 const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
 const ldlc = "teamldlc"
@@ -56,15 +57,14 @@ function startBot() {
     });
 
     client.on('chat', (channel, user, message, isSelf) => {
+        client.whisper(pdb, user + " : "+message);
         if (isSelf) return;
 
         if( channel.indexOf(ldlc)!=-1  ){
-            console.log("ldlc");
             request('https://api.twitch.tv/kraken/channels/'+ldlc+'?client_id='+process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body);
                     if( data.status.toLowerCase().indexOf(cdb)!=-1 ){
-                        console.log("cbd");
                         channelCdb(client,channel, user, message, isSelf);
                     }
                 } else {
@@ -72,15 +72,8 @@ function startBot() {
                 }
             })
         }else{
-            console.log("pas ldlc");
             channelCdb(client,channel, user, message, isSelf);
         }
-
-        //console.log("ldlc")
-
-
-        console.log("LALA ");
-
     });
 }
 
