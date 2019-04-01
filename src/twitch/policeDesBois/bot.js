@@ -27,13 +27,15 @@ const ete = 0
 
 let date = new Date();
 // let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
-let chatredis = 'chat' + '/' + date.getDate() +'/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+// let chatredis = 'chat' + '/' + date.getDate() +'/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+let chatredis = 'chat' + '/' + dateFull()
+
 console.log("**************************************"+chatredis)
 redis.exists(chatredis, function (err, reply) {
     if (reply === 1) {
         console.log('exists');
     } else {
-        redis.set(chatredis, "******************************** "+ 'Chat du ' + date.getDate() +'/' + (date.getMonth() + 1) + '/' + date.getFullYear() +" ********************************");
+        redis.set(chatredis, "******************************** "+ 'Chat du ' + dateFull() +" ********************************");
     }
 });
 
@@ -325,6 +327,20 @@ function heureOnly() {
     }
 
     return (heure + ete) + ":" + minutes 
+}
+
+function dateFull(){
+    let date = new Date();
+    let month = date.getMonth()+1;
+    let jour = date.getDate();
+    if (jour < 10) {
+        jour = "0" + jour;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+    return jour +'/' + month + '/' + date.getFullYear()
 }
 
 
