@@ -65,7 +65,7 @@ function startBot() {
                     let data = JSON.parse(body);
                     if( data.status.toLowerCase().indexOf(cdb)!=-1 ){
                         console.log("cbd");
-                        channelCdb(channel, user, message, isSelf);
+                        channelCdb(client,channel, user, message, isSelf);
                     }
                 } else {
                     console.error("unable ");
@@ -73,7 +73,7 @@ function startBot() {
             })
         }else{
             console.log("pas ldlc");
-            channelCdb(channel, user, message, isSelf);
+            channelCdb(client,channel, user, message, isSelf);
         }
 
         //console.log("ldlc")
@@ -88,7 +88,7 @@ function startBot() {
 
         //if (channel.indexOf(cdb) != -1 || channel.indexOf(ldlc)!=-1) { //return }
 
-        function channelCdb(channel, user, message, isSelf){
+        function channelCdb(client,channel, user, message, isSelf){
 
             let m = message.toLowerCase();
             let username = user.username;
