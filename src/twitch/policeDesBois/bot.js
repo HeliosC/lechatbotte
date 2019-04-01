@@ -25,6 +25,17 @@ const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "c
 
 
 function startBot() {
+    let chatredis = "chat"+date.getDate() +""+ date.getMonth()
+
+    redis.exists(chatredis, function(err, reply) {
+        if (reply === 1) {
+            console.log('exists');
+        } else {
+            redis.set(chatredis, 'Chat du '+ date.getDate() + (date.getMonth()+1));
+        }
+    });
+
+
     let client = new tmi.client(tmiConfig);
     client.connect().then(_ => {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
@@ -36,6 +47,12 @@ function startBot() {
 
 
     client.on("whisper", function (from, userstate, message, self) {
+
+        redis.get(chatredis, function(err, reply) {
+            console.log(reply);
+            client.set(chatredis, reply+"\n"+user.username+" : "+message);
+        });
+
         if (self) return;
 
         let m = message.toLowerCase()
