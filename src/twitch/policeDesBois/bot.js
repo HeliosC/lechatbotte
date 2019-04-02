@@ -25,19 +25,33 @@ const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "c
 
 const ete = 2
 
-let date = new Date();
+// let date = new Date();
 // let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
 // let chatredis = 'chat' + '/' + date.getDate() +'/' + (date.getMonth() + 1) + '/' + date.getFullYear()
-let chatredis = 'chat' + '/' + dateFull()
 
-console.log("**************************************"+chatredis)
-redis.exists(chatredis, function (err, reply) {
-    if (reply === 1) {
-        console.log('exists');
-    } else {
-        redis.set(chatredis, "******************************** "+ 'Chat du ' + dateFull() +" ********************************");
-    }
-});
+
+
+function chatlog(username, message) {
+    let redisDate = dateFull()
+    let chatredis = 'chat' + '/' + redisDate
+    console.log("**************************************" + redisDate)
+    redis.exists(chatredis, function (err, reply) {
+        if (reply === 1) {
+            console.log('exists');
+
+            redis.get(chatredis, function (err, reply) {
+                redis.set(chatredis, reply + "\n"
+                    + heureOnly() + ' [' + username + '] : ' + message);
+            });
+
+        } else {
+            redis.set(chatredis, "******************************** " + 'Chat du ' + redisDate + " ********************************" + "\n"
+                + heureOnly() + ' [' + username + '] : ' + message);
+        }
+    });
+}
+
+
 
 function startBot() {
 
@@ -62,16 +76,16 @@ function startBot() {
 
         let m = message.toLowerCase()
 
-        if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb ){
+        if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb) {
             let chatredis = "chat/" + m.substr(5)
             redis.exists(chatredis, function (err, reply) {
                 if (reply === 1) {
                     console.log('exists');
-                    redis.get(chatredis, function(err, reply) {
+                    redis.get(chatredis, function (err, reply) {
                         console.log(reply);
                     });
                 } else {
-                    console.log(chatredis+" existe pas")
+                    console.log(chatredis + " existe pas")
                 }
             });
         }
@@ -129,21 +143,12 @@ function startBot() {
 
 function channelCdb(client, channel, user, message, isSelf) {
 
-    redis.get(chatredis, function (err, reply) {
+    chatlog(user.username, message)
 
-        // let date2 = new Date();
-        // let month = date2.getMonth()+1;
-        // let jour = date2.getDate();
-        // let heure = date2.getUTCHours();// getHours();
-        // let minute = date2.getMinutes();
-
-        // console.log(heureOnly() + ' [' + user.username + '] : ' + message)
-        
-        // console.log(month+" "+jour+" "+heure+" "+minute)
-
-        redis.set(chatredis, reply + "\n" 
-            + heureOnly() + ' [' + user.username + '] : ' + message);
-    });
+    // redis.get(chatredis, function (err, reply) {
+    //     redis.set(chatredis, reply + "\n" 
+    //         + heureOnly() + ' [' + user.username + '] : ' + message);
+    // });
 
     let m = message.toLowerCase();
     let username = user.username;
@@ -335,12 +340,12 @@ function heureOnly() {
         minutes = "0" + minutes;
     }
 
-    return (heure + ete) + ":" + minutes 
+    return (heure + ete) + ":" + minutes
 }
 
-function dateFull(){
+function dateFull() {
     let date = new Date();
-    let month = date.getMonth()+1;
+    let month = date.getMonth() + 1;
     let jour = date.getDate();
     if (jour < 10) {
         jour = "0" + jour;
@@ -349,7 +354,7 @@ function dateFull(){
         month = "0" + month;
     }
 
-    return jour +'/' + month + '/' + date.getFullYear()
+    return jour + '/' + month + '/' + date.getFullYear()
 }
 
 
