@@ -78,13 +78,13 @@ module.exports.messagesReactions = [
     disabled: false,
     responseChannel: function(client, message) {
       const dab = client.emojis.find(e => e.name == "LapinDab");
-      // return "RDV aux 5000 follows ! " + dab;
-      return "GIVEAWAY 15€ PAYPAL pour fêter l'arrivée de l'extension ! 🎁\n"
-     + "1⃣ Follow le stream : https://twitch.tv/chatdesbois\n"
-     + "2⃣ Télécharge l'extension : https://bit.ly/2qXtylM\n"
-     + "3⃣ Inscris toi au giveaway (dans l'extension elle-même)\n"
-     + "(Ne sois qu'amour ! ♥)\n"
-     + "🏁 TAS 30/03" 
+      return "RDV aux 5000 follows ! " + dab;
+    //   return "GIVEAWAY 15€ PAYPAL pour fêter l'arrivée de l'extension ! 🎁\n"
+    //  + "1⃣ Follow le stream : https://twitch.tv/chatdesbois\n"
+    //  + "2⃣ Télécharge l'extension : https://bit.ly/2qXtylM\n"
+    //  + "3⃣ Inscris toi au giveaway (dans l'extension elle-même)\n"
+    //  + "(Ne sois qu'amour ! ♥)\n"
+    //  + "🏁 TAS 30/03" 
     }
   }, {
     contains: ["kalista"],
