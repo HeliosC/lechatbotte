@@ -59,7 +59,7 @@ typings/
 
 # next.js build output
 .next
-chat/
+#chat/
 twitch - Copie.js
 test.js
 package-lock.json
