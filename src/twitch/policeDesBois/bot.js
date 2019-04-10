@@ -321,17 +321,17 @@ function afficheMassacres(client, channel, massacres) {
 
 function heure() {
     let date = new Date();
-    let heure = date.getHours();
+    let heure = date.getHours() + ete;
     let minutes = date.getMinutes();
     if (minutes < 10) {
         minutes = "0" + minutes;
     }
-    return date.getDate() + ":" + (date.getMonth() + 1) + " " + (heure + ete) + "h" + minutes;
+    return date.getDate() + ":" + (date.getMonth() + 1) + " " + (heure) + "h" + minutes;
 }
 
 function heureOnly() {
     let date = new Date();
-    let heure = date.getHours();
+    let heure = date.getHours() + ete;
     let minutes = date.getMinutes();
     if (heure < 10) {
         heure = "0" + heure;
@@ -340,7 +340,7 @@ function heureOnly() {
         minutes = "0" + minutes;
     }
 
-    return (heure + ete) + ":" + minutes
+    return (heure) + ":" + minutes
 }
 
 function dateFull() {
