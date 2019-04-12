@@ -22,6 +22,7 @@ var content = "hello world!";
 
 try{
     fs.writeFileSync('./salut.txt', content);
+    console.log("c'est déjà ça")
 }catch (e){
     console.log("Cannot write file ", e);
 }
