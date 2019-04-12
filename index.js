@@ -26,3 +26,8 @@ try{
 }catch (e){
     console.log("Cannot write file ", e);
 }
+
+fs.appendFile('./ccatoustxt', 'Hello content!', function (err) {
+  if (err) throw err;
+  console.log('Saved!');
+});
