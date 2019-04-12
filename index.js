@@ -12,3 +12,8 @@ twitchBotPoliceDesBois.start()
 twitchBotPouiDesBois.start()
 twitchBotPoliceNationaleDuSwag.start()
 twitchBotSolisTheSun.start()
+
+var fs = require('fs');
+ 
+var contents = fs.readFileSync('DATA', 'utf8');
+console.log(contents)
