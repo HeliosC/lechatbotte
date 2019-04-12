@@ -17,3 +17,11 @@ var fs = require('fs');
  
 var contents = fs.readFileSync('./salut.txt', 'utf8');
 console.log(contents)
+
+var content = "hello world!";
+
+try{
+    fs.writeFileSync('./salut.txt', content);
+}catch (e){
+    console.log("Cannot write file ", e);
+}
