@@ -15,5 +15,5 @@ twitchBotSolisTheSun.start()
 
 var fs = require('fs');
  
-var contents = fs.readFileSync('DATA', 'utf8');
+var contents = fs.readFileSync('./salut.txt', 'utf8');
 console.log(contents)
