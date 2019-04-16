@@ -12,3 +12,22 @@ twitchBotPoliceDesBois.start()
 twitchBotPouiDesBois.start()
 twitchBotPoliceNationaleDuSwag.start()
 twitchBotSolisTheSun.start()
+
+var fs = require('fs');
+ 
+var contents = fs.readFileSync('./salut.txt', 'utf8');
+console.log(contents)
+
+var content = "hello world!";
+
+try{
+    fs.writeFileSync('./salut.txt', content);
+    console.log("c'est déjà ça")
+}catch (e){
+    console.log("Cannot write file ", e);
+}
+
+fs.appendFile('./ccatoustxt', 'Hello content!', function (err) {
+  if (err) throw err;
+  console.log('Saved!');
+});
