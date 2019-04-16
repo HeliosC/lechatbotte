@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-let username = ".+desbois"
+let username = "chat"
 let dat = '00/04/2019'
 
 
@@ -10,6 +10,7 @@ var text = fs.readFileSync(path, 'utf8')
 
 var str = ""
 var s = ""
+username = ".*" + username + ".*"
 var exp = "" + username + ""
 var regex = new RegExp("[0-9]{2}:[0-9]{2} \\[" + username + "\\] : .*\\n|(\\n|^)\\*{32} Chat du [0-9]{2}\\/[0-9]{2}\\/[0-9]{4} \\*{32}\\n", "gmi");
 text.match(regex).forEach(function (element) {
