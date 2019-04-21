@@ -9,7 +9,7 @@ module.exports.roles = [
 		roleName: ["fortnite"],
 		roleTitle: "Joueurs de Fortnite"
 	}, {
-		roleName: ["soc,"],
+		roleName: ["soc","jdc"],
 		roleTitle: "Jeux de société"
 	}, {
 		roleName: ["ow"],
