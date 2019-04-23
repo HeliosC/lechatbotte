@@ -21,6 +21,7 @@ const ldlc = "teamldlc"
 const hood = "helioshood"
 
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
+const boss = ["toxiicdust"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 
 const ete = 2
@@ -101,7 +102,8 @@ function startBot() {
         }
 
         if (m.startsWith("sayh ") && userstate['display-name'].toLowerCase() == hdb) {
-            client.say(hdb, m.substr(5));
+            // client.say(hdb, m.substr(5));
+            client.say(hdb, message.substr(5));
         }
 
         if (m.startsWith("sayldlc ") && userstate['display-name'].toLowerCase() == hdb) {
@@ -155,7 +157,7 @@ function channelCdb(client, channel, user, message, isSelf) {
     let m = message.toLowerCase();
     let username = user.username;
 
-    if (username.toLowerCase() != hdb) {
+    if (username.toLowerCase() != hdb && !isBoss(username)) {
 
         var answer = ""
 
@@ -196,7 +198,7 @@ function channelCdb(client, channel, user, message, isSelf) {
             answer += vide(answer) + "*tu suces"
         }
 
-        if (!isModerateur(username) && /chatt?e\s?(des|dé|de|d)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
+        if (!isBoss(username) && /chatt?e\s?(des|dé|de|d)\s?(bois?|boa)/gmi.test(m)) {                 //   chattedesbois
             redis.lrange('chattedesbois', 0, -1, function (err, reply) {
                 if (reply.indexOf(username) == -1) {
                     client.say(channel, username + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
@@ -309,6 +311,10 @@ function channelCdb(client, channel, user, message, isSelf) {
 
 function isModerateur(username) {
     return moderators.indexOf(username.toLowerCase()) != -1;
+}
+
+function isBoss(username) {
+    return moderators.indexOf(username.toLowerCase()) != -1 || boss.indexOf(username.toLowerCase() != -1 );
 }
 
 function afficheMassacres(client, channel, massacres) {
