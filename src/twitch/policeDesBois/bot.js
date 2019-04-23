@@ -98,7 +98,7 @@ function startBot() {
         }
 
         if (m.startsWith("say ") && userstate['display-name'].toLowerCase() == hdb) {
-            client.say(cdb, m.substr(4));
+            client.say(hdb, message.substr(5));
         }
 
         if (m.startsWith("sayh ") && userstate['display-name'].toLowerCase() == hdb) {
