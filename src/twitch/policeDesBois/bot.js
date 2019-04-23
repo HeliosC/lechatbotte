@@ -98,12 +98,10 @@ function startBot() {
         }
 
         if (m.startsWith("say ") && userstate['display-name'].toLowerCase() == hdb) {
-            // client.say(cdb, m.substr(5));
-            client.say(cdb, message.substr(5));
+            client.say(cdb, message.substr(4));
         }
 
         if (m.startsWith("sayh ") && userstate['display-name'].toLowerCase() == hdb) {
-            // client.say(hdb, m.substr(5));
             client.say(hdb, message.substr(5));
         }
 
