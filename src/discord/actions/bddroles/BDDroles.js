@@ -26,4 +26,4 @@ module.exports.roles = [
 	}
 ];
 
-module.exports.advertisedUser = "Helios ⭐⭐";
+module.exports.advertisedUser = "Helios";
