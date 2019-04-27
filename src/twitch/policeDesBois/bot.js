@@ -38,10 +38,10 @@ function chatlog(username, message) {
     let redisDateInv = redisDate.substr(6,4)+redisDate.substr(2,4)+redisDate.substr(0,2)
     let chatredis = 'chat' + '/' + redisDateInv
 
-    console.log("**************************************" + redisDate)
+    // console.log("**************************************" + redisDate)
     redis.exists(chatredis, function (err, reply) {
         if (reply === 1) {
-            console.log('exists');
+            // console.log('exists');
 
             redis.get(chatredis, function (err, reply) {
                 redis.set(chatredis, reply + "\n"
