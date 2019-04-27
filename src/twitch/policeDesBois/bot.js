@@ -19,6 +19,7 @@ const cdb = "chatdesbois"
 const hdb = "heliosdesbois"
 const ldlc = "teamldlc"
 const hood = "helioshood"
+const krao = "kraoki"
 
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const boss = ["toxiicdust"]
@@ -147,6 +148,8 @@ function startBot() {
 function channelCdb(client, channel, user, message, isSelf) {
 
     chatlog(user.username, message)
+
+    if( channel.indexOf(krao) != -1 ){ return; }
 
     // redis.get(chatredis, function (err, reply) {
     //     redis.set(chatredis, reply + "\n" 
