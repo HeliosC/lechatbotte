@@ -9,6 +9,7 @@ redis.on('connect', function () {
     console.log('connected');
 });
 
+const hdb = "heliosdesbois"
 const krao = "kraoki"
 const ete = 2
 
@@ -36,6 +37,8 @@ function chatlog(username, message) {
 function startBot() {
 
 
+
+
     let client = new tmi.client(tmiConfig);
     client.connect().then(_ => {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
@@ -44,6 +47,14 @@ function startBot() {
     /* bot variables */
     //var massacres = 0;
 
+    client.on("whisper", function (from, userstate, message, self) {
+
+        if (self) return;
+
+        if (m.startsWith("sayk ") && userstate['display-name'].toLowerCase() == hdb) {
+            client.say(krao, message.substr(5));
+        }
+    }
 
     client.on("whisper", function (from, userstate, message, self) {
         if (self) return;
