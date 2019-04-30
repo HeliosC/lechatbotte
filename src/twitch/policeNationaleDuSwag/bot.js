@@ -15,7 +15,7 @@ const ete = 2
 function chatlog(username, message) {
     let redisDate = dateFull()
     let redisDateInv = redisDate.substr(6,4)+redisDate.substr(2,4)+redisDate.substr(0,2)
-    let chatredis = 'chatKraoki' + '/' + redisDateInv
+    let chatredis = 'chatkraoki' + '/' + redisDateInv
 
     redis.exists(chatredis, function (err, reply) {
         if (reply === 1) {
