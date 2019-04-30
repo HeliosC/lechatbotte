@@ -4,7 +4,38 @@ const tmiConfig = require("./config")
 
 const request = require('request')
 
+var redis = require('redis').createClient(process.env.REDIS_URL);
+redis.on('connect', function () {
+    console.log('connected');
+});
+
+const krao = "kraoki"
+const ete = 2
+
+function chatlog(username, message) {
+    let redisDate = dateFull()
+    let redisDateInv = redisDate.substr(6,4)+redisDate.substr(2,4)+redisDate.substr(0,2)
+    let chatredis = 'chatKraoki' + '/' + redisDateInv
+
+    redis.exists(chatredis, function (err, reply) {
+        if (reply === 1) {
+
+            redis.get(chatredis, function (err, reply) {
+                redis.set(chatredis, reply + "\n"
+                    + heureOnly() + ' [' + username + '] : ' + message);
+            });
+
+        } else {
+            redis.set(chatredis, "******************************** " + 'Chat du ' + redisDate + " ********************************" + "\n"
+                + heureOnly() + ' [' + username + '] : ' + message);
+        }
+    });
+}
+
+
 function startBot() {
+
+
     let client = new tmi.client(tmiConfig);
     client.connect().then(_ => {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
@@ -24,6 +55,8 @@ function startBot() {
     client.on('chat', (channel, user, message, isSelf) => {
         if (isSelf) return;
 
+        chatlog(user.username, message)
+
         let m = message.toLowerCase()
 
         /* Specific to kraoki's channel */
@@ -38,7 +71,7 @@ function startBot() {
                         let words = message.split(" ")
                         if(words.length > 0 ){
                             let word = words[1]
-                            if( user.username == "heliosdesbois" || (word.toLowerCase()!="policedesbois" && word.toLowerCase()!="heliosdesbois" && viewers.indexOf(word.toLowerCase())!=-1) ){
+                            if( user.username == "heliosdesbois" || (word.toLowerCase()!="policenationaleduswag" && word.toLowerCase()!="policedesbois" && word.toLowerCase()!="heliosdesbois" && viewers.indexOf(word.toLowerCase())!=-1) ){
                                 client.say(channel, word + ", vous êtes en état d'arrestation !");
                             }
                         }
@@ -56,5 +89,33 @@ function startBot() {
 // function isModerateur(username) {
 //     return moderators.indexOf(username.toLowerCase()) != -1;
 // }
+
+function heureOnly() {
+    let date = new Date();
+    let heure = date.getHours() + ete;
+    let minutes = date.getMinutes();
+    if (heure < 10) {
+        heure = "0" + heure;
+    }
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+
+    return (heure) + ":" + minutes
+}
+
+function dateFull() {
+    let date = new Date();
+    let month = date.getMonth() + 1;
+    let jour = date.getDate();
+    if (jour < 10) {
+        jour = "0" + jour;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+    return jour + '/' + month + '/' + date.getFullYear()
+}
 
 module.exports.start = startBot;

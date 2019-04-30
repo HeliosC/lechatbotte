@@ -11,7 +11,7 @@ module.exports = {
     },
     channels: [
         "heliosdesbois",
-        "kraoki",
+        //"kraoki",
         "chatdesbois",
         "TeamLDLC"
     ]
