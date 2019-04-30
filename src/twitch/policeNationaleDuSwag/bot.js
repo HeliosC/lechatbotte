@@ -37,6 +37,7 @@ function chatlog(username, message) {
 function startBot() {
 
 
+    let m = message.toLowerCase()
 
 
     let client = new tmi.client(tmiConfig);
