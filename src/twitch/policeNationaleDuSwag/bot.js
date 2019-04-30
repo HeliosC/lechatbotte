@@ -47,20 +47,13 @@ function startBot() {
     /* bot variables */
     //var massacres = 0;
 
-    client.on("whisper", function (from, userstate, message, self) {
 
+    client.on("whisper", function (from, userstate, message, self) {
         if (self) return;
 
         if (m.startsWith("sayk ") && userstate['display-name'].toLowerCase() == hdb) {
             client.say(krao, message.substr(5));
         }
-    }
-
-    client.on("whisper", function (from, userstate, message, self) {
-        if (self) return;
-
-        let m = message.toLowerCase()
-
     });
 
     client.on('chat', (channel, user, message, isSelf) => {
