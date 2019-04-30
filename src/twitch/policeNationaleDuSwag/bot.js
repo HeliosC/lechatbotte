@@ -37,7 +37,6 @@ function chatlog(username, message) {
 function startBot() {
 
 
-    let m = message.toLowerCase()
 
 
     let client = new tmi.client(tmiConfig);
@@ -51,6 +50,8 @@ function startBot() {
 
     client.on("whisper", function (from, userstate, message, self) {
         if (self) return;
+
+        let m = message.toLowerCase()
 
         if (m.startsWith("sayk ") && userstate['display-name'].toLowerCase() == hdb) {
             client.say(krao, message.substr(5));
