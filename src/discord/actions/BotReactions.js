@@ -189,8 +189,11 @@ BotReactions.prototype.checkImageToMove = function(message) {
 
   if (message.channel.name != this.channels.chanCh) return triggeredAction;
 
-  if (/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/.test(message.content)
-  ||/https?:\/\/giphy.com\/gifs\/.+/.test(message.content)) {
+  if (/(http(s?):)([/|.|\w|\s|-])*\(.|-)(?:jpg|jpeg|gif|png)/.test(message.content)
+  ||/https?:\/\/tenor.com\/view\/.+/.test(message.content)
+  ||/https?:\/\/giphy.com\/gifs\/.+/.test(message.content)
+  ||/https?:\/\/gfycat.com\/.+/.test(message.content)
+  ){
     message.channel.send(message.author + " : " + this.botClient.channels.find(c => c.name == this.channels.images));
     let imageChannel = this.botClient.channels.find(c => c.name == this.channels.images);
     imageChannel.send(this.botClient.channels.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
