@@ -22,7 +22,7 @@ const hood = "helioshood"
 const krao = "kraoki"
 
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
-const boss = ["toxiicdust"]
+const boss = ["toxiicdust","heliosdesbois"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 
 const ete = 2
