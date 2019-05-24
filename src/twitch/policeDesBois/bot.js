@@ -324,7 +324,7 @@ function isModerateur(username) {
 }
 
 function isBoss(username) {
-    return ( (moderators.indexOf(username.toLowerCase()) != -1) || (boss.indexOf(username.toLowerCase() != -1 )) );
+    return ( (moderators.indexOf(username.toLowerCase()) != -1) || (boss.indexOf(username.toLowerCase()) != -1 ) );
 }
 
 function afficheMassacres(client, channel, massacres) {
