@@ -162,7 +162,7 @@ function channelCdb(client, channel, user, message, isSelf) {
     let m = message.toLowerCase();
     let username = user.username;
 
-    if (username.toLowerCase() != hdb && !isBoss(username)) {
+    if (username.toLowerCase() != hdb && !isBoss(susername)) {
 
         var answer = ""
 
