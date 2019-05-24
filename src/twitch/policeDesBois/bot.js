@@ -162,10 +162,6 @@ function channelCdb(client, channel, user, message, isSelf) {
     let m = message.toLowerCase();
     let username = user.username;
 
-    console.log("username ")
-    console.log(username)
-    console.log("isBoss ")
-    console.log(isBoss(username) )
 
     if (username.toLowerCase() != hdb && !isBoss(username)) {
 
@@ -227,23 +223,23 @@ function channelCdb(client, channel, user, message, isSelf) {
         //je/tu peux m/t'ajouter en ami
         if (!isModerateur(username) && (joueursFortnite.indexOf(username.toLowerCase()) == -1)
             && (/(je|ont?).{0,}(duo|squad|skad)\s?((a|e)ns|ave.\s?toi|\?|$)/gmi.test(m)  //ON PEUT JOUER ?   |$
-                || /(je|ont?)\s(peu.?|pourr?ai.?)\s?jou(|er|é|es|e|et)\s?((a|e)ns|ave.\s?(toi|vou|vous)|\?|apr)/gmi.test(m)
-                || /(je|ont?)\s(peu.?|pourr?ai.?)\s?fair.{0,}(parti|gam).{0,}((a|e)ns|ave.\s?(toi|vou|vous)|apr)/gmi.test(m)
+                || /(je?|ont?)\s?(peu.?|pourr?ai.?)\s?jou(|er|é|es|e|et)\s?((a|e)ns|ave.\s?(toi|vou|vous)|\?|apr)/gmi.test(m)
+                || /(je?|ont?)\s?(peu.?|pourr?ai.?)\s?fair.{0,}(parti|gam).{0,}((a|e)ns|ave.\s?(toi|vou|vous)|apr)/gmi.test(m)
                 || /tu.{0,}jou(|.|..)\s?ave.\s?(moi|(t|tes|té|les|lé)\s?(vie|fol|abo))/gmi.test(m)
                 || /tu\s.{0,}(fait|fé|faire|fai|fais|fair)\s.{0,}(des|dé|d).{0,}gam.{0,}(vi(uv|ew|ev|ouv)eu?r|abo)/gmi.test(m)
-                || /can\s?i\s?pl..\s?wi..\s?(you|u)/gmi.test(m)
+                || /can\s?i\s?pl..\s?wh?i..\s?(you|u)/gmi.test(m)
             )
         ) {
-            console.log("bite")
+            //console.log("bite")
             // request(url + clientID, function (error, response, body) {
             request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
 
 
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body)
-                    console.log(data.game)
+                    //console.log(data.game)
                     if (data.game.toLowerCase() == "fortnite") {
-                        console.log("bite2")
+                        //console.log("bite2")
                         // client.say(channel,"Pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !")
                         if (/can\s?i\s?pl..\s?wi..\s?(you|u)/gmi.test(m)) {
                             answer += vide(answer) + "chatdesbois doesn't play with the viouveurs !"
@@ -296,7 +292,7 @@ function channelCdb(client, channel, user, message, isSelf) {
     // }
 
     if (m.startsWith("arretez")) {
-        console.log(channel)
+        //console.log(channel)
         request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body)
