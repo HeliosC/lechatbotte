@@ -27,6 +27,9 @@ const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "c
 
 const ete = 2
 
+massacresON = true
+lobbiesON = true
+
 // let date = new Date();
 // let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
 // let chatredis = 'chat' + '/' + date.getDate() +'/' + (date.getMonth() + 1) + '/' + date.getFullYear()
@@ -294,7 +297,12 @@ function channelCdb(client, channel, user, message, isSelf) {
 
 
 
-    if (/^!lobb?y\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
+    if (/^!lobb?y\s?\+\s?1$/gmi.test(m) && lobbiesON) { //*massacre -> incremente
+        lobbiesON = false
+        setTimeout(function () {
+            lobbiesON = true
+        }, 30000); 
+        
         redis.incr('lobbies', function (err, reply) {
             afficheLobbies(client, channel, parseInt(reply));
         });
@@ -308,6 +316,7 @@ function channelCdb(client, channel, user, message, isSelf) {
         redis.decr('lobbies', function (err, reply) {
             afficheLobbies(client, channel, parseInt(reply));
         });
+
     } else if (isModerateur(user.username) && /^!lobb?y \d/gmi.test(m)) {
         lobbies = parseInt(m.slice(7 + 1)) || 0;
         afficheLobbies(client, channel, lobbies);
