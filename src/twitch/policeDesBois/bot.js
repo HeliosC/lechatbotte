@@ -281,10 +281,37 @@ function channelCdb(client, channel, user, message, isSelf) {
             afficheMassacres(client, channel, parseInt(reply));
         });
 
-    } else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
+    } else if (isModerateur(user.username) && /^!massacre\s?\-\s?1$/gmi.test(m)) {
+        redis.decr('massacres', function (err, reply) {
+            afficheMassacres(client, channel, parseInt(reply));
+        });
+    }
+    else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
         massacres = parseInt(m.slice(9 + 1)) || 0;
         afficheMassacres(client, channel, massacres);
         redis.set('massacres', massacres);
+    }
+
+
+
+    if (/^!lobb?y\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
+        redis.incr('lobbies', function (err, reply) {
+            afficheLobbies(client, channel, parseInt(reply));
+        });
+
+    } else if (/^!lobb?y$/gmi.test(m)) { //*massacres -> affiche le nb
+        redis.get('lobbies', function (err, reply) {
+            afficheLobbies(client, channel, parseInt(reply));
+        });
+
+    } else if (isModerateur(user.username) && /^!lobb?y\s?\-\s?1$/gmi.test(m)) {
+        redis.decr('lobbies', function (err, reply) {
+            afficheLobbies(client, channel, parseInt(reply));
+        });
+    } else if (isModerateur(user.username) && /^!lobb?y \d/gmi.test(m)) {
+        lobbies = parseInt(m.slice(7 + 1)) || 0;
+        afficheLobbies(client, channel, lobbies);
+        redis.set('lobbies', lobbies);
     }
 
     // if (m.startsWith("!game")) {
@@ -327,6 +354,14 @@ function afficheMassacres(client, channel, massacres) {
     client.say(
         channel,
         `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité ! 👌🏻`
+    );
+
+}
+
+function afficheLobbies(client, channel, lobbies) {
+    client.say(
+        channel,
+        `Chatdesbois est retournée ${lobbies} fois au lobby, qui peut la stopper ?`
     );
 
 }
