@@ -29,6 +29,7 @@ const ete = 2
 
 massacresON = true
 lobbiesON = true
+mortsON = true
 
 // let date = new Date();
 // let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
@@ -274,7 +275,11 @@ function channelCdb(client, channel, user, message, isSelf) {
 
 
     if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
-        //massacres += 1;
+        massacresON = false
+        setTimeout(function () {
+            massacresON = true
+        }, 15000); 
+        
         redis.incr('massacres', function (err, reply) {
             afficheMassacres(client, channel, parseInt(reply));
         });
@@ -296,18 +301,48 @@ function channelCdb(client, channel, user, message, isSelf) {
     }
 
 
+    if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) ) { 
 
-    if (/^!lobb?y\s?\+\s?1$/gmi.test(m) && lobbiesON) { //*massacre -> incremente
-        lobbiesON = false
-        setTimeout(function () {
-            lobbiesON = true
-        }, 30000); 
-        
-        redis.incr('lobbies', function (err, reply) {
-            afficheLobbies(client, channel, parseInt(reply));
-        });
+        request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
 
-    } else if (/^!lobb?y$/gmi.test(m)) { //*massacres -> affiche le nb
+
+            if (!error && response.statusCode == 200) {
+                let data = JSON.parse(body)
+                if ( (data.game.toLowerCase().indexOf("tomb raider") != -1) || (data.game.toLowerCase().indexOf("lara croft") != -1) ) {
+                    
+                    if (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsON) { //*morts? -> incremente
+                        mortsON = false
+                        setTimeout(function () {
+                            mortsON = true
+                        }, 15000); 
+                        
+                        redis.incr('morts', function (err, reply) {
+                            afficheMorts(client, channel, parseInt(reply));
+                        });
+                
+                    }
+
+                }else if (data.game.toLowerCase() == "fortnite") {
+
+                    if (/^!lobb?y\s?\+\s?1$/gmi.test(m) && lobbiesON) { //*lobby -> incremente
+                        lobbiesON = false
+                        setTimeout(function () {
+                            lobbiesON = true
+                        }, 30000); 
+                
+                        redis.incr('lobbies', function (err, reply) {
+                            afficheLobbies(client, channel, parseInt(reply));
+                        });
+                
+                    }
+
+                }
+            }
+        })
+
+    }
+
+    if (/^!lobb?y$/gmi.test(m)) { //*lobby -> affiche le nb
         redis.get('lobbies', function (err, reply) {
             afficheLobbies(client, channel, parseInt(reply));
         });
@@ -322,6 +357,26 @@ function channelCdb(client, channel, user, message, isSelf) {
         afficheLobbies(client, channel, lobbies);
         redis.set('lobbies', lobbies);
     }
+
+
+
+    if (/^!morts?$/gmi.test(m)) { //*morts -> affiche le nb
+        redis.get('morts', function (err, reply) {
+            afficheMorts(client, channel, parseInt(reply));
+        });
+
+    } else if (isModerateur(user.username) && /^!morts?\s?\-\s?1$/gmi.test(m)) {
+        redis.decr('morts', function (err, reply) {
+            afficheMorts(client, channel, parseInt(reply));
+        });
+    }
+    else if (isModerateur(user.username) && /^!morts? \d/gmi.test(m)) {
+        morts = parseInt(m.slice(5 + 1)) || 0;
+        afficheMorts(client, channel, morts);
+        redis.set('morts', morts);
+    }
+
+    
 
     // if (m.startsWith("!game")) {
     //     client.say(channel, "Chatdesbois ne fait pas de games viewers sur Fortnite");
