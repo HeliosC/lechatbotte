@@ -430,6 +430,14 @@ function afficheLobbies(client, channel, lobbies) {
 
 }
 
+function afficheMorts(client, channel, morts) {
+    client.say(
+        channel,
+        `Lara Croft est morte ${morts} fois`
+    );
+
+}
+
 
 
 function heure() {
