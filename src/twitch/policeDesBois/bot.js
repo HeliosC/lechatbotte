@@ -356,6 +356,8 @@ function channelCdb(client, channel, user, message, isSelf) {
         lobbies = parseInt(m.slice(7 + 1)) || 0;
         afficheLobbies(client, channel, lobbies);
         redis.set('lobbies', lobbies);
+    } else if (/^!lobb?y\?$/gmi.test(m)) {
+        client.say(channel, "https://clips.twitch.tv/GracefulDistinctTitanLitFam")
     }
 
 
