@@ -160,6 +160,7 @@ function startBot() {
                         channelCdb(client, channel, user, message, isSelf);
                     }else{
                         console.log("CDGPAS CDBBBBB")
+                        console.log(data.status.toLowerCase())
                     }
                 } else {
                     console.log("ERROR")
