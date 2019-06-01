@@ -139,7 +139,7 @@ function startBot() {
             request('https://api.twitch.tv/kraken/channels/' + ldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body);
-                    if (data.status.toLowerCase().indexOf(cdb) != -1) {
+                    if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
                         channelCdb(client, channel, user, message, isSelf);
                     }
                 } else {
@@ -153,7 +153,7 @@ function startBot() {
             request('https://api.twitch.tv/kraken/channels/' + cdg + '?client_id=' + process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body);
-                    if (data.status.toLowerCase().indexOf(cdb2) != -1) {
+                    if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
                         console.log("CDBBBBBBB")
                         console.log(data.status.toLowerCase())
 
