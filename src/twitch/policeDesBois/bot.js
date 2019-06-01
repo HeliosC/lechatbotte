@@ -154,16 +154,16 @@ function startBot() {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body);
                     if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
-                        console.log("CDBBBBBBB")
-                        console.log(data.status.toLowerCase())
+                        // console.log("CDBBBBBBB")
+                        // console.log(data.status.toLowerCase())
 
                         channelCdb(client, channel, user, message, isSelf);
                     }else{
-                        console.log("CDGPAS CDBBBBB")
-                        console.log(data.status.toLowerCase())
+                        // console.log("CDGPAS CDBBBBB")
+                        // console.log(data.status.toLowerCase())
                     }
                 } else {
-                    console.log("ERROR")
+                    // console.log("ERROR")
 
                     console.error("unable ");
                 }
