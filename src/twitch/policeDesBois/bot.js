@@ -155,6 +155,7 @@ function startBot() {
                     let data = JSON.parse(body);
                     if (data.status.toLowerCase().indexOf(cdb2) != -1) {
                         console.log("CDBBBBBBB")
+                        console.log(data.status.toLowerCase())
 
                         channelCdb(client, channel, user, message, isSelf);
                     }else{
