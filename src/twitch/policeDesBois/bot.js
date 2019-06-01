@@ -147,6 +147,9 @@ function startBot() {
                 }
             })
         } else if (channel.indexOf(cdg) != -1) {
+
+            console.log("CDGGGGGGG")
+
             request('https://api.twitch.tv/kraken/channels/' + cdg + '?client_id=' + process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body);
@@ -158,6 +161,9 @@ function startBot() {
                 }
             })
         } else {
+
+            console.log("PAS CDGGGGGGG")
+
             channelCdb(client, channel, user, message, isSelf);
         }
     });
