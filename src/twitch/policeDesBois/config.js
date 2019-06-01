@@ -13,6 +13,7 @@ module.exports = {
         "heliosdesbois",
         //"kraoki",
         "chatdesbois",
-        "TeamLDLC"
+        "TeamLDLC",
+        "choeur_de_gamers"
     ]
 };

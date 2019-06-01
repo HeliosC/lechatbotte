@@ -16,8 +16,10 @@ let url = "https://api.twitch.tv/kraken/channels/"
 
 const pdb = "policedesbois"
 const cdb = "chatdesbois"
+const cdb2 = "chat des bois"
 const hdb = "heliosdesbois"
 const ldlc = "teamldlc"
+const cdg = "choeur_de_gamers"
 const hood = "helioshood"
 const krao = "kraoki"
 
@@ -131,11 +133,24 @@ function startBot() {
         //     return;
         // } 
 
+        
+
         if (channel.indexOf(ldlc) != -1) {
             request('https://api.twitch.tv/kraken/channels/' + ldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body);
                     if (data.status.toLowerCase().indexOf(cdb) != -1) {
+                        channelCdb(client, channel, user, message, isSelf);
+                    }
+                } else {
+                    console.error("unable ");
+                }
+            })
+        } else if (channel.indexOf(cdg) != -1) {
+            request('https://api.twitch.tv/kraken/channels/' + cdg + '?client_id=' + process.env.clientID, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    let data = JSON.parse(body);
+                    if (data.status.toLowerCase().indexOf(cdb2) != -1) {
                         channelCdb(client, channel, user, message, isSelf);
                     }
                 } else {
