@@ -157,9 +157,11 @@ function startBot() {
                         console.log("CDBBBBBBB")
 
                         channelCdb(client, channel, user, message, isSelf);
+                    }else{
+                        console.log("CDGPAS CDBBBBB")
                     }
                 } else {
-                    console.log("PAS CDBBBBBBBB")
+                    console.log("ERROR")
 
                     console.error("unable ");
                 }
