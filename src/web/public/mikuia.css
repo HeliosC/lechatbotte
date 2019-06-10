@@ -1,0 +1,340 @@
+.alert {
+ word-wrap:break-word
+}
+.align-center {
+ text-align:center
+}
+.avatars {
+ height:100%;
+ left:0;
+ overflow:hidden;
+ position:absolute;
+ right:0;
+ top:0
+}
+.avatars>ul {
+ height:100%;
+ list-style:none;
+ padding:0;
+ position:absolute;
+ right:-64px;
+ top:0
+}
+.avatars>ul>li {
+ float:left;
+ margin:0;
+ opacity:.2;
+ padding:0
+}
+.login>.avatars {
+ z-index:-10
+}
+.bg-black {
+ background-color:#333!important;
+ box-shadow:0 0 10px #000!important
+}
+.bg-material-deep-purple-800 {
+ background-color:#4527a0!important;
+ box-shadow:0 0 10px #311b92!important
+}
+.bg-material-grey {
+ background-color:#9e9e9e!important;
+ box-shadow:0 0 10px #212121!important
+}
+.bg-material-light-blue {
+ background-color:#03a9f4!important;
+ box-shadow:0 0 10px #01579b!important
+}
+.bg-material-light-green {
+ background-color:#8bc34a!important;
+ box-shadow:0 0 10px #33691e!important
+}
+.bg-material-orange {
+ background-color:#ff9800!important;
+ box-shadow:0 0 10px #e65100!important
+}
+.bg-material-osu-pink {
+ background-color:#b17!important;
+ box-shadow:0 0 10px #e39!important
+}
+.bg-material-red {
+ background-color:#f44336!important;
+ box-shadow:0 0 10px #b71c1c!important
+}
+.blackbox {
+ background-color:rgba(0,0,0,.6);
+ box-shadow:0 0 10px #000;
+ height:225px;
+ max-height:300px;
+ overflow:hidden;
+ padding:20px;
+ position:relative;
+ text-overflow:ellipsis;
+ white-space:nowrap
+}
+.blackbox-buttons {
+ bottom:20px;
+ position:absolute
+}
+.btn-twitch {
+ background-color:#6441a5;
+ color:#fff
+}
+.card {
+ height:220px;
+ margin:5px;
+ overflow:hidden;
+ padding:4px;
+ text-overflow:ellipsis;
+ width:270px;
+ white-space:nowrap
+}
+.featured h1,h2,h3,h4,h5,h6 {
+ margin:0
+}
+.featured h1 {
+ font-size:50px
+}
+.featured h1>small {
+ color:#ccc;
+ font-size:24px
+}
+.featured h4 {
+ color:#aaa
+}
+.featured h6 {
+ color:#999;
+ font-weight:700
+}
+.help-block {
+ opacity:1!important
+}
+.image-border {
+ border:3px solid #fff;
+ box-shadow:0 0 15px #ccc
+}
+.infobox {
+ background-color:#111;
+ box-shadow:0 0 10px #000;
+ color:#fff;
+ height:8em;
+ margin-bottom:2em
+}
+.infobox a {
+ color:#fff
+}
+.infobox-discord {
+ background-image:url(/img/discord.png);
+ background-position:100% -14px;
+ background-repeat:no-repeat;
+ background-size:200px;
+ height:100%
+}
+.infobox-live {
+ background-color:#212121;
+ border-bottom:4px solid #f44336
+}
+.infobox-mikuia {
+ background-image:url(/img/mikuia.png);
+ background-position:100% -630px;
+ background-repeat:no-repeat;
+ height:100%;
+ text-shadow:0 0 10px #999
+}
+.infobox-preview {
+ box-shadow:0 0 10px red;
+ margin-left:20px;
+ margin-top:14px
+}
+.infobox-slack {
+ background-image:url(/img/slack.png);
+ background-position:100% -10px;
+ background-repeat:no-repeat;
+ height:100%;
+ text-shadow:0 0 10px #999
+}
+.infobox-slack a {
+ color:#fff
+}
+.label {
+ line-height:1.5
+}
+.level {
+ border:2px solid #999;
+ border-radius:16px;
+ display:inline-block;
+ height:32px;
+ line-height:28px;
+ text-align:center;
+ width:32px
+}
+.level-text {
+ font-size:16px;
+ vertical-align:top
+}
+.mini-level {
+ height:24px;
+ line-height:20px;
+ width:24px
+}
+.mini-level-text {
+ font-size:12px;
+ vertical-align:top
+}
+.navbar-alert {
+ color:red!important;
+ font-weight:700
+}
+a.navbar-brand {
+ color:#fff
+}
+.navbar-dashboard {
+ padding-top:22px!important
+}
+body.page-sidebar-closed>.navbar>.page-header-inner>.page-logo>a {
+ display:none
+}
+.navbar-mikuia {
+ background-color:rgba(0,0,0,.3);
+ position:absolute
+}
+.navbar-mikuia .navbar-nav>li.active>a,.navbar-mikuia .navbar-nav>li.active>a:hover,.navbar-mikuia .navbar-nav>li.active>a:focus,.navbar-mikuia .navbar-nav>li>a:hover,.navbar-mikuia .navbar-nav>li>a:focus {
+ background-color:rgba(0,0,0,.3);
+ color:#fff
+}
+.navbar-text {
+ margin-top:13px
+}
+.nomargin {
+ margin:0
+}
+.note {
+ word-break:break-word
+}
+.page-actions-mikuia {
+ padding:6px
+}
+.page-actions-mikuia .separator {
+ padding-right:10px
+}
+.page-breadcrumb .fa-home {
+ margin-right:4px
+}
+.portlet-mikuia {
+ background-image:url(/img/mikuia.png);
+ background-position:100% -450px;
+ background-repeat:no-repeat
+}
+.profile-avatar {
+ border:4px solid #7a62d3;
+ box-shadow:0 0 10px #7a62d3;
+ margin:0 auto
+}
+.profile-name {
+ padding-top:32px
+}
+.splash {
+ background-color:#7a62d3;
+ box-shadow:0 0 10px #311b92;
+ color:#fff;
+ height:10em;
+ margin-bottom:3em;
+ padding-top:4em
+}
+.splash.featured,.splash.nomargin {
+ margin-bottom:0!important
+}
+.splash.leagues {
+ height:30em
+}
+.splash.profile {
+ border-bottom:4px solid #7a62d3;
+ min-height:27em;
+ padding-top:6em;
+ z-index:-10
+}
+.splash.user {
+ border-bottom:4px solid #7a62d3;
+ height:11em;
+ margin-bottom:2em!important;
+ padding-top:4em;
+ z-index:-10
+}
+.splash.user img {
+ margin:7px
+}
+.splash>.avatars {
+ max-height:12em
+}
+.splash-index {
+ height:21em
+}
+.splash-index>.avatars {
+ max-height:21em
+}
+.stream-flag {
+ padding:5px
+}
+.weight-500 {
+ font-weight:500
+}
+.animation-fade-in-down {
+ animation-duration:1000ms;
+ animation-fill-mode:forwards;
+ animation-name:fade-in-down;
+ animation-timing-function:cubic-bezier(.19,1,.2,1)
+}
+.animation-fade-in-left {
+ animation-duration:1000ms;
+ animation-fill-mode:forwards;
+ animation-name:fade-in-left;
+ animation-timing-function:cubic-bezier(.19,1,.2,1)
+}
+.animation-fade-in-right {
+ animation-duration:1000ms;
+ animation-fill-mode:forwards;
+ animation-name:fade-in-right;
+ animation-timing-function:cubic-bezier(.19,1,.2,1)
+}
+.animation-fade-in-up {
+ animation-duration:1000ms;
+ animation-fill-mode:forwards;
+ animation-name:fade-in-up;
+ animation-timing-function:cubic-bezier(.19,1,.2,1)
+}
+@keyframes fade-in-down {
+ from {
+  opacity:0;
+  transform:translate3d(0px,-50px,0)
+ }
+ to {
+  opacity:1
+ }
+}
+@keyframes fade-in-left {
+ from {
+  opacity:0;
+  transform:translate3d(50px,0,0)
+ }
+ to {
+  opacity:1
+ }
+}
+@keyframes fade-in-right {
+ from {
+  opacity:0;
+  transform:translate3d(-50px,0,0)
+ }
+ to {
+  opacity:1
+ }
+}
+@keyframes fade-in-up {
+ from {
+  opacity:0;
+  transform:translate3d(0,50px,0)
+ }
+ to {
+  opacity:1
+ }
+}

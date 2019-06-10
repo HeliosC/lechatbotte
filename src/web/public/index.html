@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Express page</title>
-</head>
-<body>
-Test
-</body>
+    <head>
+    	<link rel="stylesheet" href="bootstrap.min.css" />
+    	<link rel="stylesheet" href="mikuia.css" />
+    	<link rel="stylesheet" href="new.css" />
+        <script>
+                var i=0;
+                var stop = 5;
+                for (i=1;i<10;i++)
+                {
+
+                    document.write( // This writes the number in a paragraph
+
+	'<div class="mikuia-card mikuia-card-ranking"><div style="flex-basis: 70px;" class="mikuia-card-block mikuia-card-ranking-block"><h6 class="text-muted">Rank</h6><h3>#'+i+'</h3></div><div style="flex-basis: 300px;" class="mikuia-card-block"><div class="mikuia-card-user"><div class="mikuia-card-user-avatar"><a href="/user/threshbard"><img src="https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_150x150.png" width="32" height="32"></a></div><div class="mikuia-card-user-name"><h4><a href="/user/threshbard" style="color: #999;">threshbard</a></h4></div></div></div><div style="flex-basis: 150px;" class="mikuia-card-block align-right"><h6 class="text-muted">Experience</h6><h3>77,966</h3></div><div style="flex-basis: 50px;" class="mikuia-card-block align-right"><h6 class="text-muted">Level</h6><h3><span style="font-weight: 300;"><div style="border-color: #009fff;" class="level mini-level"><span class="mini-level-text">66</span></div></span></h3></div><div style="flex-basis: 70px;" class="mikuia-card-block align-right"><h6 class="text-muted">Progress</h6><h3>75%</h3></div></div>'
+	)
+                }
+
+        </script>
+    </head>
+    <body>
+        <!--
+            Here onclick event is used to recognize the click event,
+            which is fired when the user clicks the button,
+            this calls the LoopTest() function which generates 5 paragraphs with numbers
+        -->
+    </body>
 </html>
