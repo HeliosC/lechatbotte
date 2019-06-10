@@ -420,8 +420,9 @@ function channelCdb(client, channel, user, message, isSelf) {
                 let data = JSON.parse(body)
                 let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
                 let words = message.split(" ")
-                if (words.length > 0) {
-                    let word = words[1]
+                if (words.length > 1) {
+                    // let word = words[1]
+                    let word = m.substr(m.indexOf(" ") + 1);
                     if (isModerateur(username) || (word.toLowerCase() != "policedesbois" && word.toLowerCase() != "heliosdesbois" && viewers.indexOf(word.toLowerCase()) != -1)) {
                         client.say(channel, word + ", vous êtes en état d'arrestation !");
                     }
