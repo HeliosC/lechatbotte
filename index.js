@@ -5,9 +5,6 @@ const twitchBotPoliceDesBois = require('./src/twitch/policeDesBois/bot.js');
 const twitchBotPoliceNationaleDuSwag = require('./src/twitch/policeNationaleDuSwag/bot.js');
 // const twitchBotSolisTheSun = require('./src/twitch/solisTheSun/bot.js');
 
-// This require will start the web
-require('./src/web/app.js');
-
 lechatbotte.start()
 
 // twitchBotHeliosDesBois.start()
