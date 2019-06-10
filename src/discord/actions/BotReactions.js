@@ -57,7 +57,9 @@ BotReactions.prototype.getRoles = function(member, guild, roles) {
 
     if (guildRole !== null) {
       let roleId = guildRole.id;
-      hasRole = member !== null && member.roles.has(roleId);
+      if( member !== null ){
+        hasRole = member.roles.has(roleId);
+      }
     }
 
     posessedRoles[roleTitle] = hasRole;
@@ -187,6 +189,23 @@ BotReactions.prototype.checkImageToMove = function(message) {
 
   if (message.channel.name != this.channels.chanCh) return triggeredAction;
 
+  if (/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/.test(message.content)
+  ||/https?:\/\/tenor\.com\/view\/.+/.test(message.content)
+  ||/https?:\/\/giphy\.com\/gifs\/.+/.test(message.content)
+  ||/https?:\/\/gfycat\.com\/.+/.test(message.content)
+  ||/https?:\/\/(www\.|)youtube\..{2,3}\/.+/.test(message.content)
+  ){
+    message.channel.send(message.author + " : " + this.botClient.channels.find(c => c.name == this.channels.images));
+    let imageChannel = this.botClient.channels.find(c => c.name == this.channels.images);
+    imageChannel.send(this.botClient.channels.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
+    for (let [key, value] of message.attachments) {
+      imageChannel.send({ file: value.proxyURL })
+      triggeredAction = true;
+      break;
+    }
+      setTimeout(() => { message.delete() }, 1000);
+  }else{
+
   for (let [key, value] of message.attachments) {
     let imageChannel = this.botClient.channels.find(c => c.name == this.channels.images);
     imageChannel.send(this.botClient.channels.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
@@ -199,6 +218,7 @@ BotReactions.prototype.checkImageToMove = function(message) {
     triggeredAction = true;
     break;
   }
+}
 
   return triggeredAction;
 };
@@ -208,7 +228,7 @@ BotReactions.prototype.parleBot = function(message) {
     return;
   }
 
-  message.channel.send(message.content.replace(commandPrefix, ""));
+  message.channel.send(message.content.replace(this.commandPrefix, ""));
   var hasAttachment = false;
   for (var [key, value] of message.attachments) {
     message.channel.send({ file: value.proxyURL });

@@ -32,9 +32,11 @@ RolesManager.prototype.extractRoles = function(message) {
     let roles = [];
 
     for (let {roleName, roleTitle} of BDDRoles.roles) {
-        if (messageContent.indexOf(roleName) != -1) {
-            let role = message.guild.roles.find(r => r.name == roleTitle);
-            roles.push(role);
+        for(let roleStr of roleName){
+            if (messageContent.indexOf(roleStr) != -1) {
+                    let role = message.guild.roles.find(r => r.name == roleTitle);
+                roles.push(role);
+            }
         }
     }
 
@@ -42,18 +44,18 @@ RolesManager.prototype.extractRoles = function(message) {
 };
 
 RolesManager.prototype.modifRole = function(message, role) {
-    if (!message.member.roles.has(role.id)) {
+    if (message.member == null || !message.member.roles.has(role.id)) {
         message.member.addRole(role.id);
         message.author.send("Tu as maintenant le role : " + role.name);
         this.botClient.users
             .find(u => u.username == BDDRoles.advertisedUser)
-            .send(message.author.tag + " as maintenant le role : " + role.name);
+            .send(message.author.tag + " a maintenant le role : " + role.name);
     } else {
         message.member.removeRole(role.id);
         message.author.send("Tu n'as plus le role : " + role.name);
         this.botClient.users
             .find(u => u.username == BDDRoles.advertisedUser)
-            .send(message.author.tag + " n'as plus le role : " + role.name);
+            .send(message.author.tag + " n'a plus le role : " + role.name);
     }
 };
 

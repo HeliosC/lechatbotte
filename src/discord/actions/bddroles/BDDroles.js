@@ -12,12 +12,18 @@ module.exports.roles = [
 		roleName: ["soc"],
 		roleTitle: "Jeux de société"
 	}, {
-		roleName: ["ow", "overwatch"],
+		roleName: ["ow","overwatch"],
 		roleTitle: "Joueurs d'Overwatch"
+	}, {
+		roleName: ["gta"],
+		roleTitle: "Joueurs de GTA"
+	}, {
+		roleName: ["minecraft","mc"],
+		roleTitle: "Joueurs de Minecraft"
 	}, {
 		roleName: ["battlerite"],
 		roleTitle: "Joueurs de Battlerite"
 	}
 ];
 
-module.exports.advertisedUser = "Helios ⭐⭐";
+module.exports.advertisedUser = "Helios";

@@ -14,7 +14,7 @@ function startBot() {
 
     // client.on("subscription", (channel, username, method, message, userstate) => {
     //     if(channel == "#" + cdb){
-    //         client.say(channel, username + " chatdeLove chatdeLove chatdeLove");
+    //         client.say(channel, username + " chatdeLove chatdeLove chatdeLov");
     //     }
     // });
     // client.on("resub", (channel, username, months, message, userstate, methods) => {
