@@ -9,7 +9,6 @@
         <link rel="stylesheet" href="css/new.css" />
         <!-- <script src="handlebars-v4.1.2.js"></script> -->
         <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700|Roboto:400,300,500|Hind+Vadodara:300,400,500&amp;subset=all" rel="stylesheet" type="text/css">
-    </head>
     <body>
         <nav class="navbar mikuia-navbar mikuia-navbar-extended">
             <div class="container">
@@ -20,11 +19,14 @@
                         <div class="mikuia-navbar-links">
 
                             <a name="home"> Classments: </a>
-                            <a href="/" name="home">Global</a>
-                       
+                            <!-- <a href="/RIP_Mikuia" name="home">RIP Mikuia</a> -->
+                            {{#each dates}}
+                            <a href="/{{this}}" name="home">{{this}}</a>
+                            {{/each}} 
 
                             <div >
-                                <a href="/2019-06" name="home">06/2019</a>
+                                <a href="/global" name="home">Global</a>
+                                <a href="/mensuel" name="home">Mensuel</a>
                             </div>
                         </div>
                     </div>
@@ -39,7 +41,11 @@
         <div class="mikuia-page-padding">
             <div class="row animation-fade-in-down">
                 <div class="col-md-12">
-                <h1 class="mikuia-page-header-text text-white">Classement des levels sur Chatdesbois</h1></div>
+                <h1 class="mikuia-page-header-text text-white">Classement {{global}} chez Chatdesbois</h1>
+                {{#if ligneMois}}
+                <h2 class="mikuia-page-header-text text-white">Pour le mois de {{mois}} {{annee}}</h2></div>
+                {{/if}}
+
             </div>
             <div class="row animation-fade-in-up">
                 <div class="col-md-12 mikuia-page-card">
@@ -93,6 +99,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3"><small class="text-muted">lauriys <!--Laura Lynn--> largely made this.</small></div>
+            <br>
+            <div class="col-md-3"><small class="text-muted">Enorme merci à l'arnaqueur aka L'iple aka le sang : TheIpple</small></div>
             <div class="col-md-3 align-right"></div>
             <div class="col-md-3 align-right"><small class="text-muted"><b>Art by </b><a href="https://howlingneko.deviantart.com">HowlingNeko </a></small></div>
             <div class="col-md-3 align-right"><small class="text-muted"><a href="/about">About Mikuia</a><br><a href="https://reddit.com/r/cats">Cats</a></small></div>

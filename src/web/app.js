@@ -13,29 +13,78 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 var redis = require('redis').createClient(process.env.REDIS_URL);
 redis.on('connect', function () {
-    console.log('connected');
+    //console.log('connected');
 });
 
 app.get('/', function (req, res) {
-  	// console.log("tagId is set to " + req.query.tagId);
-  	// console.log("tagId is set to " + req.params.tagId);
-  	// console.log("salut");
-	var context = {layout: false, lines:[]}
-	redis.zrevrange('ranking/xp/global', 0, -1, 'WITHSCORES',function(err, scores){
-		console.log(scores)
+  	affichage(res, 'global')
+});
+
+app.get('/:tagId', function (req, res) {
+	let tag = req.params.tagId
+	// if(tag!='RIP_Mikuia'){
+	if(tag=='mensuel'){
+  		affichage(res, dateXp())
+  	}else if(tag=='global'){
+  		affichage(res, 'global')
+  	}else{
+		tag=tag.substr(3,4)+'/'+tag.substr(0,2)
+  		affichage(res, tag)
+  	}
+});
+
+function dateExists(annee, mois, context){
+	redis.exists(`ranking/xp/${annee}/${mois}`, function(err, exists){
+	// console.losg(`ranking/xp/${annee}/${mois}`)
+	// console.log(exists)
+		if(exists){
+			context.dates.push(`${mois}-${annee}`)
+		}
+	})
+		
+}	
+
+
+function affichage(res, date){
+	var context = {layout: false, lines:[], dates:[]}
+
+	if(date=='global'){
+		context['global']='global'
+	}else if(date == dateXp()){
+		context['global']='mensuel'
+	}else{
+		context['mois']=moisStr[parseInt(date.substr(5,2))-1]
+		context['annee']=date.substr(0,4)
+		context['ligneMois']=true
+	}
+
+	// context.dates.push('global')
+
+	let annee = 2019
+	for(mois=12; mois>0; mois--){
+		if(mois<10){
+			mois='0'+mois
+		}
+		dateExists(annee,mois,context)
+	}
+
+	// console.log(`ranking/xp/${date}`)
+
+	redis.zrevrange(`ranking/xp/${date}`, 0, -1, 'WITHSCORES',function(err, scores){
+		// console.log(scores)
 		for (var i = 0; i < scores.length/2; i++) {
-			// console.log(i,scores.length/2-1)
+			// //console.log(i,scores.length/2-1)
 			let max = scores.length/2
-			console.log("max0", i,max)
+			//console.log("max0", i,max)
 			let xp0=scores[2*i+1]
-			console.log(xp0)
-			console.log(scores[2*i])
+			//console.log(xp0)
+			//console.log(scores[2*i])
 			let id=scores[2*i]
 			redis.hget('ranking/username', id, function(err,username){
 				redis.hget('ranking/logo', id, function(err,logo){
-					redis.zrevrank('ranking/xp/global', id, function(err,rank){
-						console.log(username,logo)
-						console.log("max", i,max)
+					redis.zrevrank(`ranking/xp/${date}`, id, function(err,rank){
+						//console.log(username,logo)
+						//console.log("max", i,max)
 						context.lines.push({
 							rank: rank+1,
 							username: username,
@@ -45,7 +94,8 @@ app.get('/', function (req, res) {
 							progress: progress(parseInt(xp0))
 						});
 						if(rank+1==max){
-							console.log("ouais")
+							//console.log("ouais")
+							// console.log(context.dates)
 							res.render('classement', context);
 						}
 					})
@@ -53,48 +103,9 @@ app.get('/', function (req, res) {
 			})
 		}
 	})
-});
+}
 
-app.get('/2019-06', function (req, res) {
-  	// console.log("tagId is set to " + req.query.tagId);
-  	// console.log("tagId is set to " + req.params.tagId);
-  	console.log("salut");
-	var context = {layout: false, lines:[]}
-	redis.zrevrange('ranking/xp/2019/06', 0, -1, 'WITHSCORES',function(err, scores){
-		console.log(scores)
-		for (var i = 0; i < scores.length/2; i++) {
-			// console.log(i,scores.length/2-1)
-			let max = scores.length/2
-			console.log("max0", i,max)
-			let xp0=scores[2*i+1]
-			console.log(xp0)
-			console.log(scores[2*i])
-			let id=scores[2*i]
-			redis.hget('ranking/username', id, function(err,username){
-				redis.hget('ranking/logo', id, function(err,logo){
-					redis.zrevrank('ranking/xp/2019/06', id, function(err,rank){
-						console.log(username,logo)
-						console.log("max", i,max)
-						context.lines.push({
-							rank: rank+1,
-							username: username,
-							avatar_url: logo,
-							experience: xp0,
-							level: level(parseInt(xp0)),
-							progress: progress(parseInt(xp0))
-						});
-						if(rank+1==max){
-							console.log("ouais")
-							res.render('classement', context);
-						}
-					})
-				})
-			})
-		}
-	})
-});
-
-
+moisStr=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
