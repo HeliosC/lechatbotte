@@ -17,7 +17,7 @@ redis.on('connect', function () {
 });
 
 app.get('/', function (req, res) {
-  	res.send("tagId is set to " + req.query.tagId);
+  	console.log("tagId is set to " + req.query.tagId);
 	var context = {layout: false, lines:[]}
 	redis.zrevrange('ranking/xp/2019/06', 0, -1, 'WITHSCORES',function(err, scores){
 		console.log(scores)
