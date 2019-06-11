@@ -16,7 +16,46 @@ redis.on('connect', function () {
     console.log('connected');
 });
 
-app.get('/ranking/:tagId', function (req, res) {
+app.get('/', function (req, res) {
+  	// console.log("tagId is set to " + req.query.tagId);
+  	console.log("tagId is set to " + req.params.tagId);
+  	console.log("salut");
+	var context = {layout: false, lines:[]}
+	redis.zrevrange('ranking/xp/2019/06', 0, -1, 'WITHSCORES',function(err, scores){
+		console.log(scores)
+		for (var i = 0; i < scores.length/2; i++) {
+			// console.log(i,scores.length/2-1)
+			let max = scores.length/2
+			console.log("max0", i,max)
+			let xp0=scores[2*i+1]
+			console.log(xp0)
+			console.log(scores[2*i])
+			let id=scores[2*i]
+			redis.hget('ranking/username', id, function(err,username){
+				redis.hget('ranking/logo', id, function(err,logo){
+					redis.zrevrank('ranking/xp/2019/06', id, function(err,rank){
+						console.log(username,logo)
+						console.log("max", i,max)
+						context.lines.push({
+							rank: rank+1,
+							username: username,
+							avatar_url: logo,
+							experience: xp0,
+							level: level(parseInt(xp0)),
+							progress: progress(parseInt(xp0))
+						});
+						if(rank+1==max){
+							console.log("ouais")
+							res.render('classement', context);
+						}
+					})
+				})
+			})
+		}
+	})
+});
+
+app.get('/06-2019', function (req, res) {
   	// console.log("tagId is set to " + req.query.tagId);
   	console.log("tagId is set to " + req.params.tagId);
   	console.log("salut");
