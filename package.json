@@ -23,8 +23,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "app": "node src/web/app.js",
-    "start": "node xp.js",
+    "start": "node src/web/app.js",
+    "xp": "node xp.js",
     "dev": "nodemon src/web/app.js"
   },
   "repository": {
