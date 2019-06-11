@@ -13,14 +13,19 @@
     "request": "^2.88.0",
     "tmi": "^2.0.0",
     "tmi.js": "^1.4.2",
+    "twitch-api-v5": "^2.0.4",
     "xmlhttprequest": "^1.8.0"
   },
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/web/app.js"
+    "start": "node src/web/app.js",
+    "xp": "node /xp.js",
+    "dev": "nodemon src/web/app.js"
   },
   "repository": {
     "type": "git",

@@ -6,31 +6,56 @@ const port = process.env.PORT || 5000;
 const path = require('path')
 
 app.use(express.static('public'));
-
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '/views'));
 app.use(express.static(path.join(__dirname, '/public')));
 
+var redis = require('redis').createClient(process.env.REDIS_URL);
+redis.on('connect', function () {
+    console.log('connected');
+});
+
 app.get('/', function (req, res) {
-	var monxp = 77966
 	var context = {layout: false, lines:[]}
-	for (var i = 1; i < 101; i++) {
-	    context.lines.push({
-	        rank: i,
-	        username: "threshbard",
-	        avatar_url: "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_150x150.png",
-	        experience: monxp,
-	        level: level(parseInt(monxp)),
-	        progress: progress(parseInt(monxp))
-	    });
-	}
-	res.render('index', context);
+	redis.zrevrange('ranking/xp/2019/06', 0, -1, 'WITHSCORES',function(err, scores){
+		console.log(scores)
+		for (var i = 0; i < scores.length/2; i++) {
+			// console.log(i,scores.length/2-1)
+			let max = scores.length/2
+			console.log("max0", i,max)
+			let xp0=scores[2*i+1]
+			console.log(xp0)
+			console.log(scores[2*i])
+			let id=scores[2*i]
+			redis.hget('ranking/username', id, function(err,username){
+				redis.hget('ranking/logo', id, function(err,logo){
+					redis.zrevrank('ranking/xp/2019/06', id, function(err,rank){
+						console.log(username,logo)
+						console.log("max", i,max)
+						context.lines.push({
+							rank: rank+1,
+							username: username,
+							avatar_url: logo,
+							experience: xp0,
+							level: level(parseInt(xp0)),
+							progress: progress(parseInt(xp0))
+						});
+						if(rank+1==max){
+							console.log("ouais")
+							res.render('classement', context);
+						}
+					})
+				})
+			})
+		}
+	})
 });
 
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
 
 //XP avant de up
 function xpLeft(xp0) {
