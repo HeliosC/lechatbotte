@@ -16,8 +16,9 @@ redis.on('connect', function () {
     console.log('connected');
 });
 
-app.get('/', function (req, res) {
-  	console.log("tagId is set to " + req.query.tagId);
+app.get('/:tagId', function (req, res) {
+  	// console.log("tagId is set to " + req.query.tagId);
+  	console.log("tagId is set to " + req.params.tagId);
   	console.log("salut");
 	var context = {layout: false, lines:[]}
 	redis.zrevrange('ranking/xp/2019/06', 0, -1, 'WITHSCORES',function(err, scores){
