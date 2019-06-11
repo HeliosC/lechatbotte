@@ -55,7 +55,7 @@ app.get('/', function (req, res) {
 	})
 });
 
-app.get('/06-2019', function (req, res) {
+app.get('/2019-06', function (req, res) {
   	// console.log("tagId is set to " + req.query.tagId);
   	console.log("tagId is set to " + req.params.tagId);
   	console.log("salut");
