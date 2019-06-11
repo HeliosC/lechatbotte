@@ -16,7 +16,7 @@ redis.on('connect', function () {
     console.log('connected');
 });
 
-app.get('/:tagId', function (req, res) {
+app.get('/ranking/:tagId', function (req, res) {
   	// console.log("tagId is set to " + req.query.tagId);
   	console.log("tagId is set to " + req.params.tagId);
   	console.log("salut");
