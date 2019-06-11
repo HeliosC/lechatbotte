@@ -18,10 +18,10 @@ redis.on('connect', function () {
 
 app.get('/', function (req, res) {
   	// console.log("tagId is set to " + req.query.tagId);
-  	console.log("tagId is set to " + req.params.tagId);
-  	console.log("salut");
+  	// console.log("tagId is set to " + req.params.tagId);
+  	// console.log("salut");
 	var context = {layout: false, lines:[]}
-	redis.zrevrange('ranking/xp/2019/06', 0, -1, 'WITHSCORES',function(err, scores){
+	redis.zrevrange('ranking/xp/global', 0, -1, 'WITHSCORES',function(err, scores){
 		console.log(scores)
 		for (var i = 0; i < scores.length/2; i++) {
 			// console.log(i,scores.length/2-1)
@@ -33,7 +33,7 @@ app.get('/', function (req, res) {
 			let id=scores[2*i]
 			redis.hget('ranking/username', id, function(err,username){
 				redis.hget('ranking/logo', id, function(err,logo){
-					redis.zrevrank('ranking/xp/2019/06', id, function(err,rank){
+					redis.zrevrank('ranking/xp/global', id, function(err,rank){
 						console.log(username,logo)
 						console.log("max", i,max)
 						context.lines.push({
@@ -57,7 +57,7 @@ app.get('/', function (req, res) {
 
 app.get('/2019-06', function (req, res) {
   	// console.log("tagId is set to " + req.query.tagId);
-  	console.log("tagId is set to " + req.params.tagId);
+  	// console.log("tagId is set to " + req.params.tagId);
   	console.log("salut");
 	var context = {layout: false, lines:[]}
 	redis.zrevrange('ranking/xp/2019/06', 0, -1, 'WITHSCORES',function(err, scores){
