@@ -33,10 +33,13 @@ massacresON = true
 lobbiesON = true
 mortsON = true
 
-// let date = new Date();
-// let chatredis = 'chat' + date.getDate() + (date.getMonth() + 1)
-// let chatredis = 'chat' + '/' + date.getDate() +'/' + (date.getMonth() + 1) + '/' + date.getFullYear()
 
+var ontest = false
+var xpacitf = true
+var active = false
+var chaters = {}
+var intervalObject
+var isCached = {}
 
 
 function chatlog(username, message) {
@@ -122,18 +125,6 @@ function startBot() {
 
     client.on('chat', (channel, user, message, isSelf) => {
 
-        // redis.get(chatredis, function(err, reply) {
-        //     console.log(reply);
-        //     redis.set(chatredis, reply+"\n"+user.username+" : "+message);
-        // });
-
-        // client.whisper(hood, user.username + " : "+message);
-        // if (isSelf){
-        //     // client.whisper(hood, user.username + " : "+message);
-        //     return;
-        // } 
-
-        
 
         if (channel.indexOf(ldlc) != -1) {
             request('https://api.twitch.tv/kraken/channels/' + ldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
@@ -148,23 +139,15 @@ function startBot() {
             })
         } else if (channel.indexOf(cdg) != -1) {
 
-            // console.log("CDGGGGGGG")
 
             request('https://api.twitch.tv/kraken/channels/' + cdg + '?client_id=' + process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body);
                     if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
-                        // console.log("CDBBBBBBB")
-                        // console.log(data.status.toLowerCase())
-
                         channelCdb(client, channel, user, message, isSelf);
                     }else{
-                        // console.log("CDGPAS CDBBBBB")
-                        // console.log(data.status.toLowerCase())
                     }
                 } else {
-                    // console.log("ERROR")
-
                     console.error("unable ");
                 }
             })
@@ -194,6 +177,7 @@ function channelCdb(client, channel, user, message, isSelf) {
 
     let m = message.toLowerCase();
     let username = user.username;
+    let userid = user['user-id']
 
 
     if (username.toLowerCase() != hdb && !isBoss(username)) {
@@ -408,11 +392,6 @@ function channelCdb(client, channel, user, message, isSelf) {
     }
 
     
-
-    // if (m.startsWith("!game")) {
-    //     client.say(channel, "Chatdesbois ne fait pas de games viewers sur Fortnite");
-    // }
-
     if (m.startsWith("arretez")) {
         //console.log(channel)
         request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
@@ -432,6 +411,56 @@ function channelCdb(client, channel, user, message, isSelf) {
             }
         })
     }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////XP SYSTEM/////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+    if(userid!=undefined){
+        if(isCached[userid]!=true){
+            isCached[userid]=true
+            //ALLO TWITCH
+            api.users.userByID({ userID: userid }, (err, res) => {
+                if(!err) {
+                    redis.hset('ranking/logo', userid, res.logo)
+                    redis.hset('ranking/username',userid, user['display-name'])
+                    redis.hset('ranking/id', username, userid)
+                }
+            })
+        }
+        chaters[userid] = 10
+    }
+
+    if (!active) {
+        request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                let data = JSON.parse(body)
+                //Live on ???
+                if ( (data.stream != null || ontest)&&xpacitf) {
+                    active = true
+                    intervalObject = setInterval(updateXp, 5000);
+                } else {
+                }
+            } else {
+                console.error("unable ")
+            }
+        })
+    }
+
+    if (/^!(mlvl|mlevel|(lvl|level)(m|mensuel| |$))/gmi.test(m)) {
+        onCommand(m, user, dateXp(), 'lvl')
+    }
+    if (/^!((g|global)(lvl|level)|(lvl|level)(g|global))/gmi.test(m)) {
+        onCommand(m, user, 'global', 'lvl')
+    }
+    if (/^!(mxp|xp(m|mensuel| |$))/gmi.test(m)) {
+        onCommand(m, user, dateXp(), 'xp')
+    }
+    if (/^!((g|global)xp|xp(g|global))/gmi.test(m)) {
+        onCommand(m, user, 'global', 'xp')
+    }
+
 }//fin if channel cdb
 
 
@@ -510,5 +539,115 @@ function dateFull() {
     return jour + '/' + month + '/' + date.getFullYear()
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////XP FUNCTIONS/////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+function commandAnswer(userdname, userid, date, mode){
+    let ranking = " (mensuel)"
+    if(date=='global'){
+        ranking = " (global)"
+    }
+    redis.zscore('ranking/xp/' + date, userid, function (err, score) {
+        if(mode=='lvl'){
+            redis.zrevrank('ranking/xp/' + date, userid, function (err, rank) {
+                client.say(cdb, userdname + ": #" + (rank + 1) + " Level " + level(parseInt(score)) + ranking)
+            })
+        }else if(mode=='xp'){
+            client.say(cdb, userdname + ": " + xpLeft(parseInt(score)) + " XP to lvl " + (level(parseInt(score)) + 1) + ranking)
+        }
+    })
+}
+
+function updateXp() {
+    for (var userid in chaters) {
+        chaters[userid] -= 1
+        if (chaters[userid] == 0) {
+            delete chaters[userid]
+        }
+        date = dateXp()
+        xpgain = randInt(4, 5)
+        checkLevelUp(userid, xpgain,date)
+        redis.zincrby('ranking/xp/' + date, xpgain, userid)
+        redis.zincrby('ranking/xp/global', xpgain, userid)
+    }
+    request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            let data = JSON.parse(body)
+            //Live off ???
+            if (data.stream == null && !ontest) {
+                active = false
+                clearTimeout(intervalObject)
+            } else {
+            }
+        } else {
+            console.error("unable ")
+        }
+    })
+}
+
+function checkLevelUp(userid, xpgain){
+    redis.zscore('ranking/xp/'+ date, userid, function(err, score){
+        score=parseInt(score)
+        lvl=level(score)
+        if(score + xpgain >= xp(lvl + 1)){
+            redis.hget('ranking/username', userid, function(err, username){
+                client.whisper(username.toLowerCase(), "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
+            })
+        }
+    })
+    redis.zscore('ranking/xp/global', userid, function(err, score0){
+        score0=parseInt(score0)
+        lvl0=level(score0)
+        if(score0 + xpgain >= xp(lvl0 + 1)){
+            // console.log('up global')
+            redis.hget('ranking/username', userid, function(err, username){
+                client.say(cdb, username + " passe level "+(lvl0+1)+" !" )
+            })
+        }
+    })
+}
+
+//XP avant de up
+function xpLeft(xp0) {
+    return (xp(level(xp0) + 1) - xp0)
+}
+
+//% d'XP du lvl en cours
+function progress(xp0) {
+    lvl = level(xp0)
+    xplvl= xp(lvl)
+    return ( Math.floor( 100*( xp0 - xplvl /(xp(lvl+1) - xplvl) ) ) )
+}
+
+//XP totale pour etre un level donné
+function xp(level0) {
+    return (16 * (level0 * level0 - 1) + 100 * level0)
+}
+
+//Level associé a un montant d'XP
+function level(xp0) {
+    return (Math.floor((Math.sqrt(xp0 + 172.25) - 12.5) / 4))
+}
+
+//Entier random
+function randInt(minimum, maximum) {
+    return Math.floor((Math.random() * (maximum - minimum + 1)) + minimum)
+}
+
+//Date au format aaaa/mm
+function dateXp() {
+    let date = new Date();
+    let month = date.getMonth() + 1;
+    if (month < 10) {
+        month = "0" + month;
+    }
+    return date.getFullYear() + '/' + month
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////XP FUNCTIONS/////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports.start = startBot;
