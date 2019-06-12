@@ -51,7 +51,10 @@ function affichage(res, date){
 	if(date=='global'){
 		context['global']='global'
 	}else if(date == dateXp()){
-		context['global']='mensuel'
+		context['mois']=moisStr[parseInt(date.substr(5,2))-1]
+		context['annee']=date.substr(0,4)
+		context['global']='en cours'
+		context['ligneMois']=true
 	}else{
 		context['mois']=moisStr[parseInt(date.substr(5,2))-1]
 		context['annee']=date.substr(0,4)
