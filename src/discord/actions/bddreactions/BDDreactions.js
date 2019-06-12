@@ -74,6 +74,12 @@ module.exports.messagesReactions = [
     disabled: false,
     responseChannel: "L'EXTENSION à avoir pour entendre ma douce voix et voir des chats trop mimis ! + hyper bien codée, donc WOLA un must have ! > http://bit.ly/2qXtylM"
   }, {
+    startsWith: ["!sfr"],
+    disabled: false,
+    responseChannel: function(client, message) {
+      return  "Internet en 2019 chez Chat des bois ça donne quoi? Réponse en 8 minutes 59 ici : >> https://youtu.be/PvUT8C8rZg8 <<"
+    }
+  }, {
     startsWith: ["!giveaway"],
     disabled: false,
     responseChannel: function(client, message) {
