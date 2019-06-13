@@ -586,7 +586,7 @@ function updateXp() {
         }
         date = dateXp()
         xpgain = randInt(4, 5)
-        checkLevelUp(userid, xpgain,date)
+        checkLevelUp(client, userid, xpgain,date)
         redis.zincrby('ranking/xp/' + date, xpgain, userid)
         redis.zincrby('ranking/xp/global', xpgain, userid)
     }
@@ -605,7 +605,7 @@ function updateXp() {
     })
 }
 
-function checkLevelUp(userid, xpgain){
+function checkLevelUp(client, userid, xpgain){
     redis.zscore('ranking/xp/'+ date, userid, function(err, score){
         score=parseInt(score)
         lvl=level(score)
