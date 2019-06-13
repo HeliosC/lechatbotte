@@ -4,10 +4,13 @@ const tmiConfig = require("./config")
 
 const request = require('request')
 
+var api = require('twitch-api-v5')
+
 var redis = require('redis').createClient(process.env.REDIS_URL);
 redis.on('connect', function () {
     console.log('connected');
 });
+
 
 
 let clientID = process.env.clientID
