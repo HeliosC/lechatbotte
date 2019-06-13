@@ -38,7 +38,7 @@ mortsON = true
 
 
 var ontest = false
-var xpacitf = true
+var xpacitf = false
 var active = false
 var chaters = {}
 var intervalObject
