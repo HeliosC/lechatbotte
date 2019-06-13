@@ -32,13 +32,13 @@ const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "c
 
 const ete = 2
 
-massacresON = true
-lobbiesON = true
-mortsON = true
+var massacresON = true
+var lobbiesON = true
+var mortsON = true
 
-
-var ontest = false
-var xpacitf = false
+const xptimer = 5000
+const ontest = false
+const xpacitf = true
 var active = false
 var chaters = {}
 var intervalObject
@@ -418,7 +418,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                     active = true
                     intervalObject = setInterval(function(client){
                         updateXp(client)
-                    }, 60000);
+                    }, xptimer);
                 } else {
                 }
             } else {
