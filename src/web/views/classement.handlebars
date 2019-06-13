@@ -13,7 +13,7 @@
         <nav class="navbar mikuia-navbar mikuia-navbar-extended">
             <div class="container">
                 <div class="mikuia-navbar-content">
-                    <a><img src="icon.png" width="50" height="50" class="mikuia-navbar-icon"></a>
+                    <a><img src="icon.png" width="100" height="100" class="mikuia-navbar-icon"></a>
 
                     <div class="mikuia-navbar-lines-left">
                         <div class="mikuia-navbar-links">
@@ -24,10 +24,23 @@
                             <a href="/{{this}}" name="home">{{this}}</a>
                             {{/each}} 
 
-                            <div >
+                            <div class="mikuia-navbar-title">
+                            {{!-- <div > --}}
                                 <a href="/global" name="home">Global</a>
                                 <a href="/mensuel" name="home">Mensuel</a>
+                                
+
                             </div>
+                            <div>
+                            <a href="https://twitch.tv/chatdesbois" style="line-height: 20px, float:left; margin-left:0px;"><img src="twitch.png" width="40" height="40" ></a>
+                            <a href="https://www.youtube.com/user/Missclochette22/" style="line-height: 57px;margin:0px;"><img src="youtube.png" width="57" height="40" ></a>
+                            </div>
+                                                            {{!-- <br style="line-height: 100px;"> --}}
+
+                            {{!-- style="line-height: -100px;" --}}
+                            {{!-- <br style="line-height: -100px;"> --}}
+                            {{!-- <a href="https://twitch.tv/chatdesbois"><img src="twitch.png" width="40" height="40" class="mikuia-navbar-icon"></a> --}}
+
                         </div>
                     </div>
                 </div>
@@ -36,7 +49,9 @@
 
 
 
-        <div style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://static-cdn.jtvnw.net/jtv_user_pictures/50f8dcb922855be1-profile_banner-480.jpeg'); " class="mikuia-navbar-background"></div>
+        {{!-- <div style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://static-cdn.jtvnw.net/jtv_user_pictures/50f8dcb922855be1-profile_banner-480.jpeg'); " class="mikuia-navbar-background"></div> --}}
+        {{!-- <div style="background: url('https://static-cdn.jtvnw.net/jtv_user_pictures/50f8dcb922855be1-profile_banner-480.jpeg'); " class="mikuia-navbar-background"></div> --}}
+        <div style="background: url('bg3.png'); " class="mikuia-navbar-background"></div>
     <div class="container">
         <div class="mikuia-page-padding">
             <div class="row animation-fade-in-down">
