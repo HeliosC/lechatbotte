@@ -442,7 +442,9 @@ function channelCdb(client, channel, user, message, isSelf) {
                 //Live on ???
                 if ( (data.stream != null || ontest)&&xpacitf) {
                     active = true
-                    intervalObject = setInterval(updateXp, 5000);
+                    intervalObject = setInterval(function(client){
+                        updateXp(client)
+                    }, 5000);
                 } else {
                 }
             } else {
@@ -578,7 +580,7 @@ function commandAnswer(client, userdname, userid, date, mode){
     })
 }
 
-function updateXp() {
+function updateXp(client) {
     for (var userid in chaters) {
         chaters[userid] -= 1
         if (chaters[userid] == 0) {
@@ -586,7 +588,7 @@ function updateXp() {
         }
         date = dateXp()
         xpgain = randInt(4, 5)
-        checkLevelUp(client, userid, xpgain,date)
+        //checkLevelUp(client, userid, xpgain,date)
         redis.zincrby('ranking/xp/' + date, xpgain, userid)
         redis.zincrby('ranking/xp/global', xpgain, userid)
     }
@@ -597,6 +599,7 @@ function updateXp() {
             if (data.stream == null && !ontest) {
                 active = false
                 clearTimeout(intervalObject)
+                console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
             } else {
             }
         } else {
