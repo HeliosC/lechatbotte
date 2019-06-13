@@ -394,7 +394,7 @@ function channelCdb(client, channel, user, message, isSelf) {
 //////////////////////////////XP SYSTEM/////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-    if(userid!=undefined){
+    if(userid!=undefined && username!=cdb){
         if(isCached[userid]!=true){
             isCached[userid]=true
             //ALLO TWITCH
