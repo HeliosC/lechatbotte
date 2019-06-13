@@ -72,6 +72,11 @@ function chatlog(username, message) {
 function startBot() {
 
 
+    setInterval(() => {
+        console.log("debug")
+    }, 3600000);
+
+
 
 
     let client = new tmi.client(tmiConfig);
