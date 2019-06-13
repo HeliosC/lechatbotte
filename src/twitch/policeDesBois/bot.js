@@ -74,7 +74,7 @@ function startBot() {
 
     setInterval(() => {
         console.log("debug")
-    }, 3600000);
+    }, 300000);
 
 
 
