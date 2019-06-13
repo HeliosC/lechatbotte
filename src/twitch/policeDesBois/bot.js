@@ -53,7 +53,6 @@ function chatlog(username, message) {
     // console.log("**************************************" + redisDate)
     redis.exists(chatredis, function (err, reply) {
         if (reply === 1) {
-            // console.log('exists');
 
             redis.get(chatredis, function (err, reply) {
                 redis.set(chatredis, reply + "\n"
@@ -79,9 +78,6 @@ function startBot() {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
         client.whisper(hdb, "Deployed: " + heure());
     }).catch(console.error);
-
-    /* bot variables */
-    //var massacres = 0;
 
 
     client.on("whisper", function (from, userstate, message, self) {
@@ -155,9 +151,6 @@ function startBot() {
                 }
             })
         } else {
-
-            // console.log("PAS CDGGGGGGG")
-
             channelCdb(client, channel, user, message, isSelf);
         }
     });
@@ -171,52 +164,37 @@ function channelCdb(client, channel, user, message, isSelf) {
 
     chatlog(user.username, message)
 
-    //if( channel.indexOf(krao) != -1 ){ return; }
-
-    // redis.get(chatredis, function (err, reply) {
-    //     redis.set(chatredis, reply + "\n" 
-    //         + heureOnly() + ' [' + user.username + '] : ' + message);
-    // });
-
     let m = message.toLowerCase();
     let username = user.username;
     let userid = user['user-id']
-
 
     if (username.toLowerCase() != hdb && !isBoss(username)) {
 
         var answer = ""
 
-
         if (/(^|\W)(je|tu)\speu($|\W|t)/gmi.test(m)) {           //   je/tu peux
-            // client.say(channel, username + " peuX, l'orthographe veut ton bien-être !");
             answer += vide(answer) + "je/tu peuX"
         }
 
         if (/(^|\W)(il|elle|ont?)\speu($|\W|x)/gmi.test(m)) {               //   on peut
-            // client.say(channel, username + " peuT, l'orthographe veut ton bien-être !");
             answer += vide(answer) + "on peuT"
         }
 
         if (/(^|\W)(je|tu)\sveu($|\W|t)/gmi.test(m)) {          //   je/tu veux
-            // client.say(channel, username + " veuX, l'orthographe veut ton bien-être !");
             answer += vide(answer) + "je/tu veuX"
         }
 
         if (/(^|\W)(il|elle|ont?)\sveu($|\W|x)/gmi.test(m)) {               //   on veut
-            // client.say(channel, username + " veuT, l'orthographe veut ton bien-être !");
             answer += vide(answer) + "on veuT"
         }
 
         if (answer != "") { answer += " , l'orthographe veut ton bien-être !" }
 
         if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {                 //   sava
-            // client.say(channel, username + " *ça va, l'orthographe est ton ami, l'ami !");
             answer += vide(answer) + "*ça va, l'orthographe est ton ami, l'ami !"
         }
 
         if (/(^|\W)au final($|\W)/gmi.test(m)) {                 //   au final
-            //client.say(channel, username + " *finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ");
             answer += vide(answer) + "*finalement ! Tout doux avec la grammaire ! http://www.academie-francaise.fr/au-final ."
         }
 
@@ -228,7 +206,6 @@ function channelCdb(client, channel, user, message, isSelf) {
             redis.lrange('chattedesbois', 0, -1, function (err, reply) {
                 if (reply.indexOf(username) == -1) {
                     client.say(channel, username + " raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !");
-                    // answer += vide(answer) + "raté ! C'est \"chat des bois\", c'est pas si dur pourtant :) Next time, j'te goume !"
                     redis.rpush('chattedesbois', username)
                 } else {
                     client.say(channel, username + " je t'avais prévenu !");
@@ -250,11 +227,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                 || /can\s?i\s?pl..\s?wh?i..\s?(you|u)/gmi.test(m)
             )
         ) {
-            //console.log("bite")
-            // request(url + clientID, function (error, response, body) {
             request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
-
-
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body)
                     //console.log(data.game)
@@ -441,6 +414,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                 let data = JSON.parse(body)
                 //Live on ???
                 if ( (data.stream != null || ontest)&&xpacitf) {
+                    console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
                     intervalObject = setInterval(function(client){
                         updateXp(client)
