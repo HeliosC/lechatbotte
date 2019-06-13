@@ -418,7 +418,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                     active = true
                     intervalObject = setInterval(function(client){
                         updateXp(client)
-                    }, 5000);
+                    }, 60000);
                 } else {
                 }
             } else {
