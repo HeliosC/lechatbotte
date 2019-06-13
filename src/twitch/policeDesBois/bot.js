@@ -452,16 +452,16 @@ function channelCdb(client, channel, user, message, isSelf) {
     }
 
     if (/^!(mlvl|mlevel|(lvl|level)(m|mensuel| |$))/gmi.test(m)) {
-        onCommand(m, user, dateXp(), 'lvl')
+        onCommand(client, m, user, dateXp(), 'lvl')
     }
     if (/^!((g|global)(lvl|level)|(lvl|level)(g|global))/gmi.test(m)) {
-        onCommand(m, user, 'global', 'lvl')
+        onCommand(client, m, user, 'global', 'lvl')
     }
     if (/^!(mxp|xp(m|mensuel| |$))/gmi.test(m)) {
-        onCommand(m, user, dateXp(), 'xp')
+        onCommand(client, m, user, dateXp(), 'xp')
     }
     if (/^!((g|global)xp|xp(g|global))/gmi.test(m)) {
-        onCommand(m, user, 'global', 'xp')
+        onCommand(client, m, user, 'global', 'xp')
     }
 
 }//fin if channel cdb
@@ -547,7 +547,22 @@ function dateFull() {
 //////////////////////////////XP FUNCTIONS/////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-function commandAnswer(userdname, userid, date, mode){
+function onCommand(client, m, user, date, mode){
+    let words = m.split(" ")
+    if (words.length > 1) {
+        username = words[1].toLowerCase().replace("@", "")
+        redis.hget('ranking/id',username,function(err,userid){
+            if(!err){
+                redis.hget('ranking/username',userid,function(err,userdname){
+                    commandAnswer(client, userdname, userid, date, mode)
+                })
+            }
+        })
+        commandAnswer(client, user['display-name'], user['user-id'], date, mode)
+    }
+}
+
+function commandAnswer(client, userdname, userid, date, mode){
     let ranking = " (mensuel)"
     if(date=='global'){
         ranking = " (global)"
