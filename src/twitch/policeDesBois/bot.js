@@ -72,9 +72,9 @@ function chatlog(username, message) {
 function startBot() {
 
 
-    setInterval(() => {
-        console.log("debug")
-    }, 300000);
+    // setInterval(() => {
+    //     console.log("debug")
+    // }, 300000);
 
 
 
