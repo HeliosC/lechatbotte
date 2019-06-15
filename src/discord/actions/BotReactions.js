@@ -166,7 +166,8 @@ BotReactions.prototype.reactToMention = function(message, memberRoles) {
     } else if (message.author.username == "Solis Le Soleil") {
       message.react(this.botClient.emojis.find(e => e.name == "lovedesbois"));
 
-    } else if (message.author.username == "Helios ⭐⭐") {
+    } else if (message.author.id == 243477125653463040){
+      // username == "Helios 2000 IQ") {
       message.react(this.botClient.emojis.find(e => e.name == "lovedesbois"));
 
     } else {
