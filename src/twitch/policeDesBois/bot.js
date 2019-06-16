@@ -440,14 +440,14 @@ function channelCdb(client, channel, user, message, isSelf) {
     }
 
     if (!active) {
-        request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID, function (error, response, body) {
+        request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID,  (error, response, body) => {
             if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body)
                 //Live on ???
                 if ( (data.stream != null || ontest)&&xpacitf) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
-                    intervalObject = setInterval(function(client){
+                    intervalObject = setInterval((client)=>{
                         updateXp(client)
                     }, xptimer);
                 } else {
@@ -628,11 +628,11 @@ function updateXp(client) {
 }
 
 function checkLevelUp(client, userid, xpgain, date){
-    redis.zscore('ranking/xp/'+ date, userid, function(err, score){
+    redis.zscore('ranking/xp/'+ date, userid, (err, score)=>{
         var score=parseInt(score)
         var lvl=level(score)
 
-        redis.zscore('ranking/xp/global', userid, function(err, score0){
+        redis.zscore('ranking/xp/global', userid, (err, score0)=>{
             var score0=parseInt(score0)
             var lvl0=level(score0)
 
@@ -640,12 +640,12 @@ function checkLevelUp(client, userid, xpgain, date){
             var upg = (score0 + xpgain >= xp(lvl0 + 1))
             console.log(upm,upg,score,xpgain)
             if(upg){
-                redis.hget('ranking/username', userid, function(err, username){
+                redis.hget('ranking/username', userid, (err, username)=>{
                     client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
                 })
             }
             if(upm){
-                redis.hget('ranking/username', userid, function(err, username){
+                redis.hget('ranking/username', userid, (err, username)=>{
                     client.whisper(username.toLowerCase(), "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
                     if( (lvl+1)%5 == 0 && !upg ){
                         client.say(cdb, '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
