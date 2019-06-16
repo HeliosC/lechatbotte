@@ -84,24 +84,28 @@ function affichage(res, date){
 			//console.log(scores[2*i])
 			let id=scores[2*i]
 			redis.hget('ranking/username', id, function(err,username){
-				redis.hget('ranking/logo', id, function(err,logo){
-					redis.zrevrank(`ranking/xp/${date}`, id, function(err,rank){
-						//console.log(username,logo)
-						//console.log("max", i,max)
-						context.lines.push({
-							rank: rank+1,
-							username: username,
-							avatar_url: logo,
-							experience: xp0,
-							level: level(parseInt(xp0)),
-							progress: progress(parseInt(xp0)),
-							lvlcolor : lvlcolors[Math.min(Math.floor(level(parseInt(xp0))/10),10)]
-						});
-						if(rank+1==max){
-							//console.log("ouais")
-							// console.log(context.dates)
-							res.render('classement', context);
-						}
+				redis.hget('ranking/color', id, function(err,color){
+					redis.hget('ranking/logo', id, function(err,logo){
+						redis.zrevrank(`ranking/xp/${date}`, id, function(err,rank){
+							//console.log(username,logo)
+							//console.log("max", i,max)
+							color = color == undefined ? '999' : color
+							context.lines.push({
+								rank: rank+1,
+								username: username,
+								avatar_url: logo,
+								experience: xp0,
+								level: level(parseInt(xp0)),
+								progress: progress(parseInt(xp0)),
+								lvlcolor : lvlcolors[Math.min(Math.floor(level(parseInt(xp0))/10),10)],
+								username : color
+							});
+							if(rank+1==max){
+								//console.log("ouais")
+								// console.log(context.dates)
+								res.render('classement', context);
+							}
+						})
 					})
 				})
 			})
