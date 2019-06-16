@@ -638,7 +638,7 @@ function checkLevelUp(client, userid, xpgain, date){
 
             var upm = (score + xpgain >= xp(lvl + 1))
             var upg = (score0 + xpgain >= xp(lvl0 + 1))
-            console.log(upm,upg,score,xpgain)
+            console.log(upm,upg,score,xp(lvl + 1),xpgain,lvl)
             if(upg){
                 redis.hget('ranking/username', userid, (err, username)=>{
                     client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
