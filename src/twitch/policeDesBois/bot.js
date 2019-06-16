@@ -96,6 +96,7 @@ function startBot() {
                 let data = JSON.parse(body);
                 followers = data.followers
                 console.log("followers0: "+followers)
+                client.say(cdb, 'zboub')
                 // intervalObject = setInterval(function(client){
                 setInterval(function(client){
                         onFollow(client)
