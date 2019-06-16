@@ -322,7 +322,7 @@ function channelCdb(client, channel, user, message, isSelf) {
     }
 
 
-    if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) ) { 
+    if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) ) {
 
         request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
 
@@ -425,6 +425,7 @@ function channelCdb(client, channel, user, message, isSelf) {
 //////////////////////////////XP SYSTEM/////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+    console.log(username, userid)
     if(userid!=undefined && username!=cdb){
         if(isCached[userid]!=true){
             isCached[userid]=true
