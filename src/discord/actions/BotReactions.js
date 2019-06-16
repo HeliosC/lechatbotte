@@ -160,7 +160,8 @@ BotReactions.prototype.reactToMention = function(message, memberRoles) {
     message.react(this.botClient.emojis.find(e => e.name == "LapinDab"))
 
   } else if (memberRoles.moderator) {
-    if (message.author.username == "Poui des bois") {
+    if (message.author.id == 255069392780394506){
+      // username == "Poui des bois") {
       message.react("🗡");
 
     } else if (message.author.username == "Solis Le Soleil") {

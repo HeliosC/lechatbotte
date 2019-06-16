@@ -112,6 +112,6 @@ module.exports.messagesReactions = [
     exception: function(client, message, memberRoles) {
       return memberRoles.moderator || memberRoles.administrator;
     },
-    responseReply: "Chocolatine*"
+    responseReply: "Chocolatine"
   }
 ];

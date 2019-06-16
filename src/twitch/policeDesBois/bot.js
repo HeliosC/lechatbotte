@@ -67,15 +67,21 @@ function chatlog(username, message) {
     });
 }
 
+followers=4706
 
+function onFollow(client){
+    request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            let data = JSON.parse(body);
+            if(followers<data.followers){
+                followers = data.followers
+                client.say(cdb,'Plus que '+(5000-parseInt(followers))+' avant les 5k ! ')
+            }
+        }
+    })
+}
 
 function startBot() {
-
-
-    // setInterval(() => {
-    //     console.log("debug")
-    // }, 300000);
-
 
 
 
@@ -84,6 +90,17 @@ function startBot() {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
         client.whisper(hdb, "Deployed: " + heure());
     }).catch(console.error);
+
+
+    request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            let data = JSON.parse(body);
+            followers = data.followers
+            intervalObject = setInterval(function(client){
+                onFollow(client)
+            }, 10000);
+        }
+    })
 
 
     client.on("whisper", function (from, userstate, message, self) {
@@ -142,25 +159,26 @@ function startBot() {
                     console.error("unable ");
                 }
             })
-        } else if (channel.indexOf(cdg) != -1) {
+        } 
+//         else if (channel.indexOf(cdg) != -1) {
 
 
-            request('https://api.twitch.tv/kraken/channels/' + cdg + '?client_id=' + process.env.clientID, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    let data = JSON.parse(body);
-                    if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
-                        channelCdb(client, channel, user, message, isSelf);
-                    }else{
-                    }
-                } else {
-                    console.error("unable ");
-                }
-            })
-        } else {
-            channelCdb(client, channel, user, message, isSelf);
-        }
-    });
-}
+//             request('https://api.twitch.tv/kraken/channels/' + cdg + '?client_id=' + process.env.clientID, function (error, response, body) {
+//                 if (!error && response.statusCode == 200) {
+//                     let data = JSON.parse(body);
+//                     if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
+//                         channelCdb(client, channel, user, message, isSelf);
+//                     }else{
+//                     }
+//                 } else {
+//                     console.error("unable ");
+//                 }
+//             })
+//         } else {
+//             channelCdb(client, channel, user, message, isSelf);
+//         }
+//     });
+// }
 
 /////////* Specific to chatDesBois's channel *//////////////////////////////////
 
@@ -433,6 +451,14 @@ function channelCdb(client, channel, user, message, isSelf) {
         })
     }
 
+    if (/^!(mtop|top(m|mensuel|))$/gmi.test(m)) {
+        onTop(client, 'mensuel')
+    }
+
+    if (/^!(gtop|top(g|global))$/gmi.test(m)) {
+        onTop(client, '')
+    }
+
     if (/^!(mlvl|mlevel|(lvl|level)(m|mensuel| |$))/gmi.test(m)) {
         onCommand(client, m, user, dateXp(), 'lvl')
     }
@@ -542,6 +568,10 @@ function onCommand(client, m, user, date, mode){
         })
         commandAnswer(client, user['display-name'], user['user-id'], date, mode)
     }
+}
+
+function onTop(client, top){
+    client.say(cdb, 'chatdesbois.herokuapp/'+top)
 }
 
 function commandAnswer(client, userdname, userid, date, mode){
