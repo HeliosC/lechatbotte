@@ -38,8 +38,8 @@ var lobbiesON = true
 var mortsON = true
 
 const xptimer = 5000
-const ontest = false
-const xpacitf = false
+const ontest = true
+const xpacitf = true
 var active = false
 var chaters = {}
 var intervalObject
@@ -629,22 +629,30 @@ function checkLevelUp(client, userid, xpgain){
     redis.zscore('ranking/xp/'+ date, userid, function(err, score){
         score=parseInt(score)
         lvl=level(score)
-        if(score + xpgain >= xp(lvl + 1)){
-            redis.hget('ranking/username', userid, function(err, username){
-                client.whisper(username.toLowerCase(), "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
-            })
-        }
+
+        redis.zscore('ranking/xp/global', userid, function(err, score0){
+            score0=parseInt(score0)
+            lvl0=level(score0)
+
+            upm = score + xpgain >= xp(lvl + 1)
+            upg = score0 + xpgain >= xp(lvl0 + 1)
+            if(upg){
+                redis.hget('ranking/username', userid, function(err, username){
+                    client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
+                })
+            }
+            if(upm){
+                redis.hget('ranking/username', userid, function(err, username){
+                    client.whisper(username.toLowerCase(), "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
+                    if( (lvl+1)%5 == 0 && !upg ){
+                        client.say(cdb, '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
+                    }
+                })
+            }
+        })
+
     })
-    redis.zscore('ranking/xp/global', userid, function(err, score0){
-        score0=parseInt(score0)
-        lvl0=level(score0)
-        if(score0 + xpgain >= xp(lvl0 + 1)){
-            // console.log('up global')
-            redis.hget('ranking/username', userid, function(err, username){
-                client.say(cdb, username + " passe level "+(lvl0+1)+" !" )
-            })
-        }
-    })
+
 }
 
 //XP avant de up
