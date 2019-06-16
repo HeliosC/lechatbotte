@@ -94,7 +94,8 @@ function affichage(res, date){
 							avatar_url: logo,
 							experience: xp0,
 							level: level(parseInt(xp0)),
-							progress: progress(parseInt(xp0))
+							progress: progress(parseInt(xp0)),
+							lvlcolor : lvlcolors[Math.min(Math.floor(level(parseInt(xp0))/10),10)]
 						});
 						if(rank+1==max){
 							//console.log("ouais")
@@ -109,6 +110,7 @@ function affichage(res, date){
 }
 
 moisStr=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']
+lvlcolors=['777','d2d500','b3ee00','ff9600','ff0000','00ffff','009fff','7a62d3','fc00ff','7700a9','00a938']
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
