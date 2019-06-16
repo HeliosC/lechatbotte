@@ -150,6 +150,7 @@ function startBot() {
     client.on('chat', (channel, user, message, isSelf) => {
 
 
+
         if (channel.indexOf(ldlc) != -1) {
             request('https://api.twitch.tv/kraken/channels/' + ldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -180,7 +181,8 @@ function startBot() {
 //             channelCdb(client, channel, user, message, isSelf);
 //         }
 //     });
-// }
+    }
+}
 
 /////////* Specific to chatDesBois's channel *//////////////////////////////////
 
