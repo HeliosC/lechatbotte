@@ -181,7 +181,7 @@ function startBot() {
 //             channelCdb(client, channel, user, message, isSelf);
 //         }
 //     });
-    }
+    })
 }
 
 /////////* Specific to chatDesBois's channel *//////////////////////////////////
