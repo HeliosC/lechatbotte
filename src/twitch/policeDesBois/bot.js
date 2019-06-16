@@ -37,8 +37,8 @@ var massacresON = true
 var lobbiesON = true
 var mortsON = true
 
-const xptimer = 5000
-const ontest = true
+const xptimer = 60000
+const ontest = false
 const xpacitf = true
 var active = false
 var chaters = {}
@@ -426,7 +426,7 @@ function channelCdb(client, channel, user, message, isSelf) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
     // console.log(username, userid)
-    if(userid!=undefined && username!=cdb){
+    if(userid!=undefined && username!=cdb && username!=nightbot){
         if(isCached[userid]!=true){
             isCached[userid]=true
             //ALLO TWITCH

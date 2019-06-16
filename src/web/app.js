@@ -89,7 +89,6 @@ function affichage(res, date){
 						redis.zrevrank(`ranking/xp/${date}`, id, function(err,rank){
 							//console.log(username,logo)
 							//console.log("max", i,max)
-							color = color == undefined ? '#999' : color
 							context.lines.push({
 								rank: rank+1,
 								username: username,
@@ -98,7 +97,9 @@ function affichage(res, date){
 								level: level(parseInt(xp0)),
 								progress: progress(parseInt(xp0)),
 								lvlcolor : lvlcolors[Math.min(Math.floor(level(parseInt(xp0))/10),10)],
-								color : color
+								color : color == undefined ? '#999' : color,
+								// opacity : xp0%2 == 1 ? 0.3 : 1
+								opacity : 1
 							});
 							if(rank+1==max){
 								//console.log("ouais")

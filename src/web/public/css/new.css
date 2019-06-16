@@ -57,6 +57,9 @@ h1,h2,h3,h4,h5,h6 {
  border-radius:50px
 }
 .mikuia-card {
+ /* background-color:hsl(100, 100%, 50%);
+ color:hsl(250, 100%, 50%);  */
+ /* opacity: 0.2; */
  align-items:center;
  border-radius:2px;
  box-shadow:0 1px 3px rgba(0,0,0,.25);
