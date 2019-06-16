@@ -163,7 +163,9 @@ function startBot() {
                     console.error("unable ");
                 }
             })
-        } 
+        } else {
+            channelCdb(client, channel, user, message, isSelf);
+        }
 //         else if (channel.indexOf(cdg) != -1) {
 
 
