@@ -37,9 +37,9 @@ var massacresON = true
 var lobbiesON = true
 var mortsON = true
 
-const xptimer = 1000
-const ontest = true
-const xpacitf = true
+const xptimer = 5000
+const ontest = false
+const xpacitf = false
 var active = false
 var chaters = {}
 var intervalObject
@@ -607,7 +607,7 @@ function updateXp(client) {
         }
         date = dateXp()
         xpgain = randInt(4, 5)
-        checkLevelUp(client, userid, xpgain,date)
+        // checkLevelUp(client, userid, xpgain,date)
         redis.zincrby('ranking/xp/' + date, xpgain, userid)
         redis.zincrby('ranking/xp/global', xpgain, userid)
     }
@@ -638,7 +638,6 @@ function checkLevelUp(client, userid, xpgain, date){
 
             var upm = (score + xpgain >= xp(lvl + 1))
             var upg = (score0 + xpgain >= xp(lvl0 + 1))
-            console.log(upm,upg,score,xp(lvl + 1),xpgain,lvl)
             if(upg){
                 redis.hget('ranking/username', userid, (err, username)=>{
                     client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
@@ -648,9 +647,9 @@ function checkLevelUp(client, userid, xpgain, date){
                 redis.hget('ranking/username', userid, (err, username)=>{
                     client.whisper(username.toLowerCase(), "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
                     client.whisper(username, "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
-                    // if( (lvl+1)%5 == 0 && !upg ){
+                    if( (lvl+1)%5 == 0 && !upg ){
                         client.say(cdb, '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
-                    // }
+                    }
                 })
             }
         })
