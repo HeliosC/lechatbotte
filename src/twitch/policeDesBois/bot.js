@@ -67,18 +67,15 @@ function chatlog(username, message) {
     });
 }
 
-followers=4706
+followers=4708
 
 function onFollow(client){
     request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             let data = JSON.parse(body);
-            console.log("followers0: "+data.followers)
             if(followers<data.followers){
                 client.say(cdb,'Plus que '+(5000-parseInt(data.followers))+' avant les 5k ! ')
             }
-            client.say(cdb,'Plus que '+(5000-parseInt(data.followers))+' avant les 5k ! ')
-
         }
     })
 }
@@ -91,17 +88,17 @@ function startBot() {
     client.connect().then(_ => {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
         client.whisper(hdb, "Deployed: " + heure());
-        request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, (error, response, body) => {
-            if (!error && response.statusCode == 200) {
-                let data = JSON.parse(body);
-                followers = data.followers
-                console.log("followers0: "+followers)
-                client.say(cdb, 'zboub')
-                intervalObject = setInterval(_=>{
-                        onFollow(client)
-                }, 30000);
-            }
-        })
+
+        // request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, (error, response, body) => {
+        //     if (!error && response.statusCode == 200) {
+        //         let data = JSON.parse(body);
+        //         followers = data.followers
+        //         intervalObject = setInterval(_=>{
+        //                 onFollow(client)
+        //         }, 30000);
+        //     }
+        // })
+
     }).catch(console.error);
 
 
