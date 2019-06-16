@@ -73,6 +73,7 @@ function onFollow(client){
     request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             let data = JSON.parse(body);
+            console.log("followers0: "+data.followers)
             if(followers<data.followers){
                 followers = data.followers
                 client.say(cdb,'Plus que '+(5000-parseInt(followers))+' avant les 5k ! ')
@@ -96,6 +97,7 @@ function startBot() {
         if (!error && response.statusCode == 200) {
             let data = JSON.parse(body);
             followers = data.followers
+            console.log("followers0: "+followers)
             intervalObject = setInterval(function(client){
                 onFollow(client)
             }, 10000);
