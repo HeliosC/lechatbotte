@@ -434,7 +434,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                 if(!err) {
                     redis.hset('ranking/logo', userid, res.logo)
                     redis.hset('ranking/username',userid, user['display-name'])
-                    redis.hset('ranking/color', userid, res.color)
+                    redis.hset('ranking/color', userid, user.color)
                     redis.hset('ranking/id', username, userid)
                 }
             })
