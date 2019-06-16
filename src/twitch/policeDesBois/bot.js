@@ -607,7 +607,7 @@ function updateXp(client) {
         }
         date = dateXp()
         xpgain = randInt(4, 5)
-        //checkLevelUp(client, userid, xpgain,date)
+        checkLevelUp(client, userid, xpgain,date)
         redis.zincrby('ranking/xp/' + date, xpgain, userid)
         redis.zincrby('ranking/xp/global', xpgain, userid)
     }
