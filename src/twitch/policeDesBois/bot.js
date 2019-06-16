@@ -455,25 +455,27 @@ function channelCdb(client, channel, user, message, isSelf) {
         })
     }
 
-    if (/^!(mtop|top(m|mensuel|))$/gmi.test(m)) {
-        onTop(client, 'mensuel')
-    }
+    if(xpacitf){
+        if (/^!(mtop|top(m|mensuel|))$/gmi.test(m)) {
+            onTop(client, 'mensuel')
+        }
 
-    if (/^!(gtop|top(g|global))$/gmi.test(m)) {
-        onTop(client, '')
-    }
+        if (/^!(gtop|top(g|global))$/gmi.test(m)) {
+            onTop(client, '')
+        }
 
-    if (/^!(mlvl|mlevel|(lvl|level)(m|mensuel| |$))/gmi.test(m)) {
-        onCommand(client, m, user, dateXp(), 'lvl')
-    }
-    if (/^!((g|global)(lvl|level)|(lvl|level)(g|global))/gmi.test(m)) {
-        onCommand(client, m, user, 'global', 'lvl')
-    }
-    if (/^!(mxp|xp(m|mensuel| |$))/gmi.test(m)) {
-        onCommand(client, m, user, dateXp(), 'xp')
-    }
-    if (/^!((g|global)xp|xp(g|global))/gmi.test(m)) {
-        onCommand(client, m, user, 'global', 'xp')
+        if (/^!(mlvl|mlevel|(lvl|level)(m|mensuel| |$))/gmi.test(m)) {
+            onCommand(client, m, user, dateXp(), 'lvl')
+        }
+        if (/^!((g|global)(lvl|level)|(lvl|level)(g|global))/gmi.test(m)) {
+            onCommand(client, m, user, 'global', 'lvl')
+        }
+        if (/^!(mxp|xp(m|mensuel| |$))/gmi.test(m)) {
+            onCommand(client, m, user, dateXp(), 'xp')
+        }
+        if (/^!((g|global)xp|xp(g|global))/gmi.test(m)) {
+            onCommand(client, m, user, 'global', 'xp')
+        }
     }
 
 }//fin if channel cdb
