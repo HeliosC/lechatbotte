@@ -647,6 +647,7 @@ function checkLevelUp(client, userid, xpgain, date){
             if(upm){
                 redis.hget('ranking/username', userid, (err, username)=>{
                     client.whisper(username.toLowerCase(), "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
+                    client.whisper(username, "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
                     // if( (lvl+1)%5 == 0 && !upg ){
                         client.say(cdb, '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
                     // }
