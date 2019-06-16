@@ -38,8 +38,8 @@ var lobbiesON = true
 var mortsON = true
 
 const xptimer = 5000
-const ontest = false
-const xpacitf = false
+const ontest = true
+const xpacitf = true
 var active = false
 var chaters = {}
 var intervalObject
@@ -458,7 +458,7 @@ function channelCdb(client, channel, user, message, isSelf) {
         })
     }
 
-    if(xpacitf){
+    if(xpacitf && !ontest){
         if (/^!(mtop|top(m|mensuel|))$/gmi.test(m)) {
             onTop(client, 'mensuel')
         }
@@ -607,7 +607,9 @@ function updateXp(client) {
         }
         date = dateXp()
         xpgain = randInt(4, 5)
-        // checkLevelUp(client, userid, xpgain,date)
+        if(xpacitf && !ontest){
+            checkLevelUp(client, userid, xpgain,date)
+        }
         redis.zincrby('ranking/xp/' + date, xpgain, userid)
         redis.zincrby('ranking/xp/global', xpgain, userid)
     }
