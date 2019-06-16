@@ -627,17 +627,18 @@ function updateXp(client) {
     })
 }
 
-function checkLevelUp(client, userid, xpgain){
-    redis.zscore('ranking/xp/'+ dateXp(), userid, function(err, score){
-        score=parseInt(score)
-        lvl=level(score)
+function checkLevelUp(client, userid, xpgain, date){
+    redis.zscore('ranking/xp/'+ date, userid, function(err, score){
+        var score=parseInt(score)
+        var lvl=level(score)
 
         redis.zscore('ranking/xp/global', userid, function(err, score0){
-            score0=parseInt(score0)
-            lvl0=level(score0)
+            var score0=parseInt(score0)
+            var lvl0=level(score0)
 
-            upm = score + xpgain >= xp(lvl + 1)
-            upg = score0 + xpgain >= xp(lvl0 + 1)
+            var upm = (score + xpgain >= xp(lvl + 1))
+            var upg = (score0 + xpgain >= xp(lvl0 + 1))
+            console.log(upm,upg,score,xpgain)
             if(upg){
                 redis.hget('ranking/username', userid, function(err, username){
                     client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
