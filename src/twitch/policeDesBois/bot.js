@@ -447,7 +447,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                 if ( (data.stream != null || ontest)&&xpacitf) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
-                    intervalObject = setInterval((client)=>{
+                    intervalObject = setInterval(()=>{
                         updateXp(client)
                     }, xptimer);
                 } else {
