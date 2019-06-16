@@ -75,7 +75,7 @@ function onFollow(client){
             let data = JSON.parse(body);
             if(followers<data.followers){
                 followers=data.followers
-                client.say(cdb,'Plus que '+(5000-parseInt(data.followers))+' avant les 5k ! ')
+                client.say(cdb,'Plus que '+(5000-parseInt(data.followers))+' followers avant les 5k ! ')
             }
         }
     })
