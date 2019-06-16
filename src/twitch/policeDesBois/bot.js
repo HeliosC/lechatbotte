@@ -37,7 +37,7 @@ var massacresON = true
 var lobbiesON = true
 var mortsON = true
 
-const xptimer = 5000
+const xptimer = 1000
 const ontest = true
 const xpacitf = true
 var active = false
@@ -647,9 +647,9 @@ function checkLevelUp(client, userid, xpgain, date){
             if(upm){
                 redis.hget('ranking/username', userid, (err, username)=>{
                     client.whisper(username.toLowerCase(), "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
-                    if( (lvl+1)%5 == 0 && !upg ){
+                    // if( (lvl+1)%5 == 0 && !upg ){
                         client.say(cdb, '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
-                    }
+                    // }
                 })
             }
         })
