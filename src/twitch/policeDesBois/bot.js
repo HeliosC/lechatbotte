@@ -628,7 +628,7 @@ function updateXp(client) {
 }
 
 function checkLevelUp(client, userid, xpgain){
-    redis.zscore('ranking/xp/'+ date, userid, function(err, score){
+    redis.zscore('ranking/xp/'+ dateXp(), userid, function(err, score){
         score=parseInt(score)
         lvl=level(score)
 
