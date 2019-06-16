@@ -89,6 +89,7 @@ function startBot() {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
         client.whisper(hdb, "Deployed: " + heure());
 
+        client.say(cdb,'/me test')
         // request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, (error, response, body) => {
         //     if (!error && response.statusCode == 200) {
         //         let data = JSON.parse(body);
