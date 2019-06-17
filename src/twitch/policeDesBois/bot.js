@@ -426,7 +426,7 @@ function channelCdb(client, channel, user, message, isSelf) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
     // console.log(username, userid)
-    if(userid!=undefined && username!=cdb && username!=nightbot){
+    if(userid!=undefined && username!=cdb && username!='nightbot'){
         if(isCached[userid]!=true){
             isCached[userid]=true
             //ALLO TWITCH
