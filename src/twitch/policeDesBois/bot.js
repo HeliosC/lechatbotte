@@ -39,7 +39,7 @@ var mortsON = true
 
 const xptimer = 60000
 const ontest = false
-const xpacitf = true
+const xpacitf = false
 var active = false
 var chaters = {}
 var intervalObject
