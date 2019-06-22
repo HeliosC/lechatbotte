@@ -462,12 +462,12 @@ function channelCdb(client, channel, user, message, isSelf) {
     }
 
     if(xpacitf && !ontest){
-        if (/^!(mtop|top(m|mensuel))$/gmi.test(m)) {
-            // if (/^!(mtop|top(m|mensuel|))$/gmi.test(m)) {
+        // if (/^!(mtop|top(m|mensuel))$/gmi.test(m)) {
+        if (/^!((mtop|top(m|mensuel|))|mensuel)$/gmi.test(m)) {
                 onTop(client, 'mensuel')
         }
 
-        if (/^!(gtop|top(g|global))$/gmi.test(m)) {
+        if (/^!((gtop|top(g|global))|global)$/gmi.test(m)) {
             onTop(client, '')
         }
 
@@ -584,7 +584,10 @@ function onCommand(client, m, user, date, mode){
 }
 
 function onTop(client, top){
-    client.say(cdb, 'chatdesbois.herokuapp/'+top)
+    classement = top == ''? 'GLOBAL' : 'MENSUEL'
+    client.say(cdb, 'Qui est devant toi dans le classement ' + classement + '? Des genoux à casser ? La réponse ici : >>> '
+    +'chatdesbois.herokuapp.com/'+top)
+    +' <<<'
 }
 
 function commandAnswer(client, userdname, userid, date, mode){
