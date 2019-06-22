@@ -579,6 +579,7 @@ function onCommand(client, m, user, date, mode){
                 })
             }
         })
+    }else{
         commandAnswer(client, user['display-name'], user['user-id'], date, mode)
     }
 }
