@@ -39,7 +39,7 @@ var mortsON = true
 
 const xptimer = 60000
 const ontest = false
-const xpacitf = false
+const xpacitf = true
 var active = false
 var chaters = {}
 var intervalObject
@@ -462,8 +462,9 @@ function channelCdb(client, channel, user, message, isSelf) {
     }
 
     if(xpacitf && !ontest){
-        if (/^!(mtop|top(m|mensuel|))$/gmi.test(m)) {
-            onTop(client, 'mensuel')
+        if (/^!(mtop|top(m|mensuel))$/gmi.test(m)) {
+            // if (/^!(mtop|top(m|mensuel|))$/gmi.test(m)) {
+                onTop(client, 'mensuel')
         }
 
         if (/^!(gtop|top(g|global))$/gmi.test(m)) {

@@ -168,6 +168,15 @@
  text-align:center;
  width:32px
 }
+.level-rank {
+    border:2px solid #999;
+    border-radius:16px;
+    display:inline-block;
+    height:10px;
+    line-height:10px;
+    text-align:center;
+    width:10px
+   }
 .level-text {
  font-size:16px;
  vertical-align:top
@@ -176,7 +185,11 @@
  height:24px;
  line-height:20px;
  width:24px
-}
+}.mini-level-rank {
+    height:24px;
+    line-height:20px;
+    width:24px
+   }
 .mini-level-text {
  font-size:12px;
  vertical-align:top
