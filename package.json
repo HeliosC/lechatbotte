@@ -2,6 +2,7 @@
   "name": "lechatbotte",
   "dependencies": {
     "ajax-request": "^1.2.3",
+    "async-redis": "^1.1.7",
     "connect-redis": "^3.4.1",
     "discord.js": "^11.3.2",
     "express": "^4.17.1",
