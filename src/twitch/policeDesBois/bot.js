@@ -597,12 +597,17 @@ function commandAnswer(client, userdname, userid, date, mode){
         ranking = " (global)"
     }
     redis.zscore('ranking/xp/' + date, userid, function (err, score) {
+        levelint = level(parseInt(score))
         if(mode=='lvl'){
+            levelint = isNaN(levelint) ? 0 : levelint    
             redis.zrevrank('ranking/xp/' + date, userid, function (err, rank) {
-                client.say(cdb, userdname + ": #" + (rank + 1) + " Level " + level(parseInt(score)) + ranking)
+                client.say(cdb, userdname + ": #" + (rank + 1) + " Level " + levelint + ranking)
             })
         }else if(mode=='xp'){
-            client.say(cdb, userdname + ": " + xpLeft(parseInt(score)) + " XP to lvl " + (level(parseInt(score)) + 1) + ranking)
+            nextlevelint = isNaN(levelint) ? 0 : (level(parseInt(score)) + 1)    
+            xpleftint = isNaN(levelint) ? 0 : xpLeft(parseInt(score))
+
+            client.say(cdb, userdname + ": " + xpleftint + " XP to lvl " + nextlevelint + 1) + ranking)
         }
     })
 }
