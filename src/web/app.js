@@ -6,7 +6,9 @@ const port = process.env.PORT || 5000;
 const path = require('path')
     
 app.use(express.static('public'));
-app.engine('handlebars', exphbs());
+// app.engine('handlebars', exphbs());
+// app.engine('handlebars', exphbs({extendname: 'handlebars', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts/'}));
+app.engine('handlebars', exphbs({extendname: 'handlebars', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts/'}));
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '/views'));
 app.use(express.static(path.join(__dirname, '/public')));
@@ -16,12 +18,21 @@ redis.on('connect', function () {
     //console.log('connected');
 });
 
+app.get('/user/:tagId', function (req, res) {
+	let tag = req.params.tagId
+	console.log('user',tag)
+	res.render('user', {username : tag});
+});
+
+
 app.get('/', function (req, res) {
+	console.log('rien')
   	affichage(res, 'global')
 });
 
 app.get('/:tagId', function (req, res) {
 	let tag = req.params.tagId
+	console.log('rien',tag)
 	// if(tag!='RIP_Mikuia'){
 	if(tag=='mensuel'){
   		affichage(res, dateXp())
@@ -46,7 +57,8 @@ function dateExists(annee, mois, context){
 
 
 function affichage(res, date){
-	var context = {layout: false, lines:[], dates:[]}
+	// var context = {layout: false, lines:[], dates:[]}
+	var context = {lines:[], dates:[]}
 
 	if(date=='global'){
 		context['global']='global'
@@ -105,6 +117,7 @@ function affichage(res, date){
 								//console.log("ouais")
 								// console.log(context.dates)
 								res.render('classement', context);
+								// res.render('layouts/main');
 							}
 						})
 					})
