@@ -607,7 +607,7 @@ function commandAnswer(client, userdname, userid, date, mode){
             nextlevelint = isNaN(levelint) ? 0 : (level(parseInt(score)) + 1)    
             xpleftint = isNaN(levelint) ? 0 : xpLeft(parseInt(score))
 
-            client.say(cdb, userdname + ": " + xpleftint + " XP to lvl " + nextlevelint + 1) + ranking)
+            client.say(cdb, userdname + ": " + xpleftint + " XP to lvl " + nextlevelint + ranking)
         }
     })
 }
