@@ -33,8 +33,8 @@
                             </div> --}}
 
                             {{#each dateInfo}}
-                            <a href='/{{this.dateUrl}}'>
                                 <div class="badge-alex small">
+                                    <a href='/{{this.dateUrl}}'>
                                 {{!-- <div class="badge-alex, badge{{this.rankint}}"> --}}
                                     {{#if this.podium}}
                                     <div class="profile"><img src="/{{this.rankint}}.png" width="75" height="75">
@@ -44,8 +44,8 @@
                                     </div>
                                     <div class="level" style="border-color: #{{lvlColor}}"><span>{{this.lvl}}</span></div>
                                     <div class="title"><span>{{this.date}}</span></div>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
                             {{/each}}
 
                         </div>
