@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require('express');
 const exphbs  = require('express-handlebars');
 const fs = require('fs');
@@ -18,13 +20,24 @@ redis.on('connect', function () {
     //console.log('connected');
 });
 
-app.get('/user/:tagId', function (req, res, next) {
-	let tag = req.params.tagId
+app.get('/user/:username', function (req, res, next) {
+	let username = req.params.username.toLowerCase();
 	var context = {}
-	datesList().then(dates => {
-		context.dates = dates;
-		res.render('user', context);
-	}).catch(next);
+	
+	redis.hexists('ranking/id', username).then(exists =>{
+		if(!exists){
+			res.redirect('/');
+			return;
+		}
+		Promise.all([
+			datesList(), 
+			getUserInfoFromUsername(username)
+		]).then(([dates, userInfo]) => {
+			context.dates = dates;
+			context.userInfo = userInfo;
+			res.render('user', context);
+		}).catch(next);
+	})
 });
 
 
@@ -86,11 +99,7 @@ function getRankingList(date) {
 }
 
 function getRankingLine(date, id, xpUser, rank) {
-	return Promise.all([
-		redis.hget('ranking/username', id),
-		redis.hget('ranking/color', id), 
-		redis.hget('ranking/logo', id)
-	]).then(([username, color, logo]) => {
+	return getUserDetails(id).then(({username, color, logo}) => {
 		return {
 			rank: rank + 1,
 			username: username,
@@ -105,10 +114,27 @@ function getRankingLine(date, id, xpUser, rank) {
 	});
 }
 
+function getUserInfoFromUsername(username){
+	return redis.hget('ranking/id', username).then(id => {
+		return getUserDetails(id)
+	});
+}
+
+function getUserDetails(id) {
+	return Promise.all([
+		redis.hget('ranking/username', id),
+		redis.hget('ranking/color', id), 
+		redis.hget('ranking/logo', id)
+	]).then(([username, color, logo]) => {
+		return {username, color, logo};
+	});
+}
+
+
 function datesList() {
 	let promises = [];
 	let annee = 2019;
-	for(mois = 12; mois > 0; mois--){
+	for(let mois = 12; mois > 0; mois--){
 		if(mois < 10){
 			mois = '0' + mois;
 		}
@@ -125,8 +151,8 @@ function dateIfExists(annee, mois) {
 	});
 }
 
-moisStr=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']
-lvlcolors=['777','d2d500','b3ee00','ff9600','ff0000','00ffff','009fff','7a62d3','fc00ff','7700a9','00a938']
+const moisStr = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+const lvlcolors = ['777', 'd2d500', 'b3ee00', 'ff9600', 'ff0000', '00ffff', '009fff', '7a62d3', 'fc00ff', '7700a9', '00a938'];
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
@@ -137,8 +163,8 @@ function xpLeft(xp0) {
 }
 //% d'XP du lvl en cours
 function progress(xp0) {
-    lvl = level(xp0)
-    xplvl = xp(lvl)
+    let lvl = level(xp0)
+    let xplvl = xp(lvl)
     return (Math.floor(100 * ((xp0 - xplvl) / (xp(lvl + 1) - xplvl))))
 }
 //XP totale pour etre un level donné

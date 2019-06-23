@@ -3,7 +3,7 @@
         <div class="mikuia-page-padding-extended animation-fade-in-up">
             <div class="row">
                 <div class="col-md-12">
-                    <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/heliosdesbois-profile_image-05f5042ffefc2257-300x300.jpeg" width="128" height="128" class="mikuia-profile-avatar">
+                    <img src={{userInfo.logo}} width="128" height="128" class="mikuia-profile-avatar">
                     <div class="mikuia-profile-bar">
                         <div class="mikuia-profile-bar-left">
                             <div class="mikuia-profile-bar-badges"></div>
@@ -11,7 +11,7 @@
                                 <div style="border-color: #7700a9;" class="level"><span class="level-text">94</span></div>
                             </div> -->
                             <!-- <br> -->
-                            <h3 class="mikuia-profile-bar-name">{{username}}</h3>
+                            <h3 class="mikuia-profile-bar-name" style="color:{{userInfo.color}}">{{userInfo.username}}</h3>
                         </div>
                     </div>
                 </div>
@@ -24,12 +24,14 @@
                         <br> -->
                         <div class="mikuia-page-category-heading">Palmarès</div>
                         <div class="mikuia-level-badge-container">
+                            {{!-- {{each ranking}} --}}
                             <div class="badge-alex small">
                                 <div class="profile"><img src="/or.png" width="75" height="75"></div>
                                 <!-- <div class="profile"><span>#1</span></div> -->
                                 <div class="level"><span>42</span></div>
                                 <div class="title"><span>global</span></div>
                             </div>
+                            {{!-- {{/each}} --}}
                             <div class="badge-alex small">
                                 <div class="profile"><span>#1234</span></div>
                                 <div class="level"><span>13</span></div>
