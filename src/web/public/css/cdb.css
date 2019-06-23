@@ -3,7 +3,7 @@
   font-family: sans-serif;
 }
 
-.badge-alex {
+.badge-alex{
   height: 100px;
   width: 100px;
   position: relative;
@@ -14,11 +14,12 @@
 }
 
 .badge-alex .profile {
+  overflow: hidden;
   height: 100%;
   width: 100%;
   border-radius: 50%;  
   box-shadow: 0 0 3px black;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,3 +76,6 @@
   width: 200px;
   height: 200px;
 }
+
+.customRankingBadgeMedals .badge-alex:nth-child(1) .profile{border-color: red}
+.customRankingBadgeMedals .badge-alex:nth-child(2) .profile{border-color: blue}
