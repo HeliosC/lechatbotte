@@ -41,7 +41,7 @@ app.get('/user/:username', function (req, res, next) {
 					promises.push(getUserMontlyInfo(date, userInfo.id))
 			})
 			Promise.all(promises).then((montlyInfo) => {
-				console.log(montlyInfo)
+				// console.log(montlyInfo)
 				context.dateInfo = montlyInfo
 				res.render('user', context);
 			}).catch(next)
@@ -56,7 +56,7 @@ function getUserMontlyInfo(date, id){
 		redis.zscore('ranking/xp/'+dateRedis, id),
 		redis.zrevrank('ranking/xp/'+dateRedis, id)
 	]).then(([score, rank]) => {
-		console.log(score)
+		// console.log(score)
 		let lvl, lvlColor, podium, rankint;
 		if (score == null) {
 			lvl = '-';
