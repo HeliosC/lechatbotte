@@ -34,35 +34,43 @@ app.get('/user/:username', function (req, res, next) {
 		]).then(([dates, userInfo]) => {
 			context.dates = dates;
 			context.userInfo = userInfo;
-			
-			dates = ['global'].concat(dates)
-
+			dates = ['Global'].concat(dates)
 			var promises = [];
 			dates.forEach(
 				(date) => {
 					promises.push(getUserMontlyInfo(date, userInfo.id))
 			})
 			Promise.all(promises).then((montlyInfo) => {
-				// console.log(montlyInfo)
+				console.log(montlyInfo)
 				context.dateInfo = montlyInfo
 				res.render('user', context);
 			}).catch(next)
-
 		}).catch(next);
 	})
 });
 
 function getUserMontlyInfo(date, id){
-	date = date == 'global' ? 'global' : date.substr(3,4)+'/'+date.substr(0,2)
+	date = date.replace('-','/')
+	let dateRedis = date == 'Global' ? 'global' : date.substr(3,4)+'/'+date.substr(0,2)
 	return Promise.all([
-		redis.zscore('ranking/xp/'+date, id),
-		redis.zrevrank('ranking/xp/'+date, id)
+		redis.zscore('ranking/xp/'+dateRedis, id),
+		redis.zrevrank('ranking/xp/'+dateRedis, id)
 	]).then(([score, rank]) => {
-		let lvl = level(parseInt(score));
-		rank = rank + 1;
-		let lvlColor = lvlcolors[lvl];
-		let podium = rank < 4 && rank >0;
-		return ({date, lvl, rank, lvlColor, podium})
+		console.log(score)
+		let lvl, lvlColor, podium, rankint;
+		if (score == null) {
+			lvl = '-';
+			rank = '/';
+			lvlColor = '0';
+			podium = false;
+		}else{
+			lvl = level(parseInt(score));
+			rankint  = rank + 1;
+			rank = '#' + rankint;
+			lvlColor = lvlcolors[lvl];
+			podium = rankint < 4 && rankint >0;
+		}
+		return ({date, lvl, rank, rankint, lvlColor, podium})
 	})
 }
 
