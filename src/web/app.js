@@ -23,7 +23,6 @@ redis.on('connect', function () {
 app.get('/user/:username', function (req, res, next) {
 	let username = req.params.username.toLowerCase();
 	var context = {}
-	
 	redis.hexists('ranking/id', username).then(exists =>{
 		if(!exists){
 			res.redirect('/');
