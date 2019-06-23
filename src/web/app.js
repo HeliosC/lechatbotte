@@ -35,10 +35,36 @@ app.get('/user/:username', function (req, res, next) {
 		]).then(([dates, userInfo]) => {
 			context.dates = dates;
 			context.userInfo = userInfo;
-			res.render('user', context);
+			
+			dates = ['global'].concat(dates)
+
+			var promises = [];
+			dates.forEach(
+				(date) => {
+					promises.push(getUserMontlyInfo(date, userInfo.id))
+			})
+			Promise.all(promises).then((montlyInfo) => {
+				console.log(montlyInfo)
+				context.dateInfo = montlyInfo
+				res.render('user', context);
+			}).catch(next)
+
 		}).catch(next);
 	})
 });
+
+function getUserMontlyInfo(date, id){
+	date = date == 'global' ? 'global' : date.substr(3,4)+'/'+date.substr(0,2)
+	return Promise.all([
+		redis.zscore('ranking/xp/'+date, id),
+		redis.zrevrank('ranking/xp/'+date, id)
+	]).then(([score, rank]) => {
+		let lvl = level(parseInt(score));
+		rank = rank + 1;
+		let lvlColor = lvlcolors[lvl];
+		return ({date, lvl, rank, lvlColor})
+	})
+}
 
 
 app.get('/', function (req, res) {
@@ -126,7 +152,7 @@ function getUserDetails(id) {
 		redis.hget('ranking/color', id), 
 		redis.hget('ranking/logo', id)
 	]).then(([username, color, logo]) => {
-		return {username, color, logo};
+		return {username, color, logo, id};
 	});
 }
 

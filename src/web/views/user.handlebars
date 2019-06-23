@@ -24,19 +24,21 @@
                         <br> -->
                         <div class="mikuia-page-category-heading">Palmarès</div>
                         <div class="mikuia-level-badge-container">
-                            {{!-- {{each ranking}} --}}
-                            <div class="badge-alex small">
+                            {{!-- <div class="badge-alex small">
                                 <div class="profile"><img src="/or.png" width="75" height="75"></div>
                                 <!-- <div class="profile"><span>#1</span></div> -->
                                 <div class="level"><span>42</span></div>
                                 <div class="title"><span>global</span></div>
-                            </div>
-                            {{!-- {{/each}} --}}
-                            <div class="badge-alex small">
-                                <div class="profile"><span>#1234</span></div>
-                                <div class="level"><span>13</span></div>
-                                <div class="title"><span>06/2019</span></div>
-                            </div>
+                            </div> --}}
+
+                            {{#each dateInfo}}
+                                <div class="badge-alex small">
+                                    <div class="profile"><span>#{{this.rank}}</span></div>
+                                    <div class="level"><span>{{this.lvl}}</span></div>
+                                    <div class="title"><span>{{this.date}}</span></div>
+                                </div>
+                            {{/each}}
+
                         </div>
                     </div>
                 </div>
