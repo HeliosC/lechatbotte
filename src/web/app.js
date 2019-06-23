@@ -43,7 +43,7 @@ app.get('/user/:username', function (req, res, next) {
 					promises.push(getUserMontlyInfo(date, userInfo.id))
 			})
 			Promise.all(promises).then((montlyInfo) => {
-				console.log(montlyInfo)
+				// console.log(montlyInfo)
 				context.dateInfo = montlyInfo
 				res.render('user', context);
 			}).catch(next)
@@ -61,7 +61,8 @@ function getUserMontlyInfo(date, id){
 		let lvl = level(parseInt(score));
 		rank = rank + 1;
 		let lvlColor = lvlcolors[lvl];
-		return ({date, lvl, rank, lvlColor})
+		let podium = rank < 4 && rank >0;
+		return ({date, lvl, rank, lvlColor, podium})
 	})
 }
 
