@@ -34,22 +34,21 @@ app.get('/user/:username', function (req, res, next) {
 		]).then(([dates, userInfo]) => {
 			context.dates = dates;
 			context.userInfo = userInfo;
-			dates = ['Global'].concat(dates)
-			var promises = [];
-			dates.forEach(
-				(date) => {
-					promises.push(getUserMontlyInfo(date, userInfo.id))
-			})
-			Promise.all(promises).then((montlyInfo) => {
-				// console.log(montlyInfo)
-				context.dateInfo = montlyInfo
-				res.render('user', context);
-			}).catch(next)
+			dates = ['Global'].concat(dates);
+			let datesPromises = dates.map((date) => {
+				return getUserMontlyInfo(date, userInfo.id);
+			});
+			return Promise.all([context, ...datesPromises]);
+		}).then(([context, ...montlyInfo]) => {
+			console.log(montlyInfo);
+			context.dateInfo = montlyInfo;
+			res.render('user', context);
 		}).catch(next);
 	})
 });
 
 function getUserMontlyInfo(date, id){
+	let dateUrl = date.toLowerCase()
 	date = date.replace('-','/')
 	let dateRedis = date == 'Global' ? 'global' : date.substr(3,4)+'/'+date.substr(0,2)
 	return Promise.all([
@@ -70,7 +69,7 @@ function getUserMontlyInfo(date, id){
 			lvlColor = lvlcolors[lvl];
 			podium = rankint < 4 && rankint >0;
 		}
-		return ({date, lvl, rank, rankint, lvlColor, podium})
+		return ({date, dateUrl, lvl, rank, rankint, lvlColor, podium})
 	})
 }
 

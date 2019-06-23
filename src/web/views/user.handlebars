@@ -33,6 +33,7 @@
                             </div> --}}
 
                             {{#each dateInfo}}
+                            <a href='/{{this.dateUrl}}'>
                                 <div class="badge-alex small">
                                 {{!-- <div class="badge-alex, badge{{this.rankint}}"> --}}
                                     {{#if this.podium}}
@@ -44,6 +45,7 @@
                                     <div class="level" style="border-color: #{{lvlColor}}"><span>{{this.lvl}}</span></div>
                                     <div class="title"><span>{{this.date}}</span></div>
                                 </div>
+                            </a>
                             {{/each}}
 
                         </div>
