@@ -602,7 +602,7 @@ function commandAnswer(client, userdname, userid, date, mode){
         if(mode=='lvl'){
             levelint = isNaN(levelint) ? 0 : levelint    
             redis.zrevrank('ranking/xp/' + date, userid, function (err, rank) {
-                client.say(cdb, userdname + ": #" + (rank + 1) + " Level " + levelint + ' ('+score+'/'+xp(levelint+1)+') '+ ranking)
+                client.say(cdb, userdname + ": #" + (rank + 1) + " Level " + levelint + ' ('+score+'/'+xp(levelint+1)+' XP) '+ ranking)
             })
         }else if(mode=='xp'){
             nextlevelint = isNaN(levelint) ? 0 : (level(parseInt(score)) + 1)    
