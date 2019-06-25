@@ -200,6 +200,10 @@ function channelCdb(client, channel, user, message, isSelf) {
     let username = user.username;
     let userid = user['user-id']
 
+    if(username.indexOf("smarrr")!=-1){
+        client.ban(channel, username)
+    }
+
     if (username.toLowerCase() != hdb && !isBoss(username)) {
 
         var answer = ""
