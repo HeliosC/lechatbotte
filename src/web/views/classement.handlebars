@@ -25,7 +25,12 @@
                                     </div>
                                     <div class="mikuia-card-user-name">
                                         {{!-- <h4 style="color: #999;">{{this.username}}</h4> --}}
-                                        <h4><a href="/user/{{this.username}}" style="color: {{this.color}}">{{this.username}}</a></h4>
+                                        <h4>
+                                            <a href="/user/{{this.username}}" style="color: {{this.color}}">{{this.username}}</a>
+                                            {{#each medals}}
+                                            <img src="/{{this}}.png" width="25" height="25">
+                                            {{/each}}
+                                        </h4>
                                     </div>
                                 </div>
                             </div>
