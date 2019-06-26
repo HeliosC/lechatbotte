@@ -6,18 +6,51 @@
                 {{#if ligneMois}}
                 <h2 class="mikuia-page-header-text text-white">Pour le mois de {{mois}} {{annee}}</h2></div>
                 {{/if}}
-
             </div>
             <div class="row animation-fade-in-up">
+    <ul class="pagination"> 
+      {{!-- <li><a href="#">&laquo;</a></li>  --}}
+      {{!-- <li><a href="#1">1</a></li> 
+      <li><a href="#">2</a></li>  --}}
+      {{#each pages}}
+      {{!-- <li class="active"><a href="#">3</a></li>  --}}
+      {{#if this.active}}
+      <li class="active">
+      {{else}}
+      <li>
+      {{/if}}
+          <a href="/{{this.rankingpage}}{{this.num}}">{{this.num}}</a></li> 
+      {{/each}}
+      {{!-- <li><a href="#">&raquo;</a></li>  --}}
+        </ul>      
                 <div class="col-md-12 mikuia-page-card">
+                {{!-- <div>
+                    <span class="boutonPage">1</span>
+                </div> --}}
+                    <!-- pages numérotées --> 
+                {{!-- <br> --}}
                     <!-- Classement -->
                     <div id="classement">
                         {{#each lines}}
-                        <div class="mikuia-card mikuia-card-ranking" ; style="opacity: {{this.opacity}}";>
-                            <div style="flex-basis: 70px;" class="mikuia-card-block mikuia-card-ranking-block">
+                        <div class="mikuia-card mikuia-card-ranking" ; style="opacity: {{this.opacity}};">
+                        {{!-- <div class="mikuia-card mikuia-card-ranking" ; style="opacity:"> --}}
+                            <div style="align-content : left;" class="mikuia-card-block mikuia-card-ranking-block">
                                 <h6 class="text-muted">Rank</h6>
                                 <h3>#{{ this.rank }}</h3>
                             </div>
+
+                            {{!-- <div style="align: top;"> --}}
+                            {{!-- {{#each this.medalsInfo}}
+                                <img src="/{{this.rank}}.png" width="20" height="20" align="bottom">
+                            {{/each}} --}}
+                            {{!-- </div> --}}
+
+                            {{!-- <div style="flex-basis: 60px;">
+                            {{#each this.medalsInfo}}
+                                <img src="/{{this.rank}}.png" width="20" height="20" align="bottom">
+                            {{/each}}
+                            </div> --}}
+
                             <div style="flex-basis: 300px;" class="mikuia-card-block">
                                 <div class="mikuia-card-user">
                                     <div class="mikuia-card-user-avatar">
@@ -27,9 +60,9 @@
                                         {{!-- <h4 style="color: #999;">{{this.username}}</h4> --}}
                                         <h4>
                                             <a href="/user/{{this.username}}" style="color: {{this.color}}">{{this.username}}</a>
-                                            {{#each medals}}
-                                            <img src="/{{this}}.png" width="25" height="25">
-                                            {{/each}}
+                                            {{!-- {{#each this.medalsInfo}}
+                                            <img src="/{{this.rank}}.png" width="20" height="20">
+                                            {{/each}} --}}
                                         </h4>
                                     </div>
                                 </div>
@@ -58,6 +91,21 @@
 
                     </div>
                     <!-- /Classement -->
+                    <ul class="pagination"> 
+      {{!-- <li><a href="#">&laquo;</a></li>  --}}
+      {{!-- <li><a href="#1">1</a></li> 
+      <li><a href="#">2</a></li>  --}}
+      {{#each pages}}
+      {{!-- <li class="active"><a href="#">3</a></li>  --}}
+      {{#if this.active}}
+      <li class="active">
+      {{else}}
+      <li>
+      {{/if}}
+          <a href="/{{this.rankingpage}}{{this.num}}">{{this.num}}</a></li> 
+      {{/each}}
+      {{!-- <li><a href="#">&raquo;</a></li>  --}}
+        </ul>   
                 </div>
             </div>
         </div>

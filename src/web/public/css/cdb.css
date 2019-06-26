@@ -3,6 +3,17 @@
   font-family: sans-serif;
 }
 
+.boutonPage{
+  box-sizing: 20px 20px;
+  margin: 10px 10px;
+  color: green;
+  font-size: 100 ;
+  /* border: 2px solid red; */
+  position: relative;
+  top: -7px;
+  background-color: blue;
+}
+
 .badge-alex{
   height: 100px;
   width: 100px;
