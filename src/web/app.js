@@ -52,7 +52,8 @@ app.get('/:ranking/:page', function (req, res) {
 			context.dateInfo = montlyInfo;
 			// console.log(montlyInfo);
 			res.render('user', context);
-		}).catch(next);
+		})
+		// .catch(next);
 	})	
 	}else{
 	let rankingpage = ranking +'/'
@@ -201,7 +202,7 @@ function getUserMontlyInfo(date, id){
 		redis.zrevrank('ranking/xp/'+dateRedis, id)
 	]).then(([score, rank]) => {
 		// console.log(score)
-		let lvl, lvlColor, podium, rankint;
+		let lvl, lvlColor, podium, rankint, top10, top10color;
 		if (score == null) {
 			lvl = '-';
 			rank = '/';
@@ -211,10 +212,18 @@ function getUserMontlyInfo(date, id){
 			lvl = level(parseInt(score));
 			rankint  = rank + 1;
 			rank = '#' + rankint;
-			lvlColor = lvlcolors[lvl];
+			lvlColor = lvlcolors[Math.min(Math.floor(lvl / 10), 10)];
 			podium = rankint < 4 && rankint >0;
+			top10 = rankint < 11 && rankint >3;
+			console.log(podium, top10)
+			if(top10 && !podium){
+				top10color= lvlcolors[14 - rankint];
+				top10color= rankingColors[rankint - 4];
+				console.log(rankint, top10color)
+			}
+
 		}
-		return ({date, dateUrl, lvl, rank, rankint, lvlColor, podium})
+		return ({date, dateUrl, lvl, rank, rankint, lvlColor, podium, top10, top10color})
 	})
 }
 
@@ -320,7 +329,7 @@ function dateIfExists(annee, mois) {
 
 const moisStr = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 const lvlcolors = ['777', 'd2d500', 'b3ee00', 'ff9600', 'ff0000', '00ffff', '009fff', '7a62d3', 'fc00ff', '7700a9', '00a938'];
-
+const rankingColors = ['0000ff','0022ff','0044ff','0066ff','0088ff','00aaff','00ccff',]
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 
