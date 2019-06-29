@@ -24,8 +24,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/web/app.js",
-    "dev": "nodemon -e js,handlebars,css src/web/app.js ",
+    "start": "node index.js",
+    "dev": "nodemon -e js,handlebars,css index.js ",
     "testmain": "nodemon webtestmain/app.js"
   },
   "repository": {
