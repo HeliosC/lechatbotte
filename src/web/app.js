@@ -58,8 +58,8 @@ app.get('/:ranking/:page', function (req, res) {
 	}else{
 	let rankingpage = ranking +'/'
 	let page = parseInt( req.params.page )
-	console.log(req.params.ranking, req.params.page)
-	console.log("lol")
+	// console.log(req.params.ranking, req.params.page)
+	// console.log("lol")
 	if(ranking=='mensuel'){
 		affichage(res, dateXp(), page, rankingpage)
 	}else if(ranking=='global'){
@@ -74,7 +74,7 @@ app.get('/:ranking/:page', function (req, res) {
 app.get('/:tagId', function (req, res) {
 	let tag = req.params.tagId
 	res.redirect('/'+tag+'/1')
-	console.log('rien',tag)
+	// console.log('rien',tag)
 	// console.log(req.params)
 });
 
@@ -133,7 +133,7 @@ function affichage(res, date, page, rankingpage){
 		return getRankingList(date, dates, page, rankingpage)
 	}).then(([dates, pages, ...rankingList]) => {
 
-		console.log('pages', pages)
+		// console.log('pages', pages)
 		// let rankingList = result[0] 
 		// let pages = result[1]
 		// console.log('pages', pages)
@@ -215,11 +215,11 @@ function getUserMontlyInfo(date, id){
 			lvlColor = lvlcolors[Math.min(Math.floor(lvl / 10), 10)];
 			podium = rankint < 4 && rankint >0;
 			top10 = rankint < 11 && rankint >3;
-			console.log(podium, top10)
+			// console.log(podium, top10)
 			if(top10 && !podium){
 				top10color= lvlcolors[14 - rankint];
 				top10color= rankingColors[rankint - 4];
-				console.log(rankint, top10color)
+				// console.log(rankint, top10color)
 			}
 
 		}
@@ -235,14 +235,14 @@ function getRankingList(date, dates, page, rankingpage) {
 		for(let i=1; i<scores.length/200+1; i++){
 			pages.push({num:i, active: page==i, rankingpage: rankingpage})
 		}
-			console.log(Math.min(100*page, scores.length/2))
+			// console.log(Math.min(100*page, scores.length/2))
 		for (var rank = 100*(page-1); rank < Math.min(100*page, scores.length/2); rank++) {
 				let max = scores.length / 2;
 			let xpUser = scores[2*rank + 1];
 			let id = scores[2*rank];
 			promises.push(getRankingLine(date, id, xpUser, rank, dates));
 		}
-		console.log(pages)
+		// console.log(pages)
 		return Promise.all([dates, pages, ...promises]);
 	});
 }
