@@ -38,7 +38,7 @@ var lobbiesON = true
 var mortsON = true
 
 const xptimer = 60000
-const ontest = true
+const ontest = false
 const xpacitf = true
 var active = false
 var chaters = {}
