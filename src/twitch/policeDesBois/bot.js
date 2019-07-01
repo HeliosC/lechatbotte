@@ -13,6 +13,7 @@ redis.on('connect', function () {
 });
 
 
+
 let clientID = process.env.clientID
 // let url = "https://api.twitch.tv/kraken/channels/chatdesbois?client_id="
 let url = "https://api.twitch.tv/kraken/channels/"
@@ -26,9 +27,6 @@ const cdg = "choeur_de_gamers"
 const hood = "helioshood"
 const krao = "kraoki"
 
-const IDchatdesbois = "122699636"
-const IDldlc = "42255745"
-
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const boss = ["toxiicdust","heliosdesbois"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
@@ -40,17 +38,17 @@ var lobbiesON = true
 var mortsON = true
 
 const xptimer = 60000
-const ontest = false
+const ontest = true
 const xpacitf = true
 var active = false
 var chaters = {}
 var intervalObject
 var isCached = {}
 
-var options = { method: 'GET',
-    url: 'https://api.twitch.tv/kraken/streams/',
-    qs: { broadcaster_id: IDchatdesbois},
-    headers: { 'Client-ID': clientID } };
+var idchatdesbois = "122699636"
+var idldlc = "42255745"
+
+
 
 function chatlog(username, message) {
     let redisDate = dateFull()
@@ -160,24 +158,18 @@ function startBot() {
 
 
         if (channel.indexOf(ldlc) != -1) {
-            options = { method: 'GET',
-            url: 'https://api.twitch.tv/kraken/streams/',
-            qs: { broadcaster_id: IDldlc},
-            headers: { 'Client-ID': clientID } };
-
-            request(options, function (error, response, body) {
-            // request('https://api.twitch.tv/kraken/channels/' + ldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
+            request('https://api.twitch.tv/kraken/channels/' + IDldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body);
                     if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
-                        channelCdb(client, channel, user, message, isSelf);
+                        channelCdb(client, channel, user, message, isSelf, idldlc);
                     }
                 } else {
-                    console.error("unable 164");
+                    console.error("unable ");
                 }
             })
         } else {
-            channelCdb(client, channel, user, message, isSelf);
+            channelCdb(client, channel, user, message, isSelf, idchatdesbois);
         }
 //         else if (channel.indexOf(cdg) != -1) {
 
@@ -204,7 +196,7 @@ function startBot() {
 
 //if (channel.indexOf(cdb) != -1 || channel.indexOf(ldlc)!=-1) { //return }
 
-function channelCdb(client, channel, user, message, isSelf) {
+function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     chatlog(user.username, message)
 
@@ -275,14 +267,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                 || /can\s?i\s?pl..\s?wh?i..\s?(you|u)/gmi.test(m)
             )
         ) {
-
-            options = { method: 'GET',
-            url: 'https://api.twitch.tv/kraken/streams/',
-            qs: { broadcaster_id: IDchatdesbois},
-            headers: { 'Client-ID': clientID } };
-
-            request(options, function (error, response, body) {
-            // request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
+            request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body)
                     //console.log(data.game)
@@ -297,7 +282,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                         onAnswer(answer)
                     } else { onAnswer(answer) }
                 } else {
-                    console.error("unable 281")
+                    console.error("unable ")
                 }
             })
         } else {
@@ -347,13 +332,8 @@ function channelCdb(client, channel, user, message, isSelf) {
 
     if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) ) {
 
-        options = { method: 'GET',
-        url: 'https://api.twitch.tv/kraken/streams/',
-        qs: { broadcaster_id: IDchatdesbois},
-        headers: { 'Client-ID': clientID } };
+        request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
 
-        request(options, function (error, response, body) {
-        // request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
 
             if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body)
@@ -430,7 +410,6 @@ function channelCdb(client, channel, user, message, isSelf) {
     
     if (m.startsWith("arretez")) {
         //console.log(channel)
-        
         request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body)
@@ -444,7 +423,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                     }
                 }
             } else {
-                console.error("unable 422")
+                console.error("unable ")
             }
         })
     }
@@ -472,26 +451,20 @@ function channelCdb(client, channel, user, message, isSelf) {
     }
 
     if (!active) {
-
-    options = { method: 'GET',
-    url: 'https://api.twitch.tv/kraken/streams/',
-    qs: { broadcaster_id: IDchatdesbois},
-    headers: { 'Client-ID': clientID } };
-    
-    request(options, function (error, response, body) {        // request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID,  (error, response, body) => {
-                if (!error && response.statusCode == 200) {
+        request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID,  (error, response, body) => {
+            if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body)
                 //Live on ???
                 if ( (data.stream != null || ontest)&&xpacitf) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
                     intervalObject = setInterval(()=>{
-                        updateXp(client)
+                        updateXp(client, IDchatdesbois)
                     }, xptimer);
                 } else {
                 }
             } else {
-                console.error("unable 463", error, response.statusCode)
+                console.error("unable ")
             }
         })
     }
@@ -648,7 +621,7 @@ function commandAnswer(client, userdname, userid, date, mode){
     })
 }
 
-function updateXp(client) {
+function updateXp(client, IDchatdesbois) {
     for (var userid in chaters) {
         chaters[userid] -= 1
         if (chaters[userid] == 0) {
@@ -662,13 +635,7 @@ function updateXp(client) {
         redis.zincrby('ranking/xp/' + date, xpgain, userid)
         redis.zincrby('ranking/xp/global', xpgain, userid)
     }
-    options = { method: 'GET',
-    url: 'https://api.twitch.tv/kraken/streams/',
-    qs: { broadcaster_id: IDchatdesbois},
-    headers: { 'Client-ID': clientID } };
-
-    request(options, function (error, response, body) {
-    // request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID, function (error, response, body) {
+    request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             let data = JSON.parse(body)
             //Live off ???
@@ -679,7 +646,7 @@ function updateXp(client) {
             } else {
             }
         } else {
-            console.error("unable 645")
+            console.error("unable ")
         }
     })
 }

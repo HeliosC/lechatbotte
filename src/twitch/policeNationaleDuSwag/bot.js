@@ -13,6 +13,8 @@ const hdb = "heliosdesbois"
 const krao = "kraoki"
 const ete = 2
 
+// idkraoki = "49041281"
+
 function chatlog(username, message) {
     let redisDate = dateFull()
     let redisDateInv = redisDate.substr(6,4)+redisDate.substr(2,4)+redisDate.substr(0,2)
@@ -69,7 +71,7 @@ function startBot() {
         if (channel.indexOf("kraoki") != -1) {
 
             if (m.startsWith("arretez")) {
-                console.log(channel)
+                // console.log(channel)
                 request('https://tmi.twitch.tv/group/user/'+channel.slice(1)+'/chatters', function (error, response, body) {
                     if (!error && response.statusCode == 200) {
                         let data = JSON.parse(body)
