@@ -13,7 +13,6 @@ redis.on('connect', function () {
 });
 
 
-
 let clientID = process.env.clientID
 // let url = "https://api.twitch.tv/kraken/channels/chatdesbois?client_id="
 let url = "https://api.twitch.tv/kraken/channels/"
@@ -26,6 +25,9 @@ const ldlc = "teamldlc"
 const cdg = "choeur_de_gamers"
 const hood = "helioshood"
 const krao = "kraoki"
+
+const IDchatdesbois = "122699636"
+const IDldlc = "42255745"
 
 const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const boss = ["toxiicdust","heliosdesbois"]
@@ -45,6 +47,10 @@ var chaters = {}
 var intervalObject
 var isCached = {}
 
+var options = { method: 'GET',
+    url: 'https://api.twitch.tv/kraken/streams/',
+    qs: { broadcaster_id: IDchatdesbois},
+    headers: { 'Client-ID': clientID } };
 
 function chatlog(username, message) {
     let redisDate = dateFull()
@@ -154,7 +160,13 @@ function startBot() {
 
 
         if (channel.indexOf(ldlc) != -1) {
-            request('https://api.twitch.tv/kraken/channels/' + ldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
+            options = { method: 'GET',
+            url: 'https://api.twitch.tv/kraken/streams/',
+            qs: { broadcaster_id: IDldlc},
+            headers: { 'Client-ID': clientID } };
+
+            request(options, function (error, response, body) {
+            // request('https://api.twitch.tv/kraken/channels/' + ldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body);
                     if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
@@ -263,7 +275,14 @@ function channelCdb(client, channel, user, message, isSelf) {
                 || /can\s?i\s?pl..\s?wh?i..\s?(you|u)/gmi.test(m)
             )
         ) {
-            request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
+
+            options = { method: 'GET',
+            url: 'https://api.twitch.tv/kraken/streams/',
+            qs: { broadcaster_id: IDchatdesbois},
+            headers: { 'Client-ID': clientID } };
+
+            request(options, function (error, response, body) {
+            // request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body)
                     //console.log(data.game)
@@ -328,8 +347,13 @@ function channelCdb(client, channel, user, message, isSelf) {
 
     if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) ) {
 
-        request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
+        options = { method: 'GET',
+        url: 'https://api.twitch.tv/kraken/streams/',
+        qs: { broadcaster_id: IDchatdesbois},
+        headers: { 'Client-ID': clientID } };
 
+        request(options, function (error, response, body) {
+        // request(url + channel.substr(1) + "?client_id=" + clientID, function (error, response, body) {
 
             if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body)
@@ -406,6 +430,7 @@ function channelCdb(client, channel, user, message, isSelf) {
     
     if (m.startsWith("arretez")) {
         //console.log(channel)
+        
         request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body)
@@ -447,8 +472,14 @@ function channelCdb(client, channel, user, message, isSelf) {
     }
 
     if (!active) {
-        request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID,  (error, response, body) => {
-            if (!error && response.statusCode == 200) {
+
+    options = { method: 'GET',
+    url: 'https://api.twitch.tv/kraken/streams/',
+    qs: { broadcaster_id: IDchatdesbois},
+    headers: { 'Client-ID': clientID } };
+    
+    request(options, function (error, response, body) {        // request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID,  (error, response, body) => {
+                if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body)
                 //Live on ???
                 if ( (data.stream != null || ontest)&&xpacitf) {
@@ -631,7 +662,13 @@ function updateXp(client) {
         redis.zincrby('ranking/xp/' + date, xpgain, userid)
         redis.zincrby('ranking/xp/global', xpgain, userid)
     }
-    request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID, function (error, response, body) {
+    options = { method: 'GET',
+    url: 'https://api.twitch.tv/kraken/streams/',
+    qs: { broadcaster_id: IDchatdesbois},
+    headers: { 'Client-ID': clientID } };
+
+    request(options, function (error, response, body) {
+    // request('https://api.twitch.tv/kraken/streams/' + cdb + '?client_id=' + clientID, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             let data = JSON.parse(body)
             //Live off ???
