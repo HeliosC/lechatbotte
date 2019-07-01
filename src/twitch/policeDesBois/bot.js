@@ -161,7 +161,7 @@ function startBot() {
                         channelCdb(client, channel, user, message, isSelf);
                     }
                 } else {
-                    console.error("unable ");
+                    console.error("unable 164");
                 }
             })
         } else {
@@ -278,7 +278,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                         onAnswer(answer)
                     } else { onAnswer(answer) }
                 } else {
-                    console.error("unable ")
+                    console.error("unable 281")
                 }
             })
         } else {
@@ -419,7 +419,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                     }
                 }
             } else {
-                console.error("unable ")
+                console.error("unable 422")
             }
         })
     }
@@ -460,7 +460,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                 } else {
                 }
             } else {
-                console.error("unable ")
+                console.error("unable 463")
             }
         })
     }
@@ -642,7 +642,7 @@ function updateXp(client) {
             } else {
             }
         } else {
-            console.error("unable ")
+            console.error("unable 645")
         }
     })
 }

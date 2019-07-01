@@ -6,7 +6,7 @@ const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 5000;
 const path = require('path')
-    
+
 app.use(express.static('public'));
 // app.engine('handlebars', exphbs());
 // app.engine('handlebars', exphbs({extendname: 'handlebars', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts/'}));
