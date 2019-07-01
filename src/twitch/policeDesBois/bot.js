@@ -460,7 +460,7 @@ function channelCdb(client, channel, user, message, isSelf) {
                 } else {
                 }
             } else {
-                console.error("unable 463, error")
+                console.error("unable 463", error)
             }
         })
     }
