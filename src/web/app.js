@@ -22,53 +22,59 @@ redis.on('connect', function () {
 
 
 app.get('/', function (req, res) {
-	res.redirect("/global/1")
+	res.redirect("/mensuel/1")
 	// console.log('rien')
 	// affichage(res, 'global')
 });
 
 app.get('/:ranking/:page', function (req, res) {
 	let ranking = req.params.ranking 
-	if(ranking=='user'){
-		let username = req.params.page.toLowerCase();
-	var context = {}
-	redis.hexists('ranking/id', username).then(exists =>{
-		if(!exists){
-			res.redirect('/');
-			return;
+	console.log("ranking",["mensuel","global","user"].indexOf(ranking))
+	datesList().then( dates => {
+		if((["mensuel","global","user"].concat(dates)).indexOf(ranking) == -1){
+			res.redirect("/")
+		}else if(ranking=='user'){
+			let username = req.params.page.toLowerCase();
+		var context = {}
+		redis.hexists('ranking/id', username).then(exists =>{
+			if(!exists){
+				res.redirect('/');
+				return;
+			}
+			Promise.all([
+				// datesList(), 
+				getUserInfoFromUsername(username)
+			]).then(([dates, userInfo]) => {
+				context.dates = dates;
+				context.userInfo = userInfo;
+				dates = ['Global'].concat(dates);
+				let datesPromises = dates.map((date) => {
+					return getUserMontlyInfo(date, userInfo.id);
+				});
+				return Promise.all([context, ...datesPromises]);
+			}).then(([context, ...montlyInfo]) => {
+				context.dateInfo = montlyInfo;
+				// console.log(montlyInfo);
+				res.render('user', context);
+			})
+			// .catch(next);
+		})	
+		}else{
+		let rankingpage = ranking +'/'
+		let page = parseInt( req.params.page )
+		
+		// console.log(req.params.ranking, req.params.page)
+		// console.log("lol")
+		if(ranking=='mensuel'){
+			affichage(res, dateXp(), page, rankingpage)
+		}else if(ranking=='global'){
+			affichage(res, 'global', page, rankingpage)
+		}else{
+			ranking=ranking.substr(3,4)+'/'+ranking.substr(0,2)
+			affichage(res, ranking, page, rankingpage)
 		}
-		Promise.all([
-			datesList(), 
-			getUserInfoFromUsername(username)
-		]).then(([dates, userInfo]) => {
-			context.dates = dates;
-			context.userInfo = userInfo;
-			dates = ['Global'].concat(dates);
-			let datesPromises = dates.map((date) => {
-				return getUserMontlyInfo(date, userInfo.id);
-			});
-			return Promise.all([context, ...datesPromises]);
-		}).then(([context, ...montlyInfo]) => {
-			context.dateInfo = montlyInfo;
-			// console.log(montlyInfo);
-			res.render('user', context);
-		})
-		// .catch(next);
-	})	
-	}else{
-	let rankingpage = ranking +'/'
-	let page = parseInt( req.params.page )
-	// console.log(req.params.ranking, req.params.page)
-	// console.log("lol")
-	if(ranking=='mensuel'){
-		affichage(res, dateXp(), page, rankingpage)
-	}else if(ranking=='global'){
-		affichage(res, 'global', page, rankingpage)
-	}else{
-		ranking=ranking.substr(3,4)+'/'+ranking.substr(0,2)
-		affichage(res, ranking, page, rankingpage)
-	}
-	}
+		}
+	})
 })
 
 app.get('/:tagId', function (req, res) {
@@ -325,6 +331,14 @@ function dateIfExists(annee, mois) {
 	return redis.exists(`ranking/xp/${annee}/${mois}`).then(exists => {
 		return exists ? `${mois}-${annee}` : null;
 	});
+}
+
+function dateRedis(date){
+	return date.substr(3,4) + '/' + date.substr(0,2)
+}
+
+function dateDisplayed(date){
+	return date.substr(5,2) + '-' + date.substr(0,4) 
 }
 
 const moisStr = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];

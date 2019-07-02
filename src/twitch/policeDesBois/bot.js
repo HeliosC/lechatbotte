@@ -472,11 +472,11 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     if(xpacitf && !ontest){
         // if (/^!(mtop|top(m|mensuel))$/gmi.test(m)) {
         if (/^!((mtop|top(m|mensuel|))|mensuel)$/gmi.test(m)) {
-                onTop(client, 'mensuel')
+                onTop(client, '')
         }
 
         if (/^!((gtop|top(g|global))|global)$/gmi.test(m)) {
-            onTop(client, '')
+            onTop(client, 'global')
         }
 
         if (/^!(mlvl|mlevel|(lvl|level)(m|mensuel| |$))/gmi.test(m)) {
@@ -593,7 +593,7 @@ function onCommand(client, m, user, date, mode){
 }
 
 function onTop(client, top){
-    classement = top == ''? 'GLOBAL' : 'MENSUEL'
+    classement = top != ''? 'GLOBAL' : 'MENSUEL'
     client.say(cdb, 'Qui est devant toi dans le classement ' + classement + '? Des genoux à casser ? La réponse ici : >>> '
     // +'chatdesbois.herokuapp.com/'+top
     +'http://top.chatdesbois.stream/'+top
