@@ -44,7 +44,7 @@ app.get('/:ranking/:page', function (req, res) {
 			Promise.all([
 				// datesList(), 
 				getUserInfoFromUsername(username)
-			]).then(([dates, userInfo]) => {
+			]).then(([userInfo]) => {
 				context.dates = dates;
 				context.userInfo = userInfo;
 				dates = ['Global'].concat(dates);
