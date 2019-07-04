@@ -12,8 +12,8 @@ module.exports = {
     channels: [
         // "heliosdesbois",
         //"kraoki",
-        "chatdesbois",
-        "TeamLDLC",
+        "chatdesbois"
+        // "TeamLDLC",
         // "choeur_de_gamers"
     ]
 };

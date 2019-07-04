@@ -12,6 +12,9 @@ redis.on('connect', function () {
     console.log('connected');
 });
 
+const apitwitch = require('./api twitch.js')
+apitwitch.start()
+
 
 
 let clientID = process.env.clientID
@@ -117,7 +120,12 @@ function startBot() {
 
 
 
+
         let m = message.toLowerCase()
+
+        if(m == "updateclips" && userstate['display-name'].toLowerCase() == "kraoki"){
+            // apitwitch.allclips()
+        }
 
         if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb) {
             let chatredis = "chat/" + m.substr(5)
@@ -157,20 +165,20 @@ function startBot() {
 
 
 
-        if (channel.indexOf(ldlc) != -1) {
-            request('https://api.twitch.tv/kraken/channels/' + IDldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    let data = JSON.parse(body);
-                    if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
-                        channelCdb(client, channel, user, message, isSelf, idldlc);
-                    }
-                } else {
-                    console.error("unable ");
-                }
-            })
-        } else {
+        // if (channel.indexOf(ldlc) != -1) {
+        //     request('https://api.twitch.tv/kraken/channels/' + IDldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
+        //         if (!error && response.statusCode == 200) {
+        //             let data = JSON.parse(body);
+        //             if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
+        //                 channelCdb(client, channel, user, message, isSelf, idldlc);
+        //             }
+        //         } else {
+        //             console.error("unable ");
+        //         }
+        //     })
+        // } else {
             channelCdb(client, channel, user, message, isSelf, idchatdesbois);
-        }
+        // }
 //         else if (channel.indexOf(cdg) != -1) {
 
 
