@@ -123,7 +123,7 @@ function startBot() {
 
         let m = message.toLowerCase()
 
-        if(m == "updateclips" && [krao, hdb].indexOf(userstate['display-name'].toLowerCase()) != -1 ){
+        if(m == "updateclips" && [hdb, cdb, krao, "willokhlass"].indexOf(userstate['display-name'].toLowerCase()) != -1 ){
             apitwitch.start()
         }
 
