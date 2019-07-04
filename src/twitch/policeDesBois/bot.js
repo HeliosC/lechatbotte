@@ -13,7 +13,6 @@ redis.on('connect', function () {
 });
 
 const apitwitch = require('./api twitch.js')
-apitwitch.start()
 
 
 
@@ -90,6 +89,7 @@ function chatlog(username, message) {
 
 function startBot() {
 
+    apitwitch.start()
 
 
     let client = new tmi.client(tmiConfig);
@@ -123,8 +123,8 @@ function startBot() {
 
         let m = message.toLowerCase()
 
-        if(m == "updateclips" && userstate['display-name'].toLowerCase() == "kraoki"){
-            // apitwitch.allclips()
+        if(m == "updateclips" && [krao, hdb].indexOf(userstate['display-name'].toLowerCase()) != -1 ){
+            apitwitch.start()
         }
 
         if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb) {

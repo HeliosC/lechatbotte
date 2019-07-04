@@ -7,6 +7,10 @@ api.clientID = clientID
 const request = require('request')
 var salut = []
 
+// const keys = require('./keys.json')
+
+// console.log(process.env.GAPI_private_key)
+
 // var fs = require('fs');
 // let path = 'testclipsKrao.txt' 
 
@@ -16,7 +20,7 @@ const {google} = require('googleapis');
 const client = new google.auth.JWT(
     process.env.GAPI_email,
     null,
-    process.env.GAPI_private_key,
+    process.env.GAPI_private_key.replace(/\\n/g, '\n'),
     // keys.private_key,
     ['https://www.googleapis.com/auth/spreadsheets']
 );
@@ -39,7 +43,7 @@ function allclips(newcursor, clips){
                         console.log(err);
                         return;
                     } else {
-                        console.log('Connected')
+                        console.log('GAPI connected')
                         gsrun(client);
                     }
                 });
@@ -49,7 +53,10 @@ function allclips(newcursor, clips){
     })
 }
 
-allclips('', [])
+function start(){
+    salut=[]
+    allclips('', [])
+}
 
 async function gsrun(cl){
 
@@ -64,8 +71,8 @@ async function gsrun(cl){
         var valeurs = data.data.values
         var valeurs2 = []
         valeurs.forEach(a => {
-        valeurs2.push(a[0])
-    })
+            valeurs2.push(a[0])
+        })
         var salut2 = []
 
         salut.forEach( slt => {
@@ -73,6 +80,8 @@ async function gsrun(cl){
                 salut2.push(slt)
             }
         });
+
+        // console.log(salut2)
 
         const payload = {
         spreadsheetId: SPREADSHEET_ID,
@@ -89,4 +98,4 @@ async function gsrun(cl){
 }
 
 
-exports.start = allclips
+exports.start = start
