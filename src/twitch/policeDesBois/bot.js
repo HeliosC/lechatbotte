@@ -9,7 +9,7 @@ api.clientID = process.env.clientID
 
 var redis = require('redis').createClient(process.env.REDIS_URL);
 redis.on('connect', function () {
-    console.log('connected');
+    console.log('redis connected');
 });
 
 const apitwitch = require('./api twitch.js')
