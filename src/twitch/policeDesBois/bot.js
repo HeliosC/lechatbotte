@@ -673,6 +673,7 @@ function checkLevelUp(client, userid, xpgain, date){
             if(upg){
                 redis.hget('ranking/username', userid, (err, username)=>{
                     client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
+                    chatlog("policedesbois", '/me '+username + " passe level "+(lvl0+1)+" !" )
                 })
             }
             if(upm){
@@ -681,6 +682,7 @@ function checkLevelUp(client, userid, xpgain, date){
                     // client.whisper(username, "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
                     if( (lvl+1)%5 == 0 && !upg ){
                         client.say(cdb, '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
+                        chatlog("policedesbois", '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
                     }
                 })
             }
@@ -709,7 +711,7 @@ function xp(level0) {
 
 //Level associé a un montant d'XP
 function level(xp0) {
-    return (Math.floor((Math.sqrt(xp0 + 172.25) - 12.5) / 4))
+    return (Math.round((Math.sqrt(xp0 + 172.25) - 12.5) / 4))
 }
 
 //Entier random
