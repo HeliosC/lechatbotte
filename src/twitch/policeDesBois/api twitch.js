@@ -28,7 +28,7 @@ function allclips(newcursor, clips, salut, broadcaster, period){
     }, (err, res) => {
         if(!err) {
             res.clips.forEach(clip => {
-                salut.push([clip.title, clip.views, clip.game, clip.created_at, clip.curator.display_name, clip.url])
+                salut.push([clip.title, clip.views, clip.game, date(clip.created_at), clip.curator.display_name, clip.url])
             });
             clips = clips.concat(res.clips)
             newcursor = res._cursor
@@ -48,12 +48,26 @@ function allclips(newcursor, clips, salut, broadcaster, period){
     })
 }
 
-function start(){
-    ["chatdesbois", "kraoki", "willokhlass"]
-    // ["chatdesbois"]
+broadcasterslist = ["chatdesbois", "kraoki", "willokhlass"]
+function start(sender, arg){
+    
+    if(sender != undefined){
+        if(broadcasterslist.indexOf(arg) != -1){
+            var broadcasters = [arg]
+        }else if(sender == "heliosdesbois"){
+            var broadcasters = broadcasterslist
+        }
+        // console.log(sender, arg)
+    }else{
+        var broadcasters = broadcasterslist
+    }
+    // if(sender == "willokhlass" ){ var broadcasters = [sender] }
+    // ["chatdesbois", "kraoki", "willokhlass"]
+    // ["willokhlass"]
+    broadcasters
     .forEach(broadcaster => {
         ["day", "week", "month", "all"]
-        // ["day"]
+        // ["week"]
         .forEach(period => {
             allclips('', [], [], broadcaster, period)
         })
@@ -100,6 +114,14 @@ async function gsrun(cl, salut, broadcaster){
         }
     };
     await gsapi.spreadsheets.values.update(updateOpt)
+
+    console.log("Clips " + broadcaster)
 }
+
+
+function date(d){
+    return d.substr(8,2) + "/" + d.substr(5,2) + "/" + d.substr(0,4) + " " + d.substr(11,8)
+}
+
 
 exports.start = start

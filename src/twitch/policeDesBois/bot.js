@@ -123,8 +123,8 @@ function startBot() {
 
         let m = message.toLowerCase()
 
-        if(m == "updateclips" && [hdb, cdb, krao, "willokhlass"].indexOf(userstate['display-name'].toLowerCase()) != -1 ){
-            apitwitch.start()
+        if(m.startsWith("updateclips") && [hdb, cdb, krao, "willokhlass"].indexOf(userstate['display-name'].toLowerCase()) != -1 ){
+            apitwitch.start(userstate.username, m.split(" ")[1])
         }
 
         if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb) {
@@ -310,6 +310,39 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     }
 
 
+    if ( m.startsWith("!honte") ){
+        newHonteux = m.split(" ")[1]
+        if(isModerateur(username) && newHonteux != undefined){
+            request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    let data = JSON.parse(body)
+                    let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
+
+                    redis.get("honte/user", function(err,honteux){
+                        if(!err){
+                            if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
+                                client.say(channel, honteux + "passe le relai de la honte à " + newHonteux)
+                                redis.set("honte/user", newHonteux)
+                            }else{
+                                client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux)
+                            }
+                        }
+                    })
+
+                } else {
+                    console.error("unable ")
+                }
+            })
+        }else{
+            redis.get("honte/user", function(err,honteux){
+                if(!err){
+                    client.say(channel, "Le bâton de la honte est firement porté par " + honteux)
+                }
+            })
+        }
+
+
+    }
 
     if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
         massacresON = false
