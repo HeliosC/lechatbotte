@@ -326,13 +326,13 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                                     redis.hget("ranking/id", newHonteux, function(err, newHonteuxID){
                                         redis.hget("ranking/username", newHonteuxID, function(err, newHonteux){
                                             if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
-                                                client.say(channel, "Après " + time + " minute" + (parseInt(time)>1? "s" : "") + honteux + " passe le bâton de la honte à " + newHonteux)
+                                                client.say(channel, "Après " + time + " minute" + (parseInt(time)>1? "s " : " ") + honteux + " passe le bâton de la honte à " + newHonteux)
                                                 redis.set("honte/user", newHonteuxID)
                                                 redis.zincrby("honte/nombres", 1, newHonteuxID)
                                                 redis.set("honte/actuel", "0")
                                             }else{
                                                 client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
-                                                + " depuis " + time + " minute" + (parseInt(time)>1? "s" : "") 
+                                                + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
                                                 )
                                             }
                                         })
@@ -351,7 +351,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     redis.hget("ranking/username", honteuxID, function(err, honteux){
                         if(!err){
                             client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
-                            + " depuis " + time + " minute" + (parseInt(time)>1? "s" : "") 
+                            + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
                             )
                         }
                     })
