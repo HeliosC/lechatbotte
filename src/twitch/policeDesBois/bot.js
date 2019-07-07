@@ -12,7 +12,7 @@ redis.on('connect', function () {
     console.log('redis connected');
 });
 
-const apitwitch = require('./api twitch.js')
+const apitwitch = require('./api_twitch.js')
 
 
 

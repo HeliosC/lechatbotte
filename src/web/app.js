@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 var redis = require('async-redis').createClient(process.env.REDIS_URL);
 redis.on('connect', function () {
-    //console.log('connected');
+	//console.log('connected');
 });
 
 
@@ -349,32 +349,32 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 //XP avant de up
 function xpLeft(xp0) {
-    return (xp(level(xp0) + 1) - xp0)
+	return (xp(level(xp0) + 1) - xp0)
 }
 //% d'XP du lvl en cours
 function progress(xp0) {
-    let lvl = level(xp0)
-    let xplvl = xp(lvl)
-    return (Math.floor(100 * ((xp0 - xplvl) / (xp(lvl + 1) - xplvl))))
+	let lvl = level(xp0)
+	let xplvl = xp(lvl)
+	return (Math.floor(100 * ((xp0 - xplvl) / (xp(lvl + 1) - xplvl))))
 }
 //XP totale pour etre un level donné
 function xp(level0) {
-    return (16 * (level0 * level0 - 1) + 100 * level0)
+	return (16 * (level0 * level0 - 1) + 100 * level0)
 }
 //Level associé a un montant d'XP
 function level(xp0) {
-    return (Math.floor((Math.sqrt(xp0 + 172.25) - 12.5) / 4))
+	return (Math.floor((Math.sqrt(xp0 + 172.25) - 12.5) / 4))
 }
 //Entier random
 function randInt(minimum, maximum) {
-    return Math.floor((Math.random() * (maximum - minimum + 1)) + minimum)
+	return Math.floor((Math.random() * (maximum - minimum + 1)) + minimum)
 }
 //Date au format aaaa/mm
 function dateXp() {
-    let date = new Date();
-    let month = date.getMonth() + 1;
-    if (month < 10) {
-        month = "0" + month;
-    }
-    return date.getFullYear() + '/' + month
+	let date = new Date();
+	let month = date.getMonth() + 1;
+	if (month < 10) {
+		month = "0" + month;
+	}
+	return date.getFullYear() + '/' + month
 }
