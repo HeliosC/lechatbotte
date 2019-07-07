@@ -41,7 +41,7 @@ var lobbiesON = true
 var mortsON = true
 
 const xptimer = 60000
-const ontest = true
+const ontest = false
 const xpacitf = true
 var active = false
 var chaters = {}
@@ -326,7 +326,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                                     redis.hget("ranking/id", newHonteux, function(err, newHonteuxID){
                                         redis.hget("ranking/username", newHonteuxID, function(err, newHonteux){
                                             if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
-                                                client.say(channel, "Après " + time + " minute" + (parseInt(time)>1? "s " : " ") + honteux + " passe le bâton de la honte à " + newHonteux)
+                                                client.say(channel, 
+                                                    // "Après " + time + " minute" + (parseInt(time)>1? "s " : " ") + 
+                                                    honteux + " passe le bâton de la honte à " + newHonteux)
                                                 redis.set("honte/user", newHonteuxID)
                                                 redis.zincrby("honte/nombres", 1, newHonteuxID)
                                                 redis.set("honte/actuel", "0")
@@ -358,9 +360,12 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 })
             })
         }
-
-
     }
+
+    if ( m.startsWith("!stathonte") ){
+        
+    }
+
 
     if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
         massacresON = false
