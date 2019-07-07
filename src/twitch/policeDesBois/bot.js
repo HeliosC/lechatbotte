@@ -363,7 +363,62 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     }
 
     if ( m.startsWith("!stathonte") ){
-        
+        honteux = m.split(" ")[1]
+        if(honteux != undefined){
+            redis.hexists("ranking/id", honteux, function(err, exists){
+                if(exists){
+                    console.log(honteux)
+                    redis.hget("ranking/id", honteux, function(err, honteuxID){
+                        console.log(honteuxID)
+                        redis.hget("ranking/username", honteuxID, function(err, honteux){
+                            console.log(honteux)
+                            redis.zscore("honte/nombres", honteuxID, function(err, nombre){
+                                if(nombre != null){
+                                    redis.zscore("honte/temps", honteuxID, function(err,  temps){
+                                        // redis.zscore("honte/nombres", honteuxID, function(err,  nombre){
+                                            client.say(channel, honteux + " : " + nombre + " bâton" + (parseInt(nombre)>1? "s" : "") + " / "
+                                             + (temps==undefined? 0 : temps) + " minute" + (parseInt(temps)>1? "s" : "") + " de honte à son actif" )
+                                        // })
+                                    })
+                                }else{
+                                    client.say(channel, honteux + " n'a pas encore connu la honte")
+                                }
+                            })
+                        })
+                    })
+                }else{
+                    client.say(channel, honteux + " est inconnu au bataillon de la honte")
+                }
+            })
+
+            // redis.hexists("honte/nombres", honteux, function(err, exists){
+            //     if(exists){
+            //         redis.hget("ranking/id", honteux, function(err, honteuxID){
+            //             redis.hget("ranking/username", honteuxID, function(err,  honteux){
+            //                 redis.hget("honte/temps", honteuxID, function(err,  temps){
+            //                     redis.hget("honte/nombres", honteuxID, function(err,  nombre){
+            //                         client.say(channel, honteux + " : " + nombre + " bâton" + (parseInt(nombre)>1? "s" : "") + " / "
+            //                          + temps + " minute" + (parseInt(temps)>1? "s" : "") + " de honte à son actif" )
+            //                     })
+            //                 })
+            //             })  
+            //         })
+
+            //     }else{
+            //         redis.hexists("ranking/id", honteux, function(err, exists){
+            //             if(exists){
+            //                 redis.hget("ranking/id", honteux, function(err, honteuxID){
+            //                     redis.hget("ranking/username", honteuxID, function(err, honteux){
+            //                         client.say(channel, honteux + " n'a pas encore connu la honte")
+            //                     })
+            //                 })
+            //             }else{
+            //                 client.say(channel, honteux + " est inconnu au bataillon de la honte")
+            //             }
+            //         })
+            //     }
+            // })
+        }
     }
 
 
