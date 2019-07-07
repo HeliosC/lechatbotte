@@ -327,8 +327,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                                     redis.zincrby("honte/nombres", 1, newHonteux)
                                     redis.set("honte/actuel", "0")
                                 }else{
-                                        client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux + 
-                                        + "depuis " + time + " minute" + (parseInt(time)>1? "s" : "") 
+                                        client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
+                                        + " depuis " + time + " minute" + (parseInt(time)>1? "s" : "") 
                                         )
                                 }
                             })
@@ -340,12 +340,14 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 }
             })
         }else{
-            redis.get("honte/user", function(err,honteux){
-                if(!err){
-                    client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux + 
-                    + "depuis " + time + " minute" + (parseInt(time)>1? "s" : "") 
-                    )
-                }
+            redis.get("honte/actuel", function(err, time){
+                redis.get("honte/user", function(err,honteux){
+                    if(!err){
+                        client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
+                        + " depuis " + time + " minute" + (parseInt(time)>1? "s" : "") 
+                        )
+                    }
+                })
             })
         }
 
