@@ -758,7 +758,7 @@ function updateXp(client, IDchatdesbois) {
             })
 
         }
-    }
+    })
 
     if(xpacitf){
         redis.get("honte/user", function(err, honteuxID){
