@@ -746,21 +746,21 @@ function commandAnswer(client, userdname, userid, date, mode){
 
 function updateXp(client, IDchatdesbois) {
 
-    if(xpacitf && !ontest){
-        request('https://tmi.twitch.tv/group/user/' + cdb + '/chatters', function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                let data = JSON.parse(body)
-                let chatter_count = data.chatter_count
+    // if(xpacitf && !ontest){
+    //     request('https://tmi.twitch.tv/group/user/' + cdb + '/chatters', function (error, response, body) {
+    //         if (!error && response.statusCode == 200) {
+    //             let data = JSON.parse(body)
+    //             let chatter_count = data.chatter_count
 
-                redis.zincrby("viewers", 1, "minutes", function(err, minutes){
-                    redis.zincrby("viewers", parseInt(chatter_count), "total", function(err, total){
-                        redis.set("viewers/moy", parseInt(total/minutes), "moyenne")
-                    })
-                })
+    //             redis.zincrby("viewers", 1, "minutes", function(err, minutes){
+    //                 redis.zincrby("viewers", parseInt(chatter_count), "total", function(err, total){
+    //                     redis.set("viewers/moy", parseInt(total/minutes), "moyenne")
+    //                 })
+    //             })
 
-            }
-        })
-    }
+    //         }
+    //     })
+    // }
 
     if(xpacitf){
         redis.get("honte/user", function(err, honteuxID){
