@@ -124,7 +124,7 @@ function startBot() {
 
         let m = message.toLowerCase()
 
-        if(m.startsWith("updateclips") && [hdb, cdb, krao, "willokhlass"].indexOf(userstate['display-name'].toLowerCase()) != -1 ){
+        if(m.startsWith("updateclips") && [hdb, cdb, krao, "willokhlass"].indexOf(userstate['username'].toLowerCase()) != -1 ){
             apitwitch.start(userstate.username, m.split(" ")[1])
         }
 
@@ -693,6 +693,8 @@ function dateFull() {
 
     return jour + '/' + month + '/' + date.getFullYear()
 }
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
