@@ -332,6 +332,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
 
                     redis.get("honte/user", function(err, honteuxID){
+                        console.log("lala", honteuxID)
                         if(!err && honteuxID != null){
                             redis.get("honte/actuel", function(err, time){
                                 redis.hget("ranking/username", honteuxID, function(err, honteux){
