@@ -939,7 +939,7 @@ function dateFullSplited() {
 
 function dateFullHours() {
     let date = new Date();
-    let year = new year();
+    let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
     let hours = date.getHours;
