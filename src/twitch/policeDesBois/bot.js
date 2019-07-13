@@ -946,7 +946,7 @@ function GetAllAnalytics(){
         Promise.all(promises).then( res => {
 
             var res2 = []
-            res2.push(["Date", "Total", "Stream duration", "Max", "Followers", "Views"])
+            res2.push(["Date", "Stream duration", "Total", "Max", "Followers", "Views"])
 
 
             res.forEach( a => {
