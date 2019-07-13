@@ -946,7 +946,7 @@ function GetAllAnalytics(){
         Promise.all(promises).then( res => {
 
             var res2 = []
-            res2.push(["Total", "Stream duration", "Followers", "Views"])
+            res2.push(["Date", "Total", "Stream duration", "Max", "Followers", "Views"])
 
 
             res.forEach( a => {
@@ -995,7 +995,7 @@ function getAnalytics(annee, mois, jour){
                 // data.push(reply)
                 // return reply
                 if(!err){
-                    resolve(reply)
+                    resolve([`${jour}/${mois}/${annee}`].concat(reply))
                 }else{
                     reject("apiclips failed")
                 }
