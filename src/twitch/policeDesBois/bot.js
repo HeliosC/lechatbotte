@@ -918,6 +918,20 @@ function dateXp() {
     return date.getFullYear() + '/' + month
 }
 
+function dateFullSplited() {
+    let date = new Date();
+    let month = date.getMonth() + 1;
+    let jour = date.getDate();
+    if (jour < 10) {
+        jour = "0" + jour;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+        return [date.getFullYear(), month, jour]
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////XP FUNCTIONS/////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
