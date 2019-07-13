@@ -14,6 +14,14 @@ redis.on('connect', function () {
 
 const apitwitch = require('./api_twitch.js')
 
+const {google} = require('googleapis');
+
+const googleClient = new google.auth.JWT(
+    GAPI_email,
+    null,
+    GAPI_private_key.replace(/\\n/g, '\n'),
+    ['https://www.googleapis.com/auth/spreadsheets']
+);
 
 
 let clientID = process.env.clientID
