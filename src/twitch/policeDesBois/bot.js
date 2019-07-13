@@ -946,7 +946,7 @@ function GetAllAnalytics(){
         Promise.all(promises).then( res => {
 
             var res2 = []
-            res2.push(["Date", "Stream duration", "Total", "Max", "Followers", "Views"])
+            res2.push(["Date", "Stream duration", "Total", "Max", "Followers", "Views", 'Moyenne'])
 
 
             res.forEach( a => {
@@ -969,7 +969,7 @@ function GetAllAnalytics(){
             
                 var updateOpt = {
                     spreadsheetId: process.env.SheetAnalytics,
-                    range: "Analytics!A:F",
+                    range: "Analytics!A:G",
                     valueInputOption: 'USER_ENTERED',
                     resource : {
                         majorDimension: "ROWS",
