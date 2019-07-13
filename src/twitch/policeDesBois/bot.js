@@ -994,7 +994,11 @@ function GetAllAnalytics(){
             res.forEach( a => {
                 if(a != ""){
                     a.push(Math.round(a[2]/a[1]))
-                    a[1] = Math.trunc(a[1]/60) + ":" + (a[1]%60)
+                    b = a[1]%60
+                    if( b < 10){
+                        b = '0' + b
+                    }
+                    a[1] = Math.trunc(a[1]/60) + ":" + b
                     res2.push(a)
                 }
             })
