@@ -91,6 +91,7 @@ function chatlog(username, message) {
 function startBot() {
 
     apitwitch.start()
+    GetAllAnalytics()
 
 
     let client = new tmi.client(tmiConfig);
@@ -126,6 +127,9 @@ function startBot() {
 
         if(m.startsWith("updateclips") && [hdb, cdb, krao, "willokhlass"].indexOf(userstate['username'].toLowerCase()) != -1 ){
             apitwitch.start(userstate.username, m.split(" ")[1])
+        }
+        if(m.startsWith("updatestats")){
+            GetAllAnalytics()
         }
 
         if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb) {
@@ -332,7 +336,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
 
                     redis.get("honte/user", function(err, honteuxID){
-                        if(!err){
+                        if(!err && honteuxID != null){
                             redis.get("honte/actuel", function(err, time){
                                 redis.hget("ranking/username", honteuxID, function(err, honteux){
                                     redis.hget("ranking/id", newHonteux, function(err, newHonteuxID){
@@ -826,7 +830,8 @@ function updateXp(client, IDchatdesbois) {
             if (data.stream == null && !ontest) {
                 active = false
                 clearTimeout(intervalObject)
-                console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+                redis.get("honte/user", "null")
+                    console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
             } else {
             }
         } else {
@@ -908,5 +913,69 @@ function dateXp() {
 ///////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////XP FUNCTIONS/////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+function GetAllAnalytics(){
+    // return new Promise( (resolve, reject) => {
+    promises = []
+
+        // data = []
+        for(var annee = 2019; annee <2020; annee++){
+            for(var mois = 7; mois <8; mois++){
+                if(mois<10){
+                    mois = '0' + mois
+                }
+                for(var jour = 1; jour <32; jour++){
+                    if(jour<10){
+                        jour = '0' + jour
+                    }
+
+                    promises.push(getAnalytics(annee, mois, jour))
+
+                }
+            }
+        }
+        // console.log("pro", promises)
+        Promise.all(promises).then( res => {
+
+            var res2 = []
+            res2.push(["Total", "Stream duration", "Followers", "Views"])
+
+
+            res.forEach( a => {
+                if(a != ""){
+                    res2.push(a)
+                }
+            })
+
+            // console.log("data", res2)
+            
+            googleClient.authorize(function(err,tokens){
+                if(err){
+                    console.log(err);
+                    throw err;
+                }
+                // return 
+                const gsapi = google.sheets({version:'v4', auth: googleClient});
+            
+                var updateOpt = {
+                    spreadsheetId: SheetAnalytics,
+                    range: "Analytics!A:F",
+                    valueInputOption: 'USER_ENTERED',
+                    resource : {
+                        majorDimension: "ROWS",
+                        values: res2
+                    }
+                };
+                // await 
+                gsapi.spreadsheets.values.update(updateOpt)
+            
+            });
+        
+        })
+        // console.log("allo?")
+    // })
+
+}
+
 
 module.exports.start = startBot;
