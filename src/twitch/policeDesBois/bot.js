@@ -332,25 +332,26 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
 
                     redis.get("honte/user", function(err, honteuxID){
-                        console.log("lala", honteuxID)
-                        if(!err && honteuxID != null){
+                        if(!err){
                             redis.get("honte/actuel", function(err, time){
                                 redis.hget("ranking/username", honteuxID, function(err, honteux){
                                     redis.hget("ranking/id", newHonteux, function(err, newHonteuxID){
-                                        redis.hget("ranking/username", newHonteuxID, function(err, newHonteux){
-                                            if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
-                                                client.say(channel, 
-                                                    // "Après " + time + " minute" + (parseInt(time)>1? "s " : " ") + 
-                                                    honteux + " passe le bâton de la honte à " + newHonteux)
-                                                redis.set("honte/user", newHonteuxID)
-                                                redis.zincrby("honte/nombres", 1, newHonteuxID)
-                                                redis.set("honte/actuel", "0")
-                                            }else{
-                                                client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
-                                                + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
-                                                )
-                                            }
-                                        })
+                                        if(newHonteuxID != null){
+                                            redis.hget("ranking/username", newHonteuxID, function(err, newHonteux){
+                                                if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
+                                                    client.say(channel, 
+                                                        // "Après " + time + " minute" + (parseInt(time)>1? "s " : " ") + 
+                                                        honteux + " passe le bâton de la honte à " + newHonteux)
+                                                    redis.set("honte/user", newHonteuxID)
+                                                    redis.zincrby("honte/nombres", 1, newHonteuxID)
+                                                    redis.set("honte/actuel", "0")
+                                                }else{
+                                                    client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
+                                                    + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
+                                                    )
+                                                }
+                                            })
+                                        }
                                     })
                                 })
                             })
