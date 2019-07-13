@@ -1060,10 +1060,14 @@ function GetViewersAnalytics(){
     data.push(["date", "viewers"])
 
     redis.hgetall(`analytics/${cdb}/viewers`, function(err, res){
-        console.log("res", res)
+        // console.log("res", res)
         if(!err && res != null){
-            for(i=0; i<res.length; i+=2){
-                data.push([res[i], res[i+1]])
+            // for(i=0; i<res.length; i+=2){
+            //     data.push([res[i], res[i+1]])
+            // }
+
+            for (let [key, value] of Object.entries(res)) {
+                data.push([key, value]);
             }
             
             googleClient.authorize(function(err,tokens){
