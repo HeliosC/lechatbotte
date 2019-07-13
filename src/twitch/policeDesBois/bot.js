@@ -784,7 +784,7 @@ function updateXp(client, IDchatdesbois) {
             var viewers = data.stream.viewers
             // var [annee, mois, jour] = dateFullSplited()
             var date = dateFullHours()
-            jour+=0
+            date.jour+=0
             // console.log(viewers)
 
             redis.hset(`analytics/${cdb}/viewers`, `${date.jour}/${date.mois}/${date.annee} ${date.hours}:${date.minutes}`, viewers)
