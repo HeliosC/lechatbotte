@@ -966,7 +966,7 @@ function GetAllAnalytics(){
                 const gsapi = google.sheets({version:'v4', auth: googleClient});
             
                 var updateOpt = {
-                    spreadsheetId: SheetAnalytics,
+                    spreadsheetId: process.env.SheetAnalytics,
                     range: "Analytics!A:F",
                     valueInputOption: 'USER_ENTERED',
                     resource : {
