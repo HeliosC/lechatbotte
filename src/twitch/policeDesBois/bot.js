@@ -1056,7 +1056,7 @@ function GetViewersAnalytics(){
     data.push(["date", "viewers"])
 
     redis.hgetall(`analytics/${cdb}/viewers`, function(err, res){
-        if(!err){
+        if(!err && res != null){
             for(i=0; i<res.length; i+=2){
                 data.push([res[i], res[i+1]])
             }
