@@ -789,23 +789,23 @@ function updateXp(client, IDchatdesbois) {
 
             redis.hset(`analytics/${cdb}/viewers`, `${date.jour}/${date.mois}/${date.annee} ${date.hours}:${date.minutes}`, viewers)
 
-            redis.hincrby(`analytics/${cdb}/${annee}/${mois}/${jour}`, "stream_duration", 1, function(err, stream_duration){
-                redis.hincrby(`analytics/${cdb}/${annee}/${mois}/${jour}`, "total_viewers", viewers, function(err, total_viewers){
-                    redis.hget(`analytics/${cdb}/${annee}/${mois}/${jour}`, "max_viewers", function(err, max_viewers){
+            redis.hincrby(`analytics/${cdb}/${date.annee}/${date.mois}/${date.jour}`, "stream_duration", 1, function(err, stream_duration){
+                redis.hincrby(`analytics/${cdb}/${date.annee}/${date.mois}/${date.jour}`, "total_viewers", viewers, function(err, total_viewers){
+                    redis.hget(`analytics/${cdb}/${date.annee}/${date.mois}/${date.jour}`, "max_viewers", function(err, max_viewers){
                         if(max_viewers == undefined || max_viewers < viewers){
-                            redis.hset(`analytics/${cdb}/${annee}/${mois}/${jour}`, "max_viewers", viewers)
+                            redis.hset(`analytics/${cdb}/${date.annee}/${date.mois}/${date.jour}`, "max_viewers", viewers)
                         }
-                        redis.hmset(`analytics/${cdb}/${annee}/${mois}/${jour}`, "followers", data.stream.channel.followers, "views", data.stream.channel.views)
+                        redis.hmset(`analytics/${cdb}/${date.annee}/${date.mois}/${date.jour}`, "followers", data.stream.channel.followers, "views", data.stream.channel.views)
                     })
                 })
             })
-            redis.hincrby(`analytics/${cdb}/monthly/${annee}/${mois}`, "stream_duration", 1, function(err, stream_duration){
-                redis.hincrby(`analytics/${cdb}/monthly/${annee}/${mois}`, "total_viewers", data.stream.viewers, function(err, total_viewers){
-                    redis.hget(`analytics/${cdb}/monthly/${annee}/${mois}`, "max_viewers", function(err, max_viewers){
+            redis.hincrby(`analytics/${cdb}/monthly/${date.annee}/${date.mois}`, "stream_duration", 1, function(err, stream_duration){
+                redis.hincrby(`analytics/${cdb}/monthly/${date.annee}/${date.mois}`, "total_viewers", data.stream.viewers, function(err, total_viewers){
+                    redis.hget(`analytics/${cdb}/monthly/${date.annee}/${date.mois}`, "max_viewers", function(err, max_viewers){
                         if(max_viewers == undefined || max_viewers < viewers){
-                            redis.hset(`analytics/${cdb}/monthly/${annee}/${mois}`, "max_viewers", viewers)
+                            redis.hset(`analytics/${cdb}/monthly/${date.annee}/${date.mois}`, "max_viewers", viewers)
                         }
-                        redis.hmset(`analytics/${cdb}/monthly/${annee}/${mois}`, "followers", data.stream.channel.followers, "views", data.stream.channel.views)
+                        redis.hmset(`analytics/${cdb}/monthly/${date.annee}/${date.mois}`, "followers", data.stream.channel.followers, "views", data.stream.channel.views)
                     })
                 })
             })
