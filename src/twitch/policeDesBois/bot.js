@@ -977,5 +977,29 @@ function GetAllAnalytics(){
 
 }
 
+function getAnalytics(annee, mois, jour){
+    return new Promise( (resolve, reject) => {
+
+    redis.exists(`analytics/${cdb}/${annee}/${mois}/${jour}`, function(err, exists){
+        // console.log(`analytics/${cdb}/${annee}/${mois}/${jour}`)
+        if(exists){
+            redis.hvals(`analytics/${cdb}/${annee}/${mois}/${jour}`, function(err, reply){
+                // data.push(reply)
+                // return reply
+                if(!err){
+                    resolve(reply)
+                }else{
+                    reject("apiclips failed")
+                }
+    
+            })
+        }
+        else{
+            resolve("")
+        }
+    })
+
+    })
+}
 
 module.exports.start = startBot;
