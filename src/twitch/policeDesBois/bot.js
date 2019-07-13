@@ -325,7 +325,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     if ( m.startsWith("!honte") ){
         newHonteux = m.split(" ")[1]
-        if(newHonteux != undefined && isHonteur(username)){
+        if(newHonteux != null && isHonteur(username)){
             request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     let data = JSON.parse(body)
