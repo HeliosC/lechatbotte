@@ -29,6 +29,7 @@
     "start": "node index.js",
     "index": "nodemon -e js,handlebars,css index.js ",
     "dev": "nodemon -e js,handlebars,css /src/app.js ",
+    "devtest": "nodemon -e js,handlebars,css /testlocal/bot.js ",
     "testmain": "nodemon webtestmain/app.js"
   },
   "repository": {

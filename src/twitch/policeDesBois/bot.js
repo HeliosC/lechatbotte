@@ -310,6 +310,18 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     }
 
+    if ( m.startsWith("!-honte") ){
+        newHonteux = m.split(" ")[1]
+        if(isHonteur(username) && newHonteux != undefined){
+            redis.hget("ranking/id", newHonteux, function(err, newHonteuxID){
+                console.log(newHonteuxID)
+                if(newHonteuxID != null){
+                    redis.zincrby("honte/nombres", -1, newHonteuxID, function(err, dfh){
+                    })
+                }
+            })
+        }
+    }
 
     if ( m.startsWith("!honte") ){
         newHonteux = m.split(" ")[1]
@@ -748,21 +760,40 @@ function commandAnswer(client, userdname, userid, date, mode){
 
 function updateXp(client, IDchatdesbois) {
 
-    // if(xpacitf && !ontest){
-    //     request('https://tmi.twitch.tv/group/user/' + cdb + '/chatters', function (error, response, body) {
-    //         if (!error && response.statusCode == 200) {
-    //             let data = JSON.parse(body)
-    //             let chatter_count = data.chatter_count
+    
 
-    //             redis.zincrby("viewers", 1, "minutes", function(err, minutes){
-    //                 redis.zincrby("viewers", parseInt(chatter_count), "total", function(err, total){
-    //                     redis.set("viewers/moy", parseInt(total/minutes), "moyenne")
-    //                 })
-    //             })
+    request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            let data = JSON.parse(body)
+            var viewers = data.stream.viewers
+            var [annee, mois, jour] = dateFullSplited()
+            jour+=0
+            // console.log(viewers)
 
-    //         }
-    //     })
-    // }
+            redis.hincrby(`analytics/${cdb}/${annee}/${mois}/${jour}`, "stream_duration", 1, function(err, stream_duration){
+                redis.hincrby(`analytics/${cdb}/${annee}/${mois}/${jour}`, "total_viewers", viewers, function(err, total_viewers){
+                    redis.hget(`analytics/${cdb}/${annee}/${mois}/${jour}`, "max_viewers", function(err, max_viewers){
+                        if(max_viewers == undefined || max_viewers < viewers){
+                            redis.hset(`analytics/${cdb}/${annee}/${mois}/${jour}`, "max_viewers", viewers)
+                        }
+                        redis.hmset(`analytics/${cdb}/${annee}/${mois}/${jour}`, "followers", data.stream.channel.followers, "views", data.stream.channel.views)
+                    })
+                })
+            })
+            redis.hincrby(`analytics/${cdb}/monthly/${annee}/${mois}`, "stream_duration", 1, function(err, stream_duration){
+                redis.hincrby(`analytics/${cdb}/monthly/${annee}/${mois}`, "total_viewers", data.stream.viewers, function(err, total_viewers){
+                    redis.hget(`analytics/${cdb}/monthly/${annee}/${mois}`, "max_viewers", function(err, max_viewers){
+                        if(max_viewers == undefined || max_viewers < viewers){
+                            redis.hset(`analytics/${cdb}/monthly/${annee}/${mois}`, "max_viewers", viewers)
+                        }
+                        redis.hmset(`analytics/${cdb}/monthly/${annee}/${mois}`, "followers", data.stream.channel.followers, "views", data.stream.channel.views)
+                    })
+                })
+            })
+        }
+    })
+
+
 
     if(xpacitf){
         redis.get("honte/user", function(err, honteuxID){
