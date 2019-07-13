@@ -138,6 +138,7 @@ function startBot() {
             apitwitch.start(userstate.username, m.split(" ")[1])
         }
         if(m.startsWith("updatestats")){
+            console.log("updating stats")
             GetAllAnalytics()
             GetViewersAnalytics()
         }
@@ -340,10 +341,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     if ( m.startsWith("!honte") ){
         newHonteux = m.split(" ")[1]
         if(newHonteux != undefined && isHonteur(username)){
-            request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    let data = JSON.parse(body)
-                    let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
+            // request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
+            //     if (!error && response.statusCode == 200) {
+            //         let data = JSON.parse(body)
+            //         let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
 
                     redis.get("honte/user", function(err, honteuxID){
                         if(!err && honteuxID != null){
@@ -352,18 +353,19 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                                     redis.hget("ranking/id", newHonteux, function(err, newHonteuxID){
                                         if(newHonteuxID != null){
                                             redis.hget("ranking/username", newHonteuxID, function(err, newHonteux){
-                                                if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
+                                                // if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
+                                                
                                                     client.say(channel, 
                                                         // "Après " + time + " minute" + (parseInt(time)>1? "s " : " ") + 
                                                         honteux + " passe le bâton de la honte à " + newHonteux)
                                                     redis.set("honte/user", newHonteuxID)
                                                     redis.zincrby("honte/nombres", 1, newHonteuxID)
                                                     redis.set("honte/actuel", "0")
-                                                }else{
-                                                    client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
-                                                    + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
-                                                    )
-                                                }
+                                                // }else{
+                                                //     client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
+                                                //     + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
+                                                //     )
+                                                // }
                                             })
                                         }
                                     })
@@ -371,10 +373,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                             })
                         }
                     })
-                } else {
-                    console.error("unable ")
-                }
-            })
+                // } else {
+                //     console.error("unable ")
+                // }
+            // })
         }else{
             redis.get("honte/actuel", function(err, time){
                 redis.get("honte/user", function(err,honteuxID){
@@ -843,7 +845,7 @@ function updateXp(client, IDchatdesbois) {
             if (data.stream == null && !ontest) {
                 active = false
                 clearTimeout(intervalObject)
-                redis.get("honte/user", "null")
+                redis.set("honte/user", "null")
                     console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
             } else {
             }
@@ -1058,6 +1060,7 @@ function GetViewersAnalytics(){
     data.push(["date", "viewers"])
 
     redis.hgetall(`analytics/${cdb}/viewers`, function(err, res){
+        console.log("res", res)
         if(!err && res != null){
             for(i=0; i<res.length; i+=2){
                 data.push([res[i], res[i+1]])
