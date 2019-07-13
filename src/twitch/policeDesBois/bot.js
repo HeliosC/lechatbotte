@@ -17,9 +17,9 @@ const apitwitch = require('./api_twitch.js')
 const {google} = require('googleapis');
 
 const googleClient = new google.auth.JWT(
-    GAPI_email,
+    process.env.GAPI_email,
     null,
-    GAPI_private_key.replace(/\\n/g, '\n'),
+    process.env.GAPI_private_key.replace(/\\n/g, '\n'),
     ['https://www.googleapis.com/auth/spreadsheets']
 );
 
