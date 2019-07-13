@@ -100,6 +100,7 @@ function startBot() {
 
     apitwitch.start()
     GetAllAnalytics()
+    GetViewersAnalytics()
 
 
     let client = new tmi.client(tmiConfig);
@@ -138,6 +139,7 @@ function startBot() {
         }
         if(m.startsWith("updatestats")){
             GetAllAnalytics()
+            GetViewersAnalytics()
         }
 
         if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb) {
@@ -780,9 +782,12 @@ function updateXp(client, IDchatdesbois) {
         if (!error && response.statusCode == 200) {
             let data = JSON.parse(body)
             var viewers = data.stream.viewers
-            var [annee, mois, jour] = dateFullSplited()
+            // var [annee, mois, jour] = dateFullSplited()
+            var date = dateFullHours()
             jour+=0
             // console.log(viewers)
+
+            redis.hset(`analytics/${cdb}/viewers`, `${date.jour}/${date.mois}/${date.annee} ${date.hours}:${date.minutes}`, viewers)
 
             redis.hincrby(`analytics/${cdb}/${annee}/${mois}/${jour}`, "stream_duration", 1, function(err, stream_duration){
                 redis.hincrby(`analytics/${cdb}/${annee}/${mois}/${jour}`, "total_viewers", viewers, function(err, total_viewers){
@@ -932,6 +937,25 @@ function dateFullSplited() {
         return [date.getFullYear(), month, jour]
 }
 
+function dateFullHours() {
+    let date = new Date();
+    let year = new year();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hours = date.getHours;
+    let minutes = date.getMinutes;
+    
+
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+        return {year, month, day, hours, minutes}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////XP FUNCTIONS/////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -1022,6 +1046,44 @@ function getAnalytics(annee, mois, jour){
             resolve("")
         }
     })
+
+    })
+}
+
+function GetViewersAnalytics(){
+
+    var data = []
+    data.push(["date", "viewers"])
+
+    redis.hgetall(`analytics/${cdb}/viewers`, function(err, res){
+        if(!err){
+            for(i=0; i<res.length; i+=2){
+                data.push([res[i], res[i+1]])
+            }
+            
+            googleClient.authorize(function(err,tokens){
+                if(err){
+                    console.log(err);
+                    throw err;
+                }
+                // return 
+                const gsapi = google.sheets({version:'v4', auth: googleClient});
+        
+                var updateOpt = {
+                    spreadsheetId: process.env.SheetAnalytics,
+                    range: "Evolution!A:B",
+                    valueInputOption: 'USER_ENTERED',
+                    resource : {
+                        majorDimension: "ROWS",
+                        values: data
+                    }
+                };
+                // await 
+                gsapi.spreadsheets.values.update(updateOpt)
+        
+            });
+
+        }
 
     })
 }
