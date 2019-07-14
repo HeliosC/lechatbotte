@@ -789,7 +789,7 @@ function updateXp(client, IDchatdesbois) {
             date.jour+=0
             // console.log(viewers)
 
-            redis.hset(`analytics/${cdb}/viewers`, `${date.day}/${date.month}/${date.year} ${date.hours}:${date.minutes}`, viewers)
+            redis.hset(`analytics/${cdb}/viewersEvolution`, `${date.day}/${date.month}/${date.year} ${date.hours}:${date.minutes}`, viewers)
 
             redis.hincrby(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "stream_duration", 1, function(err, stream_duration){
                 redis.hincrby(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "total_viewers", viewers, function(err, total_viewers){
@@ -948,6 +948,12 @@ function dateFullHours() {
     let minutes = date.getMinutes();
     
 
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    if (hours < 10) {
+        hours = "0" + hours;
+    }
     if (day < 10) {
         day = "0" + day;
     }
@@ -1063,7 +1069,7 @@ function GetViewersAnalytics(){
     var data = []
     data.push(["date", "viewers"])
 
-    redis.hgetall(`analytics/${cdb}/viewers`, function(err, res){
+    redis.hgetall(`analytics/${cdb}/viewersEvolution`, function(err, res){
         // console.log("res", res)
         if(!err && res != null){
             // for(i=0; i<res.length; i+=2){
