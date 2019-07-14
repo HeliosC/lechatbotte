@@ -791,6 +791,30 @@ function updateXp(client, IDchatdesbois) {
 
             redis.hset(`analytics/${cdb}/viewersEvolution`, `${date.day}/${date.month}/${date.year} ${date.hours}:${date.minutes}`, viewers)
 
+
+            googleClient.authorize(function(err,tokens){
+                if(err){
+                    console.log(err);
+                    throw err;
+                }
+                // return 
+                const gsapi = google.sheets({version:'v4', auth: googleClient});
+            
+                var updateOpt = {
+                    spreadsheetId: process.env.SheetAnalytics,
+                    range: "Evolution!A:B",
+                    valueInputOption: 'USER_ENTERED',
+                    resource : {
+                        majorDimension: "ROWS",
+                        values: [[`${date.day}/${date.month}/${date.year} ${date.hours}:${date.minutes}`, viewers]]
+                    }
+                };
+                // await 
+                gsapi.spreadsheets.values.append(updateOpt)
+            
+            });
+
+
             redis.hincrby(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "stream_duration", 1, function(err, stream_duration){
                 redis.hincrby(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "total_viewers", viewers, function(err, total_viewers){
                     redis.hget(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "max_viewers", function(err, max_viewers){
