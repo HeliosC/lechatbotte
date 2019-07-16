@@ -353,20 +353,24 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                                     redis.hget("ranking/id", newHonteux, function(err, newHonteuxID){
                                         if(newHonteuxID != null){
                                             redis.hget("ranking/username", newHonteuxID, function(err, newHonteux){
-                                                // if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
-                                                
+                                                if(honteuxID != "null"){
+                                                    // if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
                                                     client.say(channel, 
-                                                        // "Après " + time + " minute" + (parseInt(time)>1? "s " : " ") + 
-                                                        honteux + " passe le bâton de la honte à " + newHonteux)
-                                                    redis.set("honte/user", newHonteuxID)
-                                                    redis.zincrby("honte/nombres", 1, newHonteuxID)
-                                                    redis.set("honte/actuel", "0")
-                                                // }else{
-                                                //     client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
-                                                //     + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
-                                                //     )
-                                                // }
-                                            })
+                                                    // "Après " + time + " minute" + (parseInt(time)>1? "s " : " ") + 
+                                                    honteux + " passe le bâton de la honte à " + newHonteux)
+                                                    // }else{
+                                                        //     client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
+                                                        //     + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
+                                                        //     )
+                                                        // }
+                                                }else{
+                                                    client.say(channel, newHonteux + " récupère le bâton de la honte" + newHonteux)
+                                                }
+
+                                            redis.set("honte/user", newHonteuxID)
+                                            redis.zincrby("honte/nombres", 1, newHonteuxID)
+                                            redis.set("honte/actuel", "0")
+                                            })  
                                         }
                                     })
                                 })
@@ -380,13 +384,17 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         }else{
             redis.get("honte/actuel", function(err, time){
                 redis.get("honte/user", function(err,honteuxID){
-                    redis.hget("ranking/username", honteuxID, function(err, honteux){
-                        if(!err){
-                            client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
-                            + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
-                            )
-                        }
-                    })
+                    if(honteuxID != "null"){
+                        redis.hget("ranking/username", honteuxID, function(err, honteux){
+                            if(!err){
+                                client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
+                                + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
+                                )
+                            }
+                        })
+                    }else{
+                        client.say(channel, "Le bâton de la honte ne demande qu'à être récupéré!")
+                    }
                 })
             })
         }
@@ -394,7 +402,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     if ( m.startsWith("!stathonte") ){
         honteux = m.split(" ")[1]
-        if(honteux != undefined){
+        if(honteux == undefined){
+            honteux = username
+        }
+        // if(honteux != undefined){
             redis.hexists("ranking/id", honteux, function(err, exists){
                 if(exists){
                     console.log(honteux)
@@ -448,7 +459,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             //         })
             //     }
             // })
-        }
+
+        // }
     }
 
 
