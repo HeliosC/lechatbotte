@@ -3,7 +3,8 @@ const Sheets = {
     kraoki : process.env.SheetKrao,
     chatdesbois : process.env.SheetCDB,
     willokhlass : process.env.SheetWillo,
-    poulpita : process.env.SheetPoulpi
+    poulpita : process.env.SheetPoulpi,
+    lageekenrose : process.env.SheetLGER
 }
 
 var api = require('twitch-api-v5')
@@ -91,7 +92,7 @@ function apiclips(broadcaster, period, cursor){
 
 
 
-broadcasterslist = ["chatdesbois", "kraoki", "willokhlass", "poulpita"]
+broadcasterslist = ["chatdesbois", "kraoki", "willokhlass", "poulpita", "lageekenrose"]
 
 
 function start(sender, arg){
