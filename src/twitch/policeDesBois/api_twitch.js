@@ -2,7 +2,8 @@ const clientID = process.env.clientID
 const Sheets = {
     kraoki : process.env.SheetKrao,
     chatdesbois : process.env.SheetCDB,
-    willokhlass : process.env.SheetWillo
+    willokhlass : process.env.SheetWillo,
+    poulpita : process.env.SheetPoulpi
 }
 
 var api = require('twitch-api-v5')
@@ -58,6 +59,7 @@ function allclips(broadcaster, period, cursor){
     return apiclips(broadcaster, period, cursor).then( response => {
         var clips = response.clips
         newcursor = response._cursor
+        // console.log("cursor", newcursor, clips)
         if(newcursor != "") {
             return allclips(broadcaster, period, newcursor).then(followingClips => {
                 return clips.concat(followingClips);
@@ -89,7 +91,7 @@ function apiclips(broadcaster, period, cursor){
 
 
 
-broadcasterslist = ["chatdesbois", "kraoki", "willokhlass"]
+broadcasterslist = ["chatdesbois", "kraoki", "willokhlass", "poulpita"]
 
 
 function start(sender, arg){
