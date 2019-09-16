@@ -299,6 +299,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             //if (!error && response.statusCode == 200) {
             //    let data = JSON.parse(body)
             //    if (data.game.toLowerCase() == "league of legends") {
+                print("ok")
                     client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
             //    }
             //}
@@ -306,6 +307,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             //    console.error("unable league")
             //}
         //})
+    }else{
+        print("nope")
     }
 
         //            &&( /(je|ont?)\s(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)  //ON PEUT JOUER ?   |$
