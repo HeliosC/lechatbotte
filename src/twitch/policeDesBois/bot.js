@@ -284,6 +284,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             });
         }
 
+        //J'dirais pas qu'il ait de bonnes ou de mauvaises situations... Mais j'pense quand même que mes games de placement le sont : >> https://www.youtube.com/watch?v=km6DxSc_d1s&t=1s <<
         if (
             //!isModerateur(username) && 
             //(username!="nightbot") &&
@@ -292,7 +293,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
            || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)((e|élo)|rank)/gmi.test(m)
            || /(on est?)|(vous? .tes?) (sur|a|à) (k|qu)ell?e? ((e|élo)|rank)/gmi.test(m)
            || /(k|qu)ell?e? ((e|élo)|rank) ?\?/gmi.test(m)
-           //|| /^!(elo|élo|rank) ?$/gmi.test(m)
+           || /^!(elo|élo|rank) ?$/gmi.test(m)
         )
         ) {
             request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
