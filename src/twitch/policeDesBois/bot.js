@@ -288,17 +288,17 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             || /^!(elo|élo|rank) ?$/gmi.test(m)
         )
     ) {
-        request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                let data = JSON.parse(body)
-                //console.log(data.game)
-                if (data.game.toLowerCase() == "league of legends") {
-
-                }
-            } else {
-                console.error("unable league")
-            }
-        })
+        //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
+            //if (!error && response.statusCode == 200) {
+            //    let data = JSON.parse(body)
+            //    if (data.game.toLowerCase() == "league of legends") {
+                    client.say( username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+            //    }
+            //}
+            //else {
+            //    console.error("unable league")
+            //}
+        //})
     }
 
         //            &&( /(je|ont?)\s(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)  //ON PEUT JOUER ?   |$
