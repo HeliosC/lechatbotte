@@ -286,12 +286,13 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
         if (
             //!isModerateur(username) && 
+            username!="nightbot" &&
         (
                /(c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été) (k|qu)ell?e? ((e|élo)|rank)/gmi.test(m)  //ELO ?   |$
-            || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)((e|élo)|rank)/gmi.test(m)
-            || /(on est?)|(vous? .tes?) (sur|a|à) (k|qu)ell?e? ((e|élo)|rank)/gmi.test(m)
-            || /(k|qu)ell?e? ((e|élo)|rank) ?\?/gmi.test(m)
-            || /^!(elo|élo|rank) ?$/gmi.test(m)
+           // || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)((e|élo)|rank)/gmi.test(m)
+           // || /(on est?)|(vous? .tes?) (sur|a|à) (k|qu)ell?e? ((e|élo)|rank)/gmi.test(m)
+           // || /(k|qu)ell?e? ((e|élo)|rank) ?\?/gmi.test(m)
+           // || /^!(elo|élo|rank) ?$/gmi.test(m)
         )
     ) {
         //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
