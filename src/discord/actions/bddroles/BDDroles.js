@@ -21,6 +21,9 @@ module.exports.roles = [
 		roleName: ["minecraft","mc"],
 		roleTitle: "Joueurs de Minecraft"
 	}, {
+		roleName: ["pgw"],
+		roleTitle: "PGW"
+	}, {
 		roleName: ["battlerite"],
 		roleTitle: "Joueurs de Battlerite"
 	}
