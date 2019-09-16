@@ -286,7 +286,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
         if (
             //!isModerateur(username) && 
-            username!="nightbot" &&
+            (username!="nightbot") &&
         (
                /((c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été)) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)  //ELO ?   |$
            // || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)((e|élo)|rank)/gmi.test(m)
@@ -294,22 +294,22 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
            // || /(k|qu)ell?e? ((e|élo)|rank) ?\?/gmi.test(m)
            // || /^!(elo|élo|rank) ?$/gmi.test(m)
         )
-    ) {
-        //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
-            //if (!error && response.statusCode == 200) {
-            //    let data = JSON.parse(body)
-            //    if (data.game.toLowerCase() == "league of legends") {
-                console.log("ok")
-                    client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
-            //    }
-            //}
-            //else {
-            //    console.error("unable league")
-            //}
-        //})
-    }else{
-        console.log("nope")
-    }
+        ) {
+            //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
+                //if (!error && response.statusCode == 200) {
+                //    let data = JSON.parse(body)
+                //    if (data.game.toLowerCase() == "league of legends") {
+                    console.log("ok")
+                        client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                //    }
+                //}
+                //else {
+                //    console.error("unable league")
+                //}
+            //})
+        }else{
+            console.log("nope")
+        }
 
         //            &&( /(je|ont?)\s(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)  //ON PEUT JOUER ?   |$
         //jou(|.|..|...)
