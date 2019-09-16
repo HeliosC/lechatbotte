@@ -179,6 +179,11 @@ function startBot() {
 
     client.on('chat', (channel, user, message, isSelf) => {
 
+        if(isSelf){
+            print("self")
+            return
+        }
+
 
 
         // if (channel.indexOf(ldlc) != -1) {
@@ -221,6 +226,7 @@ function startBot() {
 //if (channel.indexOf(cdb) != -1 || channel.indexOf(ldlc)!=-1) { //return }
 
 function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
+
 
     chatlog(user.username, message)
 
