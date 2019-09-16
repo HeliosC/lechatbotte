@@ -42,7 +42,7 @@ const boss = ["toxiicdust","heliosdesbois"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 const honteurs = ["heliosdesbois", "pouidesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80"]
 
-request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
+//request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
 
 const ete = 2
 
@@ -1194,3 +1194,4 @@ function GetViewersAnalytics(){
 }
 
 module.exports.start = startBot;
+
