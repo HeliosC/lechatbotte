@@ -42,6 +42,8 @@ const boss = ["toxiicdust","heliosdesbois"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 const honteurs = ["heliosdesbois", "pouidesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80"]
 
+request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
+
 const ete = 2
 
 var massacresON = true
@@ -296,11 +298,15 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
            || /^!(elo|élo|rank) ?$/gmi.test(m)
         )
         ) {
-            request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    let data = JSON.parse(body)
-                    if (data.game.toLowerCase() == "league of legends") {
-                        //console.log("ok")
+            
+            //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
+            //if (!error && response.statusCode == 200) {
+            //        let data = JSON.parse(body)
+
+            api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+                if(!err) {
+                    if (res.stream.game.toLowerCase() == "league of legends") {
+                        console.log("ok league")
                         client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                     }
                 }
