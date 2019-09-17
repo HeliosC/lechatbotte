@@ -294,16 +294,18 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         if (
             //!isModerateur(username) && 
             //(username!="nightbot") &&
-            false
-        (
-        //       /((c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été)) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)  //ELO ?   |$
-        //    || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)(elo|élo|rank)/gmi.test(m)
-        //    || /(on est?|vous? .tes?) (sur|a|à) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)
-        //    || /(k|qu)ell?e? (elo|élo|rank) ?\?/gmi.test(m)
-        //    || 
+            //false &&
+        //(
+              /((c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été)) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)  //ELO ?   |$
+           || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)(elo|élo|rank)/gmi.test(m)
+           || /(on est?|vous? .tes?) (sur|a|à) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)
+           || /(k|qu)ell?e? (elo|élo|rank) ?\?/gmi.test(m)
+           || 
            /^!(elo|élo|rank) ?$/gmi.test(m)
-        )
+        //)
         ) {
+
+            client.whisper(hdb, m)
             
             //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
             //if (!error && response.statusCode == 200) {
@@ -313,7 +315,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if(!err) {
                     if (res.stream.game.toLowerCase() == "league of legends") {
                         console.log("ok league")
-                        client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                        //client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                        client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                     }
                 }
                 else {
