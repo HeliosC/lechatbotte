@@ -296,11 +296,12 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             //(username!="nightbot") &&
             false
         (
-              /((c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été)) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)  //ELO ?   |$
-           || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)(elo|élo|rank)/gmi.test(m)
-           || /(on est?|vous? .tes?) (sur|a|à) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)
-           || /(k|qu)ell?e? (elo|élo|rank) ?\?/gmi.test(m)
-           || /^!(elo|élo|rank) ?$/gmi.test(m)
+        //       /((c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été)) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)  //ELO ?   |$
+        //    || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)(elo|élo|rank)/gmi.test(m)
+        //    || /(on est?|vous? .tes?) (sur|a|à) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)
+        //    || /(k|qu)ell?e? (elo|élo|rank) ?\?/gmi.test(m)
+        //    || 
+           /^!(elo|élo|rank) ?$/gmi.test(m)
         )
         ) {
             
