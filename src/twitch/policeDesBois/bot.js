@@ -2,7 +2,7 @@ const tmi = require('tmi.js')
 
 const tmiConfig = require("./config")
 
-const request = require('request')
+//const request = require('request')
 
 var api = require('twitch-api-v5')
 api.clientID = process.env.clientID
@@ -181,10 +181,10 @@ function startBot() {
 
     client.on('chat', (channel, user, message, isSelf) => {
 
-        if(isSelf){
-            console.log("self")
-            return
-        }
+        // if(isSelf){
+        //     console.log("self")
+        //     return
+        // }
 
 
 
@@ -231,6 +231,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
 
     chatlog(user.username, message)
+
+    if(isSelf){
+        return
+    }
 
     let m = message.toLowerCase();
     let username = user.username;
@@ -290,11 +294,12 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         if (
             //!isModerateur(username) && 
             //(username!="nightbot") &&
+            false
         (
               /((c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été)) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)  //ELO ?   |$
-           || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)((e|élo)|rank)/gmi.test(m)
-           || /(on est?)|(vous? .tes?) (sur|a|à) (k|qu)ell?e? ((e|élo)|rank)/gmi.test(m)
-           || /(k|qu)ell?e? ((e|élo)|rank) ?\?/gmi.test(m)
+           || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)(elo|élo|rank)/gmi.test(m)
+           || /(on est?|vous? .tes?) (sur|a|à) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)
+           || /(k|qu)ell?e? (elo|élo|rank) ?\?/gmi.test(m)
            || /^!(elo|élo|rank) ?$/gmi.test(m)
         )
         ) {
@@ -331,11 +336,14 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 || /can\s?i\s?pl..\s?wh?i..\s?(you|u)/gmi.test(m)
             )
         ) {
-            request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    let data = JSON.parse(body)
+            //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
+            //    if (!error && response.statusCode == 200) {
+
+            api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+                if(!err) {
+                    //let data = JSON.parse(body)
                     //console.log(data.game)
-                    if (data.game.toLowerCase() == "fortnite") {
+                    if (res.stream.game.toLowerCase() == "fortnite") {
                         //console.log("bite2")
                         // client.say(channel,"Pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !")
                         if (/can\s?i\s?pl..\s?wi..\s?(you|u)/gmi.test(m)) {
@@ -508,7 +516,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     }
 
 
-    if (/^!massacre\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
+    if (/^!massacres?\s?\+\s?1$/gmi.test(m)) { //*massacre -> incremente
         massacresON = false
         setTimeout(function () {
             massacresON = true
@@ -518,17 +526,17 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             afficheMassacres(client, channel, parseInt(reply));
         });
 
-    } else if (/^!massacre$/gmi.test(m)) { //*massacres -> affiche le nb
+    } else if (/^!massacres?$/gmi.test(m)) { //*massacres -> affiche le nb
         redis.get('massacres', function (err, reply) {
             afficheMassacres(client, channel, parseInt(reply));
         });
 
-    } else if (isModerateur(user.username) && /^!massacre\s?\-\s?1$/gmi.test(m)) {
+    } else if (isModerateur(user.username) && /^!massacres?\s?\-\s?1$/gmi.test(m)) {
         redis.decr('massacres', function (err, reply) {
             afficheMassacres(client, channel, parseInt(reply));
         });
     }
-    else if (isModerateur(user.username) && /^!massacre \d/gmi.test(m)) {
+    else if (isModerateur(user.username) && /^!massacres? \d/gmi.test(m)) {
         massacres = parseInt(m.slice(9 + 1)) || 0;
         afficheMassacres(client, channel, massacres);
         redis.set('massacres', massacres);
@@ -537,12 +545,13 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) ) {
 
-        request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
+        //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
+        //    if (!error && response.statusCode == 200) {
+        //        let data = JSON.parse(body)
 
-
-            if (!error && response.statusCode == 200) {
-                let data = JSON.parse(body)
-                if ( (data.game.toLowerCase().indexOf("tomb raider") != -1) || (data.game.toLowerCase().indexOf("lara croft") != -1) ) {
+        api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+            if(!err) {
+                if ( (res.stream.game.toLowerCase().indexOf("tomb raider") != -1) || (res.stream.game.toLowerCase().indexOf("lara croft") != -1) ) {
                     
                     if (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsON) { //*morts? -> incremente
                         mortsON = false
@@ -556,7 +565,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 
                     }
 
-                }else if (data.game.toLowerCase() == "fortnite") {
+                }else if (res.stream.game.toLowerCase() == "fortnite") {
 
                     if (/^!lobb?y\s?\+\s?1$/gmi.test(m) && lobbiesON) { //*lobby -> incremente
                         lobbiesON = false
@@ -615,10 +624,13 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     
     if (m.startsWith("arretez")) {
         //console.log(channel)
-        request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                let data = JSON.parse(body)
-                let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
+        //request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
+        //    if (!error && response.statusCode == 200) {
+        //        let data = JSON.parse(body)
+
+        api.other.chatters({channelName: channel.slice(1)}, (err, res) => {
+            if(!err){
+                let viewers = Object.values(res.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
                 let words = message.split(" ")
                 if (words.length > 1) {
                     // let word = words[1]
@@ -656,11 +668,14 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     }
 
     if (!active) {
-        request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID,  (error, response, body) => {
-            if (!error && response.statusCode == 200) {
-                let data = JSON.parse(body)
+        //request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID,  (error, response, body) => {
+        //    if (!error && response.statusCode == 200) {
+        //        let data = JSON.parse(body)
+
+        api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+            if(!err) {
                 //Live on ???
-                if ( (data.stream != null || ontest)&&xpacitf) {
+                if ( (res.stream != null || ontest)&&xpacitf) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
                     intervalObject = setInterval(()=>{
@@ -836,13 +851,16 @@ function updateXp(client, IDchatdesbois) {
 
 
 
-    request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            let data = JSON.parse(body)
-            if(data.stream != null){
+    //request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
+    //    if (!error && response.statusCode == 200) {
+    //        let data = JSON.parse(body)
+
+    api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+        if(!err) {
+            if(res.stream != null){
 
                 
-                var viewers = data.stream.viewers
+                var viewers = res.stream.viewers
                 // var [annee, mois, jour] = dateFullSplited()
                 var date = dateFullHours()
                 date.jour+=0
@@ -924,11 +942,14 @@ function updateXp(client, IDchatdesbois) {
         redis.zincrby('ranking/xp/' + date, xpgain, userid)
         redis.zincrby('ranking/xp/global', xpgain, userid)
     }
-    request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            let data = JSON.parse(body)
+    //request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
+    //    if (!error && response.statusCode == 200) {
+    //        let data = JSON.parse(body)
+
+    api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+        if(!err) {
             //Live off ???
-            if (data.stream == null && !ontest) {
+            if (res.stream == null && !ontest) {
                 active = false
                 clearTimeout(intervalObject)
                 redis.set("honte/user", "null")

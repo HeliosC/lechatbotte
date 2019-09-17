@@ -104,3 +104,4 @@ START test.bat
 config.js
 src/web/views/map.html
 twitch-api-v5-test.js
+command-manager-test-LOCAL.js

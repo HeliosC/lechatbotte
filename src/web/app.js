@@ -27,9 +27,37 @@ app.get('/', function (req, res) {
 	// affichage(res, 'global')
 });
 
+app.get('/testmap', function (req, res) {
+	res.render('map')
+})
+
+app.get('/commands', function (req, res) {
+	var context = {commands:[], descriptedCommands:[]}
+	redis.hgetall("commands").then(all =>{
+		//console.log(all)
+		for(var cmd in all){
+			console.log(cmd+"   "+all[cmd])
+			context.commands.push({name: cmd, description: all[cmd]})
+		}
+
+		redis.hgetall("commands/description").then(descAll =>{
+			for(var descCmd in descAll){
+				//console.log(descCmd+"   "+descAll[descCmd])
+				context.descriptedCommands.push({name: descCmd, description: descAll[descCmd]})
+			}
+			getCounters()
+			.then( counters => {
+				context.counters = counters
+				//console.log(context)
+				res.render('commands', context)
+			})
+		})
+	})
+})
+
 app.get('/:ranking/:page', function (req, res) {
 	let ranking = req.params.ranking 
-	console.log("ranking",["mensuel","global","user"].indexOf(ranking))
+	console.log("ranking",["mensuel","global","user, testmap"].indexOf(ranking))
 	datesList().then( dates => {
 		if((["mensuel","global","user"].concat(dates)).indexOf(ranking) == -1){
 			res.redirect("/")
@@ -309,6 +337,16 @@ function getUserDetails(id) {
 		redis.hget('ranking/logo', id)
 	]).then(([username, color, logo]) => {
 		return {username, color, logo, id};
+	});
+}
+
+function getCounters() {
+	return Promise.all([
+		redis.get('morts'),
+		redis.get('massacres'), 
+		redis.get('lobbies')
+	]).then(([morts, massacres, lobbies]) => {
+		return {morts, massacres, lobbies};
 	});
 }
 

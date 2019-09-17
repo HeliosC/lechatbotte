@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="mikuia-page-padding">
+        <div class="row animation-fade-in-up">
+            <div class="col-md-12 mikuia-page-card">
+                <div class="col-md-12">
+                    <h1 class="mikuia-page-header-text text-black">Commandes sur le stream</h1> 
+                    <br>
+                </div>
+
+
+
+                <table>
+                    <tbody>
+
+                    {{!-- <thead> --}}
+                        <tr>
+                            <th>Compteurs</th>
+                            <th>Description</th>
+                        </tr>
+                    {{!-- </thead> --}}
+
+                    {{!-- <tbody> --}}
+
+                        <tr>
+                            <td>!massacre</td>
+                            <td>Chatdesbois a massacré {{counters.massacres}} pseudos en toute impunité ! 👌🏻</td>
+                        </tr>
+                        <tr>
+                            <td>!lobby</td>
+                            <td>[Sur fornite] Chatdesbois est retournée {{counters.lobbies}} fois au lobby, qui peut la stopper ?</td>
+                        </tr>
+                        <tr>
+                            <td>!mort</td>
+                            <td>Lara Croft est morte {{counters.morts}} fois</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+
+
+                <br>
+
+
+
+                <table>
+                    <tbody>
+                    {{!-- <thead> --}}
+                        <tr>
+                            <th>Commandes</th>
+                            <th>Description</th>
+                        </tr>
+                    {{!-- </thead> --}}
+
+                    {{!-- <tbody> --}}
+
+                        {{#each descriptedCommands}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            <td>{{this.description}}</td>
+                        </tr>
+                        {{/each}}
+
+                        {{#each commands}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            <td>{{this.description}}</td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
