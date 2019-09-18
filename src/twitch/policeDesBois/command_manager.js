@@ -121,9 +121,6 @@ function chat(channel, user, message, isSelf, client, redis){
         }
     })
 
-    if(m.startsWith("!commandes")){
-        client.say(channel, "http://top.chatdesbois.stream/commands")
-    }
     //}
 //})
 }
