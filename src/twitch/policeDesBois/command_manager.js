@@ -130,4 +130,4 @@ function isModerateur(username) {
     return moderators.indexOf(username.toLowerCase()) != -1;
 }
 
-exports.start = start
+exports.chat = chat
