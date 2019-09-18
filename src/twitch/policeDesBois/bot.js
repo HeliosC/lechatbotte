@@ -14,7 +14,9 @@ redis.on('connect', function () {
 
 const apitwitch = require('./api_twitch.js')
 
-const {google} = require('googleapis');
+const commandManager = require('./command_manager.js')
+
+const {google} = require('googleapis')
 
 const googleClient = new google.auth.JWT(
     process.env.GAPI_email,
@@ -229,6 +231,7 @@ function startBot() {
 
 function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
+    commandManager.chat(channel, user, message, isSelf, redis)
 
     chatlog(user.username, message)
 
