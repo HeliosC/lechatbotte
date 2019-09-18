@@ -231,7 +231,7 @@ function startBot() {
 
 function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
-    commandManager.chat(channel, user, message, isSelf, redis)
+    commandManager.chat(channel, user, message, isSelf, client, redis)
 
     chatlog(user.username, message)
 

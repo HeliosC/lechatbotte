@@ -41,7 +41,7 @@ const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_su
 
 //client.on('chat', (channel, user, message, isSelf) => {
 
-function chat(channel, user, message, isSelf, redis){
+function chat(channel, user, message, isSelf, client, redis){
 
     let m = message.toLowerCase();
     let username = user.username;
