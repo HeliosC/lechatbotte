@@ -25,7 +25,7 @@ var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!
 //     console.log('redis connected');
 // });
 
-
+var usedCommands = []
 
 
 //let clientID = process.env.clientID
@@ -49,52 +49,53 @@ function chat(channel, user, message, isSelf, client, redis){
     var args = message.split(" ")
     if(isModerateur(username)){
         if(args[0] == "!police"){
-            if(["add", "edit", "remove"].includes(args[1]) && allBotCommands.includes(args[2])){
+            var command = args[2].toLowerCase()
+            if(["add", "edit", "remove"].includes(args[1]) && allBotCommands.includes(command)){
                 client.say(channel, "Cette commande n'est pas modifiable.")
                 return
             }
             switch (args[1]){
                 case "add":
-                    redis.hexists("commands", args[2], (err, exists) => {
+                    redis.hexists("commands", command, (err, exists) => {
                         if(exists){
                             client.say(channel, "Cette commande existe déjà.")
                         }else if(args[3]!=null && args[3]!=undefined){
-                            redis.hset("commands", args[2], args.slice(3).join(" "), (err, reply) => {
-                                client.say(channel, "Commande "+ args[2] + " crée.")
+                            redis.hset("commands", command, args.slice(3).join(" "), (err, reply) => {
+                                client.say(channel, "Commande "+ command + " crée.")
                             })
                         }
                     })
                     break
                 case "edit":
-                    redis.hexists("commands", args[2], (err, exists) => {
+                    redis.hexists("commands", command, (err, exists) => {
                         if(!exists){
                             client.say(channel, "Cette commande n'existe pas.")
                         }else if(args[3]!=null && args[3]!=undefined){
-                            redis.hset("commands", args[2], args.slice(3).join(" "), (err, reply) => {
-                                client.say(channel, "Commande "+ args[2] + " modifiée.")
+                            redis.hset("commands", command, args.slice(3).join(" "), (err, reply) => {
+                                client.say(channel, "Commande "+ command + " modifiée.")
                             })
                         }else{
                         }
                     })
                     break
                 case "remove":
-                    redis.hexists("commands", args[2], (err, exists) => {
+                    redis.hexists("commands", command, (err, exists) => {
                         if(!exists){
                             client.say(channel, "Cette commande n'existe pas.")
                         }else{
-                            redis.hdel("commands", args[2], (err, reply) => {
-                                client.say(channel, "Commande "+ args[2] + " supprimée.")
+                            redis.hdel("commands", command, (err, reply) => {
+                                client.say(channel, "Commande "+ command + " supprimée.")
                             })
                         }
                     })
                     break
                 case "description":
-                    if(descriptableCommands.includes(args[2])){
+                    if(descriptableCommands.includes(command)){
                         if(args[3]==null || args[3]==undefined){
                             args[3] = " ";
                         }
-                        redis.hset("commands/description", args[2], args.slice(3).join(" "), (err, reply) => {
-                            client.say(channel, "Description de la commande "+ args[2] + " modifiée.")
+                        redis.hset("commands/description", command, args.slice(3).join(" "), (err, reply) => {
+                            client.say(channel, "Description de la commande "+ command + " modifiée.")
                         })
                     }else{
                         client.say(channel, "Impossible d'ajouter une description à cette commande.")
@@ -106,7 +107,7 @@ function chat(channel, user, message, isSelf, client, redis){
     }
     
     //if(m.startsWith("!") && !m.startsWith("!commands")){
-    let command = args[0]
+    let command = args[0].toLowerCase()
     // redis.hkeys("commands", (err, keys) => {
     //     if(!err){
     //         if(keys.includes(command)){
@@ -116,8 +117,12 @@ function chat(channel, user, message, isSelf, client, redis){
     //     }
     // })
     redis.hget("commands", command, (err, reply) => {
-        if(reply!=null){
+        if(reply!=null && !usedCommands.includes(command)){
             client.say(channel, reply)
+            usedCommands.push(command)
+            setTimeout( command => {
+                usedCommands.slice(usedCommands.indexOf(command),1)
+            }, 10000); 
         }
     })
 
