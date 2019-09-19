@@ -107,7 +107,7 @@ function chat(channel, user, message, isSelf, client, redis){
     }
     
     //if(m.startsWith("!") && !m.startsWith("!commands")){
-    let command = args[0].toLowerCase()
+    let testCommand = args[0].toLowerCase()
     // redis.hkeys("commands", (err, keys) => {
     //     if(!err){
     //         if(keys.includes(command)){
@@ -116,12 +116,12 @@ function chat(channel, user, message, isSelf, client, redis){
     //         }
     //     }
     // })
-    redis.hget("commands", command, (err, reply) => {
-        if(reply!=null && !usedCommands.includes(command)){
+    redis.hget("commands", testCommand, (err, reply) => {
+        if(reply!=null && !usedCommands.includes(testCommand)){
             client.say(channel, reply)
-            usedCommands.push(command)
-            setTimeout( command => {
-                usedCommands.slice(usedCommands.indexOf(command),1)
+            usedCommands.push(testCommand)
+            setTimeout( testCommand => {
+                usedCommands.slice(usedCommands.indexOf(testCommand),1)
             }, 10000); 
         }
     })
