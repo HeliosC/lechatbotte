@@ -121,7 +121,7 @@ function chat(channel, user, message, isSelf, client, redis){
             client.say(channel, reply)
             usedCommands.push(testCommand)
             console.log("avant slice "+testCommand+ " / "+usedCommands)
-            setTimeout( function(testCommand){
+            setTimeout( testCommand, function(testCommand){
                 console.log("slice "+testCommand+ " / "+usedCommands)
                 usedCommands.slice(usedCommands.indexOf(testCommand),1)
                 console.log("apres slice "+testCommand+ " / "+usedCommands)
