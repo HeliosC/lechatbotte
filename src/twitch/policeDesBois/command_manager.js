@@ -120,8 +120,11 @@ function chat(channel, user, message, isSelf, client, redis){
         if(reply!=null && !usedCommands.includes(testCommand)){
             client.say(channel, reply)
             usedCommands.push(testCommand)
+            console.log("avant slice "+testCommand+ " "+usedCommands)
             setTimeout( testCommand => {
+                console.log("slice "+testCommand+ " "+usedCommands)
                 usedCommands.slice(usedCommands.indexOf(testCommand),1)
+                console.log("apres slice "+testCommand+ " "+usedCommands)
             }, 10000); 
         }
     })
