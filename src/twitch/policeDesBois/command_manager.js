@@ -131,7 +131,7 @@ function chat(channel, user, message, isSelf, client, redis){
 
 function updateCommands(removedCommand){
     console.log("slice "+removedCommand + " / "+usedCommands + " / " + usedCommands.indexOf(removedCommand))
-    usedCommands.slice(usedCommands.indexOf(removedCommand),1)
+    usedCommands.splice(usedCommands.indexOf(removedCommand),1)
     console.log("apres slice "+removedCommand + " / "+usedCommands)
 }
 
