@@ -129,10 +129,10 @@ function chat(channel, user, message, isSelf, client, redis){
 //})
 }
 
-function updateCommands(testCommand){
-    console.log("slice "+testCommand+ " / "+usedCommands)
-    usedCommands.slice(usedCommands.indexOf(testCommand),1)
-    console.log("apres slice "+testCommand+ " / "+usedCommands)
+function updateCommands(removedCommand){
+    console.log("slice "+removedCommand + " / "+usedCommands + " / " + usedCommands.indexOf(removedCommand))
+    usedCommands.slice(usedCommands.indexOf(removedCommand),1)
+    console.log("apres slice "+removedCommand + " / "+usedCommands)
 }
 
 
