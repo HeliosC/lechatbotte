@@ -688,6 +688,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     intervalObject = setInterval(()=>{
                         updateXp(client, IDchatdesbois)
                     }, xptimer);
+
+                    timerClip = setInterval(()=>{
+                        client.say(channel, "Hésite pas à clipper un max de moments pendant le stream ! Éternuements, rires, danses, racontages de vie, tout est bon !")
+                    }, 15*60000);
                 } else {
                 }
             } else {
@@ -960,6 +964,7 @@ function updateXp(client, IDchatdesbois) {
             if (res.stream == null && !ontest) {
                 active = false
                 clearTimeout(intervalObject)
+                clearTimeout(timerClip)
                 redis.set("honte/user", "null")
                     console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
             } else {

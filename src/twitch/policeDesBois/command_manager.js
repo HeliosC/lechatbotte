@@ -120,7 +120,7 @@ function chat(channel, user, message, isSelf, client, redis){
         if(reply!=null && !usedCommands.includes(testCommand)){
             client.say(channel, reply)
             usedCommands.push(testCommand)
-            console.log("avant slice "+testCommand+ " / "+usedCommands)
+            //console.log("avant slice "+testCommand+ " / "+usedCommands)
             setTimeout(function() { updateCommands(testCommand) }, 10000);
         }
     })
@@ -130,9 +130,9 @@ function chat(channel, user, message, isSelf, client, redis){
 }
 
 function updateCommands(removedCommand){
-    console.log("slice "+removedCommand + " / "+usedCommands + " / " + usedCommands.indexOf(removedCommand))
+    //console.log("slice "+removedCommand + " / "+usedCommands + " / " + usedCommands.indexOf(removedCommand))
     usedCommands.splice(usedCommands.indexOf(removedCommand),1)
-    console.log("apres slice "+removedCommand + " / "+usedCommands)
+    //console.log("apres slice "+removedCommand + " / "+usedCommands)
 }
 
 
