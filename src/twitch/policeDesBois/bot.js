@@ -58,6 +58,9 @@ const xpacitf = true
 var active = false
 var chaters = {}
 var intervalObject
+var timerClip
+var timerTest
+var timerTest2
 var isCached = {}
 
 var idchatdesbois = "122699636"
@@ -975,6 +978,8 @@ function updateXp(client, IDchatdesbois) {
                 active = false
                 clearTimeout(intervalObject)
                 clearTimeout(timerClip)
+                clearTimeout(timerTest)
+                clearTimeout(timerTest2)
                 redis.set("honte/user", "null")
                     console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
             } else {
