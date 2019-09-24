@@ -318,8 +318,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if(!err) {
                     if (res.stream.game.toLowerCase() == "league of legends") {
                         console.log("ok league")
-                        //client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
-                        client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                        client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                        //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                     }
                 }
                 else {
@@ -690,8 +690,18 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     }, xptimer);
 
                     timerClip = setInterval(()=>{
+                        console.log("timerClip")
                         client.say(channel, "Hésite pas à clipper un max de moments pendant le stream ! Éternuements, rires, danses, racontages de vie, tout est bon !")
                     }, 15*60000);
+
+                    timerTest = setInterval(()=>{
+                        console.log("timerTest")
+                    }, 60000);
+
+                    timerTest2 = setInterval(()=>{
+                        console.log("timerTest2")
+                    }, 2*60000);
+
                 } else {
                 }
             } else {
