@@ -12,6 +12,8 @@ const MotDePasse = require('./games/Motdepasse.js');
 const Connect4 = require('./games/Connect4.js');
 const Quiz = require('./games/Quiz.js');
 
+const command_manager = require('./command_manager.js');
+
 
 function startBot() {
 	const client = new Discord.Client();
@@ -46,6 +48,9 @@ function startBot() {
 	);
 	dispatcher.addComponent(
 		new Quiz(client, constants.channels.quiz)
+	);
+	dispatcher.addComponent(
+		new command_manager(client, constants.rolesName)
 	);
 	/******/
 
