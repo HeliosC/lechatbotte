@@ -46,6 +46,16 @@ function command_manager(
 
 //client.on('chat', (channel, user, message, isSelf) => {
 
+/*
+ * Return false if the message is ignored by this module
+ * Returns true if the message will probably be used
+ */
+command_manager.prototype.isConcernedByMessage = function(message) {
+    if (message.author.bot) return false;
+  
+    return true;
+};
+
 command_manager.prototype.onMessage = function(
     // channel, user, message, isSelf, client, redis
     message
