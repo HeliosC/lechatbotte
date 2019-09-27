@@ -47,47 +47,47 @@ for the function:
 module.exports.messagesReactions = [
   {
     startsWith: ["!snap"],
-    disabled: false,
+    disabled: true,
     responseChannel: "Tu veux vraiment voir tout le ramassis de merde que j'peux produire ? A tes risques et périls l'ami : chat_desbois"
   }, {
     startsWith: ["!facebook", "!fb"],
-    disabled: false,
+    disabled: true,
     responseChannel: "J'suis aussi présente sur le Facebook game, donc viens lâcher un follow, ça mange pas d'chèvres, et ça fait augmenter les stats, donc stop faire ton pd d'homophobe, stp. ♥ https://www.facebook.com/Chatsdesbois/"
   }, {
     startsWith: ["!insta", "!ig"],
-    disabled: false,
+    disabled: true,
     responseChannel: "Viens voir mes petites photo de mes chats et autres beautés artistiques ! ♥ https://www.instagram.com/unejeune/"
   }, {
     startsWith: ["!twitter"],
-    disabled: false,
+    disabled: true,
     responseChannel: "Follow pour suivre mes actus ! ♥ https://twitter.com/Chatdesbois_?lang=fr"
   }, {
     startsWith: ["!lis2"],
-    disabled: false,
+    disabled: true,
     responseChannel: "https://www.youtube.com/watch?v=vsZl83ix168&index=2&list=PLJwoNPuLFNbPEgfvRAiQeKWDl8pO4AAWW"
   }, {
     startsWith: ["!code", "!créateur"],
-    disabled: false,
+    disabled: true,
     responseChannel: "Vous voulez supporter encore plus le stream ? N'hésitez pas à utiliser le code Créateur : CHAT-DES-BOIS lors de vos prochains achats Fortnite ou sur l'Epic Games Store !"
   }, {
     startsWith: ["!extension"],
-    disabled: false,
+    disabled: true,
     responseChannel: "L'EXTENSION à avoir pour entendre ma douce voix et voir des chats trop mimis ! + hyper bien codée, donc WOLA un must have ! > http://bit.ly/2qXtylM"
   }, {
     startsWith: ["!sfr"],
-    disabled: false,
+    disabled: true,
     responseChannel: function(client, message) {
       return  "Internet en 2019 chez Chat des bois ça donne quoi? Réponse en 8 minutes 59 ici : >> https://youtu.be/PvUT8C8rZg8 <<"
     }
   }, {
     startsWith: ["!utip"],
-    disabled: false,
+    disabled: true,
     responseChannel: function(client, message) {
       return  "Me soutenir sans argent ? uTip est là ! Regarde des publicités et je touche de l'argent ! La thune sera utilisée uniquement pour les giveaways ! Merci pour vous ! ➡️ https://utip.io/chatdesbois"
     }
   }, {
     startsWith: ["!giveaway"],
-    disabled: false,
+    disabled: true,
     responseChannel: function(client, message) {
       const dab = client.emojis.find(e => e.name == "LapinDab");
       return "RDV aux 6000 follows ! " + dab;
@@ -114,7 +114,7 @@ module.exports.messagesReactions = [
     }
   }, {
     contains: ["pain au chocolat"],
-    disabled: false,
+    disabled: true,
     exception: function(client, message, memberRoles) {
       return memberRoles.moderator || memberRoles.administrator;
     },
