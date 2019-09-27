@@ -80,11 +80,17 @@ module.exports.messagesReactions = [
       return  "Internet en 2019 chez Chat des bois ça donne quoi? Réponse en 8 minutes 59 ici : >> https://youtu.be/PvUT8C8rZg8 <<"
     }
   }, {
+    startsWith: ["!utip"],
+    disabled: false,
+    responseChannel: function(client, message) {
+      return  "Me soutenir sans argent ? uTip est là ! Regarde des publicités et je touche de l'argent ! La thune sera utilisée uniquement pour les giveaways ! Merci pour vous ! ➡️ https://utip.io/chatdesbois"
+    }
+  }, {
     startsWith: ["!giveaway"],
     disabled: false,
     responseChannel: function(client, message) {
       const dab = client.emojis.find(e => e.name == "LapinDab");
-      return "RDV aux 5000 follows ! " + dab;
+      return "RDV aux 6000 follows ! " + dab;
     //   return "GIVEAWAY 15€ PAYPAL pour fêter l'arrivée de l'extension ! 🎁\n"
     //  + "1⃣ Follow le stream : https://twitch.tv/chatdesbois\n"
     //  + "2⃣ Télécharge l'extension : https://bit.ly/2qXtylM\n"
