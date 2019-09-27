@@ -12,10 +12,14 @@ const MotDePasse = require('./games/Motdepasse.js');
 const Connect4 = require('./games/Connect4.js');
 const Quiz = require('./games/Quiz.js');
 
-// const command_manager = require('./command_manager.js');
+const command_manager = require('./command_manager.js');
 
+//var redis
 
-function startBot() {
+function startBot(redisClient) {
+
+	//redis = redisClient;
+
 	const client = new Discord.Client();
 
 	client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`) });
@@ -49,9 +53,9 @@ function startBot() {
 	dispatcher.addComponent(
 		new Quiz(client, constants.channels.quiz)
 	);
-	// dispatcher.addComponent(
-	// 	new command_manager(client, constants.rolesName)
-	// );
+	dispatcher.addComponent(
+		new command_manager(client, constants.rolesName, redisClient)
+	);
 	/******/
 
 	client.on('message', dispatcher.onMessage.bind(dispatcher));

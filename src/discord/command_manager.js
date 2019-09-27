@@ -34,14 +34,17 @@ var usedCommands = []
 //let client = new tmi.client(tmiConfig);
 //client.connect().then(console.log("twitch connected"))
 
+var redis
 
 function command_manager(
     botClient,
-    rolesName
+    rolesName,
+    redisClient
     ) {
-
     this.botClient = botClient;
     this.rolesName = rolesName;
+
+    redis = redisClient;
   }
 
 //client.on('chat', (channel, user, message, isSelf) => {

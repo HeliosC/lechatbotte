@@ -7,10 +7,10 @@ const tmiConfig = require("./config")
 var api = require('twitch-api-v5')
 api.clientID = process.env.clientID
 
-var redis = require('redis').createClient(process.env.REDIS_URL);
-redis.on('connect', function () {
-    console.log('redis connected');
-});
+// var redis = require('redis').createClient(process.env.REDIS_URL);
+// redis.on('connect', function () {
+//     console.log('redis connected');
+// });
 
 const apitwitch = require('./api_twitch.js')
 
@@ -103,7 +103,11 @@ function chatlog(username, message) {
 //     })
 // }
 
-function startBot() {
+var redis
+
+function startBot(redisClient) {
+
+    redis = redisClient
 
     apitwitch.start()
     GetAllAnalytics()
