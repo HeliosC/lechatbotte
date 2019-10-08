@@ -1012,8 +1012,8 @@ function checkLevelUp(client, userid, xpgain, date){
             var upm = (score + xpgain >= xp(lvl + 1))
             var upg = (score0 + xpgain >= xp(lvl0 + 1))
 
-            console.log("score: "+score+" xpgain: "+xpgain+" xp next level: "+xp(lvl + 1)+" booleen: "+upm)
-            console.log("score0: "+score0+" xpgain: "+xpgain+" xp next level0: "+xp(lvl0 + 1)+" booleen: "+upg)
+            console.log("score: "+score+"level: "+lvl+" xpgain: "+xpgain+" xp next level: "+xp(lvl + 1)+" booleen: "+upm)
+            console.log("score0: "+score0+"level0: "+lvl0+" xpgain: "+xpgain+" xp next level0: "+xp(lvl0 + 1)+" booleen: "+upg)
 
             if(upg){
                 redis.hget('ranking/username', userid, (err, username)=>{
@@ -1035,7 +1035,7 @@ function checkLevelUp(client, userid, xpgain, date){
 
             redis.zincrby('ranking/xp/' + date, xpgain, userid)
             redis.zincrby('ranking/xp/global', xpgain, userid)
-            
+
         })
 
     })
