@@ -971,8 +971,8 @@ function updateXp(client, IDchatdesbois) {
         if(xpacitf && !ontest){
             checkLevelUp(client, userid, xpgain, date)
         }
-        redis.zincrby('ranking/xp/' + date, xpgain, userid)
-        redis.zincrby('ranking/xp/global', xpgain, userid)
+    //    redis.zincrby('ranking/xp/' + date, xpgain, userid)
+    //    redis.zincrby('ranking/xp/global', xpgain, userid)
     }
     //request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
     //    if (!error && response.statusCode == 200) {
@@ -999,7 +999,7 @@ function updateXp(client, IDchatdesbois) {
 
 function checkLevelUp(client, userid, xpgain, date){
 
-    console.log("CHECK LEVEL UP userid")
+    console.log("CHECK LEVEL UP "+userid)
 
     redis.zscore('ranking/xp/'+ date, userid, (err, score)=>{
         var score=parseInt(score)
@@ -1032,6 +1032,10 @@ function checkLevelUp(client, userid, xpgain, date){
                     }
                 })
             }
+
+            redis.zincrby('ranking/xp/' + date, xpgain, userid)
+            redis.zincrby('ranking/xp/global', xpgain, userid)
+            
         })
 
     })
