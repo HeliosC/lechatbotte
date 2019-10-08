@@ -848,10 +848,11 @@ function onCommand(client, m, user, date, mode){
 
 function onTop(client, top){
     classement = top != ''? 'GLOBAL' : 'MENSUEL'
-    client.say(cdb, 'Qui est devant toi dans le classement ' + classement + '? Des genoux à casser ? La réponse ici : >>> '
+    client.say(cdb, 'Qui est devant toi dans le classement MENSUEL? Des genoux à casser ? La réponse ici ! ➡️ http://top.chatdesbois.stream/'+top
+    //Qui est devant toi dans le classement ' + classement + '? Des genoux à casser ? La réponse ici : >>> '
     // +'chatdesbois.herokuapp.com/'+top
-    +'http://top.chatdesbois.stream/'+top
-    +' <<<')
+    //+'http://top.chatdesbois.stream/'+top
+    //+' <<<')
 }
 
 function commandAnswer(client, userdname, userid, date, mode){
