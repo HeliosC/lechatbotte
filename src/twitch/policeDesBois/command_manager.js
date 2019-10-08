@@ -116,7 +116,7 @@ function chat(channel, user, message, isSelf, client, redis){
     //         }
     //     }
     // })
-    console.log("testCommand "+testCommand)
+    // console.log("testCommand "+testCommand)
     redis.hget("commands", testCommand, (err, reply) => {
         if(reply!=null && !usedCommands.includes(testCommand)){
             client.say(channel, reply)

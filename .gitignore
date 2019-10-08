@@ -106,3 +106,4 @@ src/web/views/map.html
 twitch-api-v5-test.js
 command-manager-test-LOCAL.js
 src/web/views/map.handlebars
+src/discord/command_manager - Copie.js

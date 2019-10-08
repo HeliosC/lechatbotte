@@ -762,7 +762,7 @@ function isBoss(username) {
 function afficheMassacres(client, channel, massacres) {
     client.say(
         channel,
-        `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité ! 👌🏻`
+        `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité ! 👌🏻 (depuis mars 2019)`
     );
 
 }
@@ -958,6 +958,8 @@ function updateXp(client, IDchatdesbois) {
         })
     }
 
+    console.log("chaters: "+chaters)
+
     for (var userid in chaters) {
         chaters[userid] -= 1
         if (chaters[userid] == 0) {
@@ -966,7 +968,7 @@ function updateXp(client, IDchatdesbois) {
         date = dateXp()
         xpgain = randInt(4, 5)
         if(xpacitf && !ontest){
-            checkLevelUp(client, userid, xpgain,date)
+            checkLevelUp(client, userid, xpgain, date)
         }
         redis.zincrby('ranking/xp/' + date, xpgain, userid)
         redis.zincrby('ranking/xp/global', xpgain, userid)
@@ -995,6 +997,9 @@ function updateXp(client, IDchatdesbois) {
 }
 
 function checkLevelUp(client, userid, xpgain, date){
+
+    console.log("CHECK LEVEL UP userid")
+
     redis.zscore('ranking/xp/'+ date, userid, (err, score)=>{
         var score=parseInt(score)
         var lvl=level(score)
@@ -1005,9 +1010,14 @@ function checkLevelUp(client, userid, xpgain, date){
 
             var upm = (score + xpgain >= xp(lvl + 1))
             var upg = (score0 + xpgain >= xp(lvl0 + 1))
+
+            console.log("score: "+score+" xpgain: "+xpgain+" xp next level: "+xp(lvl + 1)+" booleen: "+upm)
+            console.log("score0: "+score0+" xpgain: "+xpgain+" xp next level0: "+xp(lvl0 + 1)+" booleen: "+upg)
+
             if(upg){
                 redis.hget('ranking/username', userid, (err, username)=>{
-                    client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
+                    //client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
+                    client.say(cdb, username + " passe level "+(lvl0+1)+" !" )
                     chatlog("policedesbois", '/me '+username + " passe level "+(lvl0+1)+" !" )
                 })
             }
