@@ -1061,7 +1061,8 @@ function xp(level0) {
 
 //Level associé a un montant d'XP
 function level(xp0) {
-    return (Math.round((Math.sqrt(xp0 + 172.25) - 12.5) / 4))
+    //return (Math.round((Math.sqrt(xp0 + 172.25) - 12.5) / 4))
+    return (Math.floor((Math.sqrt(xp0 + 172.25) - 12.5) / 4))
 }
 
 //Entier random
