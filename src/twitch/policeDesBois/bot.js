@@ -1012,21 +1012,24 @@ function checkLevelUp(client, userid, xpgain, date){
             var upm = (score + xpgain >= xp(lvl + 1))
             var upg = (score0 + xpgain >= xp(lvl0 + 1))
 
-            console.log("score: "+score+"level: "+lvl+" xpgain: "+xpgain+" xp next level: "+xp(lvl + 1)+" booleen: "+upm)
-            console.log("score0: "+score0+"level0: "+lvl0+" xpgain: "+xpgain+" xp next level0: "+xp(lvl0 + 1)+" booleen: "+upg)
+            console.log("score: "+score+" level: "+lvl+" xpgain: "+xpgain+" xp next level: "+xp(lvl + 1)+" booleen: "+upm)
+            console.log("score0: "+score0+" level0: "+lvl0+" xpgain: "+xpgain+" xp next level0: "+xp(lvl0 + 1)+" booleen: "+upg)
 
             if(upg){
                 redis.hget('ranking/username', userid, (err, username)=>{
                     //client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
-                    client.say(cdb, username + " passe level "+(lvl0+1)+" !" )
-                    chatlog("policedesbois", '/me '+username + " passe level "+(lvl0+1)+" !" )
+                    if(!upm){
+                        client.whisper(username.toLowerCase(), "Level global up chez Chatdesbois ! -> Lvl "+(lvl0+1) )
+                    }
+                    //client.say(cdb, username + " passe level "+(lvl0+1)+" ! (global)" )
+                    chatlog("policedesbois", '/me '+username + " passe level "+(lvl0+1)+" ! (global)" )
                 })
             }
             if(upm){
                 redis.hget('ranking/username', userid, (err, username)=>{
                     client.whisper(username.toLowerCase(), "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
                     // client.whisper(username, "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
-                    if( (lvl+1)%5 == 0 && !upg ){
+                    if( (lvl+1)%5 == 0 ){
                         client.say(cdb, '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
                         chatlog("policedesbois", '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
                     }
