@@ -33,6 +33,9 @@ app.get('/testmap', function (req, res) {
 
 app.get('/commands', function (req, res) {
 	var context = {commands:[], descriptedCommands:[]}
+	datesList().then( dates => {
+		context.dates = dates;
+
 	redis.hgetall("commands").then(all =>{
 		//console.log(all)
 		for(var cmd in all){
@@ -53,6 +56,7 @@ app.get('/commands', function (req, res) {
 			})
 		})
 	})
+	}
 })
 
 app.get('/:ranking/:page', function (req, res) {
