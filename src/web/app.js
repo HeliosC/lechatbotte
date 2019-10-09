@@ -56,7 +56,7 @@ app.get('/commands', function (req, res) {
 			})
 		})
 	})
-	}
+	})
 })
 
 app.get('/:ranking/:page', function (req, res) {
