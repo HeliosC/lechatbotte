@@ -277,7 +277,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         if (answer != "") { answer += " , l'orthographe veut ton bien-être !" }
 
         if (/(^|\W)sa\s?va($|\W)/gmi.test(m)) {                 //   sava
-            answer += vide(answer) + "*ça va, l'orthographe est ton ami, l'ami !"
+            answer += vide(answer) + "*ça va, l'orthographe est ton amie, l'ami !"
         }
 
         if (/(^|\W)au final($|\W)/gmi.test(m)) {                 //   au final
@@ -697,7 +697,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     }, xptimer);
 
                     timerClip = setInterval(()=>{
-                        console.log("timerClip")
+                        // console.log("timerClip")
                         client.say(channel, "Hésite pas à clipper un max de moments pendant le stream ! Éternuements, rires, danses, racontages de vie, tout est bon !")
                     }, 15*60000);
 
@@ -999,7 +999,7 @@ function updateXp(client, IDchatdesbois) {
 
 function checkLevelUp(client, userid, xpgain, date){
 
-    console.log("CHECK LEVEL UP "+userid)
+    // console.log("CHECK LEVEL UP "+userid)
 
     redis.zscore('ranking/xp/'+ date, userid, (err, score)=>{
         var score=parseInt(score)
@@ -1012,8 +1012,8 @@ function checkLevelUp(client, userid, xpgain, date){
             var upm = (score + xpgain >= xp(lvl + 1))
             var upg = (score0 + xpgain >= xp(lvl0 + 1))
 
-            console.log("score: "+score+" level: "+lvl+" xpgain: "+xpgain+" xp next level: "+xp(lvl + 1)+" booleen: "+upm)
-            console.log("score0: "+score0+" level0: "+lvl0+" xpgain: "+xpgain+" xp next level0: "+xp(lvl0 + 1)+" booleen: "+upg)
+            // console.log("score: "+score+" level: "+lvl+" xpgain: "+xpgain+" xp next level: "+xp(lvl + 1)+" booleen: "+upm)
+            // console.log("score0: "+score0+" level0: "+lvl0+" xpgain: "+xpgain+" xp next level0: "+xp(lvl0 + 1)+" booleen: "+upg)
 
             if(upg){
                 redis.hget('ranking/username', userid, (err, username)=>{
@@ -1119,7 +1119,7 @@ function dateFullHours() {
         month = "0" + month;
     }
 
-    console.log({year, month, day, hours, minutes})
+    // console.log({year, month, day, hours, minutes})
 
         return {year, month, day, hours, minutes}
 }
