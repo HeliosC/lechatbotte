@@ -10,13 +10,15 @@ require('./src/web/app.js');
 // const twitchBotHeliosDesBois = require('./src/twitch/heliosDesBois/bot.js');
 const twitchBotPoliceDesBois = require('./src/twitch/policeDesBois/bot.js');
 // const twitchBotPouiDesBois = require('./src/twitch/pouiDesBois/bot.js');
-const twitchBotPoliceNationaleDuSwag = require('./src/twitch/policeNationaleDuSwag/bot.js');
+// const twitchBotPoliceNationaleDuSwag = require('./src/twitch/policeNationaleDuSwag/bot.js');
 // const twitchBotSolisTheSun = require('./src/twitch/solisTheSun/bot.js');
+const twitchAngelicaWize = require('./src/twitch/angelicaWize/bot.js');
 
 lechatbotte.start(redis)
 
 // twitchBotHeliosDesBois.start()
 twitchBotPoliceDesBois.start(redis)
 // twitchBotPouiDesBois.start()
-twitchBotPoliceNationaleDuSwag.start()
+// twitchBotPoliceNationaleDuSwag.start()
 // twitchBotSolisTheSun.start()
+twitchAngelicaWize.start()
