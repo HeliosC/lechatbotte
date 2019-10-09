@@ -17,7 +17,7 @@ function startBot() {
 
         
 
-        if(/pardon/gmi.test(m) && !/(oh|ho) pardon/gmi.test(m)){
+        if(/( |^)pardon( |$)/gmi.test(m) && !/(oh|ho) pardon/gmi.test(m)){
             client.say(channel, "Oh pardon*!")
         }
 
