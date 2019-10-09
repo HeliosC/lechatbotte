@@ -12,7 +12,7 @@ function startBot() {
 
     client.on('chat', (channel, user, m, isSelf) => {
         if(isSelf){ return; }
-        if(/( |^)pardon( |$)/gmi.test(m) && !(/(oh|ho) pardon/gmi.test(m))){
+        if(/(\s|^)pardon(\s|$)/gmi.test(m) && !(/(oh|ho) pardon/gmi.test(m))){
             client.say(channel, "Oh pardon*!")
         }
     })
