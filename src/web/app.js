@@ -79,7 +79,7 @@ app.get('/:ranking/:page', function (req, res) {
 			]).then(([userInfo]) => {
 				context.dates = dates;
 				context.userInfo = userInfo;
-				dates = ['Global'].concat(dates);
+				//dates = ['Global'].concat(dates);
 				let datesPromises = dates.map((date) => {
 					return getUserMontlyInfo(date, userInfo.id);
 				});
@@ -163,7 +163,7 @@ function affichage(res, date, page, rankingpage){
 	}
 	
 	datesList().then(dates => {
-		dates = ['Global'].concat(dates)
+		//dates = ['Global'].concat(dates)
 		// console.log("lolololol", getRankingList(date, dates))
 		// console.log('date', date)
 		let rankingList,pages
