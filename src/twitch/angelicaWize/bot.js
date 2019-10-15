@@ -14,6 +14,7 @@ function startBot() {
         if(isSelf){ return; }
         if(/(\s|^)pardon(\s|$)/gmi.test(m) && !(/(oh|ho|o) pardon/gmi.test(m))){
             client.say(channel, "Oh pardon*!")
+            client.whisper("heliosdesbois", m)
         }
     })
 }
