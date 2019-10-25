@@ -12,10 +12,17 @@ function startBot() {
 
     client.on('chat', (channel, user, m, isSelf) => {
         if(isSelf){ return; }
+
+        let mm = m.toLowerCase()
+
         if(/(\s|^)pardon(\s|$)/gmi.test(m) && !(/(oh|ho|o) pardon/gmi.test(m))){
             client.say(channel, "Oh pardon*!")
             client.whisper("heliosdesbois", m)
         }
+
+        if(ml.startsWith("!deceit")){
+            channel.say(poulpita, "DISSITE !")
+        }    
     })
 }
 
