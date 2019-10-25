@@ -23,7 +23,7 @@ function startBot() {
         }
 
         if(m.startsWith("!deceit") && !deceit){
-            channel.say(channel, "DISSITE !")
+            client.say(channel, "DISSITE !")
             deceit = true
             setTimeout(function() { deceit = false }, 10000);
         }    
