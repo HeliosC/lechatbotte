@@ -4,6 +4,8 @@ const tmiConfig = require("./config");
 
 const poulpita = "poulpita"
 
+var deceit = false
+
 function startBot() {
     let client = new tmi.client(tmiConfig);
     client.connect().then((server, port) => {
@@ -20,8 +22,10 @@ function startBot() {
             client.whisper("heliosdesbois", m)
         }
 
-        if(m.startsWith("!deceit")){
+        if(m.startsWith("!deceit") && !deceit){
             channel.say(poulpita, "DISSITE !")
+            deceit = true
+            setTimeout(function() { deceit = false }, 10000);
         }    
     })
 }
