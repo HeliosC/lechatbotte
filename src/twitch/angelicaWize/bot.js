@@ -23,7 +23,7 @@ function startBot() {
         }
 
         if(m.startsWith("!deceit") && !deceit){
-            channel.say(poulpita, "DISSITE !")
+            channel.say(channel, "DISSITE !")
             deceit = true
             setTimeout(function() { deceit = false }, 10000);
         }    
