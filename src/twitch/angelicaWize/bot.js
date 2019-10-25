@@ -10,17 +10,17 @@ function startBot() {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
     });
 
-    client.on('chat', (channel, user, m, isSelf) => {
+    client.on('chat', (channel, user, message, isSelf) => {
         if(isSelf){ return; }
 
-        let mm = m.toLowerCase()
+        let m = message.toLowerCase()
 
         if(/(\s|^)pardon(\s|$)/gmi.test(m) && !(/(oh|ho|o) pardon/gmi.test(m))){
             client.say(channel, "Oh pardon*!")
             client.whisper("heliosdesbois", m)
         }
 
-        if(ml.startsWith("!deceit")){
+        if(m.startsWith("!deceit")){
             channel.say(poulpita, "DISSITE !")
         }    
     })
