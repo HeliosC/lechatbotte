@@ -1019,7 +1019,9 @@ function checkLevelUp(client, userid, xpgain, date){
                 redis.hget('ranking/username', userid, (err, username)=>{
                     //client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
                     //if(!upm){
-                    client.whisper(username.toLowerCase(), "Level global up chez Chatdesbois ! -> Lvl "+(lvl0+1) )
+                    if(lvl0 == 0 || (lvl0>0 && (lvl0+1)%2 == 1) || lvl0>8 ){
+                        client.whisper(username.toLowerCase(), "Level global up chez Chatdesbois ! -> Lvl "+(lvl0+1) )
+                    }
                     //}
                     //client.say(cdb, username + " passe level "+(lvl0+1)+" ! (global)" )
                     chatlog("policedesbois", '/me '+username + " passe level "+(lvl0+1)+" ! (global)" )
