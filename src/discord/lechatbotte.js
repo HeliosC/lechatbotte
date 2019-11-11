@@ -106,8 +106,8 @@ function startBot(redisClient) {
 	client.on('messageReactionRemove', (reaction, user) => {
 		if (message.id == 643468914323488786 /*message devenir bg*/
 			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
-			message.react("🗡");
-		}
+				reaction.message.react("🗡");
+			}
 	})
 }
 
