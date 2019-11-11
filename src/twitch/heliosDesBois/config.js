@@ -10,9 +10,9 @@ module.exports = {
         password: process.env.helios
     },
     channels: [
-        "heliosdesbois",
+        //"heliosdesbois",
         // "kraoki",
-        "chatdesbois",
+        "chatdesbois"//,
         //"TeamLDLC"
     ]
 };
