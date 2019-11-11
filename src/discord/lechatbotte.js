@@ -96,9 +96,10 @@ function startBot(redisClient) {
 		if (reaction.message.id == 643468914323488786 /*message devenir bg*/
 			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
 				const role = reaction.message.guild.roles.find('name', 'Les Fidèles');
-				console.log(user.roles.has(role.id));
-				if(!user.roles.has(role.id)){
-					user.addRole(role);
+				member = guild.member(user)
+				console.log(member.roles.has(role.id));
+				if(!member.roles.has(role.id)){
+					member.addRole(role);
 				}			
 			}
 	})
