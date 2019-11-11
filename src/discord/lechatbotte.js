@@ -23,7 +23,7 @@ function startBot(redisClient) {
 	const client = new Discord.Client();
 
 	client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`);
-		client.channels.find("name", "blabla").fetchMessage('643468914323488786')
+		client.channels.find(val => val.name === 'blabla').fetchMessage('643468914323488786')
   		.then(message => console.log("PROUT"))
   		.catch(console.error);
  	});
@@ -95,7 +95,7 @@ function startBot(redisClient) {
 
 
 	client.on('messageReactionAdd', (reaction, user) => {
-		console.log(reaction.message.id+"   ");//+reaction.name);
+		console.log(reaction.message.id+"   "+reaction.emoji.name);//+reaction.name);
 		if (reaction.message.id == 643468914323488786 /*message devenir bg*/
 			//&& reaction.name == "GarconViande" /* meatboy */
 			) {
@@ -105,7 +105,7 @@ function startBot(redisClient) {
 
 	client.on('messageReactionRemove', (reaction, user) => {
 		if (message.id == 643468914323488786 /*message devenir bg*/
-			&& reaction.name == "GarconViande" /* meatboy */) {
+			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
 			message.react("🗡");
 		}
 	})
