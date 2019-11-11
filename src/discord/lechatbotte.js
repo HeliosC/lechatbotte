@@ -23,7 +23,7 @@ function startBot(redisClient) {
 	const client = new Discord.Client();
 
 	client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`);
-		client.channels.find("name", "devenir-un-fidèle").fetchMessage('643468914323488786')
+		client.channels.find("name", "blabla").fetchMessage('643468914323488786')
   		.then(message => console.log("PROUT"))
   		.catch(console.error);
  	});
