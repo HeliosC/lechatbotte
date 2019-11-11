@@ -87,6 +87,7 @@ function startBot(redisClient) {
 	})
 
 	client.on('messageReactionAdd', (reaction, user) => {
+		console.log(message.id+"   "+reaction.name);
 		if (message.id == 643443553942372362 /*message devenir bg*/
 			&& reaction.name == "GarconViande" /* meatboy */) {
 			message.react("🗡");
