@@ -86,13 +86,13 @@ function startBot(redisClient) {
 		}
 	})
 
-	channel.fetchMessage('99539446449315840')
+	client.channels.find("id", 442292829520396288).fetchMessage('643468914323488786')
   .then(message => console.log("PROUT"))
   .catch(console.error);
 
 	client.on('messageReactionAdd', (reaction, user) => {
 		console.log(reaction.message.id+"   ");//+reaction.name);
-		if (reaction.message.id == 643443553942372362 /*message devenir bg*/
+		if (reaction.message.id == 643468914323488786 /*message devenir bg*/
 			//&& reaction.name == "GarconViande" /* meatboy */
 			) {
 			reaction.message.react("🗡");
@@ -100,7 +100,7 @@ function startBot(redisClient) {
 	})
 
 	client.on('messageReactionRemove', (reaction, user) => {
-		if (message.id == 643443553942372362 /*message devenir bg*/
+		if (message.id == 643468914323488786 /*message devenir bg*/
 			&& reaction.name == "GarconViande" /* meatboy */) {
 			message.react("🗡");
 		}
