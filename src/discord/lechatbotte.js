@@ -85,10 +85,12 @@ function startBot(redisClient) {
 			message.react("🗡");
 		}
 	})
-
+	
+	/*
 	client.channels.find("id", "442292829520396288").fetchMessage('643468914323488786')
   .then(message => console.log("PROUT"))
   .catch(console.error);
+*/
 
 	client.on('messageReactionAdd', (reaction, user) => {
 		console.log(reaction.message.id+"   ");//+reaction.name);
