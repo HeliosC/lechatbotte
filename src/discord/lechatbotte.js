@@ -93,18 +93,24 @@ function startBot(redisClient) {
 
 
 	client.on('messageReactionAdd', (reaction, user) => {
-		console.log(reaction.message.id+"   "+reaction.emoji.name);//+reaction.name);
 		if (reaction.message.id == 643468914323488786 /*message devenir bg*/
-			//&& reaction.name == "GarconViande" /* meatboy */
-			) {
-			reaction.message.react("🗡");
-		}
+			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
+				const role = message.guild.roles.find('name', 'Les Fidèles');
+				if(!user.roles.has(role.id)){
+					user.addRole(role);
+				}			
+			}
 	})
+
+
 
 	client.on('messageReactionRemove', (reaction, user) => {
 		if (reaction.message.id == 643468914323488786 /*message devenir bg*/
 			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
-				reaction.message.react("🗡");
+				const role = message.guild.roles.find('name', 'Les Fidèles');
+				if(user.roles.has(role.id)){
+					user.removeRole(role);
+				}
 			}
 	})
 }
