@@ -87,10 +87,12 @@ function startBot(redisClient) {
 	})
 
 	client.on('messageReactionAdd', (reaction, user) => {
-		console.log(message.id+"   "+reaction.name);
-		if (message.id == 643443553942372362 /*message devenir bg*/
-			&& reaction.name == "GarconViande" /* meatboy */) {
-			message.react("🗡");
+		console.log("  PROUT  ");//+reaction.name);
+		console.log(reaction.message.id+"   ");//+reaction.name);
+		if (reaction.message.id == 643443553942372362 /*message devenir bg*/
+			//&& reaction.name == "GarconViande" /* meatboy */
+			) {
+			reaction.message.react("🗡");
 		}
 	})
 
