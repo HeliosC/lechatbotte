@@ -86,7 +86,7 @@ function startBot(redisClient) {
 		}
 	})
 
-	client.channels.find("id", 442292829520396288).fetchMessage('643468914323488786')
+	client.channels.find("id", "442292829520396288").fetchMessage('643468914323488786')
   .then(message => console.log("PROUT"))
   .catch(console.error);
 
