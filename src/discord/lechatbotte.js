@@ -85,6 +85,20 @@ function startBot(redisClient) {
 			message.react("🗡");
 		}
 	})
+
+	client.on('messageReactionAdd', (reaction, user) => {
+		if (message.id == 643443553942372362 /*message devenir bg*/
+			&& reaction.name == "GarconViande" /* meatboy */) {
+			message.react("🗡");
+		}
+	})
+
+	client.on('messageReactionRemove', (reaction, user) => {
+		if (message.id == 643443553942372362 /*message devenir bg*/
+			&& reaction.name == "GarconViande" /* meatboy */) {
+			message.react("🗡");
+		}
+	})
 }
 
 
