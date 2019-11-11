@@ -109,7 +109,7 @@ function startBot(redisClient) {
 	client.on('messageReactionRemove', (reaction, user) => {
 		if (reaction.message.id == 643468914323488786 /*message devenir bg*/
 			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
-				const role = reaction.message.guild.roles.find('name', 'Les Fidèles');
+				const role = reaction.message.guild.roles.find('name', 'Les fidèles');
 				console.log(user.roles.has(role.id));
 				if(user.roles.has(role.id)){
 					user.removeRole(role);
