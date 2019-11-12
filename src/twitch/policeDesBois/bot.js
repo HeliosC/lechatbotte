@@ -254,7 +254,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         client.ban(channel, username)
     }
 
-    if (username.toLowerCase() != hdb && !isBoss(username)) {
+    //if (username.toLowerCase() != hdb && !isBoss(username)) {
+    if (!isBoss(username)) {
 
         var answer = ""
 
@@ -298,43 +299,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     client.timeout(channel, username, 5)
                 }
             });
-        }
-
-        //J'dirais pas qu'il ait de bonnes ou de mauvaises situations... Mais j'pense quand même que mes games de placement le sont : >> https://www.youtube.com/watch?v=km6DxSc_d1s&t=1s <<
-        if (
-            //!isModerateur(username) && 
-            //(username!="nightbot") &&
-            //false &&
-        //(
-              /((c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été)) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)  //ELO ?   |$
-           || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)(elo|élo|rank)/gmi.test(m)
-           || /(on est?|vous? .tes?) (sur|a|à) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)
-           || /(k|qu)ell?e? (elo|élo|rank) ?\?/gmi.test(m)
-           || 
-           /^!(elo|élo|rank) ?$/gmi.test(m)
-        //)
-        ) {
-
-            client.whisper(hdb, m)
-            
-            //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
-            //if (!error && response.statusCode == 200) {
-            //        let data = JSON.parse(body)
-
-            api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-                if(!err) {
-                    if (res.stream.game.toLowerCase() == "league of legends") {
-                        console.log("ok league")
-                        client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
-                        //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
-                    }
-                }
-                else {
-                    console.error("unable league")
-                }
-            })
-        }else{
-            //console.log("nope")
         }
 
         //            &&( /(je|ont?)\s(peu.?|).{0,}(duo|squad|skad|jou(|.|..|...))\s?((a|e)ns|ave.\s?toi|\?)/gmi.test(m)  //ON PEUT JOUER ?   |$
@@ -385,8 +349,45 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             }
         }
 
-    }
+    } // FIN !isBoss
 
+    //J'dirais pas qu'il ait de bonnes ou de mauvaises situations... Mais j'pense quand même que mes games de placement le sont : >> https://www.youtube.com/watch?v=km6DxSc_d1s&t=1s <<
+    if (
+        //!isModerateur(username) && 
+        //(username!="nightbot") &&
+        //false &&
+    //(
+        (!isBoss(username) && (
+            /((c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été)) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)  //ELO ?   |$
+        || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)(elo|élo|rank)/gmi.test(m)
+        || /(on est?|vous? .tes?) (sur|a|à) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)
+        || /(k|qu)ell?e? (elo|élo|rank) ?\?/gmi.test(m)
+        ))
+        || /^!(elo|élo|rank) ?$/gmi.test(m)
+    //)
+    ) {
+
+        client.whisper(hdb, m)
+        
+        //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
+        //if (!error && response.statusCode == 200) {
+        //        let data = JSON.parse(body)
+
+        api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+            if(!err) {
+                if (res.stream.game.toLowerCase() == "league of legends") {
+                    console.log("ok league")
+                    client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                    //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                }
+            }
+            else {
+                console.error("unable league")
+            }
+        })
+    }else{
+        //console.log("nope")
+    }
 
 
 
