@@ -4,6 +4,7 @@
 
 
 var allBotCommands = ["!-honte", "!honte", "!stathonte", "!massacre+1", "!massacre", "!massacres+1", "!massacres", "!mort", "!morts", "!mort+1", "!morts+1", "!lobby", "!lobby+1", "!lobby-1", "!loby", "!loby+1", "!loby-1", "arretez",
+"!canon", "!cannon", "!canons", "!cannons", "!canon+1", "!cannon+1", "!canons+1", "!cannons+1",
 "!mtop", "!topm", "!topmensuel", "!mensuel", "!top",
 "!gtop", "!topg", "!topglobal", "!global",
 "!mlvl", "mlevel", "!lvlm", "!lvlmensuel", "!levelm", "!levelmensuel", "!level", "!lvl",
@@ -11,10 +12,10 @@ var allBotCommands = ["!-honte", "!honte", "!stathonte", "!massacre+1", "!massac
 "!mxp", "!xpm", "!xpmensuel", "!xp",
 "!gxp", "!xpg", "!xpglobal"]
 
-var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!lobby+1",
+var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!lobby+1", "cannons+1",
 "!top", "!topg", "!lvl", "!lvlg", "!xp", "!xpg"]
 
- var counterCommands = ["!masacre", "!lobby", "!mort", "cannon"]
+ var counterCommands = ["!masacre", "!lobby", "!mort", "!cannon"]
 
  var pasFaite = ["!fc", "!follow",
  "!lastgame?",
