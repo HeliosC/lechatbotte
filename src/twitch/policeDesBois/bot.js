@@ -654,17 +654,17 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
 
     if (/^!cann?ons?$/gmi.test(m)) { //*cannons -> affiche le nb
-        redis.get('morts', function (err, reply) {
+        redis.get('cannons', function (err, reply) {
             afficheCannons(client, channel, parseInt(reply));
         });
 
     } else if (isModerateur(user.username) && /^!cann?ons?\s?\-\s?1$/gmi.test(m)) {
-        redis.decr('morts', function (err, reply) {
+        redis.decr('cannons', function (err, reply) {
             afficheCannons(client, channel, parseInt(reply));
         });
     }
-    else if (isModerateur(user.username) && /^!cann?ons? \d/gmi.test(m)) {
-        cannons = parseInt(m.slice(5 + 1)) || 0;
+    else if (isModerateur(user.username) && /^!cannons \d/gmi.test(m)) {
+        cannons = parseInt(m.slice(7 + 1)) || 0;
         afficheCannons(client, channel, cannons);
         redis.set('cannons', cannons);
     }
@@ -820,7 +820,7 @@ function afficheMorts(client, channel, morts) {
 function afficheCannons(client, channel, cannons) {
     client.say(
         channel,
-        `${cannons} cannons ont étés oubliés`
+        `${cannons} cannons ont étés ratés`
     );
 
 }
