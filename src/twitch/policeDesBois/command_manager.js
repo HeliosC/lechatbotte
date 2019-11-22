@@ -14,7 +14,7 @@ var allBotCommands = ["!-honte", "!honte", "!stathonte", "!massacre+1", "!massac
 var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!lobby+1",
 "!top", "!topg", "!lvl", "!lvlg", "!xp", "!xpg"]
 
- var counterCommands = ["!masacre", "!lobby", "!mort"]
+ var counterCommands = ["!masacre", "!lobby", "!mort", "cannon"]
 
  var pasFaite = ["!fc", "!follow",
  "!lastgame?",
