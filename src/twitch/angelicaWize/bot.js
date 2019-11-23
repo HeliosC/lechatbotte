@@ -22,6 +22,10 @@ function startBot() {
             client.whisper("heliosdesbois", m)
         }
 
+        if(/prout/gmi.test(m)){
+            client.say(channel, "PROUT !")
+        }
+
         if(m.startsWith("!deceit") && !deceit){
             client.say(channel, "DISSITE !")
             deceit = true
