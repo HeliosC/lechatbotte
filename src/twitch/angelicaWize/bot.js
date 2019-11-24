@@ -3,10 +3,16 @@ const tmi = require('tmi.js');
 const tmiConfig = require("./config");
 
 const poulpita = "poulpita"
+const hdb = "heliosdesbois"
 
 var deceit = false
 
-function startBot() {
+var redis
+
+function startBot(redisClient) {
+
+    redis = redisClient
+
     let client = new tmi.client(tmiConfig);
     client.connect().then((server, port) => {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
@@ -22,7 +28,7 @@ function startBot() {
             client.whisper("heliosdesbois", m)
         }
 
-        if(/prout/gmi.test(m)){
+        if(/p+r+o+u+t+/gmi.test(m)){
             client.say(channel, "PROUT !")
         }
 
@@ -31,6 +37,72 @@ function startBot() {
             deceit = true
             setTimeout(function() { deceit = false }, 10000);
         }    
+
+    })
+
+
+    client.on("whisper", function (from, user, message, self) {
+
+        if (self) return;
+
+        let m = message.toLowerCase()
+        let username = user.username;
+
+        let isMod = user.mod || user['user-type'] === 'mod';
+        let isBroadcaster = username.toLowerCase === "poulpita";
+        let isHelios = username.toLowerCase() === "heliosdesbois";
+        let isModUp = isMod || isBroadcaster || isHelios;
+
+        var args = message.split(" ")
+        if(isModUp && args.length>4){
+            if(args[0] == "!question"){
+                var questRep = args.splice(2).join(" ").split(" *** ")
+                var question = questRep[0]
+                var reponse = questRep[1]
+                console.log("question : "+question+" / reponse : "+reponse)
+                client.whisper(hdb, "question : "+question+" / reponse : "+reponse)
+
+                switch (args[1]){
+                    case "add":
+                    console.log("add")
+                        redis.hexists("poulpita/questions", question, (err, exists) => {
+                            if(exists){
+                                client.whisper(username, "Cette question existe déjà.")
+                                console.log("Cette question existe déjà.")
+                            }else if(args[3]!=null && args[3]!=undefined){
+                                redis.hset("poulpita/questions", question, reponse, (err, reply) => {
+                                    client.whisper(username, "Question "+ question + " crée.")
+                                    console.log("Question "+ question + " crée.")
+                                })
+                            }
+                        })
+                        break
+                    case "edit":
+                        redis.hexists("poulpita/questions", question, (err, exists) => {
+                            if(!exists){
+                                client.whisper(username, "Cette question n'existe pas.")
+                            }else if(args[3]!=null && args[3]!=undefined){
+                                redis.hset("poulpita/questions", question, reponse, (err, reply) => {
+                                    client.whisper(username, "Question "+ question + " modifiée.")
+                                })
+                            }else{
+                            }
+                        })
+                        break
+                    case "remove":
+                        redis.hexists("poulpita/questions", question, (err, exists) => {
+                            if(!exists){
+                                client.whisper(username, "Cette question n'existe pas.")
+                            }else{
+                                redis.hdel("poulpita/questions", question, (err, reply) => {
+                                    client.whisper(username, "Question "+ question + " supprimée.")
+                                })
+                            }
+                        })
+                        break
+                }
+            }
+        }
     })
 }
 
