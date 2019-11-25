@@ -9,6 +9,10 @@ var deceit = false
 
 var redis
 
+
+var onQuestion = false 
+var Answer = ""
+
 function startBot(redisClient) {
 
     redis = redisClient
@@ -22,6 +26,14 @@ function startBot(redisClient) {
         if(isSelf){ return; }
 
         let m = message.toLowerCase()
+        let username = user.username;
+
+        if(onQuestion){
+            if(Answer == m){
+                client.say(channel, "BRAVO " + username + " !")
+                onQuestion = false
+            }
+        }
 
         if(/(\s|^)pardon(\s|$)/gmi.test(m) && !(/(oh|ho|o) pardon/gmi.test(m))){
             client.say(channel, "Oh pardon*!")
@@ -40,75 +52,54 @@ function startBot(redisClient) {
             setTimeout(function() { deceit = false }, 10000);
         }    
 
-    })
-
-
-    client.on("whisper", function (from, user, message, self) {
-
-        return
-        if (self) return;
-
-        let m = message.toLowerCase()
-        let username = user.username;
 
         let isMod = user.mod || user['user-type'] === 'mod';
         let isBroadcaster = username.toLowerCase === "poulpita";
         let isHelios = username.toLowerCase() === "heliosdesbois";
         let isModUp = isMod || isBroadcaster || isHelios;
 
-        var args = message.split(" ")
-        if(isModUp && args.length>4){
+        var args = m.split(" ")
+        if(isModUp){
             if(args[0] == "!question"){
-                var questRep = args.splice(2).join(" ").split(" *** ")
-                var question = questRep[0]
-                var reponse = questRep[1]
-                //console.log("question : "+question+" / reponse : "+reponse)
-                //client.say(poulpita, "question : "+question+" / reponse : "+reponse)
-
-                switch (args[1]){
-                    case "add":
-                    console.log("add")
-                        redis.hexists("poulpita/questions", question, (err, exists) => {
-                            console.log("add ", exists)
-                            if(exists){
-                                client.say(poulpita, "Cette question existe déjà.")
-                                //console.log("Cette question existe déjà.")
-                            }else //if(args[3]!=null && args[3]!=undefined)
-                            {
-                                redis.hset("poulpita/questions", question, reponse, (err, reply) => {
-                                    client.say(poulpita, "Question "+ question + " crée.")
-                                    //console.log("Question crée.")
-                                })
+                if(args.length == 1){
+                    //donner une question random
+                    redis.hgetall("poulpita/questions", (err, questions) => {
+                        nq = randInt(Object.keys(questions).length)
+                        client.say(channel, Object.keys(questions)[nq])
+                        Answer = Object.values(questions)[nq].toLowerCase()
+                        onQuestion = true
+                    })
+                }else if(args.length == 2 && args[1]!="list"){
+                    //donner cette question
+                    nq = parseInt(args[1]) || 0;
+                    if(nq>0){
+                        redis.hgetall("poulpita/questions", (err, questions) => {
+                            if(nq<=Object.keys(questions).length){
+                                client.say(channel, Object.keys(questions)[nq-1])
+                                Answer = Object.values(questions)[nq-1].toLowerCase()
+                                onQuestion = true
                             }
                         })
-                        break
-                    case "edit":
-                        redis.hexists("poulpita/questions", question, (err, exists) => {
-                            if(!exists){
-                                client.say(poulpita, "Cette question n'existe pas.")
-                            }else //if(args[3]!=null && args[3]!=undefined)
-                            {
-                                redis.hset("poulpita/questions", question, reponse, (err, reply) => {
-                                    client.say(poulpita, "Question modifiée.")
-                                })
-                            }
-                        })
-                        break
-                    case "remove":
-                        redis.hexists("poulpita/questions", question, (err, exists) => {
-                            if(!exists){
-                                client.say(poulpita, "Cette question n'existe pas.")
-                            }else{
-                                redis.hdel("poulpita/questions", question, (err, reply) => {
-                                    client.say(poulpita, "Question supprimée.")
-                                })
-                            }
-                        })
-                        break
+                    }
                 }
             }
         }
+
     })
+
+
+    client.on("whisper", function (from, user, message, self) {
+
+        //return
+        if (self) return;
+
+
+    })
+}
+
+
+function randInt(length){
+    return Math.floor(Math.random()*length)
 }
 
 module.exports.start = startBot;
