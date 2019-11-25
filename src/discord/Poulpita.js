@@ -55,7 +55,7 @@ this.botClient.on('message', message => {
         //isModUp = userRoles.poulpita || userRoles.poulpito || userRoles.modPoulpes || message.author.id == 243477125653463040
         isModUp =  isModerateur(message.author.id)
         //console.log(message.author.id+"  "+isModUp)
-        if(isModUp && args.length>1){ //(args.length>4||m.startsWith("!question list"))){
+        if(isModUp){// && args.length>=1){ //(args.length>4||m.startsWith("!question list"))){
             if(args[0] == "!question"){
                 if(args.length == 1){
                     //donner une question random
@@ -63,7 +63,7 @@ this.botClient.on('message', message => {
                         nq = randInt(Object.keys(questions).length)
                         message.channel.send(Object.keys(questions)[nq])
                     })
-                }else if(args.length == 2 && args[2]!="list"){
+                }else if(args.length == 2 && args[1]!="list"){
                     //donner cette question
                     nq = parseInt(args[1]) || 0;
                     if(nq>0){
