@@ -29,7 +29,7 @@ function startBot(redisClient) {
         }
 
         if(/p+r+o+u+t+/gmi.test(m)){
-            redis.incr("poulpita/prout", (err, prouts){
+            redis.incr("poulpita/prout", (err, prouts) => {
                 client.say(channel, "PROUT ! (" + prouts + ")")
             })
         }
