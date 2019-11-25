@@ -14,6 +14,8 @@ const Quiz = require('./games/Quiz.js');
 
 const command_manager = require('./command_manager.js');
 
+const Poulpita = require('./Poulpita.js');
+
 //var redis
 
 function startBot(redisClient) {
@@ -59,6 +61,9 @@ function startBot(redisClient) {
 	);
 	dispatcher.addComponent(
 		new command_manager(client, constants.rolesName, redisClient)
+	);
+	dispatcher.addComponent(
+		new Poulpita(client, constants.rolesName, redisClient, Discord)
 	);
 	/******/
 
@@ -115,6 +120,9 @@ function startBot(redisClient) {
 				}
 			}	
 	})
+
+
+
 }
 
 

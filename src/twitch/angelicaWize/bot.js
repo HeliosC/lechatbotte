@@ -43,6 +43,7 @@ function startBot(redisClient) {
 
     client.on("whisper", function (from, user, message, self) {
 
+        return
         if (self) return;
 
         let m = message.toLowerCase()
@@ -59,8 +60,8 @@ function startBot(redisClient) {
                 var questRep = args.splice(2).join(" ").split(" *** ")
                 var question = questRep[0]
                 var reponse = questRep[1]
-                console.log("question : "+question+" / reponse : "+reponse)
-                client.say(poulpita, "question : "+question+" / reponse : "+reponse)
+                //console.log("question : "+question+" / reponse : "+reponse)
+                //client.say(poulpita, "question : "+question+" / reponse : "+reponse)
 
                 switch (args[1]){
                     case "add":

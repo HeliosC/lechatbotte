@@ -13,7 +13,12 @@ module.exports = {
 		donnator: "Chats de qualité supérieure 🐱 (donateurs)",
 		subscriber: "PUTAIN DE CHATONS 💕 (subs)",
 		moderator: "Chats sous chef 🐾",
-		administrator: "Le Chat en chef 🦄"
+		administrator: "Le Chat en chef 🦄",
+
+		poulpita: "MADAME POULPITA 💜",
+		poulpito: "MONSIEUR POULPITO 💙",
+		modPoulpes: "ROIS & REINES DES POULPES 👑"
+
 	},
 	commandPrefix: "²"
 };
