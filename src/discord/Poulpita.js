@@ -60,16 +60,16 @@ this.botClient.on('message', message => {
                 if(args.length == 1){
                     //donner une question random
                     redis.hgetall("poulpita/questions", (err, questions) => {
-                        nq = randInt(Object.keys(question).length)
-                        message.channel.send(Object.keys(question)[nq])
+                        nq = randInt(Object.keys(questions).length)
+                        message.channel.send(Object.keys(questions)[nq])
                     })
-                }else if(args.length == 2){
+                }else if(args.length == 2 && args[2]!="list"){
                     //donner cette question
                     nq = parseInt(args[1]) || 0;
                     if(nq>0){
                         redis.hgetall("poulpita/questions", (err, questions) => {
-                            if(nq<=Object.keys(question).length){
-                                message.channel.send(Object.keys(question)[nq-1])
+                            if(nq<=Object.keys(questions).length){
+                                message.channel.send(Object.keys(questions)[nq-1])
                             }
                         })
                     }
