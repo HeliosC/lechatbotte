@@ -57,97 +57,115 @@ this.botClient.on('message', message => {
         //console.log(message.author.id+"  "+isModUp)
         if(isModUp && args.length>1){ //(args.length>4||m.startsWith("!question list"))){
             if(args[0] == "!question"){
-                var args0 = Array.from(args);
-                var questRep = args0.splice(2).join(" ").split("/")
-                var question = questRep[0]
-                var reponse = questRep[1]
-                //console.log("question : "+question+" / reponse : "+reponse)
-                //client.say(poulpita, "question : "+question+" / reponse : "+reponse)
-                
-                switch (args[1]){
-                    case "add":
-                    //console.log("add")
-                    redis.hexists("poulpita/questions", question, (err, exists) => {
-                        //console.log("add ", exists)
-                        if(exists){
-                            message.channel.send("Cette question existe déjà.")
-                            //console.log("Cette question existe déjà.")
-                        }else //if(args[3]!=null && args[3]!=undefined)
-                        {
-                            redis.hset("poulpita/questions", question, reponse, (err, reply) => {
-                                message.channel.send("Question crée.")
-                                //console.log("Question crée.")
-                            })
-                        }
+                if(args.length == 1){
+                    //donner une question random
+                    redis.hgetall("poulpita/questions", (err, questions) => {
+                        nq = randInt(Object.keys(question).length)
+                        message.channel.send(Object.keys(question)[nq])
                     })
-                    break
-                    /*
-                    case "edit":
-                    var nq = getQuestion(args[2])
-                    console.log("nq "+nq)
-                    redis.hexists("poulpita/questions", question, (err, exists) => {
-                        if(!exists && nq<1){
-                            message.channel.send("Cette question n'existe pas.")
-                        }else //if(args[3]!=null && args[3]!=undefined)
-                        {
-                            redis.hgetall("poulpita/questions", (err, questions) => {
-                                if(nq>0){
-                                    question = Object.keys(questions)[nq-1]
-                                    //reponse = Object.values(questions)[nq-1]
-                                }
+                }else if(args.length == 2){
+                    //donner cette question
+                    nq = parseInt(args[1]) || 0;
+                    if(nq>0){
+                        redis.hgetall("poulpita/questions", (err, questions) => {
+                            if(nq<=Object.keys(question).length){
+                                message.channel.send(Object.keys(question)[nq-1])
+                            }
+                        })
+                    }
+                }else{
+                    var args0 = Array.from(args);
+                    var questRep = args0.splice(2).join(" ").split("/")
+                    var question = questRep[0]
+                    var reponse = questRep[1]
+                    //console.log("question : "+question+" / reponse : "+reponse)
+                    //client.say(poulpita, "question : "+question+" / reponse : "+reponse)
+                    
+                    switch (args[1]){
+                        case "add":
+                        //console.log("add")
+                        redis.hexists("poulpita/questions", question, (err, exists) => {
+                            //console.log("add ", exists)
+                            if(exists){
+                                message.channel.send("Cette question existe déjà.")
+                                //console.log("Cette question existe déjà.")
+                            }else //if(args[3]!=null && args[3]!=undefined)
+                            {
                                 redis.hset("poulpita/questions", question, reponse, (err, reply) => {
-                                    message.channel.send("Question modifiée.")
+                                    message.channel.send("Question crée.")
+                                    //console.log("Question crée.")
                                 })
-                            })
-                        }
-                    })
-                    break
-                    */
-                    case "remove":
-                    getQuestion(args[2]).then( nq => {
+                            }
+                        })
+                        break
+                        /*
+                        case "edit":
+                        var nq = getQuestion(args[2])
+                        console.log("nq "+nq)
                         redis.hexists("poulpita/questions", question, (err, exists) => {
                             if(!exists && nq<1){
                                 message.channel.send("Cette question n'existe pas.")
-                            }else{
+                            }else //if(args[3]!=null && args[3]!=undefined)
+                            {
                                 redis.hgetall("poulpita/questions", (err, questions) => {
-                                    console.log("nq?? "+nq)
                                     if(nq>0){
                                         question = Object.keys(questions)[nq-1]
+                                        //reponse = Object.values(questions)[nq-1]
                                     }
-                                    redis.hdel("poulpita/questions", question, (err, reply) => {
-                                        message.channel.send("Question supprimée.")
+                                    redis.hset("poulpita/questions", question, reponse, (err, reply) => {
+                                        message.channel.send("Question modifiée.")
                                     })
                                 })
                             }
                         })
-                    })
-                    break
-                    case "list":
-                    redis.hgetall("poulpita/questions", (err, questions) => {
-                        //console.log(questions)
-                        var qlist = ""
-                        var nq = 1
-                        for (var q in questions) {
-                        //questions.array.forEach(element => {
-                            qlist = qlist + nq +  ". " + q + "/" + questions[q] + "\n"
-                            nq++
-                        }//);
-                        const embed = new Discord.RichEmbed()
-                            .setColor('#0099ff')
-                            .setTitle('Questions')
-                            .setDescription(qlist)
-
-                        message.channel.send(embed);
-                        //message.channel.send(qlist)
-                    })
-                    break
+                        break
+                        */
+                        case "remove":
+                        getQuestion(args[2]).then( nq => {
+                            redis.hexists("poulpita/questions", question, (err, exists) => {
+                                if(!exists && nq<1){
+                                    message.channel.send("Cette question n'existe pas.")
+                                }else{
+                                    redis.hgetall("poulpita/questions", (err, questions) => {
+                                        //console.log("nq?? "+nq)
+                                        if(nq>0){
+                                            question = Object.keys(questions)[nq-1]
+                                        }
+                                        redis.hdel("poulpita/questions", question, (err, reply) => {
+                                            message.channel.send("Question supprimée.")
+                                        })
+                                    })
+                                }
+                            })
+                        })
+                        break
+                        case "list":
+                        redis.hgetall("poulpita/questions", (err, questions) => {
+                            //console.log(questions)
+                            var qlist = ""
+                            var nq = 1
+                            for (var q in questions) {
+                            //questions.array.forEach(element => {
+                                qlist = qlist + nq +  ". " + q + "/" + questions[q] + "\n"
+                                nq++
+                            }//);
+                            const embed = new Discord.RichEmbed()
+                                .setColor('#0099ff')
+                                .setTitle('Questions')
+                                .setDescription(qlist)
+    
+                            message.channel.send(embed);
+                            //message.channel.send(qlist)
+                        })
+                        break
+                    }
                 }
+
             }
         }
         
     }
-}
-)
+})
 }
 
 function getQuestion(number){
@@ -163,6 +181,10 @@ function getQuestion(number){
         })
     })
 
+}
+
+function randInt(length){
+    return Math.floor(Math.random()*length)
 }
         
 // Duplicate from BotReactions.js
