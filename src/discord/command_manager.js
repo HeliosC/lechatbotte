@@ -84,7 +84,7 @@ command_manager.prototype.onMessage = function(
                             message.channel.send("Cette commande existe déjà.")
                         }else if(args[3]!=null && args[3]!=undefined){
                             redis.hset("commands", command, args.slice(3).join(" "), (err, reply) => {
-                                message.channel.send("Commande "+ command + " crée.")
+                                message.channel.send("Commande "+ command + " créée.")
                             })
                         }
                     })

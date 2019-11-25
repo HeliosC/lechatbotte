@@ -92,8 +92,8 @@ this.botClient.on('message', message => {
                             }else //if(args[3]!=null && args[3]!=undefined)
                             {
                                 redis.hset("poulpita/questions", question, reponse, (err, reply) => {
-                                    message.channel.send("Question crée.")
-                                    //console.log("Question crée.")
+                                    message.channel.send("Question créée.")
+                                    //console.log("Question créée.")
                                 })
                             }
                         })
