@@ -67,7 +67,7 @@ function startBot(redisClient) {
                     redis.hgetall("poulpita/questions", (err, questions) => {
                         nq = randInt(Object.keys(questions).length)
                         client.say(channel, Object.keys(questions)[nq])
-                        Answer = Object.values(questions)[nq].toLowerCase().split("+")
+                        Answer = Object.values(questions)[nq].toLowerCase().split("&")
                         onQuestion = true
                         setTimeout(() => {questionTimeout(channel)}, 10000);
                     })
@@ -78,7 +78,7 @@ function startBot(redisClient) {
                         redis.hgetall("poulpita/questions", (err, questions) => {
                             if(nq<=Object.keys(questions).length){
                                 client.say(channel, Object.keys(questions)[nq-1])
-                                Answer = Object.values(questions)[nq-1].toLowerCase().split("+")
+                                Answer = Object.values(questions)[nq-1].toLowerCase().split("&")
                                 console.log(Answer)
                                 onQuestion = true
                                 setTimeout(() => {questionTimeout(channel)}, 10000);
