@@ -11,7 +11,7 @@ var redis
 
 
 var onQuestion = false 
-var Answer = ""
+var Answer = []
 
 function startBot(redisClient) {
 
@@ -28,12 +28,6 @@ function startBot(redisClient) {
         let m = message.toLowerCase()
         let username = user.username;
 
-        if(onQuestion){
-            if(Answer == m){
-                client.say(channel, "BRAVO " + username + " !")
-                onQuestion = false
-            }
-        }
 
         if(/(\s|^)pardon(\s|$)/gmi.test(m) && !(/(oh|ho|o) pardon/gmi.test(m))){
             client.say(channel, "Oh pardon*!")
@@ -53,6 +47,13 @@ function startBot(redisClient) {
         }    
 
 
+        if(onQuestion){
+            if(Answer.includes(m)){
+                client.say(channel, "BRAVO " + username + " !")
+                onQuestion = false
+            }
+        }
+
         let isMod = user.mod || user['user-type'] === 'mod';
         let isBroadcaster = username.toLowerCase === "poulpita";
         let isHelios = username.toLowerCase() === "heliosdesbois";
@@ -66,8 +67,9 @@ function startBot(redisClient) {
                     redis.hgetall("poulpita/questions", (err, questions) => {
                         nq = randInt(Object.keys(questions).length)
                         client.say(channel, Object.keys(questions)[nq])
-                        Answer = Object.values(questions)[nq].toLowerCase()
+                        Answer = Object.values(questions)[nq].toLowerCase().split("+")
                         onQuestion = true
+                        setTimeout(() => {questionTimeout(channel)}, 10000);
                     })
                 }else if(args.length == 2 && args[1]!="list"){
                     //donner cette question
@@ -76,8 +78,10 @@ function startBot(redisClient) {
                         redis.hgetall("poulpita/questions", (err, questions) => {
                             if(nq<=Object.keys(questions).length){
                                 client.say(channel, Object.keys(questions)[nq-1])
-                                Answer = Object.values(questions)[nq-1].toLowerCase()
+                                Answer = Object.values(questions)[nq-1].toLowerCase().split("+")
+                                console.log(Answer)
                                 onQuestion = true
+                                setTimeout(() => {questionTimeout(channel)}, 10000);
                             }
                         })
                     }
@@ -95,11 +99,22 @@ function startBot(redisClient) {
 
 
     })
+    
+    
+    function questionTimeout(channel){
+        if(onQuestion){
+            onQuestion = false
+            client.say(channel, "Time's up ! Il fallait répondre : "+Answer.join(", "))
+        }
+    }
+
+
 }
 
 
 function randInt(length){
     return Math.floor(Math.random()*length)
 }
+
 
 module.exports.start = startBot;
