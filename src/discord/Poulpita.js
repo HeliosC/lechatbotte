@@ -168,7 +168,7 @@ this.botClient.on('message', message => {
 })
 }
 
-/*
+
 function getQuestion(number){
     return new Promise(function(resolve, reject){
         nq = parseInt(number) || -1;
@@ -183,7 +183,7 @@ function getQuestion(number){
     })
 
 }
-*/
+
 
 function randInt(length){
     return Math.floor(Math.random()*length)
