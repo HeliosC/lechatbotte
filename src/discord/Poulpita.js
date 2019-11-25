@@ -49,13 +49,16 @@ this.botClient.on('message', message => {
         let m = message.content.toLowerCase()
         let username = message.author.username;
         
+        //var args0 = message.content.split("/")
+        var args = message.content.split("/")
         var args = message.content.split(" ")
         //isModUp = userRoles.poulpita || userRoles.poulpito || userRoles.modPoulpes || message.author.id == 243477125653463040
         isModUp =  isModerateur(message.author.id)
         //console.log(message.author.id+"  "+isModUp)
         if(isModUp && args.length>1){ //(args.length>4||m.startsWith("!question list"))){
             if(args[0] == "!question"){
-                var questRep = args.splice(2).join(" ").split("/")
+                var args0 = Array.from(args);
+                var questRep = args0.splice(2).join(" ").split("/")
                 var question = questRep[0]
                 var reponse = questRep[1]
                 //console.log("question : "+question+" / reponse : "+reponse)
@@ -78,27 +81,45 @@ this.botClient.on('message', message => {
                         }
                     })
                     break
+                    /*
                     case "edit":
+                    var nq = getQuestion(args[2])
+                    console.log("nq "+nq)
                     redis.hexists("poulpita/questions", question, (err, exists) => {
-                        if(!exists){
+                        if(!exists && nq<1){
                             message.channel.send("Cette question n'existe pas.")
                         }else //if(args[3]!=null && args[3]!=undefined)
                         {
-                            redis.hset("poulpita/questions", question, reponse, (err, reply) => {
-                                message.channel.send("Question modifiée.")
+                            redis.hgetall("poulpita/questions", (err, questions) => {
+                                if(nq>0){
+                                    question = Object.keys(questions)[nq-1]
+                                    //reponse = Object.values(questions)[nq-1]
+                                }
+                                redis.hset("poulpita/questions", question, reponse, (err, reply) => {
+                                    message.channel.send("Question modifiée.")
+                                })
                             })
                         }
                     })
                     break
+                    */
                     case "remove":
-                    redis.hexists("poulpita/questions", question, (err, exists) => {
-                        if(!exists){
-                            message.channel.send("Cette question n'existe pas.")
-                        }else{
-                            redis.hdel("poulpita/questions", question, (err, reply) => {
-                                message.channel.send("Question supprimée.")
-                            })
-                        }
+                    getQuestion(args[2]).then( nq => {
+                        redis.hexists("poulpita/questions", question, (err, exists) => {
+                            if(!exists && nq<1){
+                                message.channel.send("Cette question n'existe pas.")
+                            }else{
+                                redis.hgetall("poulpita/questions", (err, questions) => {
+                                    console.log("nq?? "+nq)
+                                    if(nq>0){
+                                        question = Object.keys(questions)[nq-1]
+                                    }
+                                    redis.hdel("poulpita/questions", question, (err, reply) => {
+                                        message.channel.send("Question supprimée.")
+                                    })
+                                })
+                            }
+                        })
                     })
                     break
                     case "list":
@@ -119,6 +140,7 @@ this.botClient.on('message', message => {
                         message.channel.send(embed);
                         //message.channel.send(qlist)
                     })
+                    break
                 }
             }
         }
@@ -126,6 +148,21 @@ this.botClient.on('message', message => {
     }
 }
 )
+}
+
+function getQuestion(number){
+    return new Promise(function(resolve, reject){
+        nq = parseInt(number) || -1;
+        if(nq < 1){
+            resolve( -1 )
+        }
+        redis.hgetall("poulpita/questions", (err, questions) => {
+            if(Object.keys(questions).length < nq){
+                resolve( 0 )            }
+            resolve( nq )
+        })
+    })
+
 }
         
 // Duplicate from BotReactions.js
