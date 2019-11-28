@@ -166,16 +166,29 @@ this.botClient.on('message', message => {
                             var nq = 1
                             for (var q in questions) {
                             //questions.array.forEach(element => {
-                                qlist = qlist + nq +  ". " + q + "/" + questions[q] + "\n"
+                                qlist2 = qlist + nq +  ". " + q + "/" + questions[q] + "\n"
+
+                                if(qlist2.length>2048){
+                                    const embed = new Discord.RichEmbed()
+                                        .setColor('#0099ff')
+                                        .setTitle('Questions')
+                                        .setDescription(qlist)
+            
+                                    message.channel.send(embed);
+                                    //message.channel.send(qlist)
+                                    qlist2 =  nq +  ". " + q + "/" + questions[q] + "\n"
+                                }
+
                                 nq++
+                                qlist=qlist2
+                                
                             }//);
                             const embed = new Discord.RichEmbed()
                                 .setColor('#0099ff')
                                 .setTitle('Questions')
                                 .setDescription(qlist)
-    
+
                             message.channel.send(embed);
-                            //message.channel.send(qlist)
                         })
                         break
                     }
