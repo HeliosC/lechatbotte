@@ -137,7 +137,7 @@ String.prototype.sansAccent = function(){
 }
 
 var chaine = "À côté d'un veçrre vide, il y a toujours un mec plein.";
-console.log( chaine.sansAccent() );
+console.log( chaine.sansAccent().replace(" ", "") );
 
 
 module.exports.start = startBot;

@@ -1,5 +1,5 @@
 var redis, Discord
-
+var qlistboo
 const modsID = ["243477125653463040", "323201750964109312", "88651294448848896"]//, "156139455508512768", "313638442326163458", "600475482659487764"]
                 //Helios                Poulpita                Poulpito            Gunter                  Izan                Coco
 //client.on('chat', (channel, user, message, isSelf) => {
@@ -164,17 +164,14 @@ this.botClient.on('message', message => {
                             //console.log(questions)
                             var qlist = ""
                             var nq = 1
+                            qlistboo = true
                             for (var q in questions) {
                             //questions.array.forEach(element => {
                                 qlist2 = qlist + nq +  ". " + q + "/" + questions[q] + "\n"
 
                                 if(qlist2.length>2048){
-                                    const embed = new Discord.RichEmbed()
-                                        .setColor('#0099ff')
-                                        .setTitle('Questions')
-                                        .setDescription(qlist)
-            
-                                    message.channel.send(embed);
+                                    afficheList(qlist, message)
+
                                     //message.channel.send(qlist)
                                     qlist2 =  nq +  ". " + q + "/" + questions[q] + "\n"
                                 }
@@ -183,12 +180,7 @@ this.botClient.on('message', message => {
                                 qlist=qlist2
                                 
                             }//);
-                            const embed = new Discord.RichEmbed()
-                                .setColor('#0099ff')
-                                .setTitle('Questions')
-                                .setDescription(qlist)
-
-                            message.channel.send(embed);
+                            afficheList(qlist, message)
                         })
                         break
                     }
@@ -199,6 +191,23 @@ this.botClient.on('message', message => {
         
     }
 })
+}
+
+function afficheList(qlist, message){
+    if(qlistboo){
+        qlistboo = false
+        const embed = new Discord.RichEmbed()
+        .setColor('#0099ff')
+        .setTitle('Questions')
+        .setDescription(qlist)
+        message.channel.send(embed);
+    }else{
+        const embed = new Discord.RichEmbed()
+        .setColor('#0099ff')
+        .setDescription(qlist)
+        message.channel.send(embed);
+    }
+
 }
 
 
