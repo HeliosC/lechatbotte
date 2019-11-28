@@ -1,7 +1,7 @@
 var redis, Discord
 
-const modsID = ["243477125653463040", "323201750964109312", "88651294448848896", "156139455508512768", "313638442326163458", "600475482659487764"]
-
+const modsID = ["243477125653463040", "323201750964109312", "88651294448848896"]//, "156139455508512768", "313638442326163458", "600475482659487764"]
+                //Helios                Poulpita                Poulpito            Gunter                  Izan                Coco
 //client.on('chat', (channel, user, message, isSelf) => {
 
 /*
@@ -120,6 +120,26 @@ this.botClient.on('message', message => {
                         })
                         break
                         */
+                       case "edit":
+                       getQuestion(args[2]).then( nq => {
+                           redis.hexists("poulpita/questions", question, (err, exists) => {
+                               if(!exists && nq<1){
+                                   message.channel.send("Cette question n'existe pas.")
+                               }else{
+                                   redis.hgetall("poulpita/questions", (err, questions) => {
+                                       //console.log("nq?? "+nq)
+                                       if(nq>0){
+                                            question = Object.keys(questions)[nq-1]
+                                            reponse = Object.values(questions)[nq-1]
+                                        }
+                                       redis.hset("poulpita/questions", question, reponse, (err, reply) => {
+                                           message.channel.send("Reponse modifiée.")
+                                       })
+                                   })
+                               }
+                           })
+                       })
+                       break
                         case "remove":
                         getQuestion(args[2]).then( nq => {
                             redis.hexists("poulpita/questions", question, (err, exists) => {

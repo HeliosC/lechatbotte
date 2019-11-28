@@ -11,7 +11,7 @@ module.exports = {
     },
     channels: [
         "poulpita",
-        //"heliosdesbois"
+        "heliosdesbois"
     ]
 };
   
