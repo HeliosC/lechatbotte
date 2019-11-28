@@ -130,7 +130,7 @@ this.botClient.on('message', message => {
                                        //console.log("nq?? "+nq)
                                        if(nq>0){
                                             question = Object.keys(questions)[nq-1]
-                                            reponse = Object.values(questions)[nq-1]
+                                            //reponse = reponse
                                         }
                                        redis.hset("poulpita/questions", question, reponse, (err, reply) => {
                                            message.channel.send("Reponse modifiée.")
