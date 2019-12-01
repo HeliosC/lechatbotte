@@ -73,6 +73,9 @@ function startBot(redisClient) {
                 console.log(scores)
                 getUserScores(scores).then( (UserScores) => {
                     console.log(UserScores)
+                    for(score in UserScores){
+
+                    }
                 })
             })
         }
@@ -101,15 +104,17 @@ function startBot(redisClient) {
             mflat = m.flat()
             console.log("onquest "+" AnswerFlat "+AnswerFlat+" mflat "+mflat)
             for(ans in AnswerFlat){
-              //  var regex = new RegExp("^"+ans+"$", "gi")
-                var regex = new RegExp(ans, "gi")
-                if(regex.test(mflat)){
-                    console.log("regex "+regex+" ans "+ans+" mflat "+mflat)
-                    onQuestion = false
-                    client.say(channel, "BRAVO " + displayname + " !")
-                    redis.zincrby("poulpita/rank", 1, userid)
-                    return
-                }
+            AnswerFlat.forEach(ans =>{
+                //  var regex = new RegExp("^"+ans+"$", "gi")
+                  var regex = new RegExp(ans, "gi")
+                  if(regex.test(mflat)){
+                      console.log("regex "+regex+" ans "+ans+" mflat "+mflat)
+                      onQuestion = false
+                      client.say(channel, "BRAVO " + displayname + " !")
+                      redis.zincrby("poulpita/rank", 1, userid)
+                      return
+                  }
+            })
             }
 
 /*
