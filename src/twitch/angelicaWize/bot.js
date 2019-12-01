@@ -98,11 +98,24 @@ function startBot(redisClient) {
         }
 
         if(onQuestion){
+            mflat = m.flat()
+            for(ans in AnswerFlat){
+                var regex = new RegExp("^"+ans+"$", "gi")
+                if(regex.test(mflat)){
+                    onQuestion = false
+                    client.say(channel, "BRAVO " + displayname + " !")
+                    redis.zincrby("poulpita/rank", 1, userid)
+                    return
+                }
+            }
+
+/*
             if(AnswerFlat.includes(m.flat())){
                 onQuestion = false
                 client.say(channel, "BRAVO " + displayname + " !")
                 redis.zincrby("poulpita/rank", 1, userid)
             }
+            */
         }
 
         let isMod = user.mod || user['user-type'] === 'mod';
