@@ -98,7 +98,7 @@ function startBot(redisClient) {
         }
 
         if(onQuestion){
-            if(AnswerFlat.includes(m)){
+            if(AnswerFlat.includes(m.flat)){
                 onQuestion = false
                 client.say(channel, "BRAVO " + displayname + " !")
                 redis.zincrby("poulpita/rank", 1, userid)
@@ -120,6 +120,8 @@ function startBot(redisClient) {
                         client.say(channel, Object.keys(questions)[nq])
                         Answer = Object.values(questions)[nq].toLowerCase().split("&")
                         AnswerFlat = answerFlatter()
+                        console.log(Answer)
+                        console.log(AnswerFlat)
                         onQuestion = true
                         setTimeout(() => {questionTimeout(channel)}, 10000);
                     })
@@ -133,6 +135,7 @@ function startBot(redisClient) {
                                 Answer = Object.values(questions)[nq-1].toLowerCase().split("&")
                                 AnswerFlat = answerFlatter()
                                 console.log(Answer)
+                                console.log(AnswerFlat)
                                 onQuestion = true
                                 setTimeout(() => {questionTimeout(channel)}, 10000);
                             }
