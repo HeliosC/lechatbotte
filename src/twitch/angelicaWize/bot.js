@@ -2,12 +2,16 @@ const tmi = require('tmi.js');
 
 const tmiConfig = require("./config");
 
+var api = require('twitch-api-v5')
+api.clientID = process.env.clientID
+
 const poulpita = "poulpita"
 const hdb = "heliosdesbois"
 
 var deceit = false
 
 var redis
+var isCached = {}
 
 
 var onQuestion = false 
@@ -27,7 +31,8 @@ function startBot(redisClient) {
 
         let m = message.toLowerCase()
         let username = user.username;
-
+        let displayname = user['display-name'];
+        let userid = user['user-id']
 
         if(/(\s|^)pardon(\s|$)/gmi.test(m) && !(/(oh|ho|o) pardon/gmi.test(m))){
             client.say(channel, "Oh pardon*!")
@@ -47,10 +52,33 @@ function startBot(redisClient) {
         }    
 
 
+        if(userid!=undefined){
+            if(isCached[userid]!=true){
+                isCached[userid]=true
+                //ALLO TWITCH
+                api.users.userByID({ userID: userid }, (err, res) => {
+                    if(!err) {
+                        redis.hset('ranking/logo', userid, res.logo)
+                        redis.hset('ranking/username', userid, displayname)
+                        redis.hset('ranking/color', userid, user.color)
+                        redis.hset('ranking/id', username, userid)
+                    }
+                })
+            }
+        }
+
+        if(m.startsWith("!rank")){
+            redis.zrevrange("poulpita/rank", 0, -1, 'WITHSCORES', (scores) => {
+                console.log(scores)
+            })
+        }
+
+
         if(onQuestion){
             if(Answer.includes(m)){
-                client.say(channel, "BRAVO " + username + " !")
                 onQuestion = false
+                client.say(channel, "BRAVO " + displayname + " !")
+                redis.zincrby("poulpita/rank", 1, userid)
             }
         }
 
@@ -136,7 +164,7 @@ String.prototype.sansAccent = function(){
     return str;
 }
 
-var chaine = "À côté d'un veçrre vide, il y a toujours un mec plein.";
+var chaine = "À côté d'un veçrre vide";
 console.log( chaine.sansAccent().replace(" ", "") );
 
 
