@@ -174,9 +174,9 @@ function randInt(length){
 
 function answerFlatter(){
     AnswerFlat = []
-    for(a in Answer){
+    Answer.forEach(a => {
         AnswerFlat.push(a.flat)
-    }
+    })
 }
 
 String.prototype.sansAccent = function(){
