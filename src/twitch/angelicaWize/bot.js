@@ -103,6 +103,7 @@ function startBot(redisClient) {
               //  var regex = new RegExp("^"+ans+"$", "gi")
                 var regex = new RegExp(ans, "gi")
                 if(regex.test(mflat)){
+                    console.log("regex "+regex+" ans "+ans+" mflat "+mflat)
                     onQuestion = false
                     client.say(channel, "BRAVO " + displayname + " !")
                     redis.zincrby("poulpita/rank", 1, userid)
