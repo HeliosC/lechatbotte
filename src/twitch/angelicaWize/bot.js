@@ -68,7 +68,7 @@ function startBot(redisClient) {
         }
 
         if(m.startsWith("!rank")){
-            redis.zrevrange("poulpita/rank", 0, -1, 'WITHSCORES', (scores) => {
+            redis.zrevrange("poulpita/rank", 0, -1, 'WITHSCORES', (err, scores) => {
                 console.log(scores)
             })
         }
