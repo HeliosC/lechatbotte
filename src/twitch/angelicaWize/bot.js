@@ -12,7 +12,7 @@ var deceit = false
 
 var redis
 var isCached = {}
-
+var qTO
 
 var onQuestion = false 
 var Answer = []
@@ -136,6 +136,7 @@ function startBot(redisClient) {
                       console.log("regex "+regex+" ans "+ans+" mflat "+mflat)
                       onQuestion = false
                       client.say(channel, "BRAVO " + displayname + " !")
+                      clearTimeout(qTO)
                       redis.zincrby("poulpita/rank", 1, userid)
                       return
                   }
@@ -162,7 +163,9 @@ function startBot(redisClient) {
                 if(args.length == 1){
                     //donner une question random
                     redis.hgetall("poulpita/questions", (err, questions) => {
-                        nq = randInt(Object.keys(questions).length)
+                        do{
+                            nq = randInt(Object.keys(questions).length)
+                        }while(Answer != Object.values(questions)[nq].toLowerCase().split("&"))
                         console.log("nq "+nq+" max "+Object.keys(questions).length)
                         client.say(channel, Object.keys(questions)[nq])
                         Answer = Object.values(questions)[nq].toLowerCase().split("&")
@@ -170,7 +173,7 @@ function startBot(redisClient) {
                         console.log(Answer)
                         console.log(AnswerFlat)
                         onQuestion = true
-                        setTimeout(() => {questionTimeout(channel)}, 60000);
+                        qTO = setTimeout(() => {questionTimeout(channel)}, 60000);
                     })
                 }else if(args.length == 2 && args[1]!="list"){
                     //donner cette question
@@ -184,7 +187,7 @@ function startBot(redisClient) {
                                 console.log(Answer)
                                 console.log(AnswerFlat)
                                 onQuestion = true
-                                setTimeout(() => {questionTimeout(channel)}, 60000);
+                                qTO = setTimeout(() => {questionTimeout(channel)}, 60000);
                             }
                         })
                     }
@@ -205,11 +208,11 @@ function startBot(redisClient) {
     
     
     function questionTimeout(channel){
-        if(onQuestion){
+        //if(onQuestion){
             onQuestion = false
             //client.say(channel, "Time's up ! Il fallait répondre : "+Answer.join(", "))
             client.say(channel, "Time's up ! Tu feras mieux la prochaine fois !")
-        }
+        //}
     }
 
 
