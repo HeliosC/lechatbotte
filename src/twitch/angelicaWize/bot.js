@@ -105,8 +105,8 @@ function startBot(redisClient) {
             console.log("onquest "+" AnswerFlat "+AnswerFlat+" mflat "+mflat)
             for(ans in AnswerFlat){
             AnswerFlat.forEach(ans =>{
-                //  var regex = new RegExp("^"+ans+"$", "gi")
-                  var regex = new RegExp(ans, "gi")
+                  var regex = new RegExp("^"+ans+"$", "gi")
+                //  var regex = new RegExp(ans, "gi")
                   if(regex.test(mflat)){
                       console.log("regex "+regex+" ans "+ans+" mflat "+mflat)
                       onQuestion = false
