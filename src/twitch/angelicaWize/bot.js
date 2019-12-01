@@ -163,6 +163,7 @@ function startBot(redisClient) {
                     //donner une question random
                     redis.hgetall("poulpita/questions", (err, questions) => {
                         nq = randInt(Object.keys(questions).length)
+                        console.log("nq "+nq+" max "+Object.keys(questions).length)
                         client.say(channel, Object.keys(questions)[nq])
                         Answer = Object.values(questions)[nq].toLowerCase().split("&")
                         answerFlatter()
