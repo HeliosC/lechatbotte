@@ -157,7 +157,7 @@ function startBot(redisClient) {
         let isModUp = isMod || isBroadcaster || isHelios;
 
         var args = m.split(" ")
-        if(isModUp){
+        if(isModUp && !onQuestion){
             if(args[0] == "!question"){
                 if(args.length == 1){
                     //donner une question random
