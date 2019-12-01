@@ -173,9 +173,9 @@ function randInt(length){
 }
 
 function answerFlatter(){
-    ans = []
+    AnswerFlat = []
     for(a in Answer){
-        ans.push(a.flat)
+        AnswerFlat.push(a.flat)
     }
 }
 
