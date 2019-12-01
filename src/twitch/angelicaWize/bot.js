@@ -252,9 +252,17 @@ String.prototype.sansAccent = function(){
 }
 
 String.prototype.flat = function(){
-    return this.sansAccent().replace(" ", "")
+    sa = this.sansAccent()
+    console.log("sa "+sa)
+    var regex = /\s/gi;
+    sr = sa.replace(regex, "")
+    console.log("sr "+sr)
+    return sr
 }
 
+console.log("------------------------------------------------------------")
+console.log("------------------------------------------------------------")
+console.log("------------------------------------------------------------")
 var chaine = "À côté d'un veçrre vide";
 console.log( chaine.flat() );
 

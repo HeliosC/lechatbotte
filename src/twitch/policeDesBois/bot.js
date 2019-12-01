@@ -368,7 +368,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     //)
     ) {
 
-        client.whisper(hdb, m)
+        //client.whisper(hdb, m)
         
         //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
         //if (!error && response.statusCode == 200) {
