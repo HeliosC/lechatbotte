@@ -99,6 +99,7 @@ function startBot(redisClient) {
 
         if(onQuestion){
             mflat = m.flat()
+            console.log("onquest "+" AnswerFlat "+AnswerFlat+" mflat "+mflat)
             for(ans in AnswerFlat){
               //  var regex = new RegExp("^"+ans+"$", "gi")
                 var regex = new RegExp(ans, "gi")
@@ -176,7 +177,7 @@ function startBot(redisClient) {
         if(onQuestion){
             onQuestion = false
             //client.say(channel, "Time's up ! Il fallait répondre : "+Answer.join(", "))
-            client.say(channel, "Time's up ! Tu feras mieux la prochaine fois ?")
+            client.say(channel, "Time's up ! Tu feras mieux la prochaine fois !")
         }
     }
 
