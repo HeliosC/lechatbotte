@@ -16,6 +16,7 @@ var isCached = {}
 
 var onQuestion = false 
 var Answer = []
+var AnswerFlat = []
 
 function startBot(redisClient) {
 
@@ -70,12 +71,34 @@ function startBot(redisClient) {
         if(m.startsWith("!rank")){
             redis.zrevrange("poulpita/rank", 0, -1, 'WITHSCORES', (err, scores) => {
                 console.log(scores)
+                getUserScores(scores).then( (UserScores) => {
+                    console.log(UserScores)
+                })
             })
         }
 
+        function getUserScores(scores){
+            var promises = []
+            idboo = true
+            for(element in scores){
+                if(idboo){
+                    promises.push(getUserbyID(element))
+                }else{
+                    promises.push(element)
+                }
+            }
+            return Promise.all(promises)
+        }
+
+        function getUserbyID(id){
+            return redis.hget('ranking/username', id)
+            //.then(username => {
+            //    return 
+            //})
+        }
 
         if(onQuestion){
-            if(Answer.includes(m)){
+            if(AnswerFlat.includes(m)){
                 onQuestion = false
                 client.say(channel, "BRAVO " + displayname + " !")
                 redis.zincrby("poulpita/rank", 1, userid)
@@ -96,6 +119,7 @@ function startBot(redisClient) {
                         nq = randInt(Object.keys(questions).length)
                         client.say(channel, Object.keys(questions)[nq])
                         Answer = Object.values(questions)[nq].toLowerCase().split("&")
+                        AnswerFlat = answerFlatter()
                         onQuestion = true
                         setTimeout(() => {questionTimeout(channel)}, 10000);
                     })
@@ -107,6 +131,7 @@ function startBot(redisClient) {
                             if(nq<=Object.keys(questions).length){
                                 client.say(channel, Object.keys(questions)[nq-1])
                                 Answer = Object.values(questions)[nq-1].toLowerCase().split("&")
+                                AnswerFlat = answerFlatter()
                                 console.log(Answer)
                                 onQuestion = true
                                 setTimeout(() => {questionTimeout(channel)}, 10000);
@@ -144,6 +169,13 @@ function randInt(length){
     return Math.floor(Math.random()*length)
 }
 
+function answerFlatter(){
+    ans = []
+    for(a in Answer){
+        ans.push(a.flat)
+    }
+}
+
 String.prototype.sansAccent = function(){
     var accent = [
         /[\300-\306]/g, /[\340-\346]/g, // A, a
@@ -164,8 +196,12 @@ String.prototype.sansAccent = function(){
     return str;
 }
 
+String.prototype.flat = function(){
+    return this.sansAccent.replace(" ", "")
+}
+
 var chaine = "À côté d'un veçrre vide";
-console.log( chaine.sansAccent().replace(" ", "") );
+console.log( chaine.flat );
 
 
 module.exports.start = startBot;
