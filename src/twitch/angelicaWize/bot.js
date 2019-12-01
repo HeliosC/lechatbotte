@@ -73,9 +73,23 @@ function startBot(redisClient) {
                 console.log(scores)
                 getUserScores(scores).then( (UserScores) => {
                     console.log(UserScores)
-                    for(score in UserScores){
-
-                    }
+                    ranking = ""
+                    rank = 1
+                    idboo = true
+                    //for(score in UserScores){
+                    UserScores.forEach(score => {
+                        if(idboo){
+                            if(rank!=1){
+                                ranking = ranking + " - "
+                            }
+                            ranking= ranking + rank + ")"+score+ ":"
+                            rank+=1
+                        }else{
+                            ranking= ranking + score// + " - "
+                        }
+                        idboo = !idboo
+                    })
+                    client.say(channel, ranking)
                 })
             })
         }
@@ -83,27 +97,38 @@ function startBot(redisClient) {
         function getUserScores(scores){
             var promises = []
             idboo = true
-            for(element in scores){
+            //for(element in scores){
+            scores.forEach(element => {
+                console.log("e "+element)
                 if(idboo){
                     promises.push(getUserbyID(element))
                 }else{
                     promises.push(element)
                 }
-            }
-            return Promise.all(promises)
+                idboo = !idboo
+            })
+            return Promise.all(promises).then(s => {
+                return s
+            })
         }
 
         function getUserbyID(id){
-            return redis.hget('ranking/username', id)
+            console.log("id "+id+" "+username)
+            return new Promise(function(resolve, reject){
+                redis.hget('ranking/username', id, (err, username) => {
+                    console.log("id "+id+" "+username)
+                    resolve(username)
+                })
             //.then(username => {
             //    return 
             //})
+            })
         }
 
         if(onQuestion){
             mflat = m.flat()
             console.log("onquest "+" AnswerFlat "+AnswerFlat+" mflat "+mflat)
-            for(ans in AnswerFlat){
+            //for(ans in AnswerFlat){
             AnswerFlat.forEach(ans =>{
                   var regex = new RegExp("^"+ans+"$", "gi")
                 //  var regex = new RegExp(ans, "gi")
@@ -115,7 +140,7 @@ function startBot(redisClient) {
                       return
                   }
             })
-            }
+           // }
 
 /*
             if(AnswerFlat.includes(m.flat())){
