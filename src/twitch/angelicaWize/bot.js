@@ -106,7 +106,7 @@ function startBot(redisClient) {
         }
 
         let isMod = user.mod || user['user-type'] === 'mod';
-        let isBroadcaster = username.toLowerCase === "poulpita";
+        let isBroadcaster = username.toLowerCase() === "poulpita";
         let isHelios = username.toLowerCase() === "heliosdesbois";
         let isModUp = isMod || isBroadcaster || isHelios;
 
@@ -123,7 +123,7 @@ function startBot(redisClient) {
                         console.log(Answer)
                         console.log(AnswerFlat)
                         onQuestion = true
-                        setTimeout(() => {questionTimeout(channel)}, 10000);
+                        setTimeout(() => {questionTimeout(channel)}, 60000);
                     })
                 }else if(args.length == 2 && args[1]!="list"){
                     //donner cette question
@@ -137,7 +137,7 @@ function startBot(redisClient) {
                                 console.log(Answer)
                                 console.log(AnswerFlat)
                                 onQuestion = true
-                                setTimeout(() => {questionTimeout(channel)}, 10000);
+                                setTimeout(() => {questionTimeout(channel)}, 60000);
                             }
                         })
                     }
@@ -160,7 +160,8 @@ function startBot(redisClient) {
     function questionTimeout(channel){
         if(onQuestion){
             onQuestion = false
-            client.say(channel, "Time's up ! Il fallait répondre : "+Answer.join(", "))
+            //client.say(channel, "Time's up ! Il fallait répondre : "+Answer.join(", "))
+            client.say(channel, "Time's up ! Tu feras mieux la prochaine fois ?")
         }
     }
 
