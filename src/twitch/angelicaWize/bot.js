@@ -100,7 +100,8 @@ function startBot(redisClient) {
         if(onQuestion){
             mflat = m.flat()
             for(ans in AnswerFlat){
-                var regex = new RegExp("^"+ans+"$", "gi")
+              //  var regex = new RegExp("^"+ans+"$", "gi")
+                var regex = new RegExp(ans, "gi")
                 if(regex.test(mflat)){
                     onQuestion = false
                     client.say(channel, "BRAVO " + displayname + " !")
