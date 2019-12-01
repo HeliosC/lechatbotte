@@ -98,7 +98,7 @@ function startBot(redisClient) {
         }
 
         if(onQuestion){
-            if(AnswerFlat.includes(m.flat)){
+            if(AnswerFlat.includes(m.flat())){
                 onQuestion = false
                 client.say(channel, "BRAVO " + displayname + " !")
                 redis.zincrby("poulpita/rank", 1, userid)
@@ -119,7 +119,7 @@ function startBot(redisClient) {
                         nq = randInt(Object.keys(questions).length)
                         client.say(channel, Object.keys(questions)[nq])
                         Answer = Object.values(questions)[nq].toLowerCase().split("&")
-                        AnswerFlat = answerFlatter()
+                        answerFlatter()
                         console.log(Answer)
                         console.log(AnswerFlat)
                         onQuestion = true
@@ -133,7 +133,7 @@ function startBot(redisClient) {
                             if(nq<=Object.keys(questions).length){
                                 client.say(channel, Object.keys(questions)[nq-1])
                                 Answer = Object.values(questions)[nq-1].toLowerCase().split("&")
-                                AnswerFlat = answerFlatter()
+                                answerFlatter()
                                 console.log(Answer)
                                 console.log(AnswerFlat)
                                 onQuestion = true
@@ -174,9 +174,14 @@ function randInt(length){
 
 function answerFlatter(){
     AnswerFlat = []
+    console.log("deb flat" + AnswerFlat)
     Answer.forEach(a => {
-        AnswerFlat.push(a.flat)
+        console.log(a + " -- " + AnswerFlat)
+        AnswerFlat.push(a.flat())
+        console.log(a + " -- " + AnswerFlat)
+        //console.log(a.flat)
     })
+    console.log("fin flat" + AnswerFlat)
 }
 
 String.prototype.sansAccent = function(){
@@ -200,11 +205,11 @@ String.prototype.sansAccent = function(){
 }
 
 String.prototype.flat = function(){
-    return this.sansAccent.replace(" ", "")
+    return this.sansAccent().replace(" ", "")
 }
 
 var chaine = "À côté d'un veçrre vide";
-console.log( chaine.flat );
+console.log( chaine.flat() );
 
 
 module.exports.start = startBot;
