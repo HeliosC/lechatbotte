@@ -1,6 +1,6 @@
 var redis = require('redis').createClient(process.env.REDIS_URL);
 redis.on('connect', function () {
-    console.log('redis connected');
+    console.log('redis connected !!!!!!!!!!!!!!');
 });
 
 

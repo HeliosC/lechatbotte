@@ -20,15 +20,19 @@ var AnswerFlat = []
 
 function startBot(redisClient) {
 
+    //console.log("ANGELICA ALLOOOOOOOOOOOOOOOOOOOOOOO")
+
     redis = redisClient
 
     let client = new tmi.client(tmiConfig);
     client.connect().then((server, port) => {
-        console.log(`${tmiConfig.identity.username} logged in on twitch !`)
+        //console.log(`${tmiConfig.identity.username} logged in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
+        //console.log(`ANGELICA logged in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
     });
 
     client.on('chat', (channel, user, message, isSelf) => {
         if(isSelf){ return; }
+        //console.log(`ANGELICA chat in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
 
         let m = message.toLowerCase()
         let username = user.username;
@@ -70,9 +74,9 @@ function startBot(redisClient) {
 
         if(m.startsWith("!rank")){
             redis.zrevrange("poulpita/rank", 0, -1, 'WITHSCORES', (err, scores) => {
-                console.log(scores)
+                //console.log(scores)
                 getUserScores(scores).then( (UserScores) => {
-                    console.log(UserScores)
+                    //console.log(UserScores)
                     ranking = ""
                     rank = 1
                     idboo = true
@@ -99,7 +103,7 @@ function startBot(redisClient) {
             idboo = true
             //for(element in scores){
             scores.forEach(element => {
-                console.log("e "+element)
+                //console.log("e "+element)
                 if(idboo){
                     promises.push(getUserbyID(element))
                 }else{
@@ -113,10 +117,10 @@ function startBot(redisClient) {
         }
 
         function getUserbyID(id){
-            console.log("id "+id+" "+username)
+            //console.log("id "+id+" "+username)
             return new Promise(function(resolve, reject){
                 redis.hget('ranking/username', id, (err, username) => {
-                    console.log("id "+id+" "+username)
+                    //console.log("id "+id+" "+username)
                     resolve(username)
                 })
             //.then(username => {
@@ -127,13 +131,13 @@ function startBot(redisClient) {
 
         if(onQuestion){
             mflat = m.flat()
-            console.log("onquest "+" AnswerFlat "+AnswerFlat+" mflat "+mflat)
+            //console.log("onquest "+" AnswerFlat "+AnswerFlat+" mflat "+mflat)
             //for(ans in AnswerFlat){
             AnswerFlat.forEach(ans =>{
                   var regex = new RegExp("^"+ans+"$", "gi")
                 //  var regex = new RegExp(ans, "gi")
                   if(regex.test(mflat)){
-                      console.log("regex "+regex+" ans "+ans+" mflat "+mflat)
+                      //console.log("regex "+regex+" ans "+ans+" mflat "+mflat)
                       onQuestion = false
                       client.say(channel, "BRAVO " + displayname + " !")
                       clearTimeout(qTO)
@@ -157,15 +161,22 @@ function startBot(redisClient) {
         let isHelios = username.toLowerCase() === "heliosdesbois";
         let isModUp = isMod || isBroadcaster || isHelios;
 
+        //console.log(isModUp +" test "+ !onQuestion)
+
         var args = m.split(" ")
         if(isModUp && !onQuestion){
+           // console.log(args)
             if(args[0] == "!question"){
+                //console.log("oui")
                 if(args.length == 1){
+                    //console.log("oui2")
                     //donner une question random
                     redis.hgetall("poulpita/questions", (err, questions) => {
+                        //console.log("oui3")
                         do{
+                            //console.log("oui4")
                             nq = randInt(Object.keys(questions).length)
-                        }while(Answer != Object.values(questions)[nq].toLowerCase().split("&"))
+                        }while(Answer == Object.values(questions)[nq].toLowerCase().split("&"))
                         console.log("nq "+nq+" max "+Object.keys(questions).length)
                         client.say(channel, Object.keys(questions)[nq])
                         Answer = Object.values(questions)[nq].toLowerCase().split("&")
@@ -225,11 +236,11 @@ function randInt(length){
 
 function answerFlatter(){
     AnswerFlat = []
-    console.log("deb flat" + AnswerFlat)
+    //console.log("deb flat" + AnswerFlat)
     Answer.forEach(a => {
-        console.log(a + " -- " + AnswerFlat)
+        //console.log(a + " -- " + AnswerFlat)
         AnswerFlat.push(a.flat())
-        console.log(a + " -- " + AnswerFlat)
+        //console.log(a + " -- " + AnswerFlat)
         //console.log(a.flat)
     })
     console.log("fin flat" + AnswerFlat)
@@ -257,18 +268,18 @@ String.prototype.sansAccent = function(){
 
 String.prototype.flat = function(){
     sa = this.sansAccent()
-    console.log("sa "+sa)
+    //console.log("sa "+sa)
     var regex = /\s/gi;
     sr = sa.replace(regex, "")
-    console.log("sr "+sr)
+    //console.log("sr "+sr)
     return sr
 }
 
-console.log("------------------------------------------------------------")
-console.log("------------------------------------------------------------")
-console.log("------------------------------------------------------------")
+//console.log("------------------------------------------------------------")
+//console.log("------------------------------------------------------------")
+//console.log("------------------------------------------------------------")
 var chaine = "À côté d'un veçrre vide";
-console.log( chaine.flat() );
+//console.log( chaine.flat() );
 
 
 module.exports.start = startBot;
