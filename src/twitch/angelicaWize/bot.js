@@ -133,7 +133,8 @@ function startBot(redisClient) {
             mflat = m.flat()
             //console.log("onquest "+" AnswerFlat "+AnswerFlat+" mflat "+mflat)
             //for(ans in AnswerFlat){
-            AnswerFlat.forEach(ans =>{
+            //AnswerFlat.forEach(ans =>{
+            AnswerFlat.every(function(ans, index) {
                   var regex = new RegExp("^"+ans+"$", "gi")
                 //  var regex = new RegExp(ans, "gi")
                   if(regex.test(mflat)){
