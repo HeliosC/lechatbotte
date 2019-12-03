@@ -14,6 +14,8 @@ var redis
 var isCached = {}
 var qTO
 
+var QPUP = true
+
 var onQuestion = false 
 var Answer = []
 var AnswerFlat = []
@@ -134,18 +136,21 @@ function startBot(redisClient) {
             //console.log("onquest "+" AnswerFlat "+AnswerFlat+" mflat "+mflat)
             //for(ans in AnswerFlat){
             //AnswerFlat.forEach(ans =>{
-            AnswerFlat.every(function(ans, index) {
-                  var regex = new RegExp("^"+ans+"$", "gi")
+                //AnswerFlat.every(function(ans, index) {
+                for(var i= 0; i < AnswerFlat.length; i++){
+                    var regex = new RegExp("^"+AnswerFlat[i]+"$", "gi")
                 //  var regex = new RegExp(ans, "gi")
                   if(regex.test(mflat)){
                       //console.log("regex "+regex+" ans "+ans+" mflat "+mflat)
                       onQuestion = false
                       client.say(channel, "BRAVO " + displayname + " !")
                       clearTimeout(qTO)
-                      redis.zincrby("poulpita/rank", 1, userid)
+                      if(QPUP){
+                          redis.zincrby("poulpita/rank", 1, userid)
+                      }
                       return
                   }
-            })
+            }
            // }
 
 /*
