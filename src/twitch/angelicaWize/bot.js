@@ -31,7 +31,7 @@ function startBot(redisClient) {
 
     redis.get("poulpita/active", (err, res) => {
         if(res="true"){
-            active=true
+            active = true
         }
     })
 
@@ -48,7 +48,7 @@ function startBot(redisClient) {
             api.streams.channel({ channelID: idpoulpita }, (err, res) => {
                 if(!err) {
                     //Live on ???
-                    //console.log("LIVE POULPI ?")
+                    console.log("LIVE POULPI ?")
                     if ( (res.stream != null)) {
                         console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
                         active = true
