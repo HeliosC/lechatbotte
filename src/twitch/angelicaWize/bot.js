@@ -17,7 +17,7 @@ var qTO
 
 var QPUP = true
 
-var active = false
+var active = "false"
 var onQuestion = false 
 var Answer = []
 var AnswerFlat = []
@@ -30,8 +30,9 @@ function startBot(redisClient) {
     redis = redisClient
 
     redis.get("poulpita/active", (err, res) => {
-        if(res="true"){
-            active = true
+        //console.log("oui c'est vrai "+res+"   "+res)
+        if(res=="true"){
+            active = "true"
         }
     })
 
@@ -44,14 +45,15 @@ function startBot(redisClient) {
     client.on('chat', (channel, user, message, isSelf) => {
 
         //redis.get("poulpita/active", (err, active) => {
-        if(!active){
+        //console.log("active "+active)
+        if(active=="false"){
             api.streams.channel({ channelID: idpoulpita }, (err, res) => {
                 if(!err) {
                     //Live on ???
                     console.log("LIVE POULPI ?")
                     if ( (res.stream != null)) {
                         console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
-                        active = true
+                        active = "true"
                         redis.set("poulpita/active", "true")
                         intervalObject = setInterval(()=>{
                             checkLiveOff(client)
@@ -329,7 +331,7 @@ function checkLiveOff(client){
         if(!err) {
             //Live off ???
             if (res.stream == null && !ontest) {
-                active = false
+                active = "false"
                 clearTimeout(intervalObject)
                 redis.del("poulpita/questions/cache")
                 redis.set("poulpita/active", "false")
