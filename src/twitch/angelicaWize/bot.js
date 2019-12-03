@@ -17,6 +17,7 @@ var qTO
 
 var QPUP = true
 
+var active = false
 var onQuestion = false 
 var Answer = []
 var AnswerFlat = []
@@ -28,6 +29,12 @@ function startBot(redisClient) {
 
     redis = redisClient
 
+    redis.get("poulpita/active", (err, res) => {
+        if(res="true"){
+            active=true
+        }
+    })
+
     let client = new tmi.client(tmiConfig);
     client.connect().then((server, port) => {
         //console.log(`${tmiConfig.identity.username} logged in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
@@ -36,16 +43,24 @@ function startBot(redisClient) {
 
     client.on('chat', (channel, user, message, isSelf) => {
 
-        api.streams.channel({ channelID: idpoulpita }, (err, res) => {
-            if(!err) {
-                //Live on ???
-                //console.log("LIVE POULPI ?")
-                if ( (res.stream != null)) {
-                    console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
-                    redis.del("poulpita/questions/cache")
+        //redis.get("poulpita/active", (err, active) => {
+        if(!active){
+            api.streams.channel({ channelID: idpoulpita }, (err, res) => {
+                if(!err) {
+                    //Live on ???
+                    //console.log("LIVE POULPI ?")
+                    if ( (res.stream != null)) {
+                        console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
+                        active = true
+                        redis.set("poulpita/active", "true")
+                        intervalObject = setInterval(()=>{
+                            checkLiveOff(client)
+                        }, 300*60000);
+                    }
                 }
-            }
-        })
+            })
+        }
+        //    })
         if(isSelf){ return; }
         //console.log(`ANGELICA chat in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
 
@@ -195,24 +210,24 @@ function startBot(redisClient) {
                     //donner une question random
                     redis.hgetall("poulpita/questions", (err, questions) => {
                         //console.log("oui3")
-                    redis.lrange("poulpita/questions/cache", -100, 100, (err, cachedquestions) => {
-                        console.log(cachedquestions)
-                        do{
-                            nq = randInt(Object.keys(questions).length)
-                            question = Object.keys(questions)[nq]
-                            console.log("oui4")
-                            console.log(question)
-                        }while(cachedquestions.includes(question))
-                        //redis.lpush("poulpita/questions/cache", question)
-                        console.log("nq "+nq+" max "+Object.keys(questions).length)
-                        client.say(channel, question)
-                        Answer = Object.values(questions)[nq].toLowerCase().split("&")
-                        answerFlatter()
-                        console.log(Answer)
-                        console.log(AnswerFlat)
-                        onQuestion = true
-                        qTO = setTimeout(() => {questionTimeout(channel)}, 60000);
-                    })
+                        redis.lrange("poulpita/questions/cache", -100, 100, (err, cachedquestions) => {
+                            console.log(cachedquestions)
+                            do{
+                                nq = randInt(Object.keys(questions).length)
+                                question = Object.keys(questions)[nq]
+                                console.log("oui4")
+                                console.log(question)
+                            }while(cachedquestions.includes(question))
+                            //redis.lpush("poulpita/questions/cache", question)
+                            console.log("nq "+nq+" max "+Object.keys(questions).length)
+                            client.say(channel, question)
+                            Answer = Object.values(questions)[nq].toLowerCase().split("&")
+                            answerFlatter()
+                            console.log(Answer)
+                            console.log(AnswerFlat)
+                            onQuestion = true
+                            qTO = setTimeout(() => {questionTimeout(channel)}, 60000);
+                        })
                     })
                 }else if(args.length == 2 && args[1]!="list"){
                     //donner cette question
@@ -309,5 +324,22 @@ String.prototype.flat = function(){
 var chaine = "À côté d'un veçrre vide";
 //console.log( chaine.flat() );
 
+function checkLiveOff(client){
+    api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+        if(!err) {
+            //Live off ???
+            if (res.stream == null && !ontest) {
+                active = false
+                clearTimeout(intervalObject)
+                redis.del("poulpita/questions/cache")
+                redis.set("poulpita/active", "false")
+                console.log("LIVE POULPI OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+            } else {
+            }
+        } else {
+            console.error("unable ")
+        }
+    })
+}
 
 module.exports.start = startBot;
