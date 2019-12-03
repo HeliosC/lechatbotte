@@ -7,6 +7,7 @@ api.clientID = process.env.clientID
 
 const poulpita = "poulpita"
 const hdb = "heliosdesbois"
+const idpoulpita = "204501281"
 
 var deceit = false
 
@@ -19,6 +20,7 @@ var QPUP = true
 var onQuestion = false 
 var Answer = []
 var AnswerFlat = []
+var question
 
 function startBot(redisClient) {
 
@@ -33,6 +35,17 @@ function startBot(redisClient) {
     });
 
     client.on('chat', (channel, user, message, isSelf) => {
+
+        api.streams.channel({ channelID: idpoulpita }, (err, res) => {
+            if(!err) {
+                //Live on ???
+                //console.log("LIVE POULPI ?")
+                if ( (res.stream != null)) {
+                    console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
+                    redis.del("poulpita/questions/cache")
+                }
+            }
+        })
         if(isSelf){ return; }
         //console.log(`ANGELICA chat in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
 
@@ -145,6 +158,7 @@ function startBot(redisClient) {
                       onQuestion = false
                       client.say(channel, "BRAVO " + displayname + " !")
                       clearTimeout(qTO)
+                      redis.lpush("poulpita/questions/cache", question)
                       if(QPUP){
                           redis.zincrby("poulpita/rank", 1, userid)
                       }
@@ -152,6 +166,8 @@ function startBot(redisClient) {
                   }
             }
            // }
+
+
 
 /*
             if(AnswerFlat.includes(m.flat())){
@@ -179,18 +195,24 @@ function startBot(redisClient) {
                     //donner une question random
                     redis.hgetall("poulpita/questions", (err, questions) => {
                         //console.log("oui3")
+                    redis.lrange("poulpita/questions/cache", -100, 100, (err, cachedquestions) => {
+                        console.log(cachedquestions)
                         do{
-                            //console.log("oui4")
                             nq = randInt(Object.keys(questions).length)
-                        }while(Answer == Object.values(questions)[nq].toLowerCase().split("&"))
+                            question = Object.keys(questions)[nq]
+                            console.log("oui4")
+                            console.log(question)
+                        }while(cachedquestions.includes(question))
+                        //redis.lpush("poulpita/questions/cache", question)
                         console.log("nq "+nq+" max "+Object.keys(questions).length)
-                        client.say(channel, Object.keys(questions)[nq])
+                        client.say(channel, question)
                         Answer = Object.values(questions)[nq].toLowerCase().split("&")
                         answerFlatter()
                         console.log(Answer)
                         console.log(AnswerFlat)
                         onQuestion = true
                         qTO = setTimeout(() => {questionTimeout(channel)}, 60000);
+                    })
                     })
                 }else if(args.length == 2 && args[1]!="list"){
                     //donner cette question
