@@ -29,12 +29,31 @@ function startBot(redisClient) {
 
     redis = redisClient
 
-    redis.get("poulpita/active", (err, res) => {
+    //redis.get("poulpita/active", (err, res) => {
         //console.log("oui c'est vrai "+res+"   "+res)
-        if(res=="true"){
-            active = "true"
+      //  if(res=="true"){
+      //      active = "true"
+      //  }
+    api.streams.channel({ channelID: idpoulpita }, (err, res) => {
+        if(!err) {
+            //Live on ???
+            console.log("RESTART LIVE POULPI ?")
+            if ( (res.stream != null)) {
+                console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
+                active = "true"
+                //redis.set("poulpita/active", "true")
+                intervalObject = setInterval(()=>{
+                    checkLiveOff(client)
+                }, 300*60000);
+            }else{
+                active = "false"
+                //redis.set("poulpita/active", "false")
+                redis.del("poulpita/questions/cache")
+                console.log("LIVE POULPI OFFFFFFFFFFFFFFFFF")
+            }
         }
     })
+    //})
 
     let client = new tmi.client(tmiConfig);
     client.connect().then((server, port) => {
@@ -44,7 +63,6 @@ function startBot(redisClient) {
 
     client.on('chat', (channel, user, message, isSelf) => {
 
-        //redis.get("poulpita/active", (err, active) => {
         //console.log("active "+active)
         if(active=="false"){
             api.streams.channel({ channelID: idpoulpita }, (err, res) => {
@@ -54,7 +72,7 @@ function startBot(redisClient) {
                     if ( (res.stream != null)) {
                         console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
                         active = "true"
-                        redis.set("poulpita/active", "true")
+                        //redis.set("poulpita/active", "true")
                         intervalObject = setInterval(()=>{
                             checkLiveOff(client)
                         }, 300*60000);
@@ -334,7 +352,7 @@ function checkLiveOff(client){
                 active = "false"
                 clearTimeout(intervalObject)
                 redis.del("poulpita/questions/cache")
-                redis.set("poulpita/active", "false")
+                //redis.set("poulpita/active", "false")
                 console.log("LIVE POULPI OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
             } else {
             }
