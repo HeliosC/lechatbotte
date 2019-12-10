@@ -28,6 +28,11 @@ function startBot(redisClient) {
     //console.log("ANGELICA ALLOOOOOOOOOOOOOOOOOOOOOOO")
 
     redis = redisClient
+    let client = new tmi.client(tmiConfig);
+    client.connect().then((server, port) => {
+        //console.log(`${tmiConfig.identity.username} logged in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
+        //console.log(`ANGELICA logged in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
+    });
 
     //redis.get("poulpita/active", (err, res) => {
         //console.log("oui c'est vrai "+res+"   "+res)
@@ -40,11 +45,13 @@ function startBot(redisClient) {
             console.log("RESTART LIVE POULPI ?")
             if ( (res.stream != null)) {
                 console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
+                questionsAuto("#"+res.stream.channel.name)
                 active = "true"
                 //redis.set("poulpita/active", "true")
                 intervalObject = setInterval(()=>{
                     checkLiveOff(client)
                 }, 300*60000);
+
             }else{
                 active = "false"
                 //redis.set("poulpita/active", "false")
@@ -55,11 +62,6 @@ function startBot(redisClient) {
     })
     //})
 
-    let client = new tmi.client(tmiConfig);
-    client.connect().then((server, port) => {
-        //console.log(`${tmiConfig.identity.username} logged in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
-        //console.log(`ANGELICA logged in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
-    });
 
     client.on('chat', (channel, user, message, isSelf) => {
 
@@ -71,6 +73,8 @@ function startBot(redisClient) {
                     console.log("LIVE POULPI ?")
                     if ( (res.stream != null)) {
                         console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
+                        redis.incr("poulpita/QuestionsMessages")
+                        questionsAuto("#"+res.stream.channel.name)
                         active = "true"
                         //redis.set("poulpita/active", "true")
                         intervalObject = setInterval(()=>{
@@ -79,6 +83,8 @@ function startBot(redisClient) {
                     }
                 }
             })
+        }else{
+            redis.incr("poulpita/QuestionsMessages")
         }
         //    })
         if(isSelf){ return; }
@@ -287,6 +293,44 @@ function startBot(redisClient) {
             //client.say(channel, "Time's up ! Il fallait répondre : "+Answer.join(", "))
             client.say(channel, "Time's up ! Tu feras mieux la prochaine fois !")
         //}
+    }
+
+    function questionsAuto(channel){
+        setTimeout(() => {questionAutoTimer(channel)}, 60000 * randInt(6,10))
+    }
+
+    function questionAutoTimer(channel){
+        if(!onQuestion){
+            redis.get("poulpita/QuestionsMessages", (err, nb) => {
+                if(nb>50){
+                    redis.set("poulpita/QuestionsMessages", 0)
+                    //POSE UNE QUESTION
+                    redis.hgetall("poulpita/questions", (err, questions) => {
+                        //console.log("oui3")
+                        redis.lrange("poulpita/questions/cache", -100, 100, (err, cachedquestions) => {
+                            console.log(cachedquestions)
+                            do{
+                                nq = randInt(Object.keys(questions).length)
+                                question = Object.keys(questions)[nq]
+                                console.log("oui4")
+                                console.log(question)
+                            }while(cachedquestions.includes(question))
+                            //redis.lpush("poulpita/questions/cache", question)
+                            console.log("nq "+nq+" max "+Object.keys(questions).length)
+                            client.say(channel, question)
+                            Answer = Object.values(questions)[nq].toLowerCase().split("&")
+                            answerFlatter()
+                            console.log(Answer)
+                            console.log(AnswerFlat)
+                            onQuestion = true
+                            qTO = setTimeout(() => {questionTimeout(channel)}, 60000);
+                        })
+                    })
+                }
+            })
+        }
+        setTimeout(() => {questionAutoTimer(channel)}, 60000 * randInt(6,10))
+
     }
 
 

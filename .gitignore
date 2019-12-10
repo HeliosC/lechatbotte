@@ -107,3 +107,4 @@ command-manager-test-LOCAL.js
 src/web/views/map.handlebars
 src/discord/command_manager - Copie.js
 worlds.yml
+test api v5 LOCAL.js
