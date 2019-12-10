@@ -23,6 +23,10 @@ var Answer = []
 var AnswerFlat = []
 var question
 
+const nbQuestionsMessages = 30
+const minQuestionsMessages = 6
+const maxQuestionsMessages = 10
+
 function startBot(redisClient) {
 
     //console.log("ANGELICA ALLOOOOOOOOOOOOOOOOOOOOOOO")
@@ -296,13 +300,13 @@ function startBot(redisClient) {
     }
 
     function questionsAuto(channel){
-        setTimeout(() => {questionAutoTimer(channel)}, 60000 * randInt(6,10))
+        setTimeout(() => {questionAutoTimer(channel)}, 60000 * randInt(minQuestionsMessages,maxQuestionsMessages))
     }
 
     function questionAutoTimer(channel){
         if(!onQuestion){
             redis.get("poulpita/QuestionsMessages", (err, nb) => {
-                if(nb>50){
+                if(nb>=nbQuestionsMessages){
                     redis.set("poulpita/QuestionsMessages", 0)
                     //POSE UNE QUESTION
                     redis.hgetall("poulpita/questions", (err, questions) => {
@@ -329,7 +333,7 @@ function startBot(redisClient) {
                 }
             })
         }
-        setTimeout(() => {questionAutoTimer(channel)}, 60000 * randInt(6,10))
+        setTimeout(() => {questionAutoTimer(channel)}, 60000 * randInt(minQuestionsMessages,maxQuestionsMessages))
 
     }
 
