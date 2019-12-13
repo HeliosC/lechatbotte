@@ -108,3 +108,4 @@ src/web/views/map.handlebars
 src/discord/command_manager - Copie.js
 worlds.yml
 test api v5 LOCAL.js
+test clips new api.js

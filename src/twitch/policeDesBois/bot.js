@@ -111,8 +111,8 @@ function startBot(redisClient) {
     redis = redisClient
 
     apitwitch.start()
-    GetAllAnalytics()
-    GetViewersAnalytics()
+    //GetAllAnalytics()
+    //GetViewersAnalytics()
 
 
     let client = new tmi.client(tmiConfig);
@@ -139,20 +139,26 @@ function startBot(redisClient) {
 
     client.on("whisper", function (from, userstate, message, self) {
 
+
+        
         if (self) return;
-
-
-
-
-        let m = message.toLowerCase()
-
-        if(m.startsWith("updateclips") && [hdb, cdb, krao, "willokhlass"].indexOf(userstate['username'].toLowerCase()) != -1 ){
+        
+        
+        
+        
+        var m = message.toLowerCase()
+        console.log(m)
+        console.log(m.startsWith("updateclips"))
+        
+        if(m.startsWith("updateclips")   && [hdb, cdb, krao, "willokhlass"].indexOf(userstate['username'].toLowerCase()) != -1 ){
+            console.log("updatons")
             apitwitch.start(userstate.username, m.split(" ")[1])
+            console.log(userstate.username+"/     /"+ m.split(" ")[1])
         }
         if(m.startsWith("updatestats")){
             console.log("updating stats")
-            GetAllAnalytics()
-            GetViewersAnalytics()
+            //GetAllAnalytics()
+            //GetViewersAnalytics()
         }
 
         if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb) {
