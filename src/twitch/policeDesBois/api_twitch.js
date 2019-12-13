@@ -292,7 +292,7 @@ function start(sender, arg){
                         gamesnames[game.id] = game.name
                     });
                     //gamesnames = data0.data.map(game => game.name)
-                    console.log(gamesnames)
+                    //console.log(gamesnames)
 
                     let data = clips2.map(clip => [
                         clip.title, 
