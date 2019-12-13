@@ -287,13 +287,19 @@ function start(sender, arg){
                     data0 = JSON.parse(body)
                     //console.log(data.data.map(game => game.name))
                     //console.log(data.data.length)
-                    gamesnames = data0.data.map(game => game.name)
+                    gamesnames = {}
+                    data0.data.forEach(game => {
+                        gamesnames[game.id] = game.name
+                    });
+                    //gamesnames = data0.data.map(game => game.name)
+                    console.log(gamesnames)
 
                     let data = clips2.map(clip => [
                         clip.title, 
                         clip.view_count, 
                         //clip.game_id, 
-                        gamesnames[gamesid2.indexOf(clip.game_id)],
+                        //gamesnames[gamesid2.indexOf(clip.game_id)],
+                        gamesnames[clip.game_id],
                         date(clip.created_at), 
                         clip.creator_name, 
                         clip.url
