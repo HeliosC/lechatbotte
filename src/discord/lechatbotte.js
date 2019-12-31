@@ -93,7 +93,7 @@ function startBot(redisClient) {
 			&& message.channel.id == 548283395906600970 /* poui-et-krao-le-soir */) {
 			message.react("🗡");
 		}
-		if(message.content == "ou alors" && message.guild.id == "350708761226117122" ){
+		if((message.content == "ou alors" || message.content == "Ou alors") && message.guild.id == "350708761226117122" ){
 			message.channel.send("c'est un bot")
 		}
 		//message.channel.send(message.content)
