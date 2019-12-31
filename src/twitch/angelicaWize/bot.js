@@ -15,6 +15,7 @@ var redis
 var isCached = {}
 var qTO
 
+var questionOn = false
 var QPUP = true
 
 var active = "false"
@@ -68,6 +69,9 @@ function startBot(redisClient) {
 
 
     client.on('chat', (channel, user, message, isSelf) => {
+
+        console.log("oui")
+        console.log(message)
 
         //console.log("active "+active)
         if(active=="false"){
@@ -133,29 +137,31 @@ function startBot(redisClient) {
         }
 
         if(m.startsWith("!rank")){
-            redis.zrevrange("poulpita/rank", 0, -1, 'WITHSCORES', (err, scores) => {
-                //console.log(scores)
-                getUserScores(scores).then( (UserScores) => {
-                    //console.log(UserScores)
-                    ranking = ""
-                    rank = 1
-                    idboo = true
-                    //for(score in UserScores){
-                    UserScores.forEach(score => {
-                        if(idboo){
-                            if(rank!=1){
-                                ranking = ranking + " - "
+            if(questionOn){                
+                redis.zrevrange("poulpita/rank", 0, -1, 'WITHSCORES', (err, scores) => {
+                    //console.log(scores)
+                    getUserScores(scores).then( (UserScores) => {
+                        //console.log(UserScores)
+                        ranking = ""
+                        rank = 1
+                        idboo = true
+                        //for(score in UserScores){
+                        UserScores.forEach(score => {
+                            if(idboo){
+                                if(rank!=1){
+                                    ranking = ranking + " - "
+                                }
+                                ranking= ranking + rank + ")"+score+ ":"
+                                rank+=1
+                            }else{
+                                ranking= ranking + score// + " - "
                             }
-                            ranking= ranking + rank + ")"+score+ ":"
-                            rank+=1
-                        }else{
-                            ranking= ranking + score// + " - "
-                        }
-                        idboo = !idboo
+                            idboo = !idboo
+                        })
+                        client.say(channel, ranking)
                     })
-                    client.say(channel, ranking)
                 })
-            })
+            }
         }
 
         function getUserScores(scores){
@@ -231,7 +237,7 @@ function startBot(redisClient) {
         //console.log(isModUp +" test "+ !onQuestion)
 
         var args = m.split(" ")
-        if(isModUp && !onQuestion){
+        if(isModUp && !onQuestion && questionOn){
            // console.log(args)
             if(args[0] == "!question"){
                 //console.log("oui")
@@ -300,7 +306,9 @@ function startBot(redisClient) {
     }
 
     function questionsAuto(channel){
-        setTimeout(() => {questionAutoTimer(channel)}, 60000 * randInt(minQuestionsMessages,maxQuestionsMessages))
+        if(questionOn){
+            setTimeout(() => {questionAutoTimer(channel)}, 60000 * randInt(minQuestionsMessages,maxQuestionsMessages))
+        }
     }
 
     function questionAutoTimer(channel){
