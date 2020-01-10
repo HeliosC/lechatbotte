@@ -20,6 +20,7 @@
     "tmi.js": "^1.4.2",
     "twitch-api-v5": "^2.0.4",
     "twitch-helix": "^1.0.7",
+    "twitch-webhook": "^1.2.4",
     "xmlhttprequest": "^1.8.0"
   },
   "version": "1.0.0",

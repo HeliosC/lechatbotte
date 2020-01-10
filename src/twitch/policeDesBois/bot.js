@@ -826,7 +826,7 @@ function afficheMorts(client, channel, morts) {
 function afficheCannons(client, channel, cannons) {
     client.say(
         channel,
-        `${cannons} cannons ont étés ratés`
+        `${cannons} cannons ont été ratés`
     );
 
 }
