@@ -28,6 +28,27 @@ const nbQuestionsMessages = 30
 const minQuestionsMessages = 6
 const maxQuestionsMessages = 10
 
+function chatlog(username, message) {
+    let redisDate = dateFull()
+    let redisDateInv = redisDate.substr(6,4)+redisDate.substr(2,4)+redisDate.substr(0,2)
+    let chatredis = 'chatpoulpita' + '/' + redisDateInv
+
+    // console.log("**************************************" + redisDate)
+    redis.exists(chatredis, function (err, reply) {
+        if (reply === 1) {
+
+            redis.get(chatredis, function (err, reply) {
+                redis.set(chatredis, reply + "\n"
+                    + heureOnly() + ' [' + username + '] : ' + message);
+            });
+
+        } else {
+            redis.set(chatredis, "******************************** " + 'Chat du ' + redisDate + " ********************************" + "\n"
+                + heureOnly() + ' [' + username + '] : ' + message);
+        }
+    });
+}
+
 function startBot(redisClient) {
 
     //console.log("ANGELICA ALLOOOOOOOOOOOOOOOOOOOOOOO")
@@ -69,6 +90,8 @@ function startBot(redisClient) {
 
 
     client.on('chat', (channel, user, message, isSelf) => {
+
+        chatlog(user.username, message)
 
         console.log("oui")
         console.log(message)
