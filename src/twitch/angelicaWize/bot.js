@@ -93,8 +93,8 @@ function startBot(redisClient) {
 
         chatlog(user.username, message)
 
-        console.log("oui")
-        console.log(message)
+        //console.log("oui")
+        //console.log(message)
 
         //console.log("active "+active)
         if(active=="false"){
