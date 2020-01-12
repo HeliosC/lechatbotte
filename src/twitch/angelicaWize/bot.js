@@ -441,4 +441,32 @@ function checkLiveOff(client){
     })
 }
 
+function dateFull() {
+    let date = new Date();
+    let month = date.getMonth() + 1;
+    let jour = date.getDate();
+    if (jour < 10) {
+        jour = "0" + jour;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+    return jour + '/' + month + '/' + date.getFullYear()
+}
+
+function heureOnly() {
+    let date = new Date();
+    let heure = date.getHours() + ete;
+    let minutes = date.getMinutes();
+    if (heure < 10) {
+        heure = "0" + heure;
+    }
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+
+    return (heure) + ":" + minutes
+}
+
 module.exports.start = startBot;
