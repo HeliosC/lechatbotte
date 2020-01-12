@@ -455,6 +455,8 @@ function dateFull() {
     return jour + '/' + month + '/' + date.getFullYear()
 }
 
+const ete = 2
+
 function heureOnly() {
     let date = new Date();
     let heure = date.getHours() + ete;
