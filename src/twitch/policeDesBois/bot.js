@@ -51,7 +51,7 @@ const ete = 2
 var massacresON = true
 var lobbiesON = true
 var mortsON = true
-var cannonsON = true
+var canonsON = true
 
 const xptimer = 60000
 const ontest = false
@@ -603,14 +603,14 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
                 }else if (res.stream.game.toLowerCase() == "league of legends") {
 
-                    if (/^!cann?ons?\+\s?1$/gmi.test(m) && cannonsON) { //*cannons -> incremente
-                        cannonsON = false
+                    if (/^!cann?ons?\+\s?1$/gmi.test(m) && canonsON) { //*canons -> incremente
+                        canonsON = false
                         setTimeout(function () {
-                            cannonsON = true
+                            canonsON = true
                         }, 30000); 
                 
-                        redis.incr('cannons', function (err, reply) {
-                            afficheCannons(client, channel, parseInt(reply));
+                        redis.incr('canons', function (err, reply) {
+                            afficheCanons(client, channel, parseInt(reply));
                         });
                 
                     }
@@ -659,20 +659,20 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
 
 
-    if (/^!cann?ons?$/gmi.test(m)) { //*cannons -> affiche le nb
-        redis.get('cannons', function (err, reply) {
-            afficheCannons(client, channel, parseInt(reply));
+    if (/^!cann?ons?$/gmi.test(m)) { //*canons -> affiche le nb
+        redis.get('canons', function (err, reply) {
+            afficheCanons(client, channel, parseInt(reply));
         });
 
     } else if (isModerateur(user.username) && /^!cann?ons?\s?\-\s?1$/gmi.test(m)) {
-        redis.decr('cannons', function (err, reply) {
-            afficheCannons(client, channel, parseInt(reply));
+        redis.decr('canons', function (err, reply) {
+            afficheCanons(client, channel, parseInt(reply));
         });
     }
-    else if (isModerateur(user.username) && /^!cannons \d/gmi.test(m)) {
-        cannons = parseInt(m.slice(7 + 1)) || 0;
-        afficheCannons(client, channel, cannons);
-        redis.set('cannons', cannons);
+    else if (isModerateur(user.username) && /^!canons \d/gmi.test(m)) {
+        canons = parseInt(m.slice(7 + 1)) || 0;
+        afficheCanons(client, channel, canons);
+        redis.set('canons', canons);
     }
 
     
@@ -823,10 +823,10 @@ function afficheMorts(client, channel, morts) {
 
 }
 
-function afficheCannons(client, channel, cannons) {
+function afficheCanons(client, channel, canons) {
     client.say(
         channel,
-        `${cannons} cannons ont été ratés`
+        `${canons} canons ont été ratés`
     );
 
 }
