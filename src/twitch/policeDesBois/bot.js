@@ -706,7 +706,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             redis.hget('ranking/id',username,function(err,userid){
                 if(!err){
                     redis.hget('ranking/username',userid,function(err,userdname){
-                        redis.hincrby('master/wins', userid, function(err, wins){
+                        redis.hincrby('master/wins', userid, 1, function(err, wins){
                             client.say(channel, wins + (wins == 1 ? 're' : 'e') + ' victoire de ' + userdname + ' !')
                         })
                     })
