@@ -25,7 +25,7 @@ const googleClient = new google.auth.JWT(
     ['https://www.googleapis.com/auth/spreadsheets']
 );
 
-
+let oauth = process.env.police.split('auth:')[1]
 let clientID = process.env.clientID
 // let url = "https://api.twitch.tv/kraken/channels/chatdesbois?client_id="
 let url = "https://api.twitch.tv/kraken/channels/"
@@ -744,8 +744,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             isCached[userid]=true
             //ALLO TWITCH
             var options = {
-                url: "https://api.twitch.tv/helix/users?id="+userid
-                ,
+                url: "https://api.twitch.tv/helix/users?id="+userid,
                 method: "GET",
                 headers: {
                 "Authorization": "Bearer "+oauth
