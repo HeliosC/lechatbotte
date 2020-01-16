@@ -715,7 +715,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         }
     }
 
-    if (m.startsWith("!master")) {
+    if (m.startsWith("!master ")) {
         words = m.split(" ")
         if (words.length > 1) {
             username = words[1].toLowerCase().replace("@", "")
