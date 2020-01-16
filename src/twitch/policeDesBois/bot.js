@@ -718,7 +718,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     if (m.startsWith("!master ")) {
         words = m.split(" ")
         if (words.length > 1) {
+            console.log(username)
             username = words[1].toLowerCase().replace("@", "")
+            console.log(username)
             redis.hget('ranking/id',username,function(err,userid){
                 if(!err){
                     redis.hget('ranking/username',userid,function(err,userdname){
