@@ -2,7 +2,7 @@ const tmi = require('tmi.js')
 
 const tmiConfig = require("./config")
 
-//const request = require('request')
+const request = require('request')
 
 var api = require('twitch-api-v5')
 api.clientID = process.env.clientID
