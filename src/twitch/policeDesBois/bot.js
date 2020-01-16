@@ -699,6 +699,39 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         })
     }
 
+    if (m.startsWith("!master+1")) {
+        words = m.split(" ")
+        if (words.length > 1) {
+            username = words[1].toLowerCase().replace("@", "")
+            redis.hget('ranking/id',username,function(err,userid){
+                if(!err){
+                    redis.hget('ranking/username',userid,function(err,userdname){
+                        redis.hincrby('master/wins', userid, function(err, wins){
+                            client.say(channel, wins + (wins == 1 ? 're' : 'e') + ' victoire de ' + userdname + ' !')
+                        })
+                    })
+                }
+            })
+        }
+    }
+
+    if (m.startsWith("!master")) {
+        words = m.split(" ")
+        if (words.length > 1) {
+            username = words[1].toLowerCase().replace("@", "")
+            redis.hget('ranking/id',username,function(err,userid){
+                if(!err){
+                    redis.hget('ranking/username',userid,function(err,userdname){
+                        redis.hget('master/wins', userid, function(err, wins){
+                            client.say(channel, wins + (wins == 1 ? 're' : 'e') + ' victoire de ' + userdname + ' !')
+                        })
+                    })
+                }
+            })
+        }
+
+    }
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////XP SYSTEM///////////////////////////////////////////////////
