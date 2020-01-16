@@ -755,8 +755,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             request(options, function (error, response, body) {
                 if (response && response.statusCode == 200) {
                     data = JSON.parse(body)
-                    console.log(data.data[0]['id'])
-                    console.log(data.data[1]['id'])
                     res=data.data[0]
                     redis.hset('ranking/logo', userid, res['profile_image_url'])
                     redis.hset('ranking/username',userid, user['display-name'])
