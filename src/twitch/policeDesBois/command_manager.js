@@ -36,7 +36,7 @@ var usedCommands = []
 //client.connect().then(console.log("twitch connected"))
 
 
-const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
+const moderators = ["heliosdesbois", "pioudesbois", "chatdesbois", "solis_the_sun"]
 
 
 

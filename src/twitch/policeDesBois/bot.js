@@ -39,10 +39,10 @@ const cdg = "choeur_de_gamers"
 const hood = "helioshood"
 const krao = "kraoki"
 
-const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
+const moderators = ["heliosdesbois", "pioudesbois", "chatdesbois", "solis_the_sun"]
 const boss = ["toxiicdust","heliosdesbois"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
-const honteurs = ["heliosdesbois", "pouidesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80"]
+const honteurs = ["heliosdesbois", "pioudesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80"]
 
 //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
 
