@@ -744,7 +744,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             isCached[userid]=true
             //ALLO TWITCH
             var options = {
-                url: "https://api.twitch.tv/helix/users?login=heliosdesbois&id="+userid
+                url: "https://api.twitch.tv/helix/users?id="+userid
                 ,
                 method: "GET",
                 headers: {
