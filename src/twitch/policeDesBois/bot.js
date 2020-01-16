@@ -743,6 +743,31 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         if(isCached[userid]!=true){
             isCached[userid]=true
             //ALLO TWITCH
+            var options = {
+                url: "https://api.twitch.tv/helix/users?login=heliosdesbois&id="+userid
+                ,
+                method: "GET",
+                headers: {
+                "Authorization": "Bearer "+oauth
+                }
+            };
+            
+            request(options, function (error, response, body) {
+                if (response && response.statusCode == 200) {
+                    data = JSON.parse(body)
+                    console.log(data.data[0]['id'])
+                    console.log(data.data[1]['id'])
+                    res=data.data[0]
+                    redis.hset('ranking/logo', userid, res['profile_image_url'])
+                    redis.hset('ranking/username',userid, user['display-name'])
+                    redis.hset('ranking/color', userid, user.color)
+                    redis.hset('ranking/id', username, userid)
+                }else{
+                    console.log("api failed "+response.statusCode)
+                }
+            });
+
+            /*
             api.users.userByID({ userID: userid }, (err, res) => {
                 if(!err) {
                     redis.hset('ranking/logo', userid, res.logo)
@@ -751,6 +776,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     redis.hset('ranking/id', username, userid)
                 }
             })
+            */
         }
         chaters[userid] = 10
     }
