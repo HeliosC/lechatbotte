@@ -701,7 +701,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     if (m.startsWith("!master+1")) {
         words = m.split(" ")
-        if (words.length > 1) {
+        if (words.length > 1 && isModerateur(username)) {
             username = words[1].toLowerCase().replace("@", "")
             redis.hget('ranking/id',username,function(err,userid){
                 if(!err){
@@ -723,7 +723,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if(!err){
                     redis.hget('ranking/username',userid,function(err,userdname){
                         redis.hget('master/wins', userid, function(err, wins){
-                            client.say(channel, wins + (wins == 1 ? 're' : 'e') + ' victoire de ' + userdname + ' !')
+                            client.say(channel, userdname + 'a gagné ' + wins + ' fois !')
                         })
                     })
                 }
