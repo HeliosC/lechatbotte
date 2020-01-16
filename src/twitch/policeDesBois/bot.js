@@ -723,7 +723,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if(!err){
                     redis.hget('ranking/username',userid,function(err,userdname){
                         redis.hget('master/wins', userid, function(err, wins){
-                            client.say(channel, userdname + 'a gagné ' + wins + ' fois !')
+                            client.say(channel, userdname + ' a gagné ' + wins + ' fois !')
                         })
                     })
                 }
