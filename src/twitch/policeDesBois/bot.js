@@ -324,12 +324,24 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
             //    if (!error && response.statusCode == 200) {
 
-            api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-                if(!err) {
-                    //let data = JSON.parse(body)
+            var options = {
+                url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
+                method: "GET",
+                headers: {
+                "Authorization": "Bearer "+oauth
+                }
+            };
+            
+            request(options, function (error, response, body) {
+                if (response && response.statusCode == 200) {
+                    let data = JSON.parse(body)
+                    res = data.data[0]
+            //api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+            //    if(!err) {
                     //console.log(data.game)
-                    if (res.stream.game.toLowerCase() == "fortnite") {
-                        //console.log("bite2")
+                    //if (res.stream.game.toLowerCase() == "fortnite") {
+                    if (res['id'] == 33214) {
+                            //console.log("bite2")
                         // client.say(channel,"Pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !")
                         if (/can\s?i\s?pl..\s?wi..\s?(you|u)/gmi.test(m)) {
                             answer += vide(answer) + "chatdesbois doesn't play with the viouveurs !"
@@ -339,7 +351,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                         onAnswer(answer)
                     } else { onAnswer(answer) }
                 } else {
-                    console.error("unable ")
+                    console.error("unable " + response.statusCode)
                 }
             })
         } else {
@@ -379,12 +391,24 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
         //if (!error && response.statusCode == 200) {
         //        let data = JSON.parse(body)
-
-        api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-            if(!err) {
-                if (res.stream.game.toLowerCase() == "league of legends") {
+        var options = {
+            url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
+            method: "GET",
+            headers: {
+            "Authorization": "Bearer "+oauth
+            }
+        };
+        
+        request(options, function (error, response, body) {
+            if (response && response.statusCode == 200) {
+                let data = JSON.parse(body)
+                res = data.data[0]
+        //api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+        //    if(!err) {
+        //        if (res.stream.game.toLowerCase() == "league of legends") {
+                if(res['id'] == 21779){
                     console.log("ok league")
-                    client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                    client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue :) Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                     //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                 }
             }
@@ -706,9 +730,13 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             redis.hget('ranking/id',username,function(err,userid){
                 if(!err){
                     redis.hget('ranking/username',userid,function(err,userdname){
-                        redis.hincrby('master/wins', userid, 1, function(err, wins){
-                            client.say(channel, wins + (wins == 1 ? 're' : 'e') + ' victoire de ' + userdname + ' !')
-                        })
+                        if(userdname != null){
+                            redis.hincrby('master/wins', userid, 1, function(err, wins){
+                                client.say(channel, wins + (wins == 1 ? 're' : 'e') + ' victoire de ' + userdname + ' !')
+                            })
+                        }else{
+                            client.say(channel, username + ' est inconnu')
+                        }
                     })
                 }
             })
@@ -722,10 +750,14 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             redis.hget('ranking/id',username,function(err,userid){
                 if(!err){
                     redis.hget('ranking/username',userid,function(err,userdname){
-                        redis.hget('master/wins', userid, function(err, wins){
-                            wins = wins || 0
-                            client.say(channel, userdname + ' a gagné ' + wins + ' fois !')
-                        })
+                        if(userdname != null){
+                            redis.hget('master/wins', userid, function(err, wins){
+                                wins = wins || 0
+                                client.say(channel, userdname + ' a gagné ' + wins + ' fois !')
+                            })
+                        }else{
+                            client.say(channel, username + ' est inconnu')
+                        }
                     })
                 }
             })
