@@ -340,7 +340,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             //    if(!err) {
                     //console.log(data.game)
                     //if (res.stream.game.toLowerCase() == "fortnite") {
-                    if (res['id'] == 33214) {
+                    if (res['game_id'] == 33214) {
                             //console.log("bite2")
                         // client.say(channel,"Pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !")
                         if (/can\s?i\s?pl..\s?wi..\s?(you|u)/gmi.test(m)) {
@@ -406,8 +406,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         //api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
         //    if(!err) {
         //        if (res.stream.game.toLowerCase() == "league of legends") {
-            //if(res['id'] == 21779){
-            if(res['id'] == 515147713){
+            if(res['game_id'] == 21779){
+            //if(res['id'] == 515147713){
                     console.log("ok league")
                     client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue :) Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                     //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
