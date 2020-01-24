@@ -406,7 +406,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         //api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
         //    if(!err) {
         //        if (res.stream.game.toLowerCase() == "league of legends") {
-            if(res['game_id'] == 29595){
+            if(res['game_id'] == 21779){
             //if(res['id'] == 515147713){
                     console.log("ok league")
                     client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue :) Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
