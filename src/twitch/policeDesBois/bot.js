@@ -417,6 +417,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     if (response && response.statusCode == 200) {
                         data = JSON.parse(body)
                         gameID = data.data[0]['id']
+                        console.log("ID DE LOL : " + gameID)
+                        console.log("ID DU JEU STREAM : " + res['game_id'])
                         if(res['game_id'] == gameID){
                         //if(res['id'] == 515147713){
                             console.log("ok league")
