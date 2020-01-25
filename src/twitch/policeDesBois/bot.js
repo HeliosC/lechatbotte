@@ -325,7 +325,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             //    if (!error && response.statusCode == 200) {
 
             var options = {
-                url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
+                //url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
+                url: "https://api.twitch.tv/helix/streams?user_login="+'chatdesbois',
                 method: "GET",
                 headers: {
                 "Authorization": "Bearer "+oauth
