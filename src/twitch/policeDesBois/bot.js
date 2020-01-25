@@ -392,7 +392,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         //if (!error && response.statusCode == 200) {
         //        let data = JSON.parse(body)
         var options = {
-            url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
+            // url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
+            url: "https://api.twitch.tv/helix/streams?user_login="+'chatdesbois',
             method: "GET",
             headers: {
             "Authorization": "Bearer "+oauth
@@ -406,29 +407,12 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         //api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
         //    if(!err) {
         //        if (res.stream.game.toLowerCase() == "league of legends") {
-                optionsGame = {
-                    url: "https://api.twitch.tv/helix/games?name=league of legends",
-                    method: "GET",
-                    headers: {
-                    "Authorization": "Bearer "+oauth
-                    }
+            if(res['game_id'] == 21779){
+            //if(res['id'] == 515147713){
+                    console.log("ok league")
+                    client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue :) Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                    //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                 }
-                request(optionsGame, function (error, response, body) {
-                    if (response && response.statusCode == 200) {
-                        data = JSON.parse(body)
-                        gameID = data.data[0]['id']
-                        console.log("ID DE LOL : " + gameID)
-                        console.log("ID DU JEU STREAM : " + res['game_id'])
-                        if(res['game_id'] == gameID){
-                        //if(res['id'] == 515147713){
-                            console.log("ok league")
-                            client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue :) Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
-                            //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
-                        }
-                    }else{
-                        console.log("api failed "+response.statusCode)
-                    }
-                });
             }
             else {
                 console.error("unable league")
