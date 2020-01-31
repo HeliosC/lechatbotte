@@ -21,6 +21,7 @@
     "twitch-api-v5": "^2.0.4",
     "twitch-helix": "^1.0.7",
     "twitch-webhook": "^1.2.4",
+    "twitter": "^1.7.1",
     "xmlhttprequest": "^1.8.0"
   },
   "version": "1.0.0",

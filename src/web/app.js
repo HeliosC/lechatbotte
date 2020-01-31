@@ -358,11 +358,13 @@ function getCounters() {
 function datesList() {
 	let promises = [];
 	let annee = 2019;
-	for(let mois = 12; mois > 0; mois--){
-		if(mois < 10){
-			mois = '0' + mois;
+	for(let annee = 2025;  annee > 2018; annee--){
+		for(let mois = 12; mois > 0; mois--){
+			if(mois < 10){
+				mois = '0' + mois;
+			}
+			promises.push(dateIfExists(annee, mois));
 		}
-		promises.push(dateIfExists(annee, mois));
 	}
 	return Promise.all(promises).then(values => {
 		return values.filter(d => d !== null);
