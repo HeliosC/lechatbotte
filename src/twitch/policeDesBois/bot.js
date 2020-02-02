@@ -411,8 +411,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             if(res['game_id'] == 21779){
             //if(res['id'] == 515147713){
                     console.log("ok league")
-                    client.say(channel, username + ", l'important c'est pas l'élo c'est comment on joue :) Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
-                    //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                    redis.hget("commands/description", "!elo", (err, reply) => {
+                        client.say(channel, username + ", " + reply)
+                        //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
+                    })
                 }
             }
             else {

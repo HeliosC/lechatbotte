@@ -10,10 +10,12 @@ var allBotCommands = ["!-honte", "!honte", "!stathonte", "!massacre+1", "!massac
 "!mlvl", "mlevel", "!lvlm", "!lvlmensuel", "!levelm", "!levelmensuel", "!level", "!lvl",
 "!glvl", "glevel", "!lvlg", "!lvlglobal", "!levelg", "!levelglobal",
 "!mxp", "!xpm", "!xpmensuel", "!xp",
-"!gxp", "!xpg", "!xpglobal"]
+"!gxp", "!xpg", "!xpglobal",
+"!élo", "!rank"]
 
 var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!lobby+1", "canons+1",
-"!top", "!topg", "!lvl", "!lvlg", "!xp", "!xpg"]
+"!top", "!topg", "!lvl", "!lvlg", "!xp", "!xpg",
+"!elo"]
 
  var counterCommands = ["!masacre", "!lobby", "!mort", "!canon"]
 
