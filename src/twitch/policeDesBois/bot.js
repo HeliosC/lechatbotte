@@ -408,15 +408,16 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         //api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
         //    if(!err) {
         //        if (res.stream.game.toLowerCase() == "league of legends") {
-            if(res['game_id'] == 21779){
-            //if(res['id'] == 515147713){
+                if(res['game_id'] == 21779 || 1){
+                //if(res['id'] == 515147713){
                     console.log("ok league")
                     redis.hget("commands/description", "!elo", (err, reply) => {
-                        client.say(channel, username + ", " + reply)
+                        getDataLol().then( (a) => {
+                            client.say(channel, username + ", on est " + a)
+                        })
                         //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                     })
-                }
-            }
+                //            }
             else {
                 console.error("unable league")
             }
@@ -1264,6 +1265,20 @@ function dateFullHours() {
     // console.log({year, month, day, hours, minutes})
 
         return {year, month, day, hours, minutes}
+}
+
+const getDataLol = async () => {
+    const result = await axios.get("https://www.leagueofgraphs.com/en/summoner/euw/Chat+des+bois")
+    const searchData = cheerio.load(result.data)
+    var rank
+    searchData('div.mainRankingDescriptionText').each(function(i, e){
+        var a = searchData(this);
+        let tier = a.children(".leagueTier").text().replace(/( |^) | ( |$)/gmi, '')
+        let lps =  a.children(".league-points").text().replace("LP: ", "")
+        let winslosses = a.children(".winslosses").text().replace(/( |^) | ( |$)/gmi, '').replace(/\n/gmi, '').replace("Wins: ", "").replace("Losses: ", "W/")
+        rank = tier + ' ' + lps+'LP ('+winslosses+'L)'
+    })
+    return(rank)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
