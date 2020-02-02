@@ -408,7 +408,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         //api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
         //    if(!err) {
         //        if (res.stream.game.toLowerCase() == "league of legends") {
-                if(res['game_id'] == 21779 || 1){
+                if(res != undefined && res['game_id'] == 21779 || 1){
                 //if(res['id'] == 515147713){
                     console.log("ok league")
                     redis.hget("commands/description", "!elo", (err, reply) => {
