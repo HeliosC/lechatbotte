@@ -418,6 +418,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                         //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                     })
                 }
+            }
             else {
                 console.error("unable league")
             }
