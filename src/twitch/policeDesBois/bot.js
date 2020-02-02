@@ -18,6 +18,9 @@ const commandManager = require('./command_manager.js')
 
 const {google} = require('googleapis')
 
+const axios = require("axios");
+const cheerio = require("cheerio");
+
 const googleClient = new google.auth.JWT(
     process.env.GAPI_email,
     null,
