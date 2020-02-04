@@ -416,7 +416,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     console.log("ok league")
                     redis.hget("commands/description", "!elo", (err, reply) => {
                         getDataLol().then( (a) => {
-                            client.say(channel, user['display-name'] + ", on est " + a + ", road to plat !")
+                            client.say(channel, user['display-name'] + ", on est " + a + ", road to plat ! "+ reply)
                         })
                         //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                     })
