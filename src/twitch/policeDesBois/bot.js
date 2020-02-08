@@ -832,9 +832,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if ( (res.stream != null || ontest)&&xpacitf) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
-                    redis.hget("commands", "!switch", (err, reply) => {
-                        client.say(channel, reply)
-                    })
                     intervalObject = setInterval(()=>{
                         updateXp(client, IDchatdesbois)
                     }, xptimer);
