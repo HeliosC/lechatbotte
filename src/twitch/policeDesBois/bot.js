@@ -45,7 +45,7 @@ const krao = "kraoki"
 const moderators = ["heliosdesbois", "pioudesbois", "chatdesbois", "solis_the_sun"]
 const boss = ["toxiicdust","heliosdesbois"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
-const honteurs = ["heliosdesbois", "pioudesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80"]
+const honteurs = ["heliosdesbois", "pioudesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80", "shydaxy"]
 
 //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
 
@@ -832,6 +832,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if ( (res.stream != null || ontest)&&xpacitf) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
+                    redis.hget("commands", "!switch", (err, reply) => {
+                        client.say(channel, reply)
+                    })
                     intervalObject = setInterval(()=>{
                         updateXp(client, IDchatdesbois)
                     }, xptimer);
