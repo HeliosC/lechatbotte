@@ -64,6 +64,7 @@ var chaters = {}
 var intervalObject
 var timerClip
 var timerSwitch
+var timerVideo
 // var timerTest
 // var timerTest2
 var isCached = {}
@@ -838,13 +839,20 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
                     timerClip = setInterval(()=>{
                         client.say(channel, "Hésite pas à clipper un max de moments pendant le stream ! Éternuements, rires, danses, racontages de vie, tout est bon !")
-                    }, 15*60000);
+                    }, 17*60000);
 
                     timerSwitch = setInterval(()=>{
                         redis.hget("commands", "!switch", (err, reply) => {
                             client.say(channel, reply)
                         })
-                    }, 50*60000);
+                    }, 53*60000);
+
+                    timerVideo = setInterval(()=>{
+                        redis.hget("commands", "!video", (err, reply) => {
+                            client.say(channel, reply)
+                        })
+                    }, 32*60000);
+
                     // timerTest = setInterval(()=>{
                     //     console.log("timerTest")
                     // }, 60000);
@@ -1137,6 +1145,7 @@ function updateXp(client, IDchatdesbois) {
                 clearTimeout(intervalObject)
                 clearTimeout(timerClip)
                 clearTimeout(timerSwitch)
+                clearTimeout(timerVideo)
                 // clearTimeout(timerTest)
                 // clearTimeout(timerTest2)
                 redis.set("honte/user", "null")
