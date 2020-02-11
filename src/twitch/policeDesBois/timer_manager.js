@@ -26,11 +26,6 @@ function initTimer(channel, timer, client, redis){
                                 client.say(channel, desc)
                             }, parseInt(cd)*60000)
                     })
-                }else{
-                    timeouts.push({
-                        "name": timer,
-                        "function": "inactive"
-                    })
                 }
             })
         })
