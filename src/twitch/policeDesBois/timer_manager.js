@@ -140,7 +140,7 @@ function chat(channel, user, message, isSelf, client, redis){
                         timers.forEach(element => {
                             str += element + ", "
                         });
-                        client.say(channel, "Timers : " + str.splice(0, str.length-2))
+                        client.say(channel, "Timers : " + str.slice(0, str.length-2))
                     })
                     break
                 case "info":
