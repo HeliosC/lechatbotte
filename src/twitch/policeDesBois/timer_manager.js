@@ -138,9 +138,9 @@ function chat(channel, user, message, isSelf, client, redis){
                     redis.hkeys("timers/descriptions", (err, timers) => {
                         let str = ""
                         timers.forEach(element => {
-                            str += element + " "
+                            str += element + ", "
                         });
-                        client.say(channel, "Timmers : " + str)
+                        client.say(channel, "Timers : " + str.splice(0, str.length-2))
                     })
                     break
                 case "info":
