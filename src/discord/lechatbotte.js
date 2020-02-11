@@ -76,7 +76,7 @@ function startBot(redisClient) {
 		if (member.guild.name.indexOf("chats") != -1) {
 			const h = client.emojis.find(e => e.name == "hidesbois");
 			client.channels.find(c => c.name == "cest_ta_vie").send(
-				"Bienvenu par minou " + member + " ! " + h
+				"Bienvenue par minou " + member + " ! " + h
 				+ " Prends 30 secondes pour lire l'" + client.channels.find(c => c.name == "accueil_deschats")
 				+ " et réclame tes rôles dans " + client.channels.find(c => c.name == "adhesion_rôle") + " !"
 			);

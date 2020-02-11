@@ -34,6 +34,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
+    "startdev": "nodemon -e js index.js",
     "index": "nodemon -e js,handlebars,css index.js ",
     "dev": "nodemon -e js,handlebars,css /src/app.js ",
     "devtest": "nodemon -e js,handlebars,css /testlocal/bot.js ",

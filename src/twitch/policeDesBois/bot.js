@@ -15,6 +15,7 @@ api.clientID = process.env.clientID
 const apitwitch = require('./api_twitch.js')
 
 const commandManager = require('./command_manager.js')
+const timerManager = require('./timer_manager.js')
 
 const {google} = require('googleapis')
 
@@ -61,10 +62,10 @@ const ontest = false
 const xpacitf = true
 var active = false
 var chaters = {}
-var intervalObject
-var timerClip
-var timerSwitch
-var timerVideo
+var timerUpdateXP
+// var timerClip
+// var timerSwitch
+// var timerVideo
 // var timerTest
 // var timerTest2
 var isCached = {}
@@ -125,12 +126,16 @@ function startBot(redisClient) {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
         client.whisper(hdb, "Deployed: " + heure());
 
+        // A TEJ
+        // timerManager.initTimers(hdb, client, redis)
+
+
         // client.say(cdb,'/me test')
         // request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, (error, response, body) => {
         //     if (!error && response.statusCode == 200) {
         //         let data = JSON.parse(body);
         //         followers = data.followers
-        //         intervalObject = setInterval(_=>{
+        //         timerUpdateXP = setInterval(_=>{
         //                 onFollow(client)
         //         }, 30000);
         //     }
@@ -251,6 +256,7 @@ function startBot(redisClient) {
 function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     commandManager.chat(channel, user, message, isSelf, client, redis)
+    timerManager.chat(channel, user, message, isSelf, client, redis)
 
     chatlog(user.username, message)
 
@@ -833,25 +839,27 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if ( (res.stream != null || ontest)&&xpacitf) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
-                    intervalObject = setInterval(()=>{
+                    timerUpdateXP = setInterval(()=>{
                         updateXp(client, IDchatdesbois)
                     }, xptimer);
 
-                    timerClip = setInterval(()=>{
-                        client.say(channel, "Hésite pas à clipper un max de moments pendant le stream ! Éternuements, rires, danses, racontages de vie, tout est bon !")
-                    }, 17*60000);
+                    timerManager.initTimers(channel, client, redis)
 
-                    timerSwitch = setInterval(()=>{
-                        redis.hget("commands", "!switch", (err, reply) => {
-                            client.say(channel, reply)
-                        })
-                    }, 53*60000);
+                    // timerClip = setInterval(()=>{
+                    //     client.say(channel, "Hésite pas à clipper un max de moments pendant le stream ! Éternuements, rires, danses, racontages de vie, tout est bon !")
+                    // }, 17*60000);
 
-                    timerVideo = setInterval(()=>{
-                        redis.hget("commands", "!video", (err, reply) => {
-                            client.say(channel, reply)
-                        })
-                    }, 32*60000);
+                    // timerSwitch = setInterval(()=>{
+                    //     redis.hget("commands", "!switch", (err, reply) => {
+                    //         client.say(channel, reply)
+                    //     })
+                    // }, 53*60000);
+
+                    // timerVideo = setInterval(()=>{
+                    //     redis.hget("commands", "!video", (err, reply) => {
+                    //         client.say(channel, reply)
+                    //     })
+                    // }, 32*60000);
 
                     // timerTest = setInterval(()=>{
                     //     console.log("timerTest")
@@ -1142,10 +1150,11 @@ function updateXp(client, IDchatdesbois) {
             //Live off ???
             if (res.stream == null && !ontest) {
                 active = false
-                clearTimeout(intervalObject)
-                clearTimeout(timerClip)
-                clearTimeout(timerSwitch)
-                clearTimeout(timerVideo)
+                timerManager.removeAllTimers()
+                clearTimeout(timerUpdateXP)
+                // clearTimeout(timerClip)
+                // clearTimeout(timerSwitch)
+                // clearTimeout(timerVideo)
                 // clearTimeout(timerTest)
                 // clearTimeout(timerTest2)
                 redis.set("honte/user", "null")

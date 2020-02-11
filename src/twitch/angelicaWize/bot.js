@@ -92,6 +92,9 @@ function startBot(redisClient) {
     client.on('chat', (channel, user, message, isSelf) => {
 
         chatlog(user.username, message)
+        if(isSelf){
+            return;
+        }
 
         //console.log("oui")
         //console.log(message)
@@ -101,7 +104,7 @@ function startBot(redisClient) {
             api.streams.channel({ channelID: idpoulpita }, (err, res) => {
                 if(!err) {
                     //Live on ???
-                    console.log("LIVE POULPI ?")
+                    //console.log("LIVE POULPI ?")
                     if ( (res.stream != null)) {
                         console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
                         redis.incr("poulpita/QuestionsMessages")
@@ -118,7 +121,6 @@ function startBot(redisClient) {
             redis.incr("poulpita/QuestionsMessages")
         }
         //    })
-        if(isSelf){ return; }
         //console.log(`ANGELICA chat in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
 
         let m = message.toLowerCase()
@@ -420,11 +422,11 @@ String.prototype.flat = function(){
 //console.log("------------------------------------------------------------")
 //console.log("------------------------------------------------------------")
 //console.log("------------------------------------------------------------")
-var chaine = "À côté d'un veçrre vide";
+//var chaine = "À côté d'un veçrre vide";
 //console.log( chaine.flat() );
 
 function checkLiveOff(client){
-    api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+    api.streams.channel({ channelID: idpoulpita }, (err, res) => {
         if(!err) {
             //Live off ???
             if (res.stream == null && !ontest) {

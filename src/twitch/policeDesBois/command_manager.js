@@ -46,6 +46,9 @@ const moderators = ["heliosdesbois", "pioudesbois", "chatdesbois", "solis_the_su
 
 function chat(channel, user, message, isSelf, client, redis){
 
+    if(isSelf){
+        return
+    }
     let m = message.toLowerCase();
     let username = user.username;
 
@@ -64,8 +67,10 @@ function chat(channel, user, message, isSelf, client, redis){
                             client.say(channel, "Cette commande existe déjà.")
                         }else if(args[3]!=null && args[3]!=undefined){
                             redis.hset("commands", command, args.slice(3).join(" "), (err, reply) => {
-                                client.say(channel, "Commande "+ command + " crée.")
+                                client.say(channel, "Commande "+ command + " créée.")
                             })
+                        }else{
+                            client.say(channel, "Syntaxe invalide")
                         }
                     })
                     break
@@ -78,6 +83,7 @@ function chat(channel, user, message, isSelf, client, redis){
                                 client.say(channel, "Commande "+ command + " modifiée.")
                             })
                         }else{
+                            client.say(channel, "Syntaxe invalide")
                         }
                     })
                     break
