@@ -19,12 +19,12 @@ function initTimer(channel, timer, client, redis){
                     desc = reply
                 }
                 if(parseInt(cd) != 0){
+                    let timeoutFunction = setInterval(()=>{
+                        client.say(channel, desc)
+                    }, parseInt(cd)*60000)
                     timeouts.push({
                         "name": timer,
-                        "function":
-                            setInterval(()=>{
-                                client.say(channel, desc)
-                            }, parseInt(cd)*60000)
+                        "function": timeoutFunction
                     })
                 }
             })
@@ -51,8 +51,9 @@ function removeTimer(timeout){
 
 function removeAllTimers(){
     timeouts.forEach(timeout => {
-        removeTimer(timeout)
+        clearTimeout(timeout.function)
     })
+    timeouts = []
 }
 
 
