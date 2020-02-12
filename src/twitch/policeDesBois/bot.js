@@ -946,7 +946,7 @@ function afficheMorts(client, channel, morts) {
 function afficheCanons(client, channel, canons) {
     client.say(
         channel,
-        `${canons} canons ont été ratés`
+        `${canons} canons ont été ratés ! 👌🏻 (depuis novembre 2019)`
     );
 
 }
