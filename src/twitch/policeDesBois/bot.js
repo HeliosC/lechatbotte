@@ -58,8 +58,8 @@ var mortsON = true
 var canonsON = true
 
 const xptimer = 60000
-const ontest = false
-const xpacitf = true
+const ontest = process.env.onTest
+const xpacitf = process.env.xpActif
 var active = false
 var chaters = {}
 var timerUpdateXP
@@ -1121,7 +1121,7 @@ function updateXp(client, IDchatdesbois) {
         redis.get("honte/user", function(err, honteuxID){
             redis.zincrby("honte/temps", 1, honteuxID)
         })
-    redis.get("honte/actuel", function(err, time){
+        redis.get("honte/actuel", function(err, time){
             redis.set("honte/actuel", ""+(parseInt(time)+1) )
         })
     }

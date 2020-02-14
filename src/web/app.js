@@ -27,6 +27,10 @@ app.get('/', function (req, res) {
 	// affichage(res, 'global')
 });
 
+app.get('/chart', function (req, res) {
+	res.render('chart')
+})
+
 app.get('/testmap', function (req, res) {
 	res.render('map')
 })
@@ -63,7 +67,7 @@ app.get('/:ranking/:page', function (req, res) {
 	let ranking = req.params.ranking 
 	console.log("ranking",["mensuel","global","user, testmap"].indexOf(ranking))
 	datesList().then( dates => {
-		if((["mensuel","global","user"].concat(dates)).indexOf(ranking) == -1){
+		if((["mensuel","global","user","chart"].concat(dates)).indexOf(ranking) == -1){
 			res.redirect("/")
 		}else if(ranking=='user'){
 			let username = req.params.page.toLowerCase();
