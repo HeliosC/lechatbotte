@@ -1144,6 +1144,7 @@ function checkLevelUp(client, userid, xpgain, date){
                 })
             }
 
+            console.log(score0)
             redis.zincrby('ranking/xp/' + date, xpgain, userid, function(err, reply){
                 console.log(score0 + "   " + reply)
             })
