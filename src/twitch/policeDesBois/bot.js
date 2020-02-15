@@ -58,8 +58,8 @@ var mortsON = true
 var canonsON = true
 
 const xptimer = 60000
-const ontest = process.env.onTest
-const xpactif = process.env.xpActif
+const ontest = (process.env.onTest == "true")
+const xpactif = (process.env.xpActif == "true")
 var active = false
 var chaters = {}
 var timerUpdateXP
