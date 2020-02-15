@@ -59,7 +59,7 @@ var canonsON = true
 
 const xptimer = 60000
 const ontest = process.env.onTest
-const xpacitf = process.env.xpActif
+const xpactif = process.env.xpActif
 var active = false
 var chaters = {}
 var timerUpdateXP
@@ -838,7 +838,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
             if(!err) {
                 //Live on ???
-                if ( (res.stream != null || ontest)&&xpacitf) {
+                if ( (res.stream != null || ontest)&&xpactif) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
                     timerUpdateXP = setInterval(()=>{
@@ -879,7 +879,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         })
     }
 
-    if(xpacitf && !ontest){
+    if(xpactif && !ontest){
         // if (/^!(mtop|top(m|mensuel))$/gmi.test(m)) {
         if (/^!((mtop|top(m|mensuel|))|mensuel)$/gmi.test(m)) {
                 onTop(client, '')
@@ -1119,7 +1119,7 @@ function updateXp(client, IDchatdesbois) {
 
     }
 
-    if(xpacitf){
+    if(xpactif){
         redis.get("honte/user", function(err, honteuxID){
             redis.zincrby("honte/temps", 1, honteuxID)
         })
@@ -1137,7 +1137,7 @@ function updateXp(client, IDchatdesbois) {
         }
         date = dateXp()
         xpgain = randInt(4, 5)
-        if(xpacitf && !ontest){
+        if(xpactif && !ontest){
             checkLevelUp(client, userid, xpgain, date)
         }
     //    redis.zincrby('ranking/xp/' + date, xpgain, userid)
