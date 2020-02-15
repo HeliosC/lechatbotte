@@ -1047,77 +1047,11 @@ function commandAnswer(client, userdname, userid, date, mode){
 
 function updateXp(client, IDchatdesbois) {
 
-
+    //console.log("updtXppppppppppppppp")
 
     //request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
     //    if (!error && response.statusCode == 200) {
     //        let data = JSON.parse(body)
-
-    if(false){
-        api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-            if(!err) {
-                if(res.stream != null){
-
-                    
-                    var viewers = res.stream.viewers
-                    // var [annee, mois, jour] = dateFullSplited()
-                    var date = dateFullHours()
-                    date.jour+=0
-                    // console.log(viewers)
-        
-                    redis.hset(`analytics/${cdb}/viewersEvolution`, `${date.day}/${date.month}/${date.year} ${date.hours}:${date.minutes}`, viewers)
-        
-        
-                    googleClient.authorize(function(err,tokens){
-                        if(err){
-                            console.log(err);
-                            throw err;
-                        }
-                        // return 
-                        const gsapi = google.sheets({version:'v4', auth: googleClient});
-                    
-                        var updateOpt = {
-                            spreadsheetId: process.env.SheetAnalytics,
-                            range: "Evolution!A:B",
-                            valueInputOption: 'USER_ENTERED',
-                            resource : {
-                                majorDimension: "ROWS",
-                                values: [[`${date.day}/${date.month}/${date.year} ${date.hours}:${date.minutes}`, viewers]]
-                            }
-                        };
-                        // await 
-                        gsapi.spreadsheets.values.append(updateOpt)
-                    
-                    });
-        
-        
-                    redis.hincrby(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "stream_duration", 1, function(err, stream_duration){
-                        redis.hincrby(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "total_viewers", viewers, function(err, total_viewers){
-                            redis.hget(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "max_viewers", function(err, max_viewers){
-                                if(max_viewers == undefined || max_viewers < viewers){
-                                    redis.hset(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "max_viewers", viewers)
-                                }
-                                redis.hmset(`analytics/${cdb}/${date.year}/${date.month}/${date.day}`, "followers", data.stream.channel.followers, "views", data.stream.channel.views)
-                            })
-                        })
-                    })
-                    redis.hincrby(`analytics/${cdb}/monthly/${date.year}/${date.month}`, "stream_duration", 1, function(err, stream_duration){
-                        redis.hincrby(`analytics/${cdb}/monthly/${date.year}/${date.month}`, "total_viewers", data.stream.viewers, function(err, total_viewers){
-                            redis.hget(`analytics/${cdb}/monthly/${date.year}/${date.month}`, "max_viewers", function(err, max_viewers){
-                                if(max_viewers == undefined || max_viewers < viewers){
-                                    redis.hset(`analytics/${cdb}/monthly/${date.year}/${date.month}`, "max_viewers", viewers)
-                                }
-                                redis.hmset(`analytics/${cdb}/monthly/${date.year}/${date.month}`, "followers", data.stream.channel.followers, "views", data.stream.channel.views)
-                            })
-                        })
-                    })
-
-
-                }
-            }
-        })
-
-    }
 
     if(xpactif){
         redis.get("honte/user", function(err, honteuxID){
@@ -1131,6 +1065,7 @@ function updateXp(client, IDchatdesbois) {
     console.log("chaters: "+chaters)
 
     for (var userid in chaters) {
+        console.log(userid + "   " + chaters[userid])
         chaters[userid] -= 1
         if (chaters[userid] == 0) {
             delete chaters[userid]
