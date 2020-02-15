@@ -1072,6 +1072,9 @@ function updateXp(client, IDchatdesbois) {
         }
         date = dateXp()
         xpgain = randInt(4, 5)
+        console.log("xpactif  " + (xpactif == true))
+        console.log("!ontest  " + (!ontest == true))
+        console.log("xpactif && !ontest  " + (xpactif && !ontest))
         if(xpactif && !ontest){
             console.log("before checkLevelUp"+client+" "+userid+" "+xpgain+" "+date)
             checkLevelUp(client, userid, xpgain, date)
