@@ -1073,6 +1073,7 @@ function updateXp(client, IDchatdesbois) {
         date = dateXp()
         xpgain = randInt(4, 5)
         if(xpactif && !ontest){
+            console.log("before checkLevelUp"+client+" "+userid+" "+xpgain+" "+date)
             checkLevelUp(client, userid, xpgain, date)
         }
     //    redis.zincrby('ranking/xp/' + date, xpgain, userid)
