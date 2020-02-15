@@ -125,6 +125,8 @@ function startBot(redisClient) {
     client.connect().then(_ => {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
         client.whisper(hdb, "Deployed: " + heure());
+        console.log(`xp: ${xpactif} test: ${ontest}`)
+
 
         // A TEJ
         // timerManager.initTimers(hdb, client, redis)
