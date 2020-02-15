@@ -1106,7 +1106,7 @@ function updateXp(client, IDchatdesbois) {
 
 function checkLevelUp(client, userid, xpgain, date){
 
-    // console.log("CHECK LEVEL UP "+userid)
+    console.log("CHECK LEVEL UP "+userid)
 
     redis.zscore('ranking/xp/'+ date, userid, (err, score)=>{
         var score=parseInt(score)
