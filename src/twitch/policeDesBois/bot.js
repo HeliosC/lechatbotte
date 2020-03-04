@@ -730,7 +730,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             redis.set(mortRedis, morts);
         }
 
-    }
+    })
 
 
 
