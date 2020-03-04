@@ -28,7 +28,9 @@ app.get('/', function (req, res) {
 });
 
 app.get('/link', function (req, res) {
-	res.render('link', {layout : 'void'})
+	redis.get('mortsLink').then(morts => {
+		res.render('link', {morts, layout : 'void'})
+	})
 });
 
 app.get('/chart', function (req, res) {
