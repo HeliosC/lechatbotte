@@ -27,6 +27,10 @@ app.get('/', function (req, res) {
 	// affichage(res, 'global')
 });
 
+app.get('/link', function (req, res) {
+	res.render('link', {layout : 'void'})
+});
+
 app.get('/chart', function (req, res) {
 	res.render('chart')
 })
