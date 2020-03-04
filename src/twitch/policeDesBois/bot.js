@@ -55,6 +55,7 @@ const ete = 2
 var massacresON = true
 var lobbiesON = true
 var mortsON = true
+var mortsLink = true
 var canonsON = true
 
 const xptimer = 60000
@@ -423,7 +424,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         //        if (res.stream.game.toLowerCase() == "league of legends") {
                 if(res != undefined && res['game_id'] == 21779){
                 //if(res['id'] == 515147713){
-                    console.log("ok league")
+                    // console.log("ok league")
                     redis.hget("commands/description", "!elo", (err, reply) => {
                         getDataLol().then( (a) => {
                             client.say(channel, user['display-name'] + ", on est " + a + ", road to plat ! "+ reply)
@@ -447,7 +448,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         newHonteux = m.split(" ")[1]
         if(isHonteur(username) && newHonteux != undefined){
             redis.hget("ranking/id", newHonteux, function(err, newHonteuxID){
-                console.log(newHonteuxID)
+                // console.log(newHonteuxID)
                 if(newHonteuxID != null){
                     redis.zincrby("honte/nombres", -1, newHonteuxID, function(err, dfh){
                     })
@@ -526,11 +527,11 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         // if(honteux != undefined){
             redis.hexists("ranking/id", honteux, function(err, exists){
                 if(exists){
-                    console.log(honteux)
+                    // console.log(honteux)
                     redis.hget("ranking/id", honteux, function(err, honteuxID){
-                        console.log(honteuxID)
+                        // console.log(honteuxID)
                         redis.hget("ranking/username", honteuxID, function(err, honteux){
-                            console.log(honteux)
+                            // console.log(honteux)
                             redis.zscore("honte/nombres", honteuxID, function(err, nombre){
                                 if(nombre != null){
                                     redis.zscore("honte/temps", honteuxID, function(err,  temps){
@@ -609,7 +610,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     }
 
 
-    if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) || /^!cann?ons?\+\s?1$/gmi.test(m) ) {
+    if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) || /^!cann?ons?\s?\+\s?1$/gmi.test(m) || /^!link\s?+\s?1$/gmi.test(m) ) {
 
         //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
         //    if (!error && response.statusCode == 200) {
@@ -617,9 +618,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
         api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
             if(!err) {
-                if ( (res.stream.game.toLowerCase().indexOf("tomb raider") != -1) || (res.stream.game.toLowerCase().indexOf("lara croft") != -1) ) {
+                if (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsON) { //*morts? -> incremente
                     
-                    if (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsON) { //*morts? -> incremente
+                    if ( (res.stream.game.toLowerCase().indexOf("tomb raider") != -1) || (res.stream.game.toLowerCase().indexOf("lara croft") != -1) ) {
                         mortsON = false
                         setTimeout(function () {
                             mortsON = true
@@ -630,10 +631,26 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                         });
                 
                     }
+                
+                }
+                
+                if ( (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsLinkON) || (/^!link\s?+\s?1$/gmi.test(m) && mortLinkON) ) {
+                    if ( res.stream.game.toLowerCase().indexOf("zelda") != -1) {
+                        mortsLinkON = false
+                        setTimeout(function () {
+                            mortsLinkON = true
+                        }, 15000); 
+                        
+                        redis.incr('mortsLink', function (err, reply) {
+                            afficheMortsLink(client, channel, parseInt(reply));
+                        });
+                
+                    }
 
-                }else if (res.stream.game.toLowerCase() == "fortnite") {
-
-                    if (/^!lobb?y\s?\+\s?1$/gmi.test(m) && lobbiesON) { //*lobby -> incremente
+                }else if (/^!lobb?y\s?\+\s?1$/gmi.test(m) && lobbiesON) { //*lobby -> incremente
+                
+                    if (res.stream.game.toLowerCase() == "fortnite") {
+                    
                         lobbiesON = false
                         setTimeout(function () {
                             lobbiesON = true
@@ -645,9 +662,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 
                     }
 
-                }else if (res.stream.game.toLowerCase() == "league of legends") {
+                }else if (/^!cann?ons?\+\s?1$/gmi.test(m) && canonsON) { //*canons -> incremente
+                
+                    if (res.stream.game.toLowerCase() == "league of legends") {
 
-                    if (/^!cann?ons?\+\s?1$/gmi.test(m) && canonsON) { //*canons -> incremente
                         canonsON = false
                         setTimeout(function () {
                             canonsON = true
@@ -685,21 +703,35 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
 
 
-    if (/^!morts?$/gmi.test(m)) { //*morts -> affiche le nb
-        redis.get('morts', function (err, reply) {
-            afficheMorts(client, channel, parseInt(reply));
-        });
+    api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+        game = res.stream.game
+        game = game == undefined ? "null" : game.toLowerCase()
+        if(game.includes("tomb raider") || game.includes("lara croft")){
+            mortRedis = "morts"
+            mortFunction = afficheMorts
+        }else{
+            mortRedis = "mortsLink"
+            mortFunction = afficheMortsLink
+        }
 
-    } else if (isModerateur(user.username) && /^!morts?\s?\-\s?1$/gmi.test(m)) {
-        redis.decr('morts', function (err, reply) {
-            afficheMorts(client, channel, parseInt(reply));
-        });
+        if (/^!morts?$/gmi.test(m)) { //*morts -> affiche le nb
+            redis.get(mortRedis, function (err, reply) {
+                mortFunction(client, channel, parseInt(reply));
+            });
+    
+        } else if (isModerateur(user.username) && /^!morts?\s?\-\s?1$/gmi.test(m)) {
+            redis.decr(mortRedis, function (err, reply) {
+                mortFunction(client, channel, parseInt(reply));
+            });
+        }
+        else if (isModerateur(user.username) && /^!morts? \d/gmi.test(m)) {
+            morts = parseInt(m.slice(5 + 1)) || 0;
+            mortFunction(client, channel, morts);
+            redis.set(mortRedis, morts);
+        }
+
     }
-    else if (isModerateur(user.username) && /^!morts? \d/gmi.test(m)) {
-        morts = parseInt(m.slice(5 + 1)) || 0;
-        afficheMorts(client, channel, morts);
-        redis.set('morts', morts);
-    }
+
 
 
 
@@ -945,6 +977,14 @@ function afficheMorts(client, channel, morts) {
 
 }
 
+function afficheMortsLink(client, channel, morts) {
+    client.say(
+        channel,
+        `Link est mort ${morts} fois depuis le début !`
+    );
+
+}
+
 function afficheCanons(client, channel, canons) {
     client.say(
         channel,
@@ -1062,21 +1102,16 @@ function updateXp(client, IDchatdesbois) {
         })
     }
 
-    console.log("chaters: "+chaters)
+    // console.log("chaters: "+chaters)
 
     for (var userid in chaters) {
-        console.log(userid + "   " + chaters[userid])
         chaters[userid] -= 1
         if (chaters[userid] == 0) {
             delete chaters[userid]
         }
         date = dateXp()
         xpgain = randInt(4, 5)
-        console.log("xpactif  " + (xpactif == true))
-        console.log("!ontest  " + (!ontest == true))
-        console.log("xpactif && !ontest  " + (xpactif && !ontest))
         if(xpactif && !ontest){
-            console.log("before checkLevelUp"+client+" "+userid+" "+xpgain+" "+date)
             checkLevelUp(client, userid, xpgain, date)
         }
     //    redis.zincrby('ranking/xp/' + date, xpgain, userid)
@@ -1110,7 +1145,7 @@ function updateXp(client, IDchatdesbois) {
 
 function checkLevelUp(client, userid, xpgain, date){
 
-    console.log("CHECK LEVEL UP "+userid)
+    // console.log("CHECK LEVEL UP "+userid)
 
     redis.zscore('ranking/xp/'+ date, userid, (err, score)=>{
         var score=parseInt(score)
@@ -1148,10 +1183,7 @@ function checkLevelUp(client, userid, xpgain, date){
                 })
             }
 
-            console.log(score0)
-            redis.zincrby('ranking/xp/' + date, xpgain, userid, function(err, reply){
-                console.log(score0 + "   " + reply)
-            })
+            redis.zincrby('ranking/xp/' + date, xpgain, userid)
             redis.zincrby('ranking/xp/global', xpgain, userid)
 
         })
