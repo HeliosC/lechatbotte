@@ -29,7 +29,7 @@ app.get('/', function (req, res) {
 
 app.get('/link', function (req, res) {
 	redis.get('mortsLink').then(morts => {
-		res.render('link', {morts, layout : 'void'})
+		res.render('link', {morts : '{file:salut}', layout : 'void'})
 	})
 });
 
