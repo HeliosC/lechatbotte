@@ -704,8 +704,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
 
     api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-        game = res.stream.game
-        game = game == undefined ? "null" : game.toLowerCase()
+        //game = res.stream.game
+        game = res == undefined ? "null" : res.stream.game.toLowerCase()
         if(game.includes("tomb raider") || game.includes("lara croft")){
             mortRedis = "morts"
             mortFunction = afficheMorts
