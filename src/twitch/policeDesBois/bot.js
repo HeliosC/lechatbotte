@@ -610,7 +610,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     }
 
 
-    if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) || /^!cann?ons?\s?\+\s?1$/gmi.test(m) || /^!link\s?+\s?1$/gmi.test(m) ) {
+    if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) || /^!cann?ons?\s?\+\s?1$/gmi.test(m) || /^!link\s?\+\s?1$/gmi.test(m) ) {
 
         //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
         //    if (!error && response.statusCode == 200) {
