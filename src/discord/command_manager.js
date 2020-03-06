@@ -14,7 +14,35 @@ var allBotCommands = ["!-honte", "!honte", "!stathonte", "!massacre+1", "!massac
 var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!lobby+1",
 "!top", "!topg", "!lvl", "!lvlg", "!xp", "!xpg"]
 
- var counterCommands = ["!masacre", "!lobby", "!mort"]
+// var timerRegex = ["!massacre", "!lobb?y", "!mort", "!cann?on"]
+// var timerRedis = ["massacres", "lobbies", "mortsLink", "canons"] 
+
+var timers = [
+    massacre = {
+        regex : "!massacre",
+        redis : "massacres",
+        // on : true,
+        function : afficheMassacres
+    },
+    lobby = {
+        regex : "!lobb?y",
+        redis : "lobbies",
+        // on : true,
+        function : afficheLobbies
+    },
+    mort = {
+        regex : "!mort",
+        redis : "mortsLink",
+        // on : true,
+        function : afficheMortsLink
+    },
+    cannon = {
+        regex : "!cann?on",
+        redis : "canons",
+        // on : true,
+        function : afficheCanons
+    }
+]
 
  var pasFaite = ["!fc", "!follow",
  "!lastgame?",
@@ -148,6 +176,45 @@ command_manager.prototype.onMessage = function(
         }
     })
 
+    // for (const [index, timer] of timerRedis.entries()) {
+    for (let timer of timers) {
+        
+        let strmod = timer.regex.replace('?', '')
+        var rp1 = new RegExp("^"+timer.regex+"s?\\s?\\+\\s?1$", 'gmi');
+        var r = new RegExp("^"+timer.regex+"s?$", 'gmi');
+        var rm1 = new RegExp("^"+timer.regex+"s?\\s?-\\s?1$", 'gmi');
+        var rmod = new RegExp("^"+strmod+"s? \\d$", 'gmi');
+
+        if ( (userRoles.administrator || userRoles.moderator) && rp1.test(m)) { //*massacre -> incremente
+            
+            // timer.on = false
+            // setTimeout(function () {
+            //     timer.on = true
+            // }, 15000); 
+            
+            redis.incr(timer.redis, function (err, reply) {
+                timer.function(message.channel, parseInt(reply));
+            });
+    
+        } else if (r.test(m)) { //*massacres -> affiche le nb
+            redis.get(timer.redis, function (err, reply) {
+                timer.function(message.channel, parseInt(reply));
+            });
+    
+        } else if ( (userRoles.administrator || userRoles.moderator) && rm1.test(m)) {
+            redis.decr(timer.redis, function (err, reply) {
+                timer.function(message.channel, parseInt(reply));
+            });
+        }
+        else if ( (userRoles.administrator || userRoles.moderator) && rmod.test(m)) {
+            massacres = parseInt(m.slice(strmod.length + 1)) || 0;
+            timer.function(message.channel, massacres);
+            redis.set(timer.redis, massacres);
+        }
+    
+    }
+
+
     //}
 //})
 }
@@ -179,6 +246,43 @@ function updateCommands(removedCommand){
     //console.log("slice "+removedCommand + " / "+usedCommands + " / " + usedCommands.indexOf(removedCommand))
     usedCommands.splice(usedCommands.indexOf(removedCommand),1)
     //console.log("apres slice "+removedCommand + " / "+usedCommands)
+}
+
+
+
+function afficheMassacres(channel, massacres) {
+    channel.send(
+        `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité ! 👌🏻 (depuis mars 2019)`
+    );
+
+}
+
+function afficheLobbies(channel, lobbies) {
+    channel.send(
+        `Chatdesbois est retournée ${lobbies} fois au lobby, qui peut la stopper ?`
+    );
+
+}
+
+function afficheMorts(channel, morts) {
+    channel.send(
+        `Lara Croft est morte ${morts} fois`
+    );
+
+}
+
+function afficheMortsLink(channel, morts) {
+    channel.send(
+        `Link est mort ${morts} fois depuis le début !`
+    );
+
+}
+
+function afficheCanons(channel, canons) {
+    channel.send(
+        `${canons} canons ont été ratés ! 👌🏻 (depuis novembre 2019)`
+    );
+
 }
 
 

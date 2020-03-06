@@ -62,6 +62,7 @@ const xptimer = 60000
 const ontest = (process.env.onTest == "true")
 const xpactif = (process.env.xpActif == "true")
 var active = false
+var justActived = false
 var chaters = {}
 var timerUpdateXP
 // var timerClip
@@ -862,6 +863,15 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         chaters[userid] = 10
     }
 
+    if(justActived){
+        justActived = false
+        timerUpdateXP = setInterval(()=>{
+            updateXp(client, IDchatdesbois)
+        }, xptimer);
+
+        timerManager.initTimers(channel, client, redis)
+    }
+
     if (!active) {
         //request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID,  (error, response, body) => {
         //    if (!error && response.statusCode == 200) {
@@ -873,11 +883,12 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if ( (res.stream != null || ontest)&&xpactif) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     active = true
-                    timerUpdateXP = setInterval(()=>{
-                        updateXp(client, IDchatdesbois)
-                    }, xptimer);
+                    // justActived = true
+                    // timerUpdateXP = setInterval(()=>{
+                    //     updateXp(client, IDchatdesbois)
+                    // }, xptimer);
 
-                    timerManager.initTimers(channel, client, redis)
+                    // timerManager.initTimers(channel, client, redis)
 
                     // timerClip = setInterval(()=>{
                     //     client.say(channel, "Hésite pas à clipper un max de moments pendant le stream ! Éternuements, rires, danses, racontages de vie, tout est bon !")
