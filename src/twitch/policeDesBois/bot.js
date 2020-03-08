@@ -865,6 +865,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     if(justActived){
         justActived = false
+        active = true
         timerUpdateXP = setInterval(()=>{
             updateXp(client, IDchatdesbois)
         }, xptimer);
@@ -882,8 +883,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 //Live on ???
                 if ( (res.stream != null || ontest)&&xpactif) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
-                    active = true
-                    // justActived = true
+                    // active = true
+                    justActived = true
                     // timerUpdateXP = setInterval(()=>{
                     //     updateXp(client, IDchatdesbois)
                     // }, xptimer);
