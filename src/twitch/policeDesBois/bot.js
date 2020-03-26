@@ -77,6 +77,15 @@ var idldlc = "42255745"
 
 
 
+api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+    if(!err) {
+        if(res.stream == null){
+            //redis.set("active", "false")
+            redis.set("honte/user", "null")
+        }
+    }
+})
+
 function chatlog(username, message) {
     let redisDate = dateFull()
     let redisDateInv = redisDate.substr(6,4)+redisDate.substr(2,4)+redisDate.substr(0,2)
@@ -617,11 +626,25 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         //    if (!error && response.statusCode == 200) {
         //        let data = JSON.parse(body)
 
-        api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-            if(!err) {
+        var options = {
+            // url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
+            url: "https://api.twitch.tv/helix/streams?user_login="+'chatdesbois',
+            method: "GET",
+            headers: {
+            "Authorization": "Bearer "+oauth
+            }
+        };
+        
+        request(options, function (error, response, body) {
+            if (response && response.statusCode == 200) {
+                let data = JSON.parse(body)
+                res = data.data[0]
+        // api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+            // if(!err) {
                 if (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsON) { //*morts? -> incremente
                     
-                    if ( (res.stream.game.toLowerCase().indexOf("tomb raider") != -1) || (res.stream.game.toLowerCase().indexOf("lara croft") != -1) ) {
+                    if(res != undefined && res['game_id'] == 000){
+                    // if ( (res.stream.game.toLowerCase().indexOf("tomb raider") != -1) || (res.stream.game.toLowerCase().indexOf("lara croft") != -1) ) {
                         mortsON = false
                         setTimeout(function () {
                             mortsON = true
@@ -636,7 +659,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 }
                 
                 if ( (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsLinkON) || (/^!link\s?+\s?1$/gmi.test(m) && mortLinkON) ) {
-                    if ( res.stream.game.toLowerCase().indexOf("zelda") != -1) {
+                    // if ( res.stream.game.toLowerCase().indexOf("zelda") != -1) {
+                    if(res != undefined && res['game_id'] == 110758){
                         mortsLinkON = false
                         setTimeout(function () {
                             mortsLinkON = true
@@ -650,8 +674,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
                 }else if (/^!lobb?y\s?\+\s?1$/gmi.test(m) && lobbiesON) { //*lobby -> incremente
                 
-                    if (res.stream.game.toLowerCase() == "fortnite") {
-                    
+                    // if (res.stream.game.toLowerCase() == "fortnite") {
+                
+                    if(res != undefined && res['game_id'] == 33214){
+
                         lobbiesON = false
                         setTimeout(function () {
                             lobbiesON = true
@@ -665,7 +691,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
                 }else if (/^!cann?ons?\+\s?1$/gmi.test(m) && canonsON) { //*canons -> incremente
                 
-                    if (res.stream.game.toLowerCase() == "league of legends") {
+                    if(res != undefined && res['game_id'] == 21779){
+
+                //    if (res.stream.game.toLowerCase() == "league of legends") {
 
                         canonsON = false
                         setTimeout(function () {
@@ -866,6 +894,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     if(justActived){
         justActived = false
         active = true
+        //redis.set("active", "true")
         timerUpdateXP = setInterval(()=>{
             updateXp(client, IDchatdesbois)
         }, xptimer);
@@ -881,6 +910,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
             if(!err) {
                 //Live on ???
+                if(res.stream == null){
+
+                }
                 if ( (res.stream != null || ontest)&&xpactif) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     // active = true
@@ -1138,6 +1170,7 @@ function updateXp(client, IDchatdesbois) {
             //Live off ???
             if (res.stream == null && !ontest) {
                 active = false
+                // redis.set("active", "false")
                 timerManager.removeAllTimers()
                 clearTimeout(timerUpdateXP)
                 // clearTimeout(timerClip)
