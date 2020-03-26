@@ -658,7 +658,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 
                 }
                 
-                if ( (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsLinkON) || (/^!link\s?+\s?1$/gmi.test(m) && mortLinkON) ) {
+                if ( (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsLinkON) || (/^!link\s?\+\s?1$/gmi.test(m) && mortLinkON) ) {
                     // if ( res.stream.game.toLowerCase().indexOf("zelda") != -1) {
                     if(res != undefined && res['game_id'] == 110758){
                         mortsLinkON = false
