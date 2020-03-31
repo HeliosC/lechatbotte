@@ -7,11 +7,6 @@ const request = require('request')
 var api = require('twitch-api-v5')
 api.clientID = process.env.clientID
 
-// var redis = require('redis').createClient(process.env.REDIS_URL);
-// redis.on('connect', function () {
-//     console.log('redis connected');
-// });
-
 const apitwitch = require('./api_twitch.js')
 
 const commandManager = require('./command_manager.js')
@@ -31,7 +26,6 @@ const googleClient = new google.auth.JWT(
 
 let oauth = process.env.police.split('auth:')[1]
 let clientID = process.env.clientID
-// let url = "https://api.twitch.tv/kraken/channels/chatdesbois?client_id="
 let url = "https://api.twitch.tv/kraken/channels/"
 
 const pdb = "policedesbois"
@@ -48,8 +42,6 @@ const boss = ["toxiicdust","heliosdesbois"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
 const honteurs = ["heliosdesbois", "pioudesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80", "shydaxy"]
 
-//request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
-
 const ete = 2
 
 var massacresON = true
@@ -65,11 +57,7 @@ var active = false
 var justActived = false
 var chaters = {}
 var timerUpdateXP
-// var timerClip
-// var timerSwitch
-// var timerVideo
-// var timerTest
-// var timerTest2
+
 var isCached = {}
 
 var idchatdesbois = "122699636"
@@ -80,7 +68,6 @@ var idldlc = "42255745"
 api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
     if(!err) {
         if(res.stream == null){
-            //redis.set("active", "false")
             redis.set("honte/user", "null")
         }
     }
@@ -91,7 +78,6 @@ function chatlog(username, message) {
     let redisDateInv = redisDate.substr(6,4)+redisDate.substr(2,4)+redisDate.substr(0,2)
     let chatredis = 'chat' + '/' + redisDateInv
 
-    // console.log("**************************************" + redisDate)
     redis.exists(chatredis, function (err, reply) {
         if (reply === 1) {
 
@@ -99,27 +85,12 @@ function chatlog(username, message) {
                 redis.set(chatredis, reply + "\n"
                     + heureOnly() + ' [' + username + '] : ' + message);
             });
-
         } else {
             redis.set(chatredis, "******************************** " + 'Chat du ' + redisDate + " ********************************" + "\n"
                 + heureOnly() + ' [' + username + '] : ' + message);
         }
     });
 }
-
-// followers=4709
-
-// function onFollow(client){
-//     request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, function (error, response, body) {
-//         if (!error && response.statusCode == 200) {
-//             let data = JSON.parse(body);
-//             if(followers<data.followers){
-//                 followers=data.followers
-//                 client.say(cdb,'Plus que '+(5000-parseInt(data.followers))+' followers avant les 5k ! ')
-//             }
-//         }
-//     })
-// }
 
 var redis
 
@@ -128,46 +99,16 @@ function startBot(redisClient) {
     redis = redisClient
 
     apitwitch.start()
-    //GetAllAnalytics()
-    //GetViewersAnalytics()
-
 
     let client = new tmi.client(tmiConfig);
     client.connect().then(_ => {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
         client.whisper(hdb, "Deployed: " + heure());
         console.log(`xp: ${xpactif} test: ${ontest}`)
-
-
-        // A TEJ
-        // timerManager.initTimers(hdb, client, redis)
-
-
-        // client.say(cdb,'/me test')
-        // request('https://api.twitch.tv/kraken/channels/' + cdb + '?client_id=' + process.env.clientID, (error, response, body) => {
-        //     if (!error && response.statusCode == 200) {
-        //         let data = JSON.parse(body);
-        //         followers = data.followers
-        //         timerUpdateXP = setInterval(_=>{
-        //                 onFollow(client)
-        //         }, 30000);
-        //     }
-        // })
-
     }).catch(console.error);
 
-
-
-
-
     client.on("whisper", function (from, userstate, message, self) {
-
-
-        
         if (self) return;
-        
-        
-        
         
         var m = message.toLowerCase()
         console.log(m)
@@ -180,8 +121,6 @@ function startBot(redisClient) {
         }
         if(m.startsWith("updatestats")){
             console.log("updating stats")
-            //GetAllAnalytics()
-            //GetViewersAnalytics()
         }
 
         if (m.startsWith("chat") && userstate['display-name'].toLowerCase() == hdb) {
@@ -219,52 +158,11 @@ function startBot(redisClient) {
     });
 
     client.on('chat', (channel, user, message, isSelf) => {
-
-        // if(isSelf){
-        //     console.log("self")
-        //     return
-        // }
-
-
-
-        // if (channel.indexOf(ldlc) != -1) {
-        //     request('https://api.twitch.tv/kraken/channels/' + IDldlc + '?client_id=' + process.env.clientID, function (error, response, body) {
-        //         if (!error && response.statusCode == 200) {
-        //             let data = JSON.parse(body);
-        //             if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
-        //                 channelCdb(client, channel, user, message, isSelf, idldlc);
-        //             }
-        //         } else {
-        //             console.error("unable ");
-        //         }
-        //     })
-        // } else {
-            channelCdb(client, channel, user, message, isSelf, idchatdesbois);
-        // }
-//         else if (channel.indexOf(cdg) != -1) {
-
-
-//             request('https://api.twitch.tv/kraken/channels/' + cdg + '?client_id=' + process.env.clientID, function (error, response, body) {
-//                 if (!error && response.statusCode == 200) {
-//                     let data = JSON.parse(body);
-//                     if (data.status.toLowerCase().indexOf(cdb) != -1 || data.status.toLowerCase().indexOf(cdb2) != -1) {
-//                         channelCdb(client, channel, user, message, isSelf);
-//                     }else{
-//                     }
-//                 } else {
-//                     console.error("unable ");
-//                 }
-//             })
-//         } else {
-//             channelCdb(client, channel, user, message, isSelf);
-//         }
-//     });
+        channelCdb(client, channel, user, message, isSelf, idchatdesbois);
     })
 }
 
 /////////* Specific to chatDesBois's channel *//////////////////////////////////
-
-//if (channel.indexOf(cdb) != -1 || channel.indexOf(ldlc)!=-1) { //return }
 
 function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
@@ -285,7 +183,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         client.ban(channel, username)
     }
 
-    //if (username.toLowerCase() != hdb && !isBoss(username)) {
     if (!isBoss(username)) {
 
         var answer = ""
@@ -345,9 +242,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 || /can\s?i\s?pl..\s?wh?i..\s?(you|u)/gmi.test(m)
             )
         ) {
-            //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
-            //    if (!error && response.statusCode == 200) {
-
             var options = {
                 //url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
                 url: "https://api.twitch.tv/helix/streams?user_login="+'chatdesbois',
@@ -361,13 +255,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if (response && response.statusCode == 200) {
                     let data = JSON.parse(body)
                     res = data.data[0]
-            //api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-            //    if(!err) {
-                    //console.log(data.game)
-                    //if (res.stream.game.toLowerCase() == "fortnite") {
                     if (res['game_id'] == 33214) {
-                            //console.log("bite2")
-                        // client.say(channel,"Pas de games viewers sur Fortnite ! Mais sur d'autres jeux ça sera avec plaisir !")
                         if (/can\s?i\s?pl..\s?wi..\s?(you|u)/gmi.test(m)) {
                             answer += vide(answer) + "chatdesbois doesn't play with the viouveurs !"
                         } else {
@@ -397,10 +285,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     //J'dirais pas qu'il ait de bonnes ou de mauvaises situations... Mais j'pense quand même que mes games de placement le sont : >> https://www.youtube.com/watch?v=km6DxSc_d1s&t=1s <<
     if (
-        //!isModerateur(username) && 
-        //(username!="nightbot") &&
-        //false &&
-    //(
         (!isBoss(username) && (
             /((c'?est|cé?|ces)|(t|tes|t'est?|tu est?|t'? ?étais?|t'? ?été)) (k|qu)ell?e? (elo|élo|rank)/gmi.test(m)  //ELO ?   |$
         || /(c'?est|cé?|ces) (qu|k)oi (le |l'? ?)(elo|élo|rank)/gmi.test(m)
@@ -408,16 +292,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         || /(k|qu)ell?e? (elo|élo|rank) ?\?/gmi.test(m)
         ))
         || /^!(elo|élo|rank) ?$/gmi.test(m)
-    //)
     ) {
-
-        //client.whisper(hdb, m)
-        
-        //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
-        //if (!error && response.statusCode == 200) {
-        //        let data = JSON.parse(body)
         var options = {
-            // url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
             url: "https://api.twitch.tv/helix/streams?user_login="+'chatdesbois',
             method: "GET",
             headers: {
@@ -429,17 +305,11 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             if (response && response.statusCode == 200) {
                 let data = JSON.parse(body)
                 res = data.data[0]
-        //api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-        //    if(!err) {
-        //        if (res.stream.game.toLowerCase() == "league of legends") {
                 if(res != undefined && res['game_id'] == 21779){
-                //if(res['id'] == 515147713){
-                    // console.log("ok league")
                     redis.hget("commands/description", "!elo", (err, reply) => {
                         getDataLol().then( (a) => {
                             client.say(channel, user['display-name'] + ", on est " + a + ", road to plat ! "+ reply)
                         })
-                        //client.say(channel, "L'important c'est pas l'élo c'est comment on joue! Je joue depuis la S1 et j'ai pas encore try hard les rankeds donc pas d'elo! Ça va de l'iron aux dieux vivants!")
                     })
                 }
             }
@@ -447,13 +317,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 console.error("unable league")
             }
         })
-    }else{
-        //console.log("nope")
     }
-
-
-
-
     if ( m.startsWith("!-honte") ){
         newHonteux = m.split(" ")[1]
         if(isHonteur(username) && newHonteux != undefined){
@@ -470,11 +334,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     if ( m.startsWith("!honte") ){
         newHonteux = m.split(" ")[1]
         if(newHonteux != undefined && isHonteur(username)){
-            // request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
-            //     if (!error && response.statusCode == 200) {
-            //         let data = JSON.parse(body)
-            //         let viewers = Object.values(data.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
-
                     redis.get("honte/user", function(err, honteuxID){
                         if(!err && honteuxID != null){
                             redis.get("honte/actuel", function(err, time){
@@ -483,19 +342,11 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                                         if(newHonteuxID != null){
                                             redis.hget("ranking/username", newHonteuxID, function(err, newHonteux){
                                                 if(honteuxID != "null"){
-                                                    // if (viewers.indexOf(newHonteux.toLowerCase()) != -1){
                                                     client.say(channel, 
-                                                    // "Après " + time + " minute" + (parseInt(time)>1? "s " : " ") + 
                                                     honteux + " passe le bâton de la honte à " + newHonteux)
-                                                    // }else{
-                                                        //     client.say(channel, "Le bâton de la honte est fièrement porté par " + honteux
-                                                        //     + " depuis " + time + " minute" + (parseInt(time)>1? "s " : " ") 
-                                                        //     )
-                                                        // }
                                                 }else{
                                                     client.say(channel, newHonteux + " récupère le bâton de la honte")
                                                 }
-
                                             redis.set("honte/user", newHonteuxID)
                                             redis.zincrby("honte/nombres", 1, newHonteuxID)
                                             redis.set("honte/actuel", "0")
@@ -506,10 +357,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                             })
                         }
                     })
-                // } else {
-                //     console.error("unable ")
-                // }
-            // })
         }else{
             redis.get("honte/actuel", function(err, time){
                 redis.get("honte/user", function(err,honteuxID){
@@ -534,62 +381,26 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         if(honteux == undefined){
             honteux = username
         }
-        // if(honteux != undefined){
-            redis.hexists("ranking/id", honteux, function(err, exists){
-                if(exists){
-                    // console.log(honteux)
-                    redis.hget("ranking/id", honteux, function(err, honteuxID){
-                        // console.log(honteuxID)
-                        redis.hget("ranking/username", honteuxID, function(err, honteux){
-                            // console.log(honteux)
-                            redis.zscore("honte/nombres", honteuxID, function(err, nombre){
-                                if(nombre != null){
-                                    redis.zscore("honte/temps", honteuxID, function(err,  temps){
-                                        // redis.zscore("honte/nombres", honteuxID, function(err,  nombre){
-                                            client.say(channel, honteux + " : " + nombre + " bâton" + (parseInt(nombre)>1? "s" : "") + " / "
-                                             + (temps==undefined? 0 : temps) + " minute" + (parseInt(temps)>1? "s" : "") + " de honte à son actif" )
-                                        // })
-                                    })
-                                }else{
-                                    client.say(channel, honteux + " n'a pas encore connu la honte")
-                                }
-                            })
+        redis.hexists("ranking/id", honteux, function(err, exists){
+            if(exists){
+                redis.hget("ranking/id", honteux, function(err, honteuxID){
+                    redis.hget("ranking/username", honteuxID, function(err, honteux){
+                        redis.zscore("honte/nombres", honteuxID, function(err, nombre){
+                            if(nombre != null){
+                                redis.zscore("honte/temps", honteuxID, function(err,  temps){
+                                        client.say(channel, honteux + " : " + nombre + " bâton" + (parseInt(nombre)>1? "s" : "") + " / "
+                                            + (temps==undefined? 0 : temps) + " minute" + (parseInt(temps)>1? "s" : "") + " de honte à son actif" )
+                                })
+                            }else{
+                                client.say(channel, honteux + " n'a pas encore connu la honte")
+                            }
                         })
                     })
-                }else{
-                    client.say(channel, honteux + " est inconnu au bataillon de la honte")
-                }
-            })
-
-            // redis.hexists("honte/nombres", honteux, function(err, exists){
-            //     if(exists){
-            //         redis.hget("ranking/id", honteux, function(err, honteuxID){
-            //             redis.hget("ranking/username", honteuxID, function(err,  honteux){
-            //                 redis.hget("honte/temps", honteuxID, function(err,  temps){
-            //                     redis.hget("honte/nombres", honteuxID, function(err,  nombre){
-            //                         client.say(channel, honteux + " : " + nombre + " bâton" + (parseInt(nombre)>1? "s" : "") + " / "
-            //                          + temps + " minute" + (parseInt(temps)>1? "s" : "") + " de honte à son actif" )
-            //                     })
-            //                 })
-            //             })  
-            //         })
-
-            //     }else{
-            //         redis.hexists("ranking/id", honteux, function(err, exists){
-            //             if(exists){
-            //                 redis.hget("ranking/id", honteux, function(err, honteuxID){
-            //                     redis.hget("ranking/username", honteuxID, function(err, honteux){
-            //                         client.say(channel, honteux + " n'a pas encore connu la honte")
-            //                     })
-            //                 })
-            //             }else{
-            //                 client.say(channel, honteux + " est inconnu au bataillon de la honte")
-            //             }
-            //         })
-            //     }
-            // })
-
-        // }
+                })
+            }else{
+                client.say(channel, honteux + " est inconnu au bataillon de la honte")
+            }
+        })
     }
 
 
@@ -622,12 +433,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     if (/^!morts?\s?\+\s?1$/gmi.test(m) || /^!lobb?y\s?\+\s?1$/gmi.test(m) || /^!cann?ons?\s?\+\s?1$/gmi.test(m) || /^!link\s?\+\s?1$/gmi.test(m) ) {
 
-        //request(url + IDchatdesbois + "?client_id=" + clientID, function (error, response, body) {
-        //    if (!error && response.statusCode == 200) {
-        //        let data = JSON.parse(body)
-
         var options = {
-            // url: "https://api.twitch.tv/helix/streams?id="+IDchatdesbois,
             url: "https://api.twitch.tv/helix/streams?user_login="+'chatdesbois',
             method: "GET",
             headers: {
@@ -639,12 +445,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             if (response && response.statusCode == 200) {
                 let data = JSON.parse(body)
                 res = data.data[0]
-        // api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-            // if(!err) {
                 if (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsON) { //*morts? -> incremente
                     
                     if(res != undefined && res['game_id'] == 000){
-                    // if ( (res.stream.game.toLowerCase().indexOf("tomb raider") != -1) || (res.stream.game.toLowerCase().indexOf("lara croft") != -1) ) {
                         mortsON = false
                         setTimeout(function () {
                             mortsON = true
@@ -659,7 +462,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 }
                 
                 if ( (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsLinkON) || (/^!link\s?\+\s?1$/gmi.test(m) && mortLinkON) ) {
-                    // if ( res.stream.game.toLowerCase().indexOf("zelda") != -1) {
                     if(res != undefined && res['game_id'] == 110758){
                         mortsLinkON = false
                         setTimeout(function () {
@@ -673,9 +475,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     }
 
                 }else if (/^!lobb?y\s?\+\s?1$/gmi.test(m) && lobbiesON) { //*lobby -> incremente
-                
-                    // if (res.stream.game.toLowerCase() == "fortnite") {
-                
+                                
                     if(res != undefined && res['game_id'] == 33214){
 
                         lobbiesON = false
@@ -690,11 +490,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     }
 
                 }else if (/^!cann?ons?\+\s?1$/gmi.test(m) && canonsON) { //*canons -> incremente
-                
                     if(res != undefined && res['game_id'] == 21779){
-
-                //    if (res.stream.game.toLowerCase() == "league of legends") {
-
                         canonsON = false
                         setTimeout(function () {
                             canonsON = true
@@ -703,25 +499,20 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                         redis.incr('canons', function (err, reply) {
                             afficheCanons(client, channel, parseInt(reply));
                         });
-                
                     }
-
                 }
             }
         })
-
     }
 
     if (/^!lobb?y$/gmi.test(m)) { //*lobby -> affiche le nb
         redis.get('lobbies', function (err, reply) {
             afficheLobbies(client, channel, parseInt(reply));
         });
-
     } else if (isModerateur(user.username) && /^!lobb?y\s?\-\s?1$/gmi.test(m)) {
         redis.decr('lobbies', function (err, reply) {
             afficheLobbies(client, channel, parseInt(reply));
         });
-
     } else if (isModerateur(user.username) && /^!lobb?y \d/gmi.test(m)) {
         lobbies = parseInt(m.slice(7 + 1)) || 0;
         afficheLobbies(client, channel, lobbies);
@@ -730,10 +521,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         client.say(channel, "https://clips.twitch.tv/GracefulDistinctTitanLitFam")
     }
 
-
-
     api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-        //game = res.stream.game
         game = res == undefined ? "null" : res.stream.game.toLowerCase()
         if(game.includes("tomb raider") || game.includes("lara croft")){
             mortRedis = "morts"
@@ -742,7 +530,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             mortRedis = "mortsLink"
             mortFunction = afficheMortsLink
         }
-
         if (/^!morts?$/gmi.test(m)) { //*morts -> affiche le nb
             redis.get(mortRedis, function (err, reply) {
                 mortFunction(client, channel, parseInt(reply));
@@ -761,14 +548,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     })
 
-
-
-
     if (/^!cann?ons?$/gmi.test(m)) { //*canons -> affiche le nb
         redis.get('canons', function (err, reply) {
             afficheCanons(client, channel, parseInt(reply));
         });
-
     } else if (isModerateur(user.username) && /^!cann?ons?\s?\-\s?1$/gmi.test(m)) {
         redis.decr('canons', function (err, reply) {
             afficheCanons(client, channel, parseInt(reply));
@@ -782,17 +565,11 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     
     if (m.startsWith("arretez")) {
-        //console.log(channel)
-        //request('https://tmi.twitch.tv/group/user/' + channel.slice(1) + '/chatters', function (error, response, body) {
-        //    if (!error && response.statusCode == 200) {
-        //        let data = JSON.parse(body)
-
         api.other.chatters({channelName: channel.slice(1)}, (err, res) => {
             if(!err){
                 let viewers = Object.values(res.chatters).reduce((accumulator, array) => accumulator.concat(array), [])
                 let words = message.split(" ")
                 if (words.length > 1) {
-                    // let word = words[1]
                     let word = m.substr(m.indexOf(" ") + 1);
                     if (isModerateur(username) || (word.toLowerCase() != "policedesbois" && word.toLowerCase() != "heliosdesbois" && viewers.indexOf(word.toLowerCase()) != -1)) {
                         client.say(channel, word + ", vous êtes en état d'arrestation !");
@@ -851,11 +628,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 //////////////////////////////XP SYSTEM///////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-    // console.log(username, userid)
     if(userid!=undefined && username!=cdb && username!='nightbot'){
         if(isCached[userid]!=true){
             isCached[userid]=true
-            //ALLO TWITCH
             var options = {
                 url: "https://api.twitch.tv/helix/users?id="+userid,
                 method: "GET",
@@ -876,17 +651,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     console.log("api failed "+response.statusCode)
                 }
             });
-
-            /*
-            api.users.userByID({ userID: userid }, (err, res) => {
-                if(!err) {
-                    redis.hset('ranking/logo', userid, res.logo)
-                    redis.hset('ranking/username',userid, user['display-name'])
-                    redis.hset('ranking/color', userid, user.color)
-                    redis.hset('ranking/id', username, userid)
-                }
-            })
-            */
         }
         chaters[userid] = 10
     }
@@ -894,7 +658,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     if(justActived){
         justActived = false
         active = true
-        //redis.set("active", "true")
         timerUpdateXP = setInterval(()=>{
             updateXp(client, IDchatdesbois)
         }, xptimer);
@@ -903,51 +666,12 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     }
 
     if (!active) {
-        //request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID,  (error, response, body) => {
-        //    if (!error && response.statusCode == 200) {
-        //        let data = JSON.parse(body)
-
         api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
             if(!err) {
                 //Live on ???
-                if(res.stream == null){
-
-                }
                 if ( (res.stream != null || ontest)&&xpactif) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
-                    // active = true
                     justActived = true
-                    // timerUpdateXP = setInterval(()=>{
-                    //     updateXp(client, IDchatdesbois)
-                    // }, xptimer);
-
-                    // timerManager.initTimers(channel, client, redis)
-
-                    // timerClip = setInterval(()=>{
-                    //     client.say(channel, "Hésite pas à clipper un max de moments pendant le stream ! Éternuements, rires, danses, racontages de vie, tout est bon !")
-                    // }, 17*60000);
-
-                    // timerSwitch = setInterval(()=>{
-                    //     redis.hget("commands", "!switch", (err, reply) => {
-                    //         client.say(channel, reply)
-                    //     })
-                    // }, 53*60000);
-
-                    // timerVideo = setInterval(()=>{
-                    //     redis.hget("commands", "!video", (err, reply) => {
-                    //         client.say(channel, reply)
-                    //     })
-                    // }, 32*60000);
-
-                    // timerTest = setInterval(()=>{
-                    //     console.log("timerTest")
-                    // }, 60000);
-
-                    // timerTest2 = setInterval(()=>{
-                    //     console.log("timerTest2")
-                    // }, 2*60000);
-
-                } else {
                 }
             } else {
                 console.error("unable ")
@@ -956,11 +680,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     }
 
     if(xpactif && !ontest){
-        // if (/^!(mtop|top(m|mensuel))$/gmi.test(m)) {
         if (/^!((mtop|top(m|mensuel|))|mensuel)$/gmi.test(m)) {
                 onTop(client, '')
         }
-
         if (/^!((gtop|top(g|global))|global)$/gmi.test(m)) {
             onTop(client, 'global')
         }
@@ -978,12 +700,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             onCommand(client, m, user, 'global', 'xp')
         }
     }
-
-}//fin if channel cdb
-
-
-
-
+}
 
 function isModerateur(username) {
     return moderators.indexOf(username.toLowerCase()) != -1;
@@ -1002,7 +719,6 @@ function afficheMassacres(client, channel, massacres) {
         channel,
         `Chatdesbois a massacré ${massacres} pseudo${massacres > 1 ? "s" : ""} en toute impunité ! 👌🏻 (depuis mars 2019)`
     );
-
 }
 
 function afficheLobbies(client, channel, lobbies) {
@@ -1010,7 +726,6 @@ function afficheLobbies(client, channel, lobbies) {
         channel,
         `Chatdesbois est retournée ${lobbies} fois au lobby, qui peut la stopper ?`
     );
-
 }
 
 function afficheMorts(client, channel, morts) {
@@ -1018,7 +733,6 @@ function afficheMorts(client, channel, morts) {
         channel,
         `Lara Croft est morte ${morts} fois`
     );
-
 }
 
 function afficheMortsLink(client, channel, morts) {
@@ -1026,7 +740,6 @@ function afficheMortsLink(client, channel, morts) {
         channel,
         `Link est mort ${morts} fois depuis le début !`
     );
-
 }
 
 function afficheCanons(client, channel, canons) {
@@ -1034,9 +747,7 @@ function afficheCanons(client, channel, canons) {
         channel,
         `${canons} canons ont été ratés ! 👌🏻 (depuis novembre 2019)`
     );
-
 }
-
 
 function heure() {
     let date = new Date();
@@ -1076,9 +787,6 @@ function dateFull() {
     return jour + '/' + month + '/' + date.getFullYear()
 }
 
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////XP FUNCTIONS/////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -1102,10 +810,6 @@ function onCommand(client, m, user, date, mode){
 function onTop(client, top){
     classement = top != ''? 'GLOBAL' : 'MENSUEL'
     client.say(cdb, 'Qui est devant toi dans le classement '+classement+'? Des genoux à casser ? La réponse ici ! ➡️ http://top.chatdesbois.stream/'+top)
-    //Qui est devant toi dans le classement ' + classement + '? Des genoux à casser ? La réponse ici : >>> '
-    // +'chatdesbois.herokuapp.com/'+top
-    //+'http://top.chatdesbois.stream/'+top
-    //+' <<<')
 }
 
 function commandAnswer(client, userdname, userid, date, mode){
@@ -1131,12 +835,6 @@ function commandAnswer(client, userdname, userid, date, mode){
 
 function updateXp(client, IDchatdesbois) {
 
-    //console.log("updtXppppppppppppppp")
-
-    //request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
-    //    if (!error && response.statusCode == 200) {
-    //        let data = JSON.parse(body)
-
     if(xpactif){
         redis.get("honte/user", function(err, honteuxID){
             redis.zincrby("honte/temps", 1, honteuxID)
@@ -1145,8 +843,6 @@ function updateXp(client, IDchatdesbois) {
             redis.set("honte/actuel", ""+(parseInt(time)+1) )
         })
     }
-
-    // console.log("chaters: "+chaters)
 
     for (var userid in chaters) {
         chaters[userid] -= 1
@@ -1158,29 +854,17 @@ function updateXp(client, IDchatdesbois) {
         if(xpactif && !ontest){
             checkLevelUp(client, userid, xpgain, date)
         }
-    //    redis.zincrby('ranking/xp/' + date, xpgain, userid)
-    //    redis.zincrby('ranking/xp/global', xpgain, userid)
     }
-    //request('https://api.twitch.tv/kraken/streams/' + IDchatdesbois + '?client_id=' + clientID, function (error, response, body) {
-    //    if (!error && response.statusCode == 200) {
-    //        let data = JSON.parse(body)
 
     api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
         if(!err) {
             //Live off ???
             if (res.stream == null && !ontest) {
                 active = false
-                // redis.set("active", "false")
                 timerManager.removeAllTimers()
                 clearTimeout(timerUpdateXP)
-                // clearTimeout(timerClip)
-                // clearTimeout(timerSwitch)
-                // clearTimeout(timerVideo)
-                // clearTimeout(timerTest)
-                // clearTimeout(timerTest2)
                 redis.set("honte/user", "null")
-                    console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-            } else {
+                console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
             }
         } else {
             console.error("unable ")
@@ -1189,8 +873,6 @@ function updateXp(client, IDchatdesbois) {
 }
 
 function checkLevelUp(client, userid, xpgain, date){
-
-    // console.log("CHECK LEVEL UP "+userid)
 
     redis.zscore('ranking/xp/'+ date, userid, (err, score)=>{
         var score=parseInt(score)
@@ -1203,38 +885,26 @@ function checkLevelUp(client, userid, xpgain, date){
             var upm = (score + xpgain >= xp(lvl + 1))
             var upg = (score0 + xpgain >= xp(lvl0 + 1))
 
-            // console.log("score: "+score+" level: "+lvl+" xpgain: "+xpgain+" xp next level: "+xp(lvl + 1)+" booleen: "+upm)
-            // console.log("score0: "+score0+" level0: "+lvl0+" xpgain: "+xpgain+" xp next level0: "+xp(lvl0 + 1)+" booleen: "+upg)
-
             if(upg){
                 redis.hget('ranking/username', userid, (err, username)=>{
-                    //client.say(cdb, '/me '+username + " passe level "+(lvl0+1)+" !" )
-                    //if(!upm){
                     if(lvl0 == 0 || (lvl0>0 && (lvl0+1)%2 == 1) || lvl0>8 ){
                         client.whisper(username.toLowerCase(), "Level global up chez Chatdesbois ! -> Lvl "+(lvl0+1) )
                     }
-                    //}
-                    //client.say(cdb, username + " passe level "+(lvl0+1)+" ! (global)" )
                     chatlog("policedesbois", '/me '+username + " passe level "+(lvl0+1)+" ! (global)" )
                 })
             }
             if(upm){
                 redis.hget('ranking/username', userid, (err, username)=>{
-                    // client.whisper(username, "Level mensuel up chez Chatdesbois ! -> Lvl "+(lvl+1) )
                     if( (lvl+1)%5 == 0){
                         client.say(cdb, '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
                         chatlog("policedesbois", '/me '+username + " passe level "+(lvl+1)+" ! (mensuel)" ) 
                     }
                 })
             }
-
             redis.zincrby('ranking/xp/' + date, xpgain, userid)
             redis.zincrby('ranking/xp/global', xpgain, userid)
-
         })
-
     })
-
 }
 
 //XP avant de up
@@ -1285,8 +955,7 @@ function dateFullSplited() {
     if (month < 10) {
         month = "0" + month;
     }
-
-        return [date.getFullYear(), month, jour]
+    return [date.getFullYear(), month, jour]
 }
 
 function dateFullHours() {
@@ -1297,7 +966,6 @@ function dateFullHours() {
     let hours = date.getHours();
     let minutes = date.getMinutes();
     
-
     if (minutes < 10) {
         minutes = "0" + minutes;
     }
@@ -1310,10 +978,7 @@ function dateFullHours() {
     if (month < 10) {
         month = "0" + month;
     }
-
-    // console.log({year, month, day, hours, minutes})
-
-        return {year, month, day, hours, minutes}
+    return {year, month, day, hours, minutes}
 }
 
 const getDataLol = async () => {
@@ -1335,96 +1000,75 @@ const getDataLol = async () => {
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 function GetAllAnalytics(){
-    // return new Promise( (resolve, reject) => {
     promises = []
 
-        // data = []
-        for(var annee = 2019; annee <2020; annee++){
-            for(var mois = 7; mois <8; mois++){
-                if(mois<10){
-                    mois = '0' + mois
+    for(var annee = 2019; annee <2020; annee++){
+        for(var mois = 7; mois <8; mois++){
+            if(mois<10){
+                mois = '0' + mois
+            }
+            for(var jour = 1; jour <32; jour++){
+                if(jour<10){
+                    jour = '0' + jour
                 }
-                for(var jour = 1; jour <32; jour++){
-                    if(jour<10){
-                        jour = '0' + jour
-                    }
-
-                    promises.push(getAnalytics(annee, mois, jour))
-
-                }
+                promises.push(getAnalytics(annee, mois, jour))
             }
         }
-        // console.log("pro", promises)
-        Promise.all(promises).then( res => {
+    }
+    Promise.all(promises).then( res => {
 
-            var res2 = []
-            res2.push(["Date", "Stream duration", "Total", "Max", "Followers", "Views", 'Moyenne'])
+        var res2 = []
+        res2.push(["Date", "Stream duration", "Total", "Max", "Followers", "Views", 'Moyenne'])
 
-
-            res.forEach( a => {
-                if(a != ""){
-                    a.push(Math.round(a[2]/a[1]))
-                    let b = a[1]%60
-                    if( b < 10){
-                        b = '0' + b
-                    }
-                    a[1] = Math.trunc(a[1]/60) + ":" + b
-                    res2.push(a)
+        res.forEach( a => {
+            if(a != ""){
+                a.push(Math.round(a[2]/a[1]))
+                let b = a[1]%60
+                if( b < 10){
+                    b = '0' + b
                 }
-            })
-
-            // console.log("data", res2)
-            
-            googleClient.authorize(function(err,tokens){
-                if(err){
-                    console.log(err);
-                    throw err;
-                }
-                // return 
-                const gsapi = google.sheets({version:'v4', auth: googleClient});
-            
-                var updateOpt = {
-                    spreadsheetId: process.env.SheetAnalytics,
-                    range: "Analytics!A:G",
-                    valueInputOption: 'USER_ENTERED',
-                    resource : {
-                        majorDimension: "ROWS",
-                        values: res2
-                    }
-                };
-                // await 
-                gsapi.spreadsheets.values.update(updateOpt)
-            
-            });
-        
+                a[1] = Math.trunc(a[1]/60) + ":" + b
+                res2.push(a)
+            }
         })
-        // console.log("allo?")
-    // })
-
+        
+        googleClient.authorize(function(err,tokens){
+            if(err){
+                console.log(err);
+                throw err;
+            }
+            const gsapi = google.sheets({version:'v4', auth: googleClient});
+        
+            var updateOpt = {
+                spreadsheetId: process.env.SheetAnalytics,
+                range: "Analytics!A:G",
+                valueInputOption: 'USER_ENTERED',
+                resource : {
+                    majorDimension: "ROWS",
+                    values: res2
+                }
+            };
+            gsapi.spreadsheets.values.update(updateOpt)
+        });
+    })
 }
 
 function getAnalytics(annee, mois, jour){
     return new Promise( (resolve, reject) => {
-
-    redis.exists(`analytics/${cdb}/${annee}/${mois}/${jour}`, function(err, exists){
-        // console.log(`analytics/${cdb}/${annee}/${mois}/${jour}`)
-        if(exists){
-            redis.hvals(`analytics/${cdb}/${annee}/${mois}/${jour}`, function(err, reply){
-                // data.push(reply)
-                // return reply
-                if(!err){
-                    resolve([`${jour}/${mois}/${annee}`].concat(reply))
-                }else{
-                    reject("apiclips failed")
-                }
-    
-            })
-        }
-        else{
-            resolve("")
-        }
-    })
-
+        redis.exists(`analytics/${cdb}/${annee}/${mois}/${jour}`, function(err, exists){
+            if(exists){
+                redis.hvals(`analytics/${cdb}/${annee}/${mois}/${jour}`, function(err, reply){
+                    if(!err){
+                        resolve([`${jour}/${mois}/${annee}`].concat(reply))
+                    }else{
+                        reject("apiclips failed")
+                    }
+                })
+            }
+            else{
+                resolve("")
+            }
+        })
     })
 }
 
@@ -1434,11 +1078,7 @@ function GetViewersAnalytics(){
     data.push(["date", "viewers"])
 
     redis.hgetall(`analytics/${cdb}/viewersEvolution`, function(err, res){
-        // console.log("res", res)
         if(!err && res != null){
-            // for(i=0; i<res.length; i+=2){
-            //     data.push([res[i], res[i+1]])
-            // }
 
             for (let [key, value] of Object.entries(res)) {
                 data.push([key, value]);
@@ -1449,7 +1089,6 @@ function GetViewersAnalytics(){
                     console.log(err);
                     throw err;
                 }
-                // return 
                 const gsapi = google.sheets({version:'v4', auth: googleClient});
         
                 var updateOpt = {
@@ -1461,13 +1100,9 @@ function GetViewersAnalytics(){
                         values: data
                     }
                 };
-                // await 
                 gsapi.spreadsheets.values.update(updateOpt)
-        
             });
-
         }
-
     })
 }
 

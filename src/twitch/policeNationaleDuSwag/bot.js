@@ -13,8 +13,6 @@ const hdb = "heliosdesbois"
 const krao = "kraoki"
 const ete = 2
 
-// idkraoki = "49041281"
-
 function chatlog(username, message) {
     let redisDate = dateFull()
     let redisDateInv = redisDate.substr(6,4)+redisDate.substr(2,4)+redisDate.substr(0,2)
@@ -35,20 +33,11 @@ function chatlog(username, message) {
     });
 }
 
-
 function startBot() {
-
-
-
-
     let client = new tmi.client(tmiConfig);
     client.connect().then(_ => {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
     }).catch(console.error);
-
-    /* bot variables */
-    //var massacres = 0;
-
 
     client.on("whisper", function (from, userstate, message, self) {
         if (self) return;
@@ -70,8 +59,7 @@ function startBot() {
         /* Specific to kraoki's channel */
         if (channel.indexOf("kraoki") != -1) {
 
-            if (m.startsWith("arretez")) {
-                // console.log(channel)
+            if (m.startsWith("arrechanneltez")) {
                 request('https://tmi.twitch.tv/group/user/'+channel.slice(1)+'/chatters', function (error, response, body) {
                     if (!error && response.statusCode == 200) {
                         let data = JSON.parse(body)
@@ -88,15 +76,9 @@ function startBot() {
                     }
                 })
             }
-
-
         }
     });
 }
-
-// function isModerateur(username) {
-//     return moderators.indexOf(username.toLowerCase()) != -1;
-// }
 
 function heureOnly() {
     let date = new Date();
@@ -108,7 +90,6 @@ function heureOnly() {
     if (minutes < 10) {
         minutes = "0" + minutes;
     }
-
     return (heure) + ":" + minutes
 }
 
@@ -122,7 +103,6 @@ function dateFull() {
     if (month < 10) {
         month = "0" + month;
     }
-
     return jour + '/' + month + '/' + date.getFullYear()
 }
 

@@ -9,11 +9,7 @@
             </div>
             <div class="row animation-fade-in-up">
     <ul class="pagination"> 
-      {{!-- <li><a href="#">&laquo;</a></li>  --}}
-      {{!-- <li><a href="#1">1</a></li> 
-      <li><a href="#">2</a></li>  --}}
       {{#each pages}}
-      {{!-- <li class="active"><a href="#">3</a></li>  --}}
       {{#if this.active}}
       <li class="active">
       {{else}}
@@ -21,84 +17,51 @@
       {{/if}}
           <a href="/{{this.rankingpage}}{{this.num}}">{{this.num}}</a></li> 
       {{/each}}
-      {{!-- <li><a href="#">&raquo;</a></li>  --}}
         </ul>      
-
-        
-                <div class="col-md-12 mikuia-page-card">
-                {{!-- <div>
-                    <span class="boutonPage">1</span>
-                </div> --}}
-                    <!-- pages numérotées --> 
-                {{!-- <br> --}}
-                    <!-- Classement -->
-                    <div id="classement">
-                        {{#each lines}}
-                        <div class="mikuia-card mikuia-card-ranking" ; style="opacity: {{this.opacity}};">
-                        {{!-- <div class="mikuia-card mikuia-card-ranking" ; style="opacity:"> --}}
-                            <div style="align-content : left;" class="mikuia-card-block mikuia-card-ranking-block">
-                                <h6 class="text-muted">Rank</h6>
-                                <h3>#{{ this.rank }}</h3>
-                            </div>
-
-                            {{!-- <div style="align: top;"> --}}
-                            {{!-- {{#each this.medalsInfo}}
-                                <img src="/{{this.rank}}.png" width="20" height="20" align="bottom">
-                            {{/each}} --}}
-                            {{!-- </div> --}}
-
-                            {{!-- <div style="flex-basis: 60px;">
-                            {{#each this.medalsInfo}}
-                                <img src="/{{this.rank}}.png" width="20" height="20" align="bottom">
-                            {{/each}}
-                            </div> --}}
-
-                            <div style="flex-basis: 300px;" class="mikuia-card-block">
-                                <div class="mikuia-card-user">
-                                    <div class="mikuia-card-user-avatar">
-                                        <a href="/user/{{this.username}}"><img src="{{this.avatar_url}}" width="32" height="32"></a>
-                                    </div>
-                                    <div class="mikuia-card-user-name">
-                                        {{!-- <h4 style="color: #999;">{{this.username}}</h4> --}}
-                                        <h4>
-                                            <a href="/user/{{this.username}}" style="color: {{this.color}}">{{this.username}}</a>
-                                            {{!-- {{#each this.medalsInfo}}
-                                            <img src="/{{this.rank}}.png" width="20" height="20">
-                                            {{/each}} --}}
-                                        </h4>
-                                    </div>
+            <div class="col-md-12 mikuia-page-card">
+                <div id="classement">
+                    {{#each lines}}
+                    <div class="mikuia-card mikuia-card-ranking" ; style="opacity: {{this.opacity}};">
+                        <div style="align-content : left;" class="mikuia-card-block mikuia-card-ranking-block">
+                            <h6 class="text-muted">Rank</h6>
+                            <h3>#{{ this.rank }}</h3>
+                        </div>
+                        <div style="flex-basis: 300px;" class="mikuia-card-block">
+                            <div class="mikuia-card-user">
+                                <div class="mikuia-card-user-avatar">
+                                    <a href="/user/{{this.username}}"><img src="{{this.avatar_url}}" width="32" height="32"></a>
+                                </div>
+                                <div class="mikuia-card-user-name">
+                                    <h4>
+                                        <a href="/user/{{this.username}}" style="color: {{this.color}}">{{this.username}}</a>
+                                    </h4>
                                 </div>
                             </div>
-                            <div style="flex-basis: 150px;" class="mikuia-card-block align-right">
-                                <h6 class="text-muted">Experience</h6>
-                                <h3>{{this.experience}}</h3>
-                            </div>
-                            <div style="flex-basis: 50px;" class="mikuia-card-block align-right">
-                                <h6 class="text-muted">Level</h6>
-                                <h3>
-                                <span style="font-weight: 300;">
-                                    {{!-- <div style="border-color: #009fff;" class="level mini-level"> --}}
-                                    <div style="border-color: #{{this.lvlcolor}};" class="level mini-level">
-                                        <span class="mini-level-text">{{this.level}}</span>
-                                    </div>
-                                </span>
-                                </h3>
-                            </div>
-                            <div style="flex-basis: 70px;" class="mikuia-card-block align-right">
-                                <h6 class="text-muted">Progress</h6>
-                                <h3>{{this.progress}}%</h3>
-                            </div>
                         </div>
-                        {{/each}}
-
+                        <div style="flex-basis: 150px;" class="mikuia-card-block align-right">
+                            <h6 class="text-muted">Experience</h6>
+                            <h3>{{this.experience}}</h3>
+                        </div>
+                        <div style="flex-basis: 50px;" class="mikuia-card-block align-right">
+                            <h6 class="text-muted">Level</h6>
+                            <h3>
+                            <span style="font-weight: 300;">
+                                <div style="border-color: #{{this.lvlcolor}};" class="level mini-level">
+                                    <span class="mini-level-text">{{this.level}}</span>
+                                </div>
+                            </span>
+                            </h3>
+                        </div>
+                        <div style="flex-basis: 70px;" class="mikuia-card-block align-right">
+                            <h6 class="text-muted">Progress</h6>
+                            <h3>{{this.progress}}%</h3>
+                        </div>
                     </div>
-                    <!-- /Classement -->
-                    <ul class="pagination"> 
-      {{!-- <li><a href="#">&laquo;</a></li>  --}}
-      {{!-- <li><a href="#1">1</a></li> 
-      <li><a href="#">2</a></li>  --}}
+                    {{/each}}
+
+                </div>
+            <ul class="pagination"> 
       {{#each pages}}
-      {{!-- <li class="active"><a href="#">3</a></li>  --}}
       {{#if this.active}}
       <li class="active">
       {{else}}
@@ -106,11 +69,9 @@
       {{/if}}
           <a href="/{{this.rankingpage}}{{this.num}}">{{this.num}}</a></li> 
       {{/each}}
-      {{!-- <li><a href="#">&raquo;</a></li>  --}}
         </ul>   
                 </div>
             </div>
         </div>
     </div>
 </div>
-{{!-- </body> --}}

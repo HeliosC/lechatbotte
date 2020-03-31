@@ -88,7 +88,6 @@ function chat(channel, user, message, isSelf, client, redis){
                         client.say(channel, "Impossible d'ajouter une description à cette commande.")
                     }
                     break
-                
             }
         }
     }

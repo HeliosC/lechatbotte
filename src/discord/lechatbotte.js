@@ -16,11 +16,9 @@ const command_manager = require('./command_manager.js');
 
 const Poulpita = require('./Poulpita.js');
 
-//var redis
+//const pouepopo = require('./pouepopo.js')
 
 function startBot(redisClient) {
-
-	//redis = redisClient;
 
 	const client = new Discord.Client();
 
@@ -70,9 +68,7 @@ function startBot(redisClient) {
 	client.on('message', dispatcher.onMessage.bind(dispatcher));
 	client.on('messageReactionAdd', dispatcher.onReaction.bind(dispatcher));
 
-
 	client.on('guildMemberAdd', (member) => {
-
 		if (member.guild.name.indexOf("chats") != -1) {
 			const h = client.emojis.find(e => e.name == "hidesbois");
 			client.channels.find(c => c.name == "cest_ta_vie").send(
@@ -86,7 +82,6 @@ function startBot(redisClient) {
 
 	client.login(process.env.TOKENchat);
 
-
 	client.on('message', message => {
 		if (message.author
 			&& message.author.id == 255069392780394506 /*poui des bois*/
@@ -96,11 +91,8 @@ function startBot(redisClient) {
 		if(message.content.toLowerCase() == "ou alors" && message.guild.id == "350708761226117122" ){
 			message.channel.send("c'est un bot")
 		}
-		//message.channel.send(message.content)
 	})
 	
-
-
 	client.on('messageReactionAdd', (reaction, user) => {
 		if (reaction.message.id == 643524258093334569 /*message devenir bg*/
 			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
@@ -112,8 +104,6 @@ function startBot(redisClient) {
 			}
 	})
 
-
-
 	client.on('messageReactionRemove', (reaction, user) => {
 		if (reaction.message.id == 643524258093334569 /*message devenir bg*/
 			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
@@ -124,10 +114,7 @@ function startBot(redisClient) {
 				}
 			}	
 	})
-
-
-
+	//pouepopo.start(client)
 }
-
 
 module.exports.start = startBot;

@@ -33,7 +33,6 @@ function chatlog(username, message) {
     let redisDateInv = redisDate.substr(6,4)+redisDate.substr(2,4)+redisDate.substr(0,2)
     let chatredis = 'chatpoulpita' + '/' + redisDateInv
 
-    // console.log("**************************************" + redisDate)
     redis.exists(chatredis, function (err, reply) {
         if (reply === 1) {
 
@@ -51,20 +50,10 @@ function chatlog(username, message) {
 
 function startBot(redisClient) {
 
-    //console.log("ANGELICA ALLOOOOOOOOOOOOOOOOOOOOOOO")
-
     redis = redisClient
     let client = new tmi.client(tmiConfig);
-    client.connect().then((server, port) => {
-        //console.log(`${tmiConfig.identity.username} logged in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
-        //console.log(`ANGELICA logged in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
-    });
+    client.connect();
 
-    //redis.get("poulpita/active", (err, res) => {
-        //console.log("oui c'est vrai "+res+"   "+res)
-      //  if(res=="true"){
-      //      active = "true"
-      //  }
     api.streams.channel({ channelID: idpoulpita }, (err, res) => {
         if(!err) {
             //Live on ???
@@ -73,44 +62,32 @@ function startBot(redisClient) {
                 console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
                 questionsAuto("#"+res.stream.channel.name)
                 active = "true"
-                //redis.set("poulpita/active", "true")
                 intervalObject = setInterval(()=>{
                     checkLiveOff(client)
                 }, 300*60000);
 
             }else{
                 active = "false"
-                //redis.set("poulpita/active", "false")
                 redis.del("poulpita/questions/cache")
                 console.log("LIVE POULPI OFFFFFFFFFFFFFFFFF")
             }
         }
     })
-    //})
-
 
     client.on('chat', (channel, user, message, isSelf) => {
-
         chatlog(user.username, message)
         if(isSelf){
             return;
         }
-
-        //console.log("oui")
-        //console.log(message)
-
-        //console.log("active "+active)
         if(active=="false"){
             api.streams.channel({ channelID: idpoulpita }, (err, res) => {
                 if(!err) {
                     //Live on ???
-                    //console.log("LIVE POULPI ?")
                     if ( (res.stream != null)) {
                         console.log("LIVE POULPI ONNNNNNNNNNNNNNNNNNNN")
                         redis.incr("poulpita/QuestionsMessages")
                         questionsAuto("#"+res.stream.channel.name)
                         active = "true"
-                        //redis.set("poulpita/active", "true")
                         intervalObject = setInterval(()=>{
                             checkLiveOff(client)
                         }, 300*60000);
@@ -120,9 +97,6 @@ function startBot(redisClient) {
         }else{
             redis.incr("poulpita/QuestionsMessages")
         }
-        //    })
-        //console.log(`ANGELICA chat in on twitch !!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
-
         let m = message.toLowerCase()
         let username = user.username;
         let displayname = user['display-name'];
@@ -145,11 +119,9 @@ function startBot(redisClient) {
             setTimeout(function() { deceit = false }, 10000);
         }    
 
-
         if(userid!=undefined){
             if(isCached[userid]!=true){
                 isCached[userid]=true
-                //ALLO TWITCH
                 api.users.userByID({ userID: userid }, (err, res) => {
                     if(!err) {
                         redis.hset('ranking/logo', userid, res.logo)
@@ -164,13 +136,10 @@ function startBot(redisClient) {
         if(m.startsWith("!rank")){
             if(questionOn){                
                 redis.zrevrange("poulpita/rank", 0, -1, 'WITHSCORES', (err, scores) => {
-                    //console.log(scores)
                     getUserScores(scores).then( (UserScores) => {
-                        //console.log(UserScores)
                         ranking = ""
                         rank = 1
                         idboo = true
-                        //for(score in UserScores){
                         UserScores.forEach(score => {
                             if(idboo){
                                 if(rank!=1){
@@ -192,9 +161,7 @@ function startBot(redisClient) {
         function getUserScores(scores){
             var promises = []
             idboo = true
-            //for(element in scores){
             scores.forEach(element => {
-                //console.log("e "+element)
                 if(idboo){
                     promises.push(getUserbyID(element))
                 }else{
@@ -208,29 +175,18 @@ function startBot(redisClient) {
         }
 
         function getUserbyID(id){
-            //console.log("id "+id+" "+username)
             return new Promise(function(resolve, reject){
                 redis.hget('ranking/username', id, (err, username) => {
-                    //console.log("id "+id+" "+username)
                     resolve(username)
                 })
-            //.then(username => {
-            //    return 
-            //})
             })
         }
 
         if(onQuestion){
             mflat = m.flat()
-            //console.log("onquest "+" AnswerFlat "+AnswerFlat+" mflat "+mflat)
-            //for(ans in AnswerFlat){
-            //AnswerFlat.forEach(ans =>{
-                //AnswerFlat.every(function(ans, index) {
                 for(var i= 0; i < AnswerFlat.length; i++){
                     var regex = new RegExp("^"+AnswerFlat[i]+"$", "gi")
-                //  var regex = new RegExp(ans, "gi")
                   if(regex.test(mflat)){
-                      //console.log("regex "+regex+" ans "+ans+" mflat "+mflat)
                       onQuestion = false
                       client.say(channel, "BRAVO " + displayname + " !")
                       clearTimeout(qTO)
@@ -241,17 +197,6 @@ function startBot(redisClient) {
                       return
                   }
             }
-           // }
-
-
-
-/*
-            if(AnswerFlat.includes(m.flat())){
-                onQuestion = false
-                client.say(channel, "BRAVO " + displayname + " !")
-                redis.zincrby("poulpita/rank", 1, userid)
-            }
-            */
         }
 
         let isMod = user.mod || user['user-type'] === 'mod';
@@ -259,33 +204,21 @@ function startBot(redisClient) {
         let isHelios = username.toLowerCase() === "heliosdesbois";
         let isModUp = isMod || isBroadcaster || isHelios;
 
-        //console.log(isModUp +" test "+ !onQuestion)
-
         var args = m.split(" ")
         if(isModUp && !onQuestion && questionOn){
-           // console.log(args)
             if(args[0] == "!question"){
-                //console.log("oui")
                 if(args.length == 1){
-                    //console.log("oui2")
                     //donner une question random
                     redis.hgetall("poulpita/questions", (err, questions) => {
-                        //console.log("oui3")
                         redis.lrange("poulpita/questions/cache", -100, 100, (err, cachedquestions) => {
-                            console.log(cachedquestions)
                             do{
                                 nq = randInt(Object.keys(questions).length)
                                 question = Object.keys(questions)[nq]
-                                console.log("oui4")
-                                console.log(question)
+                                console.log("question : "+question)
                             }while(cachedquestions.includes(question))
-                            //redis.lpush("poulpita/questions/cache", question)
-                            console.log("nq "+nq+" max "+Object.keys(questions).length)
                             client.say(channel, question)
                             Answer = Object.values(questions)[nq].toLowerCase().split("&")
                             answerFlatter()
-                            console.log(Answer)
-                            console.log(AnswerFlat)
                             onQuestion = true
                             qTO = setTimeout(() => {questionTimeout(channel)}, 60000);
                         })
@@ -299,8 +232,6 @@ function startBot(redisClient) {
                                 client.say(channel, Object.keys(questions)[nq-1])
                                 Answer = Object.values(questions)[nq-1].toLowerCase().split("&")
                                 answerFlatter()
-                                console.log(Answer)
-                                console.log(AnswerFlat)
                                 onQuestion = true
                                 qTO = setTimeout(() => {questionTimeout(channel)}, 60000);
                             }
@@ -312,22 +243,13 @@ function startBot(redisClient) {
 
     })
 
-
     client.on("whisper", function (from, user, message, self) {
-
-        //return
         if (self) return;
-
-
     })
     
-    
     function questionTimeout(channel){
-        //if(onQuestion){
             onQuestion = false
-            //client.say(channel, "Time's up ! Il fallait répondre : "+Answer.join(", "))
             client.say(channel, "Time's up ! Tu feras mieux la prochaine fois !")
-        //}
     }
 
     function questionsAuto(channel){
@@ -343,22 +265,15 @@ function startBot(redisClient) {
                     redis.set("poulpita/QuestionsMessages", 0)
                     //POSE UNE QUESTION
                     redis.hgetall("poulpita/questions", (err, questions) => {
-                        //console.log("oui3")
                         redis.lrange("poulpita/questions/cache", -100, 100, (err, cachedquestions) => {
-                            console.log(cachedquestions)
                             do{
                                 nq = randInt(Object.keys(questions).length)
                                 question = Object.keys(questions)[nq]
-                                console.log("oui4")
                                 console.log(question)
                             }while(cachedquestions.includes(question))
-                            //redis.lpush("poulpita/questions/cache", question)
-                            console.log("nq "+nq+" max "+Object.keys(questions).length)
                             client.say(channel, question)
                             Answer = Object.values(questions)[nq].toLowerCase().split("&")
                             answerFlatter()
-                            console.log(Answer)
-                            console.log(AnswerFlat)
                             onQuestion = true
                             qTO = setTimeout(() => {questionTimeout(channel)}, 60000);
                         })
@@ -367,10 +282,7 @@ function startBot(redisClient) {
             })
         }
         setTimeout(() => {questionAutoTimer(channel)}, 60000 * randInt(minQuestionsMessages,maxQuestionsMessages))
-
     }
-
-
 }
 
 
@@ -380,14 +292,9 @@ function randInt(length){
 
 function answerFlatter(){
     AnswerFlat = []
-    //console.log("deb flat" + AnswerFlat)
     Answer.forEach(a => {
-        //console.log(a + " -- " + AnswerFlat)
         AnswerFlat.push(a.flat())
-        //console.log(a + " -- " + AnswerFlat)
-        //console.log(a.flat)
     })
-    console.log("fin flat" + AnswerFlat)
 }
 
 String.prototype.sansAccent = function(){
@@ -412,18 +319,10 @@ String.prototype.sansAccent = function(){
 
 String.prototype.flat = function(){
     sa = this.sansAccent()
-    //console.log("sa "+sa)
     var regex = /\s/gi;
     sr = sa.replace(regex, "")
-    //console.log("sr "+sr)
     return sr
 }
-
-//console.log("------------------------------------------------------------")
-//console.log("------------------------------------------------------------")
-//console.log("------------------------------------------------------------")
-//var chaine = "À côté d'un veçrre vide";
-//console.log( chaine.flat() );
 
 function checkLiveOff(client){
     api.streams.channel({ channelID: idpoulpita }, (err, res) => {
@@ -433,7 +332,6 @@ function checkLiveOff(client){
                 active = "false"
                 clearTimeout(intervalObject)
                 redis.del("poulpita/questions/cache")
-                //redis.set("poulpita/active", "false")
                 console.log("LIVE POULPI OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
             } else {
             }
@@ -453,7 +351,6 @@ function dateFull() {
     if (month < 10) {
         month = "0" + month;
     }
-
     return jour + '/' + month + '/' + date.getFullYear()
 }
 
@@ -469,7 +366,6 @@ function heureOnly() {
     if (minutes < 10) {
         minutes = "0" + minutes;
     }
-
     return (heure) + ":" + minutes
 }
 

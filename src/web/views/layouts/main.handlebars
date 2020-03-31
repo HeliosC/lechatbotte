@@ -9,9 +9,7 @@
         <link rel="stylesheet" href="/css/new.css" />
         <link rel="stylesheet" href="/css/cdb.css" />
         <link rel="stylesheet" href="/css/commands.css" />
-        <!-- <script src="handlebars-v4.1.2.js"></script> -->
         <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700|Roboto:400,300,500|Hind+Vadodara:300,400,500&amp;subset=all" rel="stylesheet" type="text/css">
-        
         
         <link rel="stylesheet" href="bootstrap-3.2.0-dist/css/bootstrap.css"> 
         <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -20,67 +18,44 @@
         <script src="bootstrap-3.2.0-dist/js/bootstrap.js"></script> 
     </head>
 
-<body>
-            <nav class="navbar mikuia-navbar mikuia-navbar-extended">
-            
-            <div class="container">
-                <div class="mikuia-navbar-content">
-                    <a><img src="/icon.png" width="100" height="100" class="mikuia-navbar-icon"></a>
+    <body>
+        <nav class="navbar mikuia-navbar mikuia-navbar-extended">
+        
+        <div class="container">
+            <div class="mikuia-navbar-content">
+                <a><img src="/icon.png" width="100" height="100" class="mikuia-navbar-icon"></a>
 
-                    <div class="mikuia-navbar-lines-left">
-                        <div class="mikuia-navbar-links">
+                <div class="mikuia-navbar-lines-left">
+                    <div class="mikuia-navbar-links">
 
-                            <a href="https://twitch.tv/chatdesbois" target="_blank" style="line-height: 20px"><img src="/twitch.png" width="40" height="40" ></a>
-                            <a href="https://www.youtube.com/user/Missclochette22/" target="_blank" style="line-height: 57px"><img src="/yt.png" width="40" height="40" ></a>
-                            <a href="https://www.instagram.com/unejeune/" target="_blank" style="line-height: 57px"><img src="/ig.png" width="40" height="40" ></a>
-                            <a href="https://twitter.com/Chatdesbois_" target="_blank" style="line-height: 57px"><img src="/twitter.png" width="40" height="40" ></a>
+                        <a href="https://twitch.tv/chatdesbois" target="_blank" style="line-height: 20px"><img src="/twitch.png" width="40" height="40" ></a>
+                        <a href="https://www.youtube.com/user/Missclochette22/" target="_blank" style="line-height: 57px"><img src="/yt.png" width="40" height="40" ></a>
+                        <a href="https://www.instagram.com/unejeune/" target="_blank" style="line-height: 57px"><img src="/ig.png" width="40" height="40" ></a>
+                        <a href="https://twitter.com/Chatdesbois_" target="_blank" style="line-height: 57px"><img src="/twitter.png" width="40" height="40" ></a>
+                        <br>
+
+                        <a name="home"> Classements: </a>
+                        {{#each dates}}
+                        <a href="/{{this}}" name="home">{{this}}</a>
+                        {{/each}} 
+                        <br>
+
+                        <div class="mikuia-navbar-title">
+                            <a href="/global" name="home">Global</a>
+                            <a href="/mensuel" name="home">Mensuel</a>
                             <br>
-
-                            <a name="home"> Classements: </a>
-                            <!-- <a href="/RIP_Mikuia" name="home">RIP Mikuia</a> -->
-                            {{#each dates}}
-                            <a href="/{{this}}" name="home">{{this}}</a>
-                            {{/each}} 
-                            <br>
-
-
-                            <div class="mikuia-navbar-title">
-                            {{!-- <div > --}}
-                                <a href="/global" name="home">Global</a>
-                                <a href="/mensuel" name="home">Mensuel</a>
-                                <br>
-                                <a href="/commands" name="home">Commandes du stream</a>
-                                
-
-                            </div>
-                            <div>
-                            {{!-- <a href="https://twitch.tv/chatdesbois" style="line-height: 20px, float:left; margin-left:0px;"><img src="twitch.png" width="40" height="40" ></a>
-                            <a href="https://www.youtube.com/user/Missclochette22/" style="line-height: 57px;margin:0px;"><img src="youtube.png" width="57" height="40" ></a>
-                            <a href="https://www.instagram.com/unejeune/" style="line-height: 57px;margin:0px;"><img src="ig.png" width="40" height="40" ></a> --}}
-                            </div>
-                                                            {{!-- <br style="line-height: 100px;"> --}}
-
-                            {{!-- style="line-height: -100px;" --}}
-                            {{!-- <br style="line-height: -100px;"> --}}
-                            {{!-- <a href="https://twitch.tv/chatdesbois"><img src="twitch.png" width="40" height="40" class="mikuia-navbar-icon"></a> --}}
-
+                            <a href="/commands" name="home">Commandes du stream</a>
+                        </div>
+                        <div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </nav> 
-
-
-
-        {{!-- <div style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://static-cdn.jtvnw.net/jtv_user_pictures/50f8dcb922855be1-profile_banner-480.jpeg'); " class="mikuia-navbar-background"></div> --}}
-        {{!-- <div style="background: url('https://static-cdn.jtvnw.net/jtv_user_pictures/50f8dcb922855be1-profile_banner-480.jpeg'); " class="mikuia-navbar-background"></div> --}}
-        
-        {{!-- FOND D'ECRAN --}}
         <div style="background: url('/bg3.png'); " class="mikuia-navbar-background"></div>
-
     {{{body}}}
-
-</body>
+    </body>
 
 <div class="mikuia-footer">
     <div class="container">
@@ -99,11 +74,6 @@
                 <small class="text-muted">By Helios 2000 IQ. Énorme merci à l'arnaqueur aka L'iple aka le sang : TheIpple
                 </small>
             </div>
-            <!-- <div class="col-md-3 align-right"></div> -->
-<!--             <div class="col-md-3 align-right">
-                <small class="text-muted"><b>Art by </b><a href="https://howlingneko.deviantart.com">HowlingNeko </a>
-                </small>
-            </div> -->
             <div class="col-md-3 align-right">
                 <small class="text-muted"><a href="https://reddit.com/r/cats">Cats</a>
                 </small>

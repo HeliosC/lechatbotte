@@ -8,8 +8,6 @@ const port = process.env.PORT || 5000;
 const path = require('path')
 
 app.use(express.static('public'));
-// app.engine('handlebars', exphbs());
-// app.engine('handlebars', exphbs({extendname: 'handlebars', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts/'}));
 app.engine('handlebars', exphbs({extendname: 'handlebars', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts/'}));
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '/views'));
@@ -17,20 +15,22 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 var redis = require('async-redis').createClient(process.env.REDIS_URL);
 redis.on('connect', function () {
-	//console.log('connected');
+	console.log('redis connected');
 });
 
 
 app.get('/', function (req, res) {
 	res.redirect("/mensuel/1")
-	// console.log('rien')
-	// affichage(res, 'global')
 });
 
 app.get('/link', function (req, res) {
 	redis.get('mortsLink').then(morts => {
 		res.render('link', {morts, layout : 'void'})
 	})
+});
+
+app.get('/ang', function (req, res) {
+	res.render('angular', {layout : 'void'})
 });
 
 app.get('/chart', function (req, res) {
@@ -47,7 +47,6 @@ app.get('/commands', function (req, res) {
 		context.dates = dates;
 
 	redis.hgetall("commands").then(all =>{
-		//console.log(all)
 		for(var cmd in all){
 			console.log(cmd+"   "+all[cmd])
 			context.commands.push({name: cmd, description: all[cmd]})
@@ -55,13 +54,11 @@ app.get('/commands', function (req, res) {
 
 		redis.hgetall("commands/description").then(descAll =>{
 			for(var descCmd in descAll){
-				//console.log(descCmd+"   "+descAll[descCmd])
 				context.descriptedCommands.push({name: descCmd, description: descAll[descCmd]})
 			}
 			getCounters()
 			.then( counters => {
 				context.counters = counters
-				//console.log(context)
 				res.render('commands', context)
 			})
 		})
@@ -71,7 +68,6 @@ app.get('/commands', function (req, res) {
 
 app.get('/:ranking/:page', function (req, res) {
 	let ranking = req.params.ranking 
-	console.log("ranking",["mensuel","global","user, testmap"].indexOf(ranking))
 	datesList().then( dates => {
 		if((["mensuel","global","user","chart"].concat(dates)).indexOf(ranking) == -1){
 			res.redirect("/")
@@ -84,29 +80,23 @@ app.get('/:ranking/:page', function (req, res) {
 				return;
 			}
 			Promise.all([
-				// datesList(), 
 				getUserInfoFromUsername(username)
 			]).then(([userInfo]) => {
 				context.dates = dates;
 				context.userInfo = userInfo;
-				//dates = ['Global'].concat(dates);
 				let datesPromises = dates.map((date) => {
 					return getUserMontlyInfo(date, userInfo.id);
 				});
 				return Promise.all([context, ...datesPromises]);
 			}).then(([context, ...montlyInfo]) => {
 				context.dateInfo = montlyInfo;
-				// console.log(montlyInfo);
 				res.render('user', context);
 			})
-			// .catch(next);
 		})	
 		}else{
 		let rankingpage = ranking +'/'
 		let page = parseInt( req.params.page )
 		
-		// console.log(req.params.ranking, req.params.page)
-		// console.log("lol")
 		if(ranking=='mensuel'){
 			affichage(res, dateXp(), page, rankingpage)
 		}else if(ranking=='global'){
@@ -121,44 +111,15 @@ app.get('/:ranking/:page', function (req, res) {
 
 app.get('/:tagId', function (req, res) {
 	let tag = req.params.tagId
-	res.redirect('/'+tag+'/1')
-	// console.log('rien',tag)
-	// console.log(req.params)
+	if(tag != "ang"){
+		res.redirect('/'+tag+'/1')
+	}
 });
-
-// app.get('/user/:username', function (req, res, next) {
-// 	let username = req.params.username.toLowerCase();
-// 	var context = {}
-// 	redis.hexists('ranking/id', username).then(exists =>{
-// 		if(!exists){
-// 			res.redirect('/');
-// 			return;
-// 		}
-// 		Promise.all([
-// 			datesList(), 
-// 			getUserInfoFromUsername(username)
-// 		]).then(([dates, userInfo]) => {
-// 			context.dates = dates;
-// 			context.userInfo = userInfo;
-// 			dates = ['Global'].concat(dates);
-// 			let datesPromises = dates.map((date) => {
-// 				return getUserMontlyInfo(date, userInfo.id);
-// 			});
-// 			return Promise.all([context, ...datesPromises]);
-// 		}).then(([context, ...montlyInfo]) => {
-// 			context.dateInfo = montlyInfo;
-// 			// console.log(montlyInfo);
-// 			res.render('user', context);
-// 		}).catch(next);
-// 	})
-// });
 
 function affichage(res, date, page, rankingpage){
 	var context = {lines:[]}
-
 	context.rankingpage = rankingpage;
 
-	
 	if(date=='global'){
 		context.global = 'global'
 	} else if(date == dateXp()) {
@@ -173,56 +134,15 @@ function affichage(res, date, page, rankingpage){
 	}
 	
 	datesList().then(dates => {
-		//dates = ['Global'].concat(dates)
-		// console.log("lolololol", getRankingList(date, dates))
-		// console.log('date', date)
-		let rankingList,pages
-		// ([pages, ...rankingList]) = 
 		return getRankingList(date, dates, page, rankingpage)
 	}).then(([dates, pages, ...rankingList]) => {
-
-		// console.log('pages', pages)
-		// let rankingList = result[0] 
-		// let pages = result[1]
-		// console.log('pages', pages)
-		// getRankingList(date, dates).then( rankingList=> {
-			// console.log(rankingList)
 		return Promise.all([dates, pages, rankingList ])
-		// })
 	}).then(([dates, pages, lines]) => {
 		context.dates = dates;
 		context.lines = lines;
 		context.pages = pages;
-		// console.log(context)
 		res.render('classement', context);
-		// let medalsPromises = dates.map((date) => {
-		// 	return getUserMedal(date, id);
-		// });
-		// return Promise.all([context, ...medalsPromises]);
 	})
-
-	// Promise.all([
-	// 	datesList(),
-	// 	getRankingList(date),
-	// 	// redis.hexists('ranking/id', username)
-	// ]).then(([dates, lines]) => {
-	// 	context.dates = dates;
-	// 	context.lines = lines;
-	// 	res.render('classement', context);
-	
-		// let medalsPromises = dates.map((date) => {
-		// 	return getUserMedal(date, id);
-		// });
-		// return Promise.all([context, ...medalsPromises]);
-
-	// })
-
-	// .then(([context, ...medalsInfo]) => {
-	// 	context.medalsInfo = medalsInfo
-	// 	console.log(medalsInfo)
-		// res.render('classement', context);
-
-	// })
 }
 
 function getUserMedal(date, id){
@@ -230,7 +150,6 @@ function getUserMedal(date, id){
 	date = date.replace('-','/')
 	let dateRedis = date == 'Global' ? 'global' : date.substr(3,4)+'/'+date.substr(0,2)
 	return redis.zrevrank('ranking/xp/' + dateRedis, id).then(rank => {
-		// console.log("raaaaaank", rank, date, id)
 		rank = parseInt(rank) + 1;
 		if( rank > 0 && rank < 4){
 			return({dateUrl, date, rank})
@@ -238,7 +157,6 @@ function getUserMedal(date, id){
 			return;
 		}
 	})
-
 }
 
 function getUserMontlyInfo(date, id){
@@ -249,7 +167,6 @@ function getUserMontlyInfo(date, id){
 		redis.zscore('ranking/xp/'+dateRedis, id),
 		redis.zrevrank('ranking/xp/'+dateRedis, id)
 	]).then(([score, rank]) => {
-		// console.log(score)
 		let lvl, lvlColor, podium, rankint, top10, top10color;
 		if (score == null) {
 			lvl = '-';
@@ -263,13 +180,10 @@ function getUserMontlyInfo(date, id){
 			lvlColor = lvlcolors[Math.min(Math.floor(lvl / 10), 10)];
 			podium = rankint < 4 && rankint >0;
 			top10 = rankint < 11 && rankint >3;
-			// console.log(podium, top10)
 			if(top10 && !podium){
 				top10color= lvlcolors[14 - rankint];
 				top10color= rankingColors[rankint - 4];
-				// console.log(rankint, top10color)
 			}
-
 		}
 		return ({date, dateUrl, lvl, rank, rankint, lvlColor, podium, top10, top10color})
 	})
@@ -278,19 +192,16 @@ function getUserMontlyInfo(date, id){
 function getRankingList(date, dates, page, rankingpage) {
 	return redis.zrevrange(`ranking/xp/${date}`, 0, -1, 'WITHSCORES').then(scores => {
 		var promises = [];
-		// for (var rank = 0; rank < scores.length / 2; rank++) {
 		let pages = [];
 		for(let i=1; i<scores.length/200+1; i++){
 			pages.push({num:i, active: page==i, rankingpage: rankingpage})
 		}
-			// console.log(Math.min(100*page, scores.length/2))
 		for (var rank = 100*(page-1); rank < Math.min(100*page, scores.length/2); rank++) {
 				let max = scores.length / 2;
 			let xpUser = scores[2*rank + 1];
 			let id = scores[2*rank];
 			promises.push(getRankingLine(date, id, xpUser, rank, dates));
 		}
-		// console.log(pages)
 		return Promise.all([dates, pages, ...promises]);
 	});
 }
@@ -299,10 +210,8 @@ function getRankingLine(date, id, xpUser, rank, dates) {
 	return getUserDetails(id).then(({username, color, logo}) => {
 
 		let medalsPromises = dates.map((date) => {
-			// console.log(getUserMedal(date, id))
 			return getUserMedal(date, id);
 		});
-		// console.log(medalsPromises)
 		var lineInfo = {
 			id: id,
 			rank: rank + 1,
@@ -315,26 +224,13 @@ function getRankingLine(date, id, xpUser, rank, dates) {
 			color: color == undefined ? '#999' : color,
 			opacity: 1
 		}
-		// return ([lineInfo, medalsPromises]);
 		return Promise.all([lineInfo, ...medalsPromises])
-		// .then(([lineInfos, ...medalsInfo]) => {
-		// 	// console.log(medalsInfo)
-		// 	// lineInfo.medalsInfo = medalsInfo;
-		// 	// console.log(lineInfo)
-		// 	// return Promise.all(lineInfo)
-		// 	return(lineInfos)
-		// 	// return Promise.all(lineInfo)
-		// });
 	}).then(([lineInfo, ...medalsInfo]) => {
 		var medalsInfo = medalsInfo.filter(function (el) {
 			return el != null;
 		  });
-		// console.log(medalsInfo)
 		lineInfo.medalsInfo = medalsInfo;
-		// console.log(lineInfo)
-		// return Promise.all(lineInfo)
 		return(lineInfo)
-		// return Promise.all(lineInfo)
 	})
 }
 
@@ -363,7 +259,6 @@ function getCounters() {
 		return {morts, massacres, lobbies};
 	});
 }
-
 
 function datesList() {
 	let promises = [];
