@@ -1,8 +1,3 @@
-//const tmi = require('tmi.js')
-
-//const tmiConfig = require("./config")
-
-
 var allBotCommands = ["!-honte", "!honte", "!stathonte", "!massacre+1", "!massacre", "!massacres+1", "!massacres", "!mort", "!morts", "!mort+1", "!morts+1", "!lobby", "!lobby+1", "!lobby-1", "!loby", "!loby+1", "!loby-1", "arretez",
 "!canon", "!canon", "!canons", "!canons", "!canon+1", "!canon+1", "!canons+1", "!canons+1",
 "!mtop", "!topm", "!topmensuel", "!mensuel", "!top",
@@ -23,26 +18,9 @@ var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!
  "!lastgame?",
  "!viewers???"]
 
-// var redis = require('redis').createClient("redis://h:p8c68d0e7f47095a44f5b697ca26701acbd511ff4868cadae2edec441649dac5f@ec2-3-248-103-243.eu-west-1.compute.amazonaws.com:32109");
-// redis.on('connect', function () {
-//     console.log('redis connected');
-// });
-
 var usedCommands = []
 
-
-//let clientID = process.env.clientID
-
-
-//let client = new tmi.client(tmiConfig);
-//client.connect().then(console.log("twitch connected"))
-
-
 const moderators = ["heliosdesbois", "pioudesbois", "chatdesbois", "solis_the_sun"]
-
-
-
-//client.on('chat', (channel, user, message, isSelf) => {
 
 function chat(channel, user, message, isSelf, client, redis){
 
@@ -115,34 +93,18 @@ function chat(channel, user, message, isSelf, client, redis){
         }
     }
     
-    //if(m.startsWith("!") && !m.startsWith("!commands")){
     var testCommand = args[0].toLowerCase()
-    // redis.hkeys("commands", (err, keys) => {
-    //     if(!err){
-    //         if(keys.includes(command)){
-    //             //console.log("oui")
-
-    //         }
-    //     }
-    // })
-    // console.log("testCommand "+testCommand)
     redis.hget("commands", testCommand, (err, reply) => {
         if(reply!=null && !usedCommands.includes(testCommand)){
             client.say(channel, reply)
             usedCommands.push(testCommand)
-            //console.log("avant slice "+testCommand+ " / "+usedCommands)
             setTimeout(function() { updateCommands(testCommand) }, 10000);
         }
     })
-
-    //}
-//})
 }
 
 function updateCommands(removedCommand){
-    //console.log("slice "+removedCommand + " / "+usedCommands + " / " + usedCommands.indexOf(removedCommand))
     usedCommands.splice(usedCommands.indexOf(removedCommand),1)
-    //console.log("apres slice "+removedCommand + " / "+usedCommands)
 }
 
 
