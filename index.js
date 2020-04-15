@@ -16,3 +16,6 @@ twitchBotPoliceNationaleDuSwag.start()
 
 const twitchAngelicaWize = require('./src/twitch/angelicaWize/bot.js');
 twitchAngelicaWize.start(redis)
+
+const twitchPoliceDuProut = require('./src/twitch/policeDuProut/bot.js');
+twitchPoliceDuProut.start(redis)
