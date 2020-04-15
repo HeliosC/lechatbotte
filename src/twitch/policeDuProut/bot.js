@@ -43,7 +43,7 @@ function startBot() {
             client.say(channel, "BOOM, j'te soulève " + user['display-name'] + " !");
         }
 
-        if (/^!r(o|ô)t?\s?\+\s?1$/gmi.test(m) && rotsON) { //*rot -> incremente
+        if (/^!r(o|ô)ts?\s?\+\s?1$/gmi.test(m) && rotsON) { //*rot -> incremente
             rotsON = false
             setTimeout(function () {
                 rotsON = true
