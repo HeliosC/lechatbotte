@@ -50,23 +50,23 @@ function startBot() {
             }, 15000); 
             
             redis.incr('melikahchi/rots', function (err, reply) {
-                afficherots(client, channel, parseInt(reply));
+                afficheRots(client, channel, parseInt(reply));
             });
     
         } else if (/^!ro|ôts?$/gmi.test(m)) { //*rots -> affiche le nb
             redis.get('melikahchi/rots', function (err, reply) {
-                afficherots(client, channel, parseInt(reply));
+                afficheRots(client, channel, parseInt(reply));
             });
     
         } else if (isModerateur(user.username) && /^!ro|ôts?\s?\-\s?1$/gmi.test(m)) {
             redis.decr('melikahchi/rots', function (err, reply) {
-                afficherots(client, channel, parseInt(reply));
+                afficheRots(client, channel, parseInt(reply));
             });
         }
         else if (isModerateur(user.username) && /^!ro|ôts \d/gmi.test(m)) {
             rots = parseInt(m.slice(4 + 1)) || 0;
             if(rots != 0){
-                afficherots(client, channel, rots);
+                afficheRots(client, channel, rots);
                 redis.set('melikahchi/rots', rots);
             }
         }
