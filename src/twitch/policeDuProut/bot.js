@@ -43,7 +43,7 @@ function startBot() {
             client.say(channel, "BOOM, j'te soulève " + user['display-name'] + " !");
         }
 
-        if (/^!ro|ôt?\s?\+\s?1$/gmi.test(m) && rotsON) { //*rot -> incremente
+        if (/^!r(o|ô)t?\s?\+\s?1$/gmi.test(m) && rotsON) { //*rot -> incremente
             rotsON = false
             setTimeout(function () {
                 rotsON = true
@@ -53,17 +53,17 @@ function startBot() {
                 afficheRots(client, channel, parseInt(reply));
             });
     
-        } else if (/^!ro|ôts?$/gmi.test(m)) { //*rots -> affiche le nb
+        } else if (/^!r(o|ô)ts?$/gmi.test(m)) { //*rots -> affiche le nb
             redis.get('melikahchi/rots', function (err, reply) {
                 afficheRots(client, channel, parseInt(reply));
             });
     
-        } else if (isModerateur(user.username) && /^!ro|ôts?\s?\-\s?1$/gmi.test(m)) {
+        } else if (isModerateur(user.username) && /^!r(o|ô)ts?\s?\-\s?1$/gmi.test(m)) {
             redis.decr('melikahchi/rots', function (err, reply) {
                 afficheRots(client, channel, parseInt(reply));
             });
         }
-        else if (isModerateur(user.username) && /^!ro|ôts \d/gmi.test(m)) {
+        else if (isModerateur(user.username) && /^!r(o|ô)ts \d/gmi.test(m)) {
             rots = parseInt(m.slice(4 + 1)) || 0;
             if(rots != 0){
                 afficheRots(client, channel, rots);
