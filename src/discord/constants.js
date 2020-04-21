@@ -1,9 +1,9 @@
 module.exports = {
 	botName: "Le Chat Botté",
 	channels: {
-		images: "images_videos_trop_lentes",
-		chanCh: "cest_ta_vie",
-		queue: "attente",
+		images: "🤡│images-vidéos-médias",
+		chanCh: "💬│cest-ta-vie",
+		queue: "chat-le_d_attente",
 		games: "jeux",
 		quiz: "quiz",
 		role: "rôle",

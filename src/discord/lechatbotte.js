@@ -71,10 +71,10 @@ function startBot(redisClient) {
 	client.on('guildMemberAdd', (member) => {
 		if (member.guild.name.indexOf("chats") != -1) {
 			const h = client.emojis.find(e => e.name == "hidesbois");
-			client.channels.find(c => c.name == "cest_ta_vie").send(
+			client.channels.find(c => c.name == constants.channels.chanCh).send(
 				"Bienvenue par minou " + member + " ! " + h
-				+ " Prends 30 secondes pour lire l'" + client.channels.find(c => c.name == "accueil_deschats")
-				+ " et réclame tes rôles dans " + client.channels.find(c => c.name == "adhesion_rôle") + " !"
+				+ " Prends 30 secondes pour lire l'" + client.channels.find(c => c.id == 299124426866294787)
+				+ " et réclame tes rôles dans " + client.channels.find(c => c.name == "✅│adhesion-rôles") + " !"
 			);
 		}
 	});
