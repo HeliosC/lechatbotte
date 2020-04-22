@@ -47,7 +47,7 @@ const ete = 2
 var massacresON = true
 var lobbiesON = true
 var mortsON = true
-var mortsLink = true
+var mortsLinkON = true
 var canonsON = true
 
 const xptimer = 60000
