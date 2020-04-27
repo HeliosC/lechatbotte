@@ -1,4 +1,4 @@
-const moderators = ["heliosdesbois", "pioudesbois", "chatdesbois", "solis_the_sun"]
+const moderators = ["heliosdesbois", "pouiettedesbois", "chatdesbois", "solis_the_sun"]
 
 var timeouts = []
 
