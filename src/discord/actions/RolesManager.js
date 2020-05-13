@@ -3,7 +3,7 @@ const BDDRoles = require("./bddroles/BDDroles");
 
 function RolesManager(botClient, roleChannel) {
     this.botClient = botClient;
-    this.roleChannel = "test";// roleChannel;
+    this.roleChannel = roleChannel;
 }
 
 RolesManager.prototype.isConcernedByMessage = function(message) {
