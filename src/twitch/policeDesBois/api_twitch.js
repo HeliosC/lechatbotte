@@ -68,7 +68,7 @@ function allclips(broadcaster, period, cursor){
                  resolve(data)
              }else{
                  if(response.statusCode != 400){
-                     console.log("api failed "+response.statusCode)
+                     console.log("apiclips failed "+response.statusCode)
                  }
                  resolve("apiclips failed")
              }
@@ -159,7 +159,7 @@ function start(sender, arg){
                     });
 
                 }else{
-                    console.log("api failed "+response.statusCode)
+                    console.log("apiclips start failed "+response.statusCode)
                 }
             });
         });

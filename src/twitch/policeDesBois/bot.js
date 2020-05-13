@@ -648,7 +648,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     redis.hset('ranking/color', userid, user.color)
                     redis.hset('ranking/id', username, userid)
                 }else{
-                    console.log("api failed "+response.statusCode)
+                    console.log("api getInforamtions failed "+response.statusCode)
                 }
             });
         }
