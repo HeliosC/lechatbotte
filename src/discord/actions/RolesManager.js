@@ -3,7 +3,7 @@ const BDDRoles = require("./bddroles/BDDroles");
 
 function RolesManager(botClient, roleChannel) {
     this.botClient = botClient;
-    this.roleChannel = roleChannel;
+    this.roleChannel = "test";// roleChannel;
 }
 
 RolesManager.prototype.isConcernedByMessage = function(message) {
@@ -34,7 +34,7 @@ RolesManager.prototype.extractRoles = function(message) {
     for (let {roleName, roleTitle} of BDDRoles.roles) {
         for(let roleStr of roleName){
             if (messageContent.indexOf(roleStr) != -1) {
-                    let role = message.guild.roles.cache.find(r => r.name == roleTitle);
+                    let role = message.guild.roles.find(r => r.name == roleTitle);
                 roles.push(role);
             }
         }
@@ -44,6 +44,7 @@ RolesManager.prototype.extractRoles = function(message) {
 };
 
 RolesManager.prototype.modifRole = function(message, role) {
+    if(role === null){return;}
     if (message.member == null || !message.member.roles.has(role.id)) {
         message.member.addRole(role.id);
         message.author.send("Tu as maintenant le role : " + role.name);

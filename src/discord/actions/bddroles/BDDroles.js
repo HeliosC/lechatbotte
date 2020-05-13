@@ -26,6 +26,9 @@ module.exports.roles = [
 	}, {
 		roleName: ["battlerite"],
 		roleTitle: "Joueurs de Battlerite"
+	}, {
+		roleName: ["ac", "animal crossing"],
+		roleTitle: "Joueurs de Animal Crossing"
 	}
 ];
 
