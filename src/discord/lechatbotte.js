@@ -96,7 +96,7 @@ function startBot(redisClient) {
 	client.on('messageReactionAdd', (reaction, user) => {
 		if (reaction.message.id == 643524258093334569 /*message devenir bg*/
 			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
-				const role = reaction.message.guild.roles.find(val => val.name === 'Les fidèles');
+				const role = reaction.message.guild.roles.cache.find(val => val.name === 'Les fidèles');
 				const member = reaction.message.guild.member(user);
 				if(!member.roles.has(role.id)){
 					member.addRole(role);
@@ -107,7 +107,7 @@ function startBot(redisClient) {
 	client.on('messageReactionRemove', (reaction, user) => {
 		if (reaction.message.id == 643524258093334569 /*message devenir bg*/
 			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
-				const role = reaction.message.guild.roles.find(val => val.name === 'Les fidèles');
+				const role = reaction.message.guild.roles.cache.find(val => val.name === 'Les fidèles');
 				member = reaction.message.guild.member(user);
 				if(member.roles.has(role.id)){
 					member.removeRole(role);

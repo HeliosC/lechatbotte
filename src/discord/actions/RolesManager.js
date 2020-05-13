@@ -34,7 +34,7 @@ RolesManager.prototype.extractRoles = function(message) {
     for (let {roleName, roleTitle} of BDDRoles.roles) {
         for(let roleStr of roleName){
             if (messageContent.indexOf(roleStr) != -1) {
-                    let role = message.guild.roles.find(r => r.name == roleTitle);
+                    let role = message.guild.roles.cache.find(r => r.name == roleTitle);
                 roles.push(role);
             }
         }
