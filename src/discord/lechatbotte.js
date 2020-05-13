@@ -24,7 +24,7 @@ function startBot(redisClient) {
 
 	client.on('ready', () => {
 		console.log(`Logged in as ${client.user.tag}!`);
-		client.channels.find(val => val.name === constants.channels.role).fetchMessage('710166926168555590')
+		client.channels.find(val => val.name === constants.channels.role).fetchMessage('710202967776821348')
 		.then(message => console.log("PROUT1"))
 		.catch(console.error);
 		client.channels.find(val => val.name === 'devenir-un-fidèle').fetchMessage('643524258093334569')
