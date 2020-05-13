@@ -22,10 +22,14 @@ function startBot(redisClient) {
 
 	const client = new Discord.Client();
 
-	client.on('ready', () => { console.log(`Logged in as ${client.user.tag}!`);
+	client.on('ready', () => {
+		console.log(`Logged in as ${client.user.tag}!`);
+		client.channels.find(val => val.name === constants.channels.role).fetchMessage('710166926168555590')
+		.then(message => console.log("PROUT1"))
+		.catch(console.error);
 		client.channels.find(val => val.name === 'devenir-un-fidèle').fetchMessage('643524258093334569')
-  		.then(message => console.log("PROUT"))
-  		.catch(console.error);
+		.then(message => console.log("PROUT2"))
+			.catch(console.error);
  	});
 	client.on("error", (e) => console.error(e));
 	client.on("warn", (e) => console.warn(e));
@@ -67,6 +71,7 @@ function startBot(redisClient) {
 
 	client.on('message', dispatcher.onMessage.bind(dispatcher));
 	client.on('messageReactionAdd', dispatcher.onReaction.bind(dispatcher));
+	client.on('messageReactionRemove', dispatcher.onReactionRemove.bind(dispatcher));
 
 	client.on('guildMemberAdd', (member) => {
 		if (member.guild.name.indexOf("chats") != -1) {

@@ -62,4 +62,26 @@ Dispatcher.prototype.onReaction = function(reaction, user) {
     }
 };
 
+Dispatcher.prototype.onReactionRemove = function(reaction, user) {
+    let usedComponents = []
+
+    for (let component of this.components) {
+        if (component.onReactionRemove === undefined) continue;
+
+        let used = component.onReactionRemove(reaction, user);
+
+        if (used) {
+            usedComponents.push(component);
+        }
+    }
+
+    if (usedComponents > 0) {
+        console.debug(`Bot reacted on message: "${message.content}"`)
+    }
+
+    if (usedComponents.length > 1) {
+        console.warn(`[WARNING] Multiple components act on the reaction of the message : ${reaction.message.content}`);
+    }
+};
+
 module.exports = Dispatcher;
