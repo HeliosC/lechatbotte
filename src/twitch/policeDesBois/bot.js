@@ -40,7 +40,7 @@ const krao = "kraoki"
 const moderators = ["heliosdesbois", "pouiettedesbois", "chatdesbois", "solis_the_sun"]
 const boss = ["toxiicdust","heliosdesbois"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
-const honteurs = ["heliosdesbois", "pioudesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80", "shydaxy"]
+const honteurs = ["heliosdesbois", "pouiettedesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80", "shydaxy"]
 
 const ete = 2
 
@@ -323,7 +323,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         let args = m.substr(8).split(" ");
         if(args.length != 0){
             const randomElem = args[Math.floor(Math.random() * args.length)];
-            client.say(channel, randomElem + " est l'élu !")
+            client.say(channel, "-> " + randomElem);
         }
     }
 
