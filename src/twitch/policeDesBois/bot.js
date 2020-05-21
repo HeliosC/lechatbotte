@@ -310,10 +310,12 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         };
         
         request(options, function (error, response, body) {
-            if (response && response.statusCode == 200) {
+            if(true) {
+            // if (response && response.statusCode == 200) {
                 let data = JSON.parse(body)
                 res = data.data[0]
-                if(res != undefined && res['game_id'] == 21779){
+                if(true) {
+                // if(res != undefined && res['game_id'] == 21779){
                     redis.hget("commands/description", "!elo", (err, reply) => {
                         getDataLol().then( (a) => {
                             client.say(channel, user['display-name'] + ", on est " + a + ", road to plat ! "+ reply)
@@ -471,7 +473,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 }
                 
                 if ( (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsLinkON) || (/^!link\s?\+\s?1$/gmi.test(m) && mortLinkON) ) {
-                    if(res != undefined && res['game_id'] == 110758){
+                    if(true) {
+                    // if(res != undefined && res['game_id'] == 110758){
                         mortsLinkON = false
                         setTimeout(function () {
                             mortsLinkON = true
