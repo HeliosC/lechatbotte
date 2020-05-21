@@ -318,6 +318,15 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             }
         })
     }
+
+    if(m.startsWith("!random ")){
+        let args = m.substr(8).split(" ");
+        if(args.length != 0){
+            const randomElem = args[Math.floor(Math.random() * args.length)];
+            client.say(channel, randomElem + " est l'élu !")
+        }
+    }
+
     if ( m.startsWith("!-honte") ){
         newHonteux = m.split(" ")[1]
         if(isHonteur(username) && newHonteux != undefined){
