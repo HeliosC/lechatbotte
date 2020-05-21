@@ -185,7 +185,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     if (!isBoss(username)) {
 
-        if(mess.startsWith("!random ")){
+        if(message.startsWith("!random ")){
             let args = message.substr(8).split(" ");
             if(args.length != 0){
                 const randomElem = args[Math.floor(Math.random() * args.length)];
