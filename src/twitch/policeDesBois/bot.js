@@ -504,7 +504,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 
                     }
                 
-                }else if (/^!cann?ons?\+\s?1$/gmi.test(m) && canonsON) { //*canons -> incremente
+                }else if (/^!cann?ons?\s?\+\s?1$/gmi.test(m) && canonsON) { //*canons -> incremente
                     if(true){
                     // if(res != undefined && res['game_id'] == 21779){
                         canonsON = false
