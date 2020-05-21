@@ -312,8 +312,8 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         request(options, function (error, response, body) {
             if(true) {
             // if (response && response.statusCode == 200) {
-                let data = JSON.parse(body)
-                res = data.data[0]
+                // let data = JSON.parse(body)
+                // res = data.data[0]
                 if(true) {
                 // if(res != undefined && res['game_id'] == 21779){
                     redis.hget("commands/description", "!elo", (err, reply) => {
@@ -453,9 +453,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         };
         
         request(options, function (error, response, body) {
-            if (response && response.statusCode == 200) {
-                let data = JSON.parse(body)
-                res = data.data[0]
+            if(true) {
+            // if (response && response.statusCode == 200) {
+                // let data = JSON.parse(body)
+                // res = data.data[0]
                 if (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsON) { //*morts? -> incremente
                     
                     if(res != undefined && res['game_id'] == 000){
@@ -473,6 +474,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 }
                 
                 if ( (/^!morts?\s?\+\s?1$/gmi.test(m) && mortsLinkON) || (/^!link\s?\+\s?1$/gmi.test(m) && mortLinkON) ) {
+
                     if(true) {
                     // if(res != undefined && res['game_id'] == 110758){
                         mortsLinkON = false
@@ -487,8 +489,9 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     }
 
                 }else if (/^!lobb?y\s?\+\s?1$/gmi.test(m) && lobbiesON) { //*lobby -> incremente
-                                
-                    if(res != undefined && res['game_id'] == 33214){
+                        
+                    if(true) {
+                    // if(res != undefined && res['game_id'] == 33214){
 
                         lobbiesON = false
                         setTimeout(function () {
@@ -500,9 +503,10 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                         });
                 
                     }
-
+                
                 }else if (/^!cann?ons?\+\s?1$/gmi.test(m) && canonsON) { //*canons -> incremente
-                    if(res != undefined && res['game_id'] == 21779){
+                    if(true){
+                    // if(res != undefined && res['game_id'] == 21779){
                         canonsON = false
                         setTimeout(function () {
                             canonsON = true
