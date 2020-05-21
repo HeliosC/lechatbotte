@@ -185,6 +185,14 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
     if (!isBoss(username)) {
 
+        if(mess.startsWith("!random ")){
+            let args = message.substr(8).split(" ");
+            if(args.length != 0){
+                const randomElem = args[Math.floor(Math.random() * args.length)];
+                client.say(channel, "-> " + randomElem);
+            }
+        }    
+
         var answer = ""
 
         if (/(^|\W)(je|tu)\speu($|\W|t)/gmi.test(m)) {           //   je/tu peux
@@ -317,14 +325,6 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 console.error("unable league")
             }
         })
-    }
-
-    if(m.startsWith("!random ")){
-        let args = m.substr(8).split(" ");
-        if(args.length != 0){
-            const randomElem = args[Math.floor(Math.random() * args.length)];
-            client.say(channel, "-> " + randomElem);
-        }
     }
 
     if ( m.startsWith("!-honte") ){
