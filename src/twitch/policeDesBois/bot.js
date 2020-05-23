@@ -183,15 +183,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         client.ban(channel, username)
     }
 
-    if (!isBoss(username)) {
-
-        if(message.startsWith("!random ")){
-            let args = message.substr(8).split(" ");
-            if(args.length != 0){
-                const randomElem = args[Math.floor(Math.random() * args.length)];
-                client.say(channel, "-> " + randomElem);
-            }
-        }    
+    if (!isBoss(username)) {  
 
         var answer = ""
 
@@ -328,6 +320,14 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             }
         })
     }
+
+    if(message.startsWith("!random ") && isModerateur(username)){
+        let args = message.substr(8).split(" ");
+        if(args.length != 0){
+            const randomElem = args[Math.floor(Math.random() * args.length)];
+            client.say(channel, "-> " + randomElem);
+        }
+    }  
 
     if ( m.startsWith("!-honte") ){
         newHonteux = m.split(" ")[1]
