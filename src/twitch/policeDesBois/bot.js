@@ -902,6 +902,9 @@ function checkLevelUp(client, userid, xpgain, date){
             var upg = (score0 + xpgain >= xp(lvl0 + 1))
 
             if(upg){
+                if(err){
+                    console.log("Error redis level up : " + err)
+                }
                 redis.hget('ranking/username', userid, (err, username)=>{
                     if(lvl0 == 0 || (lvl0>0 && (lvl0+1)%2 == 1) || lvl0>8 ){
                         client.whisper(username.toLowerCase(), "Level global up chez Chatdesbois ! -> Lvl "+(lvl0+1) )
