@@ -58,7 +58,8 @@ function allclips(broadcaster, period, cursor){
              ,
              method: "GET",
              headers: {
-             "Authorization": "Bearer "+oauth
+             "Authorization": "Bearer "+oauth,
+             "Client-ID": clientID
              }
          };
      
@@ -130,7 +131,8 @@ function start(sender, arg){
                 url: "https://api.twitch.tv/helix/games?id="+gamesid2.join("&id="),
                 method: "GET",
                 headers: {
-                "Authorization": "Bearer "+oauth
+                    "Authorization": "Bearer "+oauth,
+                    "Client-ID": clientID
                 }
             };
             request(options, function (error, response, body) {
