@@ -51,6 +51,10 @@ Connect4.prototype.onMessage = function(message) {
     return actionTriggered;
 };
 
+Connect4.prototype.isConcernedByReaction = function(reaction) {
+    return reaction.message.channel.name.indexOf(this.channel) != -1;
+};
+
 Connect4.prototype.onReaction = function(reaction, user) {
     let actionTriggered = false;
 

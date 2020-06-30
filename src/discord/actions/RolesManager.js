@@ -26,6 +26,10 @@ RolesManager.prototype.isConcernedByMessage = function(message) {
 //     return true;
 // };
 
+RolesManager.prototype.isConcernedByReaction = function(reaction) {
+    return reaction.message.channel.name.indexOf(this.roleChannel) != -1;
+};
+
 RolesManager.prototype.onReaction = function(reaction, user) {
     let role = reaction.message.guild.roles.find(r => r.name.includes(reaction.emoji.name));
     let member = reaction.message.guild.member(user);
@@ -38,6 +42,10 @@ RolesManager.prototype.onReaction = function(reaction, user) {
         // user.send("Tu as maintenant le role : " + role.name);
     }
     return true;
+};
+
+RolesManager.prototype.isConcernedByReactionRemove = function(reaction) {
+    return reaction.message.channel.name.indexOf(this.roleChannel) != -1;
 };
 
 RolesManager.prototype.onReactionRemove = function(reaction, user) {

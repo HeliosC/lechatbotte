@@ -65,6 +65,10 @@ MotDePasse.prototype.onMessage = function(message) {
     return actionTriggered;
 };
 
+MotDePasse.prototype.isConcernedByReaction = function(reaction) {
+    return reaction.message.channel.name.indexOf(this.channel) != -1;
+};
+
 MotDePasse.prototype.onReaction = function(reaction, user) {
     let actionTriggered = false;
 

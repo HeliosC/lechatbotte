@@ -46,7 +46,7 @@ Dispatcher.prototype.onReaction = function(reaction, user) {
     for (let component of this.components) {
         if (component.onReaction === undefined) continue;
 
-        if (!component.isConcernedByMessage(reaction.message)) continue;
+        if (!component.isConcernedByReaction(reaction)) continue;
 
         let used = component.onReaction(reaction, user);
 
@@ -70,7 +70,7 @@ Dispatcher.prototype.onReactionRemove = function(reaction, user) {
     for (let component of this.components) {
         if (component.onReactionRemove === undefined) continue;
 
-        if (!component.isConcernedByMessage(reaction.message)) continue;
+        if (!component.isConcernedByReactionRemove(reaction)) continue;
 
         let used = component.onReactionRemove(reaction, user);
 

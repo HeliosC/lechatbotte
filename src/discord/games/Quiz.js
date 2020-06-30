@@ -58,6 +58,10 @@ Quiz.prototype.onMessage = function(message) {
     return actionTriggered;
 };
 
+Quiz.prototype.isConcernedByReaction = function(reaction) {
+    return reaction.message.channel.name.indexOf(this.channel) != -1;
+};
+
 Quiz.prototype.onReaction = function(reaction, user) {
     let actionTriggered = false;
 
