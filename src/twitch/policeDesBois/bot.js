@@ -549,6 +549,11 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             mortRedis = "mortsLink"
             mortFunction = afficheMortsLink
         }
+        if(/^!link$/gmi.test(m)){
+            redis.get(mortsLink, function (err, reply) {
+                afficheMortsLink(client, channel, parseInt(reply));
+            });
+        }
         if (/^!morts?$/gmi.test(m)) { //*morts -> affiche le nb
             redis.get(mortRedis, function (err, reply) {
                 mortFunction(client, channel, parseInt(reply));
@@ -911,7 +916,7 @@ function checkLevelUp(client, userid, xpgain, date){
                 }
                 redis.hget('ranking/username', userid, (err, username)=>{
                     if(lvl0 == 0 || (lvl0>0 && (lvl0+1)%2 == 1) || lvl0>8 ){
-                        client.whisper(username.toLowerCase(), "Level global up chez Chatdesbois ! -> Lvl "+(lvl0+1) )
+                        // client.whisper(username.toLowerCase(), "Level global up chez Chatdesbois ! -> Lvl "+(lvl0+1) )
                     }
                     chatlog("policedesbois", '/me '+username + " passe level "+(lvl0+1)+" ! (global)" )
                 })
