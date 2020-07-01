@@ -550,7 +550,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
             mortFunction = afficheMortsLink
         }
         if(/^!link$/gmi.test(m)){
-            redis.get(mortsLink, function (err, reply) {
+            redis.get("mortsLink", function (err, reply) {
                 afficheMortsLink(client, channel, parseInt(reply));
             });
         }
