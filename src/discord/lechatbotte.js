@@ -7,15 +7,14 @@ const Dispatcher = require('./Dispatcher');
 const BotReactions = require('./actions/BotReactions');
 const RolesManager = require('./actions/RolesManager');
 const Queue = require('./actions/Queue');
+const RedAlert = require('./actions/redAlert.js');
 
 const MotDePasse = require('./games/Motdepasse.js');
 const Connect4 = require('./games/Connect4.js');
 const Quiz = require('./games/Quiz.js');
 
 const command_manager = require('./command_manager.js');
-
 const Poulpita = require('./Poulpita.js');
-
 //const pouepopo = require('./pouepopo.js')
 
 function startBot(redisClient) {
@@ -66,6 +65,9 @@ function startBot(redisClient) {
 	);
 	dispatcher.addComponent(
 		new Poulpita(client, constants.rolesName, redisClient, Discord)
+	);
+	dispatcher.addComponent(
+		new RedAlert(client, constants.rolesName, redisClient)
 	);
 	/******/
 
