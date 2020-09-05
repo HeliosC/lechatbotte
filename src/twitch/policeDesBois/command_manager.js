@@ -20,7 +20,7 @@ var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!
 
 var usedCommands = []
 
-const moderators = ["heliosdesbois", "pouiettedesbois", "chatdesbois", "solis_the_sun"]
+const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 
 function chat(channel, user, message, isSelf, client, redis){
 

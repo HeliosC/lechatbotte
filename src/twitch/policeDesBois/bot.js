@@ -37,10 +37,10 @@ const cdg = "choeur_de_gamers"
 const hood = "helioshood"
 const krao = "kraoki"
 
-const moderators = ["heliosdesbois", "pouiettedesbois", "chatdesbois", "solis_the_sun"]
+const moderators = ["heliosdesbois", "pouidesbois", "chatdesbois", "solis_the_sun"]
 const boss = ["toxiicdust","heliosdesbois"]
 const joueursFortnite = ["toxiicdust", "lhotzl", "threshbard", "tutofeeding", "carottounet", "vause", "kraoki"]
-const honteurs = ["heliosdesbois", "pouiettedesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80", "shydaxy"]
+const honteurs = ["heliosdesbois", "pouidesbois", "chatdesbois", "kraoki", "hotzdesbois", "aryus80", "shydaxy"]
 
 const ete = 2
 
