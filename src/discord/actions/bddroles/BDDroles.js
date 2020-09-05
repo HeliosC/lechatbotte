@@ -33,3 +33,4 @@ module.exports.roles = [
 ];
 
 module.exports.advertisedUser = "Helios";
+module.exports.parser = "│";

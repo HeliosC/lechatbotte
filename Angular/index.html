@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+    <head>
+        <title>Redis Data</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        Some stuff to do
+        <div ng-controler='myController'>
+        Hey : {{myData}}
+            <input ng-model="myData">
+        </div>
+    </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <script src="./app.js"></script>
+    <script src="https://github.com/redis/hiredis-node"></script>
+</html>
