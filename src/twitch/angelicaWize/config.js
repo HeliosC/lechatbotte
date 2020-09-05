@@ -10,8 +10,8 @@ module.exports = {
         password: process.env.angelica
     },
     channels: [
-        //"poulpita",
-        "heliosdesbois"
+        "poulpita",
+        // "heliosdesbois"
     ]
 };
   

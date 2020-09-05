@@ -10,9 +10,9 @@ module.exports = {
         password: process.env.police
     },
     channels: [
-        "heliosdesbois",
-        //"kraoki",
-        //"chatdesbois"
+        // "heliosdesbois",
+        // "kraoki",
+        "chatdesbois"
         // "TeamLDLC",
         // "choeur_de_gamers"
     ]

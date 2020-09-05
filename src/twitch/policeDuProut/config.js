@@ -10,7 +10,7 @@ module.exports = {
         password: process.env.policeProut
     },
     channels: [
-        "heliosdesbois",
+        // "heliosdesbois",
         "melikahchi"
     ]
 };
