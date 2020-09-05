@@ -312,7 +312,7 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                 if(res == undefined || res['game_id'] == 21779){
                     redis.hget("commands/description", "!elo", (err, reply) => {
                         getDataLol().then( (a) => {
-                            client.say(channel, user['display-name'] + ", on est " + a + ", road to plat ! "+ reply)
+                            client.say(channel, user['display-name'] + ", on est " + a + " " + reply)
                         })
                     })
                 }
@@ -1018,7 +1018,18 @@ const getDataLol = async () => {
         let tier = a.children(".leagueTier").text().replace(/( |^) | ( |$)/gmi, '')
         let lps =  a.children(".league-points").text().replace("LP: ", "")
         let winslosses = a.children(".winslosses").text().replace(/( |^) | ( |$)/gmi, '').replace(/\n/gmi, '').replace("Wins: ", "").replace("Losses: ", "W/")
-        rank = tier + ' ' + lps+' LP ('+winslosses+'L)'
+        rank = tier + ' ' + lps+' LP ('+winslosses+'L) en solo, ' 
+
+    })
+    var stop = false;
+    searchData('div.other-league-content').each(function(i, e){
+        if(stop) return;
+        else stop = true;
+        var b = searchData(this);
+        let tier = b.children(".leagueTier").text().replace(/( |^) | ( |$)/gmi, '')
+        let lps =  b.children(".medium-8.small-4.columns.text-right").text().replace("LP: ", "")
+        let winslosses = b.children(".medium-12.small-12.columns.text-right").text().replace(/( |^) | ( |$)/gmi, '').replace(/\n/gmi, '').replace("Wins: ", "").replace("Losses: ", "W/")
+        rank += tier + ' ' + lps+' LP ('+winslosses+'L) en flex.'
     })
     return(rank)
 }
