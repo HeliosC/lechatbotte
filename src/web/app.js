@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 var redis = require('async-redis').createClient(process.env.REDIS_URL);
 redis.on('connect', function () {
-	console.log('redis connected');
+	// console.log('redis connected');
 });
 
 
@@ -33,17 +33,45 @@ redis.on('connect', function () {
 // 	})
 // });
 
-app.get('/entree', function (req, res) {
+app.get('/menu-du-jour/entree', function (req, res) {
 	var context = {}
 	datesList().then( dates => {
 		let filtered = dates.map(date => {
-			console.log(date.slice(3,4))
+			// console.log(date.slice(3,4))
 			if(date.slice(3,7) == "2020"){
 				return date
 			}
 		})
 		context.dates = dates;
-		res.render('recette', context)
+		res.render('entree', context)
+	})
+});
+
+app.get('/menu-du-jour/plat', function (req, res) {
+	var context = {}
+	datesList().then( dates => {
+		let filtered = dates.map(date => {
+			// console.log(date.slice(3,4))
+			if(date.slice(3,7) == "2020"){
+				return date
+			}
+		})
+		context.dates = dates;
+		res.render('plat', context)
+	})
+});
+
+app.get('/menu-du-jour/dessert', function (req, res) {
+	var context = {}
+	datesList().then( dates => {
+		let filtered = dates.map(date => {
+			// console.log(date.slice(3,4))
+			if(date.slice(3,7) == "2020"){
+				return date
+			}
+		})
+		context.dates = dates;
+		res.render('dessert', context)
 	})
 });
 
@@ -51,7 +79,7 @@ app.get('/menu-du-jour', function (req, res) {
 	var context = {}
 	datesList().then( dates => {
 		let filtered = dates.map(date => {
-			console.log(date.slice(3,4))
+			// console.log(date.slice(3,4))
 			if(date.slice(3,7) == "2020"){
 				return date
 			}
@@ -88,7 +116,7 @@ app.get('/commands', function (req, res) {
 	var context = {commands:[], descriptedCommands:[]}
 	datesList().then( dates => {
 		let filtered = dates.map(date => {
-			console.log(date.slice(3,4))
+			// console.log(date.slice(3,4))
 			if(date.slice(3,7) == "2020"){
 				return date
 			}
@@ -97,7 +125,7 @@ app.get('/commands', function (req, res) {
 
 	redis.hgetall("commands").then(all =>{
 		for(var cmd in all){
-			console.log(cmd+"   "+all[cmd])
+			// console.log(cmd+"   "+all[cmd])
 			context.commands.push({name: cmd, description: all[cmd]})
 		}
 
@@ -132,7 +160,7 @@ app.get('/:ranking/:page', function (req, res) {
 				getUserInfoFromUsername(username)
 			]).then(([userInfo]) => {
 				let filtered = dates.map(date => {
-					console.log(date.slice(3,4))
+					// console.log(date.slice(3,4))
 					if(date.slice(3,7) == "2020"){
 						return date
 					}
@@ -194,7 +222,7 @@ function affichage(res, date, page, rankingpage){
 		return Promise.all([dates, pages, rankingList ])
 	}).then(([dates, pages, lines]) => {
 		let filtered = dates.map(date => {
-			console.log(date.slice(3,4))
+			// console.log(date.slice(3,4))
 			if(date.slice(3,7) == "2020"){
 				return date
 			}
