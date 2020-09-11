@@ -9,6 +9,7 @@ api.clientID = process.env.clientID
 
 const apitwitch = require('./api_twitch.js')
 
+const quoteManager = require('./quote_manager.js')
 const commandManager = require('./command_manager.js')
 const timerManager = require('./timer_manager.js')
 
@@ -166,6 +167,7 @@ function startBot(redisClient) {
 
 function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
 
+    quoteManager.chat(channel, user, message, isSelf, client, redis)
     commandManager.chat(channel, user, message, isSelf, client, redis)
     timerManager.chat(channel, user, message, isSelf, client, redis)
 
