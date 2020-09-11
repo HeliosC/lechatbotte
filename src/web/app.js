@@ -19,6 +19,49 @@ redis.on('connect', function () {
 });
 
 
+// app.get('/recettes', function (req, res) {
+// 	var context = {}
+// 	datesList().then( dates => {
+// 		let filtered = dates.map(date => {
+// 			console.log(date.slice(3,4))
+// 			if(date.slice(3,7) == "2020"){
+// 				return date
+// 			}
+// 		})
+// 		context.dates = dates;
+// 		res.render('recettes', context)
+// 	})
+// });
+
+app.get('/entree', function (req, res) {
+	var context = {}
+	datesList().then( dates => {
+		let filtered = dates.map(date => {
+			console.log(date.slice(3,4))
+			if(date.slice(3,7) == "2020"){
+				return date
+			}
+		})
+		context.dates = dates;
+		res.render('recette', context)
+	})
+});
+
+app.get('/menu-du-jour', function (req, res) {
+	var context = {}
+	datesList().then( dates => {
+		let filtered = dates.map(date => {
+			console.log(date.slice(3,4))
+			if(date.slice(3,7) == "2020"){
+				return date
+			}
+		})
+		context.dates = dates;
+		res.render('menu_du_jour', context)
+	// , {layout : 'void'}
+	})
+});
+
 app.get('/', function (req, res) {
 	res.redirect("/mensuel/1")
 });
@@ -44,6 +87,12 @@ app.get('/testmap', function (req, res) {
 app.get('/commands', function (req, res) {
 	var context = {commands:[], descriptedCommands:[]}
 	datesList().then( dates => {
+		let filtered = dates.map(date => {
+			console.log(date.slice(3,4))
+			if(date.slice(3,7) == "2020"){
+				return date
+			}
+		})
 		context.dates = dates;
 
 	redis.hgetall("commands").then(all =>{
@@ -82,6 +131,12 @@ app.get('/:ranking/:page', function (req, res) {
 			Promise.all([
 				getUserInfoFromUsername(username)
 			]).then(([userInfo]) => {
+				let filtered = dates.map(date => {
+					console.log(date.slice(3,4))
+					if(date.slice(3,7) == "2020"){
+						return date
+					}
+				})
 				context.dates = dates;
 				context.userInfo = userInfo;
 				let datesPromises = dates.map((date) => {
@@ -138,8 +193,13 @@ function affichage(res, date, page, rankingpage){
 	}).then(([dates, pages, ...rankingList]) => {
 		return Promise.all([dates, pages, rankingList ])
 	}).then(([dates, pages, lines]) => {
-		context.dates = dates;
-		context.lines = lines;
+		let filtered = dates.map(date => {
+			console.log(date.slice(3,4))
+			if(date.slice(3,7) == "2020"){
+				return date
+			}
+		})
+		context.dates = dates;		context.lines = lines;
 		context.pages = pages;
 		res.render('classement', context);
 	})
