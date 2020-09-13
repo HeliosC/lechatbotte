@@ -11,11 +11,16 @@ function chat(channel, user, message, isSelf, client, redis){
     var args = message.split(" ")
 
     if(args[0] == "!addquote"){
-        redis.lpush("quotes", args.slice(1).join(" "), (err, reply) => {
+            redis.lpush("quotes-temp", args.slice(1).join(" "), (err, reply) => {
+                client.say(channel, "Quote proposée")
+            })
+    }else
+        if(args[0] == "!addquote" && isModerateur(username)){
+            redis.lpush("quotes", args.slice(1).join(" "), (err, reply) => {
             client.say(channel, "Quote ajoutée")
         })
     }else 
-    if(args[0] == "!quote"){
+    if(args[0] == "!quote" && isModerateur(username)){
         redis.lrange("quotes", 0, -1, (err, quotes) => {
             let l = quotes.length
             if(l > 0){
