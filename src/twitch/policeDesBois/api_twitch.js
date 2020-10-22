@@ -8,11 +8,11 @@ const oauth = process.env.oauthhelios
 //     lageekenrose : process.env.SheetLGER
 // }
 const Sheets = {
-    // 49041281 : process.env.SheetKrao,
-    // 122699636 : process.env.SheetCDB,
-    // 185261350 : process.env.SheetWillo,
-    // 204501281 : process.env.SheetPoulpi,
-    // 112826022 : process.env.SheetLGER,
+    49041281 : process.env.SheetKrao,
+    122699636 : process.env.SheetCDB,
+    185261350 : process.env.SheetWillo,
+    204501281 : process.env.SheetPoulpi,
+    112826022 : process.env.SheetLGER,
     159948000 : process.env.SheetCatnip
 }
 
@@ -83,8 +83,8 @@ function allclips(broadcaster, period, cursor){
 
 
 
-broadcastersnamelist = ["chatdesbois", "kraoki", "willokhlass", "poulpita", "lageekenrose"]
-broadcasterslist = ["122699636", "49041281", "185261350", "204501281", "112826022"]
+broadcastersnamelist = ["chatdesbois", "kraoki", "willokhlass", "poulpita", "lageekenrose", "catnip"]
+broadcasterslist = ["122699636", "49041281", "185261350", "204501281", "112826022", "159948000"]
 
 function start(sender, arg){
     
