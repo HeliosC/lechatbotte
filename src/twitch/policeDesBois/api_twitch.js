@@ -13,7 +13,7 @@ const Sheets = {
     185261350 : process.env.SheetWillo,
     204501281 : process.env.SheetPoulpi,
     112826022 : process.env.SheetLGER,
-    112826022 : process.env.SheetCatnip
+    159948000 : process.env.SheetCatnip
 }
 
 var api = require('twitch-api-v5')
@@ -31,6 +31,7 @@ const googleClient = new google.auth.JWT(
 );
 
 function allclips(broadcaster, period, cursor){
+    console.log(broadcaster + " " + period)
      return apiclips(broadcaster, period, cursor).then( response => {
         
         if(response != "apiclips failed") {
