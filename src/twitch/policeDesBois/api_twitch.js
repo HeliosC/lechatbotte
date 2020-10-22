@@ -12,7 +12,8 @@ const Sheets = {
     122699636 : process.env.SheetCDB,
     185261350 : process.env.SheetWillo,
     204501281 : process.env.SheetPoulpi,
-    112826022 : process.env.SheetLGER
+    112826022 : process.env.SheetLGER,
+    112826022 : process.env.SheetCatnip
 }
 
 var api = require('twitch-api-v5')
