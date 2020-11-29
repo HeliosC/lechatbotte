@@ -29,6 +29,15 @@ function chat(channel, user, message, isSelf, client, redis){
             }
         })
     }
+    if (args[0] == "!removequote") {
+        this.redis.lrem("quotes", 0, args.splice(1).join(" "), (err, response) => {
+            if (response == 0) {
+                client.say(channel, "Cette quote n'existe pas.")
+            } else {
+                client.say(channel, "Quote suprimée.")
+            }
+        })
+    }
 }
 
 function randomIntFromInterval(min, max) { // min and max included 

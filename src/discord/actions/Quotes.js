@@ -65,8 +65,14 @@ Quotes.prototype.onMessage = function(message) {
         })
     }
 
-    if (message.content.toLowerCase().startsWith("!removequote ") ) {
-        this.redis.lrem("quotes", 0, message.content.split(" ").splice(1).join(" "))
+    if (message.content.toLowerCase().startsWith("!removequote ")) {
+        this.redis.lrem("quotes", 0, message.content.split(" ").splice(1).join(" "), (err, response) => {
+            if (response == 0) {
+                message.channel.send("Cette quote n'existe pas.")
+            } else {
+                message.channel.send("Quote suprimée.")
+            }
+        })
     }
     return actionTriggered;
 };
