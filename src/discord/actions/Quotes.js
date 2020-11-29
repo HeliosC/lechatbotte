@@ -66,7 +66,7 @@ Quotes.prototype.onMessage = function(message) {
     }
 
     if (message.content.toLowerCase().startsWith("!removequote ") ) {
-        this.redis.lrem("quotes", 0, message.content.split(" ").splice(1).join(" ")
+        this.redis.lrem("quotes", 0, message.content.split(" ").splice(1).join(" "))
     }
     return actionTriggered;
 };
