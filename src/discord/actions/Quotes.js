@@ -53,16 +53,20 @@ Quotes.prototype.onMessage = function(message) {
             var qlist2 = ""
             qlistboo = true
             for (const [index, quote] of quotes.entries()) {
-                qlist2 = qlist + index + " - " + quote + "\n"
+                qlist2 = qlist + "- " + quote + "\n"
 
                 if(qlist2.length>2048){
                     this.afficheList(qlist, message)
-                    qlist2 = index + " - " + quote + "\n"
+                    qlist2 + "- " + quote + "\n"
                 }
                 qlist=qlist2
             }
             this.afficheList(qlist, message)
         })
+    }
+
+    if (message.content.toLowerCase().startsWith("!removequote ") ) {
+        this.redis.lrem("quotes", 0, message.content.split(" ").splice(1).join(" ")
     }
     return actionTriggered;
 };
@@ -76,7 +80,7 @@ Quotes.prototype.onReaction = function(reaction, user) {
 
     if (user.bot) { return actionTriggered }
 
-    if (reaction.message.id = this.validatingMessage.id && !this.quoteZeratorState.value) {
+    if (reaction.message.id = this.validatingMessage.id && !this.quoteZeratorState.done) {
         if (reaction.emoji.name == "yea") {
             this.redis.lpush("quotes", this.quoteZeratorState.value);
             this.nextQuote(reaction, user)
