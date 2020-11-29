@@ -7,7 +7,8 @@ module.exports = {
 		games: "jeux",
 		quiz: "quiz",
 		role: "rôle",
-		password: "mot_de_passe"
+		password: "mot_de_passe",
+		test: "test"
 	},
 	rolesName: {
 		donnator: "Chats de qualité supérieure 🐱 (donateurs)",

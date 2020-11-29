@@ -16,6 +16,9 @@ const Sheets = {
     159948000 : process.env.SheetCatnip
 }
 
+broadcastersnamelist = ["chatdesbois", "kraoki", "willokhlass", "poulpita", "lageekenrose", "catnip"]
+broadcasterslist = ["122699636", "49041281", "185261350", "204501281", "112826022", "159948000"]
+
 var api = require('twitch-api-v5')
 api.clientID = clientID
 
@@ -80,11 +83,6 @@ function allclips(broadcaster, period, cursor){
  
      })
  }
-
-
-
-broadcastersnamelist = ["chatdesbois", "kraoki", "willokhlass", "poulpita", "lageekenrose", "catnip"]
-broadcasterslist = ["122699636", "49041281", "185261350", "204501281", "112826022", "159948000"]
 
 function start(sender, arg){
     

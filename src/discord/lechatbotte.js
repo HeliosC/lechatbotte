@@ -17,6 +17,8 @@ const command_manager = require('./command_manager.js');
 const Poulpita = require('./Poulpita.js');
 //const pouepopo = require('./pouepopo.js')
 
+const Quotes = require('./actions/Quotes.js');
+
 function startBot(redisClient) {
 
 	const client = new Discord.Client();
@@ -68,6 +70,9 @@ function startBot(redisClient) {
 	);
 	dispatcher.addComponent(
 		new RedAlert(client, constants.rolesName, redisClient)
+	);
+	dispatcher.addComponent(
+		new Quotes(client, constants.channels, constants.rolesName, redisClient, Discord)
 	);
 	/******/
 
