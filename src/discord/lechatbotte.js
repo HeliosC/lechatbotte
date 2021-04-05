@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { Client, MessageAttachment } = require("discord.js");
 
 
 const constants = require('./constants');
@@ -12,6 +12,7 @@ const RedAlert = require('./actions/redAlert.js');
 const MotDePasse = require('./games/Motdepasse.js');
 const Connect4 = require('./games/Connect4.js');
 const Quiz = require('./games/Quiz.js');
+const JDR = require('./games/JDR.js');
 
 const command_manager = require('./command_manager.js');
 const Poulpita = require('./Poulpita.js');
@@ -21,7 +22,7 @@ const Quotes = require('./actions/Quotes.js');
 
 function startBot(redisClient) {
 
-	const client = new Discord.Client();
+	const client = new Client();
 
 	client.on('ready', () => {
 		console.log(`Logged in as ${client.user.tag}!`);
