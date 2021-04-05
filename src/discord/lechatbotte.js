@@ -1,5 +1,6 @@
 const { Client, MessageAttachment } = require("discord.js");
-
+const Discord = require("discord.js");
+//WEIRD NEED TO FIND SMTH BETTE
 
 const constants = require('./constants');
 const Dispatcher = require('./Dispatcher');
@@ -22,7 +23,7 @@ const Quotes = require('./actions/Quotes.js');
 
 function startBot(redisClient) {
 
-	const client = new Client();
+	const client = new Discord.Client();
 
 	client.on('ready', () => {
 		console.log(`Logged in as ${client.user.tag}!`);
@@ -41,12 +42,7 @@ function startBot(redisClient) {
 
 	/******/
 	dispatcher.addComponent(
-		new BotReactions(
-				client,
-				constants.channels,
-				constants.rolesName,
-				constants.commandPrefix
-		)
+		new BotReactions(client,constants.channels,constants.rolesName,constants.commandPrefix)
 	);
 	dispatcher.addComponent(
 		new RolesManager(client, constants.channels.role)
@@ -62,6 +58,9 @@ function startBot(redisClient) {
 	);
 	dispatcher.addComponent(
 		new Quiz(client, constants.channels.quiz)
+	);
+	dispatcher.addComponent(
+		new JDR(client, constants.channels.jdr, redisClient, MessageAttachment)
 	);
 	dispatcher.addComponent(
 		new command_manager(client, constants.rolesName, redisClient)
