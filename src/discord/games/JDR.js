@@ -18,7 +18,7 @@ function JDR(botClient, channel, redis) {
 }
 
 JDR.prototype.isConcernedByMessage = function(message) {
-    return message.channel.name.indexOf(this.channel) != -1
+    return true // message.channel.name.indexOf(this.channel) != -1
 };
 
 JDR.prototype.onMessage = function(message) {
