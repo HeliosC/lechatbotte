@@ -100,8 +100,13 @@ function startBot(redisClient) {
 			&& message.channel.id == 548283395906600970 /* poui-et-krao-le-soir */) {
 			message.react("🗡");
 		}
-		if(message.content.toLowerCase() == "ou alors" && message.guild.id == "350708761226117122" ){
-			message.channel.send("c'est un bot")
+		if(message.guild.id == "350708761226117122" ){
+			if(message.content.toLowerCase() == "ou alors" ) {
+				message.channel.send("c'est un bot")
+			}
+			if(message.content.toLowerCase().indexOf("ping") != -1) {
+				message.reply("Pong !")
+			}
 		}
 	})
 	
