@@ -71,7 +71,7 @@ Quiz.prototype.onReaction = function(reaction, user) {
         return actionTriggered;
     }
 
-    let {themeName, question, reponse, userId, timeoutId} = this.runningGameMessage[message.id];
+    let {themeName, question, response, userId, timeoutId} = this.runningGameMessage[message.id];
 
     if (user.id != userId) {
         return actionTriggered;
@@ -122,7 +122,7 @@ Quiz.prototype.displayThemes = function(channel) {
 };
 
 Quiz.prototype.createNewQuestionMessage = function(channel, user, themeIndex) {
-    let [question, reponse] = getQuestion(themeIndex, randInt(1, nbQuestionsForTheme[themeIndex]));
+    let [question, response] = getQuestion(themeIndex, randInt(1, nbQuestionsForTheme[themeIndex]));
     let themeName = themes[themeIndex];
 
     channel.send({ embed: {
@@ -198,7 +198,7 @@ function getQuestion(themeIndex, randomNumber) {
     }
     let indexSymbolNextQuestion = index;
 
-    response = themeDB.substr(
+    let response = themeDB.substr(
         indexSymbolResponse + 3,
         indexSymbolNextQuestion - indexSymbolResponse - 3
     );
