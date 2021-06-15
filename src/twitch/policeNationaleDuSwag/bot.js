@@ -59,7 +59,7 @@ function startBot() {
         /* Specific to kraoki's channel */
         if (channel.indexOf("kraoki") != -1) {
 
-            if (m.startsWith("arrechanneltez")) {
+            if (m.startsWith("arretez")) {
                 request('https://tmi.twitch.tv/group/user/'+channel.slice(1)+'/chatters', function (error, response, body) {
                     if (!error && response.statusCode == 200) {
                         let data = JSON.parse(body)
