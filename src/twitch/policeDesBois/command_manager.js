@@ -82,8 +82,11 @@ function chat(channel, user, message, isSelf, client, redis){
                     break
                 case "description":
                     if(descriptableCommands.includes(command)){
-                        if(args[3]==null || args[3]==undefined){
-                            args[3] = " ";
+                        if(args[3] == null || args[3] == undefined){
+                            redis.hget("commands/description", command, (err, reply) => {
+                                client.say(channel, reply)
+                            })
+                            return
                         }
                         redis.hset("commands/description", command, args.slice(3).join(" "), (err, reply) => {
                             client.say(channel, "Description de la commande "+ command + " modifiée.")
