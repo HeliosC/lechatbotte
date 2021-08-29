@@ -33,6 +33,10 @@ function chat(channel, user, message, isSelf, client, redis){
     var args = message.split(" ")
     if(isModerateur(username)){
         if(args[0] == "!police"){
+            if(args[2] == undefined) {
+                client.say(channel, "Syntaxe invalide.")
+                return
+            }
             var command = args[2].toLowerCase()
             if(["add", "edit", "remove"].includes(args[1]) && allBotCommands.includes(command)){
                 client.say(channel, "Cette commande n'est pas modifiable.")
@@ -48,7 +52,7 @@ function chat(channel, user, message, isSelf, client, redis){
                                 client.say(channel, "Commande "+ command + " créée.")
                             })
                         }else{
-                            client.say(channel, "Syntaxe invalide")
+                            client.say(channel, "Syntaxe invalide.")
                         }
                     })
                     break
@@ -61,7 +65,7 @@ function chat(channel, user, message, isSelf, client, redis){
                                 client.say(channel, "Commande "+ command + " modifiée.")
                             })
                         }else{
-                            client.say(channel, "Syntaxe invalide")
+                            client.say(channel, "Syntaxe invalide.")
                         }
                     })
                     break
