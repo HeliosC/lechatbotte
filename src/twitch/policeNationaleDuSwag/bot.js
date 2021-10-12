@@ -37,8 +37,8 @@ function startBot() {
     let client = new tmi.client(tmiConfig);
     client.connect().then(_ => {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
-    }).catch(console.error);
-
+    }).catch(error => { console.error(`${tmiConfig.identity.username} ${error}`) });
+    
     client.on("whisper", function (from, userstate, message, self) {
         if (self) return;
 

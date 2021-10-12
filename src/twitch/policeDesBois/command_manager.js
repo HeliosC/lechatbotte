@@ -8,7 +8,7 @@ var allBotCommands = ["!-honte", "!honte", "!stathonte", "!massacre+1", "!massac
 "!gxp", "!xpg", "!xpglobal",
 "!élo", "!rank"]
 
-var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!lobby+1", "canons+1",
+var descriptableCommands = ["!honte", "!stathonte", "!massacre+1", "!mort+1", "!lobby+1", "canons+1", "link+1",
 "!top", "!topg", "!lvl", "!lvlg", "!xp", "!xpg",
 "!elo"]
 

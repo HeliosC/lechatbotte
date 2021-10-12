@@ -52,7 +52,9 @@ function startBot(redisClient) {
 
     redis = redisClient
     let client = new tmi.client(tmiConfig);
-    client.connect();
+    client.connect().then(_ => {
+        console.log(`${tmiConfig.identity.username} logged in on twitch !`)
+    }).catch(error => { console.error(`${tmiConfig.identity.username} ${error}`) });
 
     api.streams.channel({ channelID: idpoulpita }, (err, res) => {
         if(!err) {
@@ -119,19 +121,19 @@ function startBot(redisClient) {
             setTimeout(function() { deceit = false }, 10000);
         }    
 
-        if(userid!=undefined){
-            if(isCached[userid]!=true){
-                isCached[userid]=true
-                api.users.userByID({ userID: userid }, (err, res) => {
-                    if(!err) {
-                        redis.hset('ranking/logo', userid, res.logo)
-                        redis.hset('ranking/username', userid, displayname)
-                        redis.hset('ranking/color', userid, user.color)
-                        redis.hset('ranking/id', username, userid)
-                    }
-                })
-            }
-        }
+        // if(userid!=undefined){
+        //     if(isCached[userid]!=true){
+        //         isCached[userid]=true
+        //         api.users.userByID({ userID: userid }, (err, res) => {
+        //             if(!err) {
+        //                 redis.hset('ranking/logo', userid, res.logo)
+        //                 redis.hset('ranking/username', userid, displayname)
+        //                 redis.hset('ranking/color', userid, user.color)
+        //                 redis.hset('ranking/id', username, userid)
+        //             }
+        //         })
+        //     }
+        // }
 
         if(m.startsWith("!rank")){
             if(questionOn){                

@@ -106,7 +106,7 @@ function startBot(redisClient) {
         console.log(`${tmiConfig.identity.username} logged in on twitch !`)
         client.whisper(hdb, "Deployed: " + heure());
         console.log(`xp: ${xpactif} test: ${ontest}`)
-    }).catch(console.error);
+    }).catch(error => { console.error(`${tmiConfig.identity.username} ${error}`) });
 
     client.on("whisper", function (from, userstate, message, self) {
         if (self) return;
