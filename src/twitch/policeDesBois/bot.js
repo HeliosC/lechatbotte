@@ -55,7 +55,6 @@ const xptimer = 60000
 const ontest = (process.env.onTest == "true")
 const xpactif = (process.env.xpActif == "true")
 var active = false
-var justActived = false
 var chaters = {}
 var timerUpdateXP
 
@@ -682,23 +681,20 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         chaters[userid] = 10
     }
 
-    if(justActived){
-        justActived = false
-        active = true
-        timerUpdateXP = setInterval(()=>{
-            updateXp(client, IDchatdesbois)
-        }, xptimer);
-
-        timerManager.initTimers(channel, client, redis)
-    }
-
     if (!active) {
         api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
             if(!err) {
                 //Live on ???
                 if ( (res.stream != null || ontest)&&xpactif) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
-                    justActived = true
+                    chaters[userid] = 10
+
+                    active = true
+                    timerUpdateXP = setInterval(()=>{
+                        updateXp(client, IDchatdesbois)
+                    }, xptimer);
+            
+                    timerManager.initTimers(channel, client, redis)
                 }
             } else {
                 console.error("unable ")
