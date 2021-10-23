@@ -25,7 +25,7 @@ const googleClient = new google.auth.JWT(
     ['https://www.googleapis.com/auth/spreadsheets']
 );
 
-let oauth = process.env.police.split('auth:')[1]
+let oauth = process.env.oauthhelios
 let clientID = process.env.clientID
 let url = "https://api.twitch.tv/kraken/channels/"
 
