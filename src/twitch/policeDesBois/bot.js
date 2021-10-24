@@ -541,34 +541,48 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
         client.say(channel, "https://clips.twitch.tv/GracefulDistinctTitanLitFam")
     }
 
-    api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-        game = res == undefined ? "null" : res.stream.game.toLowerCase()
-        if(game.includes("tomb raider") || game.includes("lara croft")){
-            mortRedis = "morts"
-            mortFunction = afficheMorts
-        }else{
-            mortRedis = "mortsLink"
-            mortFunction = afficheMortsLink
+    options = {
+        url: "https://api.twitch.tv/helix/streams?user_id="+idchatdesbois,
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer "+oauth,
+            "Client-ID": clientID,
         }
-        if(/^!link$/gmi.test(m)){
-            redis.get("mortsLink", function (err, reply) {
-                afficheMortsLink(client, channel, parseInt(reply));
-            });
-        }
-        if (/^!morts?$/gmi.test(m)) { //*morts -> affiche le nb
-            redis.get(mortRedis, function (err, reply) {
-                mortFunction(client, channel, parseInt(reply));
-            });
+    };
     
-        } else if (isModerateur(user.username) && /^!morts?\s?\-\s?1$/gmi.test(m)) {
-            redis.decr(mortRedis, function (err, reply) {
-                mortFunction(client, channel, parseInt(reply));
-            });
-        }
-        else if (isModerateur(user.username) && /^!morts? \d/gmi.test(m)) {
-            morts = parseInt(m.slice(5 + 1)) || 0;
-            mortFunction(client, channel, morts);
-            redis.set(mortRedis, morts);
+    request(options, function (error, response, body) {
+        if (response && response.statusCode == 200) {
+            let data = JSON.parse(body)
+            res = data.data[0]
+
+            game = res == null ? "null" : res.game_name.toLowerCase()
+            if(game.includes("tomb raider") || game.includes("lara croft")){
+                mortRedis = "morts"
+                mortFunction = afficheMorts
+            }else{
+                mortRedis = "mortsLink"
+                mortFunction = afficheMortsLink
+            }
+            if(/^!link$/gmi.test(m)){
+                redis.get("mortsLink", function (err, reply) {
+                    afficheMortsLink(client, channel, parseInt(reply));
+                });
+            }
+            if (/^!morts?$/gmi.test(m)) { //*morts -> affiche le nb
+                redis.get(mortRedis, function (err, reply) {
+                    mortFunction(client, channel, parseInt(reply));
+                });
+        
+            } else if (isModerateur(user.username) && /^!morts?\s?\-\s?1$/gmi.test(m)) {
+                redis.decr(mortRedis, function (err, reply) {
+                    mortFunction(client, channel, parseInt(reply));
+                });
+            }
+            else if (isModerateur(user.username) && /^!morts? \d/gmi.test(m)) {
+                morts = parseInt(m.slice(5 + 1)) || 0;
+                mortFunction(client, channel, morts);
+                redis.set(mortRedis, morts);
+            }
         }
 
     })
@@ -682,10 +696,21 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
     }
 
     if (!active) {
-        api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-            if(!err) {
-                //Live on ???
-                if ( (res.stream != null || ontest)&&xpactif) {
+        options = {
+            url: "https://api.twitch.tv/helix/streams?user_id="+idchatdesbois,
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer "+oauth,
+                "Client-ID": clientID,
+            }
+        };
+        
+        request(options, function (error, response, body) {
+            if (response && response.statusCode == 200) {
+                let data = JSON.parse(body)
+                res = data.data[0]
+    
+                if ((res != null || ontest)&&xpactif) {
                     console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
                     chaters[userid] = 10
 
@@ -695,11 +720,33 @@ function channelCdb(client, channel, user, message, isSelf, IDchatdesbois) {
                     }, xptimer);
             
                     timerManager.initTimers(channel, client, redis)
+                } else {
+                    console.log("LIVE OFF")
                 }
             } else {
-                console.error("unable ")
+                console.error("unable get streams" + response.statusCode)
             }
         })
+        
+        // api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+        //     console.log("err "+err)
+        //     if(!err) {
+        //         //Live on ???
+        //         if ( (res.stream != null || ontest)&&xpactif) {
+        //             console.log("LIVE ONNNNNNNNNNNNNNNNNNNN")
+        //             chaters[userid] = 10
+
+        //             active = true
+        //             timerUpdateXP = setInterval(()=>{
+        //                 updateXp(client, IDchatdesbois)
+        //             }, xptimer);
+            
+        //             timerManager.initTimers(channel, client, redis)
+        //         }
+        //     } else {
+        //         console.error("unable ")
+        //     }
+        // })
     }
 
     if(xpactif && !ontest){
@@ -879,29 +926,62 @@ function updateXp(client, IDchatdesbois) {
         }
     }
 
-    api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
-        if(!err) {
-            //Live off ???
-            if (res.stream == null && !ontest) {
+    options = {
+        url: "https://api.twitch.tv/helix/streams?user_id="+idchatdesbois,
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer "+oauth,
+            "Client-ID": clientID,
+        }
+    };
+    
+    request(options, function (error, response, body) {
+        if (response && response.statusCode == 200) {
+            let data = JSON.parse(body)
+            res = data.data[0]
+
+            if (res == null && !ontest) {
+                console.log("LIVE ON")
                 active = false
                 timerManager.removeAllTimers()
                 clearTimeout(timerUpdateXP)
                 redis.set("honte/user", "null")
                 console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+            } else {
+                console.log("LIVE OFF")
             }
         } else {
-            console.error("unable ")
+            console.error("unable get streams" + response.statusCode)
         }
     })
+
+    // api.streams.channel({ channelID: idchatdesbois }, (err, res) => {
+    //     if(!err) {
+    //         //Live off ???
+    //         if (res.stream == null && !ontest) {
+    //             active = false
+    //             timerManager.removeAllTimers()
+    //             clearTimeout(timerUpdateXP)
+    //             redis.set("honte/user", "null")
+    //             console.log("LIVE OFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    //         }
+    //     } else {
+    //         console.error("unable ")
+    //     }
+    // })
 }
 
 function checkLevelUp(client, userid, xpgain, date){
+    console.log("checkLevelUp " +userid)
 
     redis.zscore('ranking/xp/'+ date, userid, (err, score)=>{
+        console.log("xp "+score)
+
         var score=parseInt(score)
         var lvl=level(score)
 
         redis.zscore('ranking/xp/global', userid, (err, score0)=>{
+            console.log("xp global "+score)
             var score0=parseInt(score0)
             var lvl0=level(score0)
 
