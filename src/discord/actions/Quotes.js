@@ -1,10 +1,10 @@
 var qlistboo = false
 
-function Quotes(botClient, channels, rolesName, redisClient, DiscordClient) {
+function Quotes(botClient, channels, roles, redisClient, DiscordClient) {
     this.botClient = botClient;
     // this.channel = channels.channelCh;
     this.channelTest = channels.test;
-    this.rolesName = rolesName;
+    this.roles = roles;
     this.redis = redisClient
     this.discord = DiscordClient
 
@@ -14,7 +14,7 @@ function Quotes(botClient, channels, rolesName, redisClient, DiscordClient) {
 }
 
 Quotes.prototype.isModerator = function(message) {
-    let userRoles = this.getRoles(message.member, message.guild, this.rolesName);
+    let userRoles = this.getRoles(message.member, this.roles);
     return userRoles.administrator || userRoles.moderator;
 };
 
@@ -34,8 +34,8 @@ Quotes.prototype.onMessage = function(message) {
             .then(message => {
                 this.validatingMessage = message
 
-                var yesEmoji = this.botClient.emojis.find(e => e.name == "yea");
-                var noEmoji = this.botClient.emojis.find(e => e.name == "nay");
+                var yesEmoji = this.botClient.emojis.cache.find(e => e.name == "yea");
+                var noEmoji = this.botClient.emojis.cache.find(e => e.name == "nay");
 
                 message.react(yesEmoji)
                     .then(() => {
@@ -100,7 +100,7 @@ Quotes.prototype.onReaction = function(reaction, user) {
 };
 
 Quotes.prototype.nextQuote = function(reaction, user) { 
-    reaction.remove(user);
+    reaction.users.remove(user.id);
     this.redis.lrem("quotes-temp", 1, this.quoteZeratorState.value);
     this.quoteZeratorState = this.quoteZerator.next();
     if(!this.quoteZeratorState.done) {
@@ -119,20 +119,15 @@ Quotes.prototype.generateEmbed = function(description) {
 };
 
 // Duplicate from BotReactions.js
-Quotes.prototype.getRoles = function(member, guild, roles) {
+Quotes.prototype.getRoles = function(member, roles) {
     var posessedRoles = {};
   
     for (let roleTitle in roles) {
-      let roleName = roles[roleTitle];
-      let guildRole = guild.roles.find(r => r.name == roleName);
+      let roleId = roles[roleTitle];
   
       let hasRole = false;
-  
-      if (guildRole !== null) {
-        let roleId = guildRole.id;
-        if(member!==null){
-          hasRole = member.roles.has(roleId);
-        }
+      if(member!==null){
+        hasRole = member.roles.cache.has(roleId);
       }
   
       posessedRoles[roleTitle] = hasRole;

@@ -1,8 +1,8 @@
 const { createCanvas, loadImage } = require('canvas')
 
-function JDR(botClient, channel, redis) {
+function JDR(botClient, channelId, redis) {
     this.botClient = botClient;
-    this.channel = channel;
+    this.channelId = channelId;
     this.redis = redis;
 
     this.prefix = "*"
@@ -30,24 +30,27 @@ JDR.prototype.onMessage = function(message) {
     const args = message.content.slice(this.prefix.length).split(" ")
     const command = args.shift().toLowerCase()
 
-    if (command == "pick") {
-        actionTriggered = true;
-        iDeck = parseInt(args[0], 10)
-        if (isNaN(iDeck) || iDeck == undefined) iDeck = 1
-        this.pickCard(message, iDeck)
-    }
-
-    if (command == "resetdeck") {
-        actionTriggered = true;
-        iDeck = parseInt(args[0], 10)
-        if (isNaN(iDeck) || iDeck == undefined) iDeck = 1
-        nbCards = parseInt(args[1], 10)
-        this.resetDeck(message, iDeck, nbCards)
-    }
-
+    //TODO: temporary way to use this command everywhere 
     if (command == "roll") {
         actionTriggered = true;
         this.rollDice(message, args)
+    }
+
+    if(message.channel.id == this.channelId && this.redis) {
+        if (command == "pick") {
+            actionTriggered = true;
+            iDeck = parseInt(args[0], 10)
+            if (isNaN(iDeck) || iDeck == undefined) iDeck = 1
+            this.pickCard(message, iDeck)
+        }
+    
+        if (command == "resetdeck") {
+            actionTriggered = true;
+            iDeck = parseInt(args[0], 10)
+            if (isNaN(iDeck) || iDeck == undefined) iDeck = 1
+            nbCards = parseInt(args[1], 10)
+            this.resetDeck(message, iDeck, nbCards)
+        }
     }
 
     return actionTriggered;
@@ -107,12 +110,12 @@ JDR.prototype.rollDice = async function(message, args = ["100"]) {
 
         message.channel.send(
             { 
-            embed: {
+            embeds: [{
                 color: 0x0000,
                 title: `Vous lancez un dé ${arg} !`, //face${(dice > 1 ? "s" : "")} !`,
                 image: { url: 'attachment://result.jpg' },
                 fields
-            },
+            }],
             files
         })
         .catch(console.error);
@@ -191,7 +194,7 @@ JDR.prototype.pickCard = function(message, i = 1) {
 
         message.channel.send(
             { 
-            embed: {
+            embeds: [{
                 color,
                 title: "Votre carte",
                 description: `Faites-en bon usage !`,
@@ -202,7 +205,7 @@ JDR.prototype.pickCard = function(message, i = 1) {
                     value: cards.length - 1,
                     inline: false
                 }]
-            },
+            }],
             files
         })
         .catch(console.error);

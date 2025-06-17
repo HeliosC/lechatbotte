@@ -1,38 +1,52 @@
-const { Client, MessageAttachment } = require("discord.js");
-const Discord = require("discord.js");
-//WEIRD NEED TO FIND SMTH BETTE
+const { Client, MessageAttachment, GatewayIntentBits } = require("discord.js");
+//const Discord = require("discord.js");
+//WEIRD, NEED TO FIND SMTH BETTER
 
 const constants = require('./constants');
 const Dispatcher = require('./Dispatcher');
 
 const BotReactions = require('./actions/BotReactions');
-const RolesManager = require('./actions/RolesManager');
-const Queue = require('./actions/Queue');
-const RedAlert = require('./actions/redAlert.js');
+//const pouepopo = require('./pouepopo.js')
 
 const MotDePasse = require('./games/Motdepasse.js');
 const Connect4 = require('./games/Connect4.js');
 const Quiz = require('./games/Quiz.js');
 const JDR = require('./games/JDR.js');
 
-const command_manager = require('./command_manager.js');
-const Poulpita = require('./Poulpita.js');
-//const pouepopo = require('./pouepopo.js')
+/* Chat Des Bois features */
+const RolesManager = require('./actions/RolesManager');
+//const Queue = require('./actions/Queue');
+//const RedAlert = require('./actions/redAlert.js');
+//const command_manager = require('./command_manager.js');
+//const Quotes = require('./actions/Quotes.js');
 
-const Quotes = require('./actions/Quotes.js');
+/* Poulpita features */
+//const Poulpita = require('./Poulpita.js');
+
 
 function startBot(redisClient) {
 
-	const client = new Discord.Client();
+	const client = new Client({ 
+		intents: [
+			GatewayIntentBits.Guilds, 
+			GatewayIntentBits.GuildMessages,
+			GatewayIntentBits.GuildMembers,
+			GatewayIntentBits.GuildMessageReactions,
+			GatewayIntentBits.MessageContent
+		] 
+	});
 
 	client.on('ready', () => {
 		console.log(`Logged in as ${client.user.tag}!`);
-		client.channels.find(val => val.name.includes(constants.channels.role)).fetchMessage('710202967776821348')
-		.then(message => console.log("PROUT1"))
-		.catch(console.error);
-		client.channels.find(val => val.name === 'devenir-un-fidèle').fetchMessage('643524258093334569')
+
+		/*client.channels.cache.find(channel => channel.id == constants.chatdesbois.channels.role)
+		?.fetchMessage(constants.chatdesbois.channels.role)
+		?.then(message => console.log("cannot fetch role message"))
+		?.catch(console.error);*/
+
+		/*client.channels.cache.find(val => val.name === 'devenir-un-fidèle').fetchMessage('643524258093334569')
 		.then(message => console.log("PROUT2"))
-			.catch(console.error);
+			.catch(console.error);*/
  	});
 	client.on("error", (e) => console.error(e));
 	client.on("warn", (e) => console.warn(e));
@@ -42,19 +56,19 @@ function startBot(redisClient) {
 
 	/******/
 	dispatcher.addComponent(
-		new BotReactions(client,constants.channels,constants.rolesName,constants.commandPrefix)
+		new BotReactions(client,constants.channels,constants.roles,constants.commandPrefix)
 	);
 	dispatcher.addComponent(
 		new RolesManager(client, constants.channels.role)
 	);
-	dispatcher.addComponent(
-		new Queue(client, constants.channels.queue, constants.rolesName)
-	);
+	/*dispatcher.addComponent(
+		new Queue(client, constants.channels.queue, constants.roles)
+	);*/
 	dispatcher.addComponent(
 		new MotDePasse(client, constants.channels.password)
 	);
 	dispatcher.addComponent(
-		new Connect4(client, constants.channels.games, constants.rolesName)
+		new Connect4(client, constants.channels.games, constants.roles)
 	);
 	dispatcher.addComponent(
 		new Quiz(client, constants.channels.quiz)
@@ -62,75 +76,62 @@ function startBot(redisClient) {
 	dispatcher.addComponent(
 		new JDR(client, constants.channels.jdr, redisClient, MessageAttachment)
 	);
-	dispatcher.addComponent(
-		new command_manager(client, constants.rolesName, redisClient)
-	);
-	dispatcher.addComponent(
-		new Poulpita(client, constants.rolesName, redisClient, Discord)
-	);
-	dispatcher.addComponent(
-		new RedAlert(client, constants.rolesName, redisClient)
-	);
-	dispatcher.addComponent(
-		new Quotes(client, constants.channels, constants.rolesName, redisClient, Discord)
-	);
+	/*dispatcher.addComponent(
+		new command_manager(client, constants.roles, redisClient)
+	);*/
+	/*dispatcher.addComponent(
+		new Poulpita(client, constants.roles, redisClient, Discord)
+	);*/
+	/*dispatcher.addComponent(
+		new RedAlert(client, constants.roles, redisClient)
+	);*/
+	/*dispatcher.addComponent(
+		new Quotes(client, constants.channels, constants.roles, redisClient, Discord)
+	);*/
 	/******/
 
-	client.on('message', dispatcher.onMessage.bind(dispatcher));
+	client.on('messageCreate', dispatcher.onMessage.bind(dispatcher));
 	client.on('messageReactionAdd', dispatcher.onReaction.bind(dispatcher));
 	client.on('messageReactionRemove', dispatcher.onReactionRemove.bind(dispatcher));
 
+	/** Chat Des Bois Welcoming message */
 	client.on('guildMemberAdd', (member) => {
-		if (member.guild.name.indexOf("chats") != -1) {
-			const h = client.emojis.find(e => e.name == "hidesbois");
-			client.channels.find(c => c.name == constants.channels.chanCh).send(
-				"Bienvenue par minou " + member + " ! " + h
-				+ " Prends 30 secondes pour lire l'" + client.channels.find(c => c.id == 299124426866294787)
-				+ " et réclame tes rôles dans " + client.channels.find(c => c.name == "✅│adhesion-rôles") + " !"
+		if (member.guild.id == constants.chatdesbois.server) {
+			const h = client.emojis.cache.find(e => e.name == "hidesbois");
+			client.channels.cache.find(c => c.id == constants.chatdesbois.channels.main).send(
+				`Bienvenue par minou ${member} ! ${h}` 
+				+ " Prends 30 secondes pour lire l'" + `${client.channels.cache.find(c => c.id == constants.chatdesbois.channels.reglement)}`
+				+ " et réclame tes rôles dans " + `${client.channels.cache.find(c => c.id == constants.chatdesbois.channels.role)}` + " !"
 			);
 		}
 	});
 
 
 	client.login(process.env.TOKENchat);
-
-	client.on('message', message => {
-		if (message.author
-			&& message.author.id == 255069392780394506 /*poui des bois*/
-			&& message.channel.id == 548283395906600970 /* poui-et-krao-le-soir */) {
-			message.react("🗡");
-		}
-		if(message.guild.id == "350708761226117122" ){
-			if(message.content.toLowerCase() == "ou alors" ) {
-				message.channel.send("c'est un bot")
-			}
-			if(message.content.toLowerCase().indexOf("ping") != -1) {
-				message.reply("Pong !")
-			}
-		}
-	})
 	
-	client.on('messageReactionAdd', (reaction, user) => {
-		if (reaction.message.id == 643524258093334569 /*message devenir bg*/
-			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
-				const role = reaction.message.guild.roles.find(val => val.name === 'Les fidèles');
+	/** Handle role for my stream notification */
+	/*client.on('messageReactionAdd', (reaction, user) => {
+		if (reaction.message.id == 643524258093334569 // message devenir bg
+			&& reaction.emoji.name == "GarconViande" ) { // meatboy
+				const role = reaction.message.guild.roles.cache.find(val => val.name === 'Les fidèles');
 				const member = reaction.message.guild.member(user);
-				if(!member.roles.has(role.id)){
+				if(!member.roles.cache.has(role.id)){
 					member.addRole(role);
 				}			
 			}
 	})
 
 	client.on('messageReactionRemove', (reaction, user) => {
-		if (reaction.message.id == 643524258093334569 /*message devenir bg*/
-			&& reaction.emoji.name == "GarconViande" /* meatboy */) {
-				const role = reaction.message.guild.roles.find(val => val.name === 'Les fidèles');
+		if (reaction.message.id == 643524258093334569 // message devenir bg
+			&& reaction.emoji.name == "GarconViande" ) { // meatboy 
+				const role = reaction.message.guild.roles.cache.find(val => val.name === 'Les fidèles');
 				member = reaction.message.guild.member(user);
-				if(member.roles.has(role.id)){
+				if(member.roles.cache.has(role.id)){
 					member.removeRole(role);
 				}
 			}	
-	})
+	})*/
+
 	//pouepopo.start(client)
 }
 

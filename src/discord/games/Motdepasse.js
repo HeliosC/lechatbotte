@@ -3,9 +3,9 @@ const BDD = require('./bddmdp/BDDmdp.js');
 listeMots = BDD.str;
 
 
-function MotDePasse(botClient, channel) {
+function MotDePasse(botClient, channelId) {
     this.botClient = botClient;
-    this.channel = channel;
+    this.channelId = channelId;
 
     this.inGame = false;
     this.inGameSetup = false;
@@ -22,7 +22,7 @@ function MotDePasse(botClient, channel) {
 }
 
 MotDePasse.prototype.isConcernedByMessage = function(message) {
-    return message.channel.name.indexOf(this.channel) != -1
+    return message.channel.id == this.channelId
 };
 
 MotDePasse.prototype.onMessage = function(message) {
@@ -38,20 +38,20 @@ MotDePasse.prototype.onMessage = function(message) {
         this.currentPlayer = message.member.user;
 
         console.debug(`${this.currentPlayer.username} has started a game 'MotDePasse'`);
+        
+        const yesEmoji = this.botClient.emojis.cache.find(e => e.name == "yea")
+        const noEmoji = this.botClient.emojis.cache.find(e => e.name == "nay")
 
         message.channel.send({
-            embed: {
+            embeds: [{
                 color: 3447003,
-                description: message.author + "\n"
-                    + this.botClient.emojis.find(e => e.name == "yea") + " pour commencer"
-                    + "\n" + this.botClient.emojis.find(e => e.name == "nay") + " pour annuler"
-            }
+                description: `${message.author}`  
+                    + "\n" + `${yesEmoji}` + " pour commencer" 
+                    + "\n" + `${noEmoji}` + " pour annuler "
+            }]
         }).then(message => {
             this.gameMessage = message;
             this.inGameSetup = true;
-
-            var yesEmoji = this.botClient.emojis.find(e => e.name == "yea");
-            var noEmoji = this.botClient.emojis.find(e => e.name == "nay");
 
             this.gameMessage.react(yesEmoji)
                 .then(() => {
@@ -66,17 +66,17 @@ MotDePasse.prototype.onMessage = function(message) {
 };
 
 MotDePasse.prototype.isConcernedByReaction = function(reaction) {
-    return reaction.message.channel.name.indexOf(this.channel) != -1;
+    return reaction.message.channel.id == this.channelId;
 };
 
 MotDePasse.prototype.onReaction = function(reaction, user) {
     let actionTriggered = false;
 
     if (user.bot) { return actionTriggered }
-    if (reaction.message.channel.name.indexOf(this.channel) == -1) { return actionTriggered }
+    if (reaction.message.channel.id != this.channelId) { return actionTriggered }
 
     // remove every reaction added by any user
-    reaction.remove(user);
+    reaction.users.remove(user.id);
     actionTriggered = true;
 
     // ignore any reaction of any other users
@@ -129,12 +129,12 @@ MotDePasse.prototype.updateGameMessage = function() {
     let seconds = this.timeRemaining % 60;
 
     this.gameMessage.edit({
-        embed: {
+        embeds: [{
             color: 3447003,
             description: `${this.currentPlayer}\n`
                 + `Temps : ${minutes}' ${seconds}''\n`
                 + `Score : ${this.score}\n\nMot : ${this.currentWord}`
-        }
+        }]
     });
 };
 

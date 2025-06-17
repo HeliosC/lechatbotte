@@ -1,13 +1,13 @@
 const BDDRoles = require("./bddroles/BDDroles");
 
 
-function RolesManager(botClient, roleChannel) {
+function RolesManager(botClient, roleChannelId) {
     this.botClient = botClient;
-    this.roleChannel = roleChannel;
+    this.roleChannelId = roleChannelId;
 }
 
 RolesManager.prototype.isConcernedByMessage = function(message) {
-    return message.channel.name.indexOf(this.roleChannel) != -1;
+    return message.channel.id == this.roleChannelId;
 };
 
 // RolesManager.prototype.onMessage = function(message) {
@@ -27,17 +27,17 @@ RolesManager.prototype.isConcernedByMessage = function(message) {
 // };
 
 RolesManager.prototype.isConcernedByReaction = function(reaction) {
-    return reaction.message.channel.name.indexOf(this.roleChannel) != -1;
+    return reaction.message.channel.id == this.roleChannelId;
 };
 
 RolesManager.prototype.onReaction = function(reaction, user) {
-    let role = reaction.message.guild.roles.find(r => r.name.includes(reaction.emoji.name));
+    let role = reaction.message.guild.roles.cache.find(r => r.name.includes(reaction.emoji.name));
     let member = reaction.message.guild.member(user);
     if(role == null || role.name.toLowerCase().includes("chat")){
-        reaction.remove(user);
+        reaction.users.remove(user.id);
         return true;
     };
-    if (!member.roles.has(role.id)) {
+    if (!member.roles.cache.has(role.id)) {
         member.addRole(role.id);
         // user.send("Tu as maintenant le role : " + role.name);
     }
@@ -45,11 +45,11 @@ RolesManager.prototype.onReaction = function(reaction, user) {
 };
 
 RolesManager.prototype.isConcernedByReactionRemove = function(reaction) {
-    return reaction.message.channel.name.indexOf(this.roleChannel) != -1;
+    return reaction.message.channel.id == this.roleChannelId;
 };
 
 RolesManager.prototype.onReactionRemove = function(reaction, user) {
-    let role = reaction.message.guild.roles.find(r => r.name.includes(reaction.emoji.name));
+    let role = reaction.message.guild.roles.cache.find(r => r.name.includes(reaction.emoji.name));
     let member = reaction.message.guild.member(user);
     if (role != null && !role.name.toLowerCase().includes("chat") && member.roles.has(role.id)) {
         member.removeRole(role.id);
@@ -66,7 +66,7 @@ RolesManager.prototype.onReactionRemove = function(reaction, user) {
 //     for (let {roleName, roleTitle} of BDDRoles.roles) {
 //         for(let roleStr of roleName){
 //             if (messageContent.indexOf(roleStr) != -1) {
-//                     let role = message.guild.roles.find(r => r.name == roleTitle);
+//                     let role = message.guild.roles.cache.find(r => r.name == roleTitle);
 //                 roles.push(role);
 //             }
 //         }
@@ -77,7 +77,7 @@ RolesManager.prototype.onReactionRemove = function(reaction, user) {
 
 // RolesManager.prototype.modifRole = function(message, role) {
 //     if(role === null){return;}
-//     if (message.member == null || !message.member.roles.has(role.id)) {
+//     if (message.member == null || !message.member.roles.cache.has(role.id)) {
 //         message.member.addRole(role.id);
 //         message.author.send("Tu as maintenant le role : " + role.name);
 //         this.botClient.users

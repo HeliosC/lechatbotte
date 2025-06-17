@@ -15,12 +15,12 @@ Poulpita.prototype.isConcernedByMessage = function(message) {
 
 function Poulpita(
     botClient,
-    rolesName,
+    roles,
     redisClient,
     disc
     ) {
     this.botClient = botClient;
-    this.rolesName = rolesName;
+    this.roles = roles;
 
     redis = redisClient;
     Discord = disc;
@@ -177,14 +177,14 @@ Poulpita.prototype.getRoles = function(member, guild, roles) {
   
     for (let roleTitle in roles) {
       let roleName = roles[roleTitle];
-      let guildRole = guild.roles.find(r => r.name == roleName);
+      let guildRole = guild.roles.cache.find(r => r.name == roleName);
   
       let hasRole = false;
   
       if (guildRole !== null) {
         let roleId = guildRole.id;
         if(member!==null){
-          hasRole = member.roles.has(roleId);
+          hasRole = member.roles.cache.has(roleId);
         }
       }
   

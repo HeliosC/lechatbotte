@@ -1,15 +1,16 @@
+const constants = require("../constants");
 const reactionsDB = require("./bddreactions/BDDreactions");
 
 
 function BotReactions(
   botClient,
   channels,
-  rolesName,
+  roles,
   commandPrefix) {
 
   this.botClient = botClient;
   this.channels = channels;
-  this.rolesName = rolesName;
+  this.roles = roles;
   this.commandPrefix = commandPrefix;
 }
 
@@ -30,36 +31,33 @@ BotReactions.prototype.isConcernedByMessage = function(message) {
 BotReactions.prototype.onMessage = function(message) {
   let actionTriggered = false;
 
-  let memberRoles = this.getRoles(message.member, message.guild, this.rolesName);
+  let memberRoles = this.getRoles(message.member, this.roles);
 
   actionTriggered |= this.reactToMessage(message, memberRoles);
   actionTriggered |= this.reactToMention(message, memberRoles);
 
-  if (!(memberRoles.administrator || memberRoles.moderator)) {
+  //Chat des bois
+  /*if (!(memberRoles.administrator || memberRoles.moderator)) {
     actionTriggered |= this.checkImageToMove(message);
   } else {
     if (message.author.username == "Helios ⭐⭐") { // TODO: move the hardcoded values to a better place
       this.parleBot(message);
     }
-  }
+  }*/
 
   return actionTriggered;
 };
 
-BotReactions.prototype.getRoles = function(member, guild, roles) {
+//TODO : duplicated code
+BotReactions.prototype.getRoles = function(member, roles) {
   var posessedRoles = {};
 
   for (let roleTitle in roles) {
-    let roleName = roles[roleTitle];
-    let guildRole = guild.roles.find(r => r.name == roleName);
+    let roleId = roles[roleTitle];
 
     let hasRole = false;
-
-    if (guildRole !== null) {
-      let roleId = guildRole.id;
-      if( member !== null ){
-        hasRole = member.roles.has(roleId);
-      }
+    if (member !== null) {
+      hasRole = member.roles.cache.has(roleId);
     }
 
     posessedRoles[roleTitle] = hasRole;
@@ -149,44 +147,57 @@ BotReactions.prototype.reactToMessage = function(message, memberRoles) {
   return triggeredAction;
 };
 
+//TODO: Separate servers
 BotReactions.prototype.reactToMention = function(message, memberRoles) {
   var triggeredAction = false;
 
   if (message.mentions.everyone) return triggeredAction;
-  if (!message.isMemberMentioned(this.botClient.user)) return triggeredAction;
+  if (!message.mentions.has(this.botClient.user.id)) return triggeredAction;
 
-
-  if (memberRoles.administrator) {
-    message.react(this.botClient.emojis.find(e => e.name == "LapinDab"))
-
-  } else if (memberRoles.moderator) {
-    if (message.author.id == 255069392780394506){
-      // username == "Poui des bois") {
+  if(message.guild.id == constants.server) {
+    if (message.author.id == constants.user.poui) {
       message.react("🗡");
-
-    } else if (message.author.username == "Solis Le Soleil") {
-      message.react(this.botClient.emojis.find(e => e.name == "lovedesbois"));
-
-    } else if (message.author.id == 243477125653463040){
-      // username == "Helios 2000 IQ") {
-      message.react(this.botClient.emojis.find(e => e.name == "lovedesbois"));
-
-    } else {
-      message.react("❤");
     }
-  } else if (memberRoles.subscriber) {
-    message.react("💕");
-  } else if (memberRoles.donnator) {
-    message.react("🐱");
-  } else {
-    message.reply("reste tranquille");
+    else if (memberRoles.administrator) {
+      message.react(this.botClient.emojis.cache.find(e => e.name == "TSPIN"))
+    } else if (memberRoles.moderator) {
+      message.react(this.botClient.emojis.cache.find(e => e.name == "TAUPE"));
+    } else if (memberRoles.subscriber) { 
+      message.react(this.botClient.emojis.cache.find(e => e.name == "KawashimaGasm"));
+    } else if (memberRoles.fafa) { 
+      message.react(this.botClient.emojis.cache.find(e => e.name == "phryge"));
+    } else {
+      message.react(this.botClient.emojis.cache.find(e => e.name == "Gallu"));
+    }
+    triggeredAction = true;
+  }
+  
+  else if(message.guild.id == constants.chatdesbois.server) {
+    if (memberRoles.administrator) {
+      message.react(this.botClient.emojis.cache.find(e => e.name == "LapinDab"))
+    } else if (memberRoles.moderator) {
+      if (message.author.id == constants.user.poui){
+        message.react("🗡");
+      } else if (message.author.id == constants.user.solis) {
+        message.react(this.botClient.emojis.cache.find(e => e.name == "lovedesbois"));
+      } else if (message.author.id == constants.user.helios){ 
+        message.react(this.botClient.emojis.cache.find(e => e.name == "lovedesbois"));
+      } else {
+        message.react("❤");
+      }
+    } else if (memberRoles.subscriber) {
+      message.react("💕");
+    } else {
+      message.reply("reste tranquille");
+    }
+    triggeredAction = true;
   }
 
-  triggeredAction = true;
   return triggeredAction;
 };
 
-BotReactions.prototype.checkImageToMove = function(message) {
+/** To move video links and attachements to a dedicated channel, instead of the general one */
+/*BotReactions.prototype.checkImageToMove = function(message) {
   var triggeredAction = false;
 
   if (message.channel.name != this.channels.chanCh) return triggeredAction;
@@ -197,9 +208,9 @@ BotReactions.prototype.checkImageToMove = function(message) {
   ||/https?:\/\/gfycat\.com\/.+/.test(message.content)
   ||/https?:\/\/(www\.|)youtube\..{2,3}\/.+/.test(message.content)
   ){
-    message.channel.send(message.author + " : " + this.botClient.channels.find(c => c.name == this.channels.images));
-    let imageChannel = this.botClient.channels.find(c => c.name == this.channels.images);
-    imageChannel.send(this.botClient.channels.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
+    message.channel.send(message.author + " : " + this.botClient.channels.cache.find(c => c.name == this.channels.images));
+    let imageChannel = this.botClient.channels.cache.find(c => c.name == this.channels.images);
+    imageChannel.send(this.botClient.channels.cache.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
     for (let [key, value] of message.attachments) {
       imageChannel.send({ file: value.proxyURL })
       triggeredAction = true;
@@ -209,11 +220,11 @@ BotReactions.prototype.checkImageToMove = function(message) {
   }else{
 
   for (let [key, value] of message.attachments) {
-    let imageChannel = this.botClient.channels.find(c => c.name == this.channels.images);
-    imageChannel.send(this.botClient.channels.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
+    let imageChannel = this.botClient.channels.cache.find(c => c.name == this.channels.images);
+    imageChannel.send(this.botClient.channels.cache.find(c => c.name == this.channels.chanCh) + "\n" + message.author + " : " + message.content);
     imageChannel.send({ file: value.proxyURL })
 
-    message.channel.send(message.author + " : " + this.botClient.channels.find(c => c.name == this.channels.images));
+    message.channel.send(message.author + " : " + this.botClient.channels.cache.find(c => c.name == this.channels.images));
 
     setTimeout(() => { message.delete() }, 500);
 
@@ -223,8 +234,9 @@ BotReactions.prototype.checkImageToMove = function(message) {
 }
 
   return triggeredAction;
-};
+};*/
 
+/** To make the bot send the message we want */
 BotReactions.prototype.parleBot = function(message) {
   if (!message.content.startsWith(this.commandPrefix)) {
     return;

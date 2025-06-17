@@ -1,3 +1,4 @@
+const { ChannelType } = require("discord.js");
 
 function Dispatcher(botClient) {
     this.botClient = botClient;
@@ -18,8 +19,8 @@ Dispatcher.prototype.removeComponent = function(component) {
     }
 };
 
-Dispatcher.prototype.onMessage = function(message) {
-    if (message.channel.type != "text") { return; }
+Dispatcher.prototype.onMessage = function(message) {        
+    if (message.channel.type != ChannelType.GuildText) { return; }
 
     let usedComponents = []
 
@@ -40,7 +41,7 @@ Dispatcher.prototype.onMessage = function(message) {
     }
 };
 
-Dispatcher.prototype.onReaction = function(reaction, user) {
+Dispatcher.prototype.onReaction = function(reaction, user) {    
     let usedComponents = []
 
     for (let component of this.components) {

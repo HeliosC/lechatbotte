@@ -1,8 +1,8 @@
 
-function Queue(botClient, channel, rolesName) {
+function Queue(botClient, channel, roles) {
   this.botClient = botClient;
   this.channel = channel;
-  this.rolesName = rolesName;
+  this.roles = roles;
 
   this.commands = {};
   this.moderatorCommands = {};
@@ -40,7 +40,7 @@ function Queue(botClient, channel, rolesName) {
       for (let [index, user] of this.listeAtt.entries()) {
         msg += (index + 1 + ": " + user.tag + "\n");
       }
-      message.channel.send({ embed: { color: 3447003, description: msg } });
+      message.channel.send({ embeds: [{ color: 3447003, description: msg }] });
     } else {
       message.channel.send("La liste d'attente est vide");
     }
@@ -48,11 +48,11 @@ function Queue(botClient, channel, rolesName) {
 
   this.addCommand(["*help", "*?"], (message, userRoles) => {
     message.channel.send({
-      embed: {
+      embeds: [{
         color: 3447003,
         description: "Pour rejoindre la liste d'attente : *joinqueue / *jq \n"
           + "Pour la quitter : *leavequeue / *lq \nPour l'afficher : *queue / *q"
-      }
+      }]
     });
   });
 
@@ -122,7 +122,7 @@ function Queue(botClient, channel, rolesName) {
 }
 
 Queue.prototype.isConcernedByMessage = function(message) {
-  let userRoles = this.getRoles(message.member, message.guild, this.rolesName);
+  let userRoles = this.getRoles(message.member, this.roles);
   let correctRole = userRoles.administrator || userRoles.moderator;
 
   let correctChannel = message.channel.name.indexOf(this.channel) != -1
@@ -165,7 +165,7 @@ Queue.prototype.callModeratorCommand = function(command, message, userRoles) {
 Queue.prototype.onMessage = function(message) {
   let actionTriggered = false;
 
-  let userRoles = this.getRoles(message.member, message.guild, this.rolesName);
+  let userRoles = this.getRoles(message.member, this.roles);
   let messageContent = message.content.toLowerCase();
 
   let messageArgs = messageContent.split(" ");
@@ -194,20 +194,15 @@ Queue.prototype.onMessage = function(message) {
 
 
 // Duplicate from BotReactions.js
-Queue.prototype.getRoles = function(member, guild, roles) {
+Queue.prototype.getRoles = function(member, roles) {
   var posessedRoles = {};
 
   for (let roleTitle in roles) {
-    let roleName = roles[roleTitle];
-    let guildRole = guild.roles.find(r => r.name == roleName);
+    let roleId = roles[roleTitle];
 
     let hasRole = false;
-
-    if (guildRole !== null) {
-      let roleId = guildRole.id;
-      if(member!==null){
-        hasRole = member.roles.has(roleId);
-      }
+    if(member!==null){
+      hasRole = member.roles.cache.has(roleId);
     }
 
     posessedRoles[roleTitle] = hasRole;

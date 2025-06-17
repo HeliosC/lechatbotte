@@ -1,15 +1,15 @@
 
-function Connect4(botClient, channel, rolesName) {
+function Connect4(botClient, channelId, roles) {
     this.botClient = botClient;
-    this.channel = channel;
-    this.rolesName = rolesName;
+    this.channelId = channelId;
+    this.roles = roles;
 
     this.inCreationGameMessages = {};
     this.runningGamesMessages = {};
 }
 
 Connect4.prototype.isConcernedByMessage = function(message) {
-    return message.channel.name.indexOf(this.channel) != -1 && !message.author.bot;
+    return message.channel.id == this.channelId && !message.author.bot;
 };
 
 Connect4.prototype.onMessage = function(message) {
@@ -23,10 +23,10 @@ Connect4.prototype.onMessage = function(message) {
         }
         let user1 = message.author;
         let user2 = players[0];
-        message.channel.send(players[0] + ", une game contre " + message.author + "?")
+        message.channel.send(`${players[0]}, une game contre ${message.author} ?`)
             .then(message => {
-                var yesEmoji = this.botClient.emojis.find(e => e.name == "yea");
-                var noEmoji = this.botClient.emojis.find(e => e.name == "nay");
+                var yesEmoji = this.botClient.emojis.cache.find(e => e.name == "yea");
+                var noEmoji = this.botClient.emojis.cache.find(e => e.name == "nay");
 
                 this.inCreationGameMessages[message.id] = {
                     user1: user1,
@@ -52,7 +52,7 @@ Connect4.prototype.onMessage = function(message) {
 };
 
 Connect4.prototype.isConcernedByReaction = function(reaction) {
-    return reaction.message.channel.name.indexOf(this.channel) != -1;
+    return reaction.message.channel.id == this.channelId;
 };
 
 Connect4.prototype.onReaction = function(reaction, user) {
@@ -66,8 +66,8 @@ Connect4.prototype.onReaction = function(reaction, user) {
 
         actionTriggered = true;
 
-        if (user != user2) {
-            reaction.remove(user);
+        if (user != user2) {            
+            reaction.users.remove(user.id);
             return actionTriggered;
         }
 
@@ -141,7 +141,7 @@ function Connect4DiscordGame(channel, user1, user2, onControlMessageCreated) {
 
 Connect4DiscordGame.prototype.createControlsMessage = function() {
     return this.channel
-        .send({ embed: { description: `${separator}⬇️`.repeat(7).slice(separator.length) } })
+        .send({ embeds: [{ description: `${separator}⬇️`.repeat(7).slice(separator.length) }] })
         .then(message => {
             this.controlsMessage = message;
         })
@@ -160,16 +160,16 @@ Connect4DiscordGame.prototype.addReactionToControlsMessage = function() {
 };
 
 Connect4DiscordGame.prototype.createBoardMessage = function() {
-    return this.channel.send({ embed: {
+    return this.channel.send({ embeds: [{
         color: 3447003,
         description: this.getGameStringRepresentation()
-    }}).then(message => {
+    }]}).then(message => {
         this.boardMessage = message;
     }).catch(console.error)
 };
 
 Connect4DiscordGame.prototype.userReacted = function(reaction, user) {
-    reaction.remove(user);
+    reaction.users.remove(user.id);
 
     if (user == [null, ...this.users][this.connect4Game.currentPlayer]) {
         let column = reactionEmoji.indexOf(reaction.emoji.toString());
@@ -199,11 +199,11 @@ Connect4DiscordGame.prototype.updateBoardMessage = function() {
         currentGameStatus = `\nTour de ${currentPlayerColor}: ${currentPlayer}`;
     }
 
-    this.boardMessage.edit({ embed: {
+    this.boardMessage.edit({ embeds: [{
             color: 3447003,
             description: this.getGameStringRepresentation()
                 + "\n" + currentGameStatus
-        }
+        }]
     });
 };
 

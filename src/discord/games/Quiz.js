@@ -15,15 +15,15 @@ const nbQuestionsForTheme = [ 100,    50,      50,     26,     50,      42,     
 
 
 
-function Quiz(botClient, channel) {
+function Quiz(botClient, channelId) {
     this.botClient = botClient;
-    this.channel = channel;
+    this.channelId = channelId;
 
     this.runningGameMessage = {};
 }
 
 Quiz.prototype.isConcernedByMessage = function(message) {
-    return message.channel.name.indexOf(this.channel) != -1;
+    return message.channel.id == this.channelId;
 };
 
 Quiz.prototype.onMessage = function(message) {
@@ -59,7 +59,7 @@ Quiz.prototype.onMessage = function(message) {
 };
 
 Quiz.prototype.isConcernedByReaction = function(reaction) {
-    return reaction.message.channel.name.indexOf(this.channel) != -1;
+    return reaction.message.channel.id == this.channelId;
 };
 
 Quiz.prototype.onReaction = function(reaction, user) {
@@ -100,10 +100,10 @@ Quiz.prototype.onReaction = function(reaction, user) {
         return actionTriggered;
     }
 
-    message.edit({ embed: {
+    message.edit({ embeds: [{
         color: 3447003,
-        description: `${user} [Thème : ${themeName}]\n${question}\n\n${statusMessage}\n${response}`
-    }});
+        description: `$user [Thème : ${themeName}]\n${question}\n\n${statusMessage}\n${response}`
+    }]});
 
     this.terminateGameMessage(message.id);
 
@@ -118,17 +118,17 @@ Quiz.prototype.displayThemes = function(channel) {
     for (let themeName of themes) {
         description =  `${description} - ${themeName}\n`;
     }
-    channel.send({ embed: { color: 3447003, description: description } });
+    channel.send({ embeds: [{ color: 3447003, description: description }] });
 };
 
 Quiz.prototype.createNewQuestionMessage = function(channel, user, themeIndex) {
     let [question, response] = getQuestion(themeIndex, randInt(1, nbQuestionsForTheme[themeIndex]));
     let themeName = themes[themeIndex];
 
-    channel.send({ embed: {
+    channel.send({ embeds: [{
         color: 3447003,
         description: `${user} [Thème : ${themeName}]\n${question}`
-    }}).then(message => {
+    }]}).then(message => {
         const timeoutId = setTimeout(() => {
             delete this.runningGameMessage[message.id];
             message.delete();
@@ -142,8 +142,8 @@ Quiz.prototype.createNewQuestionMessage = function(channel, user, themeIndex) {
             timeoutId: timeoutId
         };
 
-        var yesEmoji = this.botClient.emojis.find(e => e.name == "yea");
-        var noEmoji = this.botClient.emojis.find(e => e.name == "nay");
+        var yesEmoji = this.botClient.emojis.cache.find(e => e.name == "yea");
+        var noEmoji = this.botClient.emojis.cache.find(e => e.name == "nay");
         message.react(yesEmoji)
             .then(_ => {
                 return message.react(noEmoji);

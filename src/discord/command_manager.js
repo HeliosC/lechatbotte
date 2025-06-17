@@ -44,11 +44,11 @@ var usedCommands = []
 var redis
 function command_manager(
     botClient,
-    rolesName,
+    roles,
     redisClient
     ) {
     this.botClient = botClient;
-    this.rolesName = rolesName;
+    this.roles = roles;
 
     redis = redisClient;
   }
@@ -70,7 +70,7 @@ command_manager.prototype.onMessage = function(
 
     let m = message.content.toLowerCase();
     let username = message.author.username;
-    let userRoles = this.getRoles(message.member, message.guild, this.rolesName);
+    let userRoles = this.getRoles(message.member, this.roles);
     var args = message.content.split(" ")
     if(userRoles.administrator || userRoles.moderator){
         if(args[0] == "!police"){
@@ -168,20 +168,15 @@ command_manager.prototype.onMessage = function(
 }
 
 // Duplicate from BotReactions.js
-command_manager.prototype.getRoles = function(member, guild, roles) {
+command_manager.prototype.getRoles = function(member, roles) {
     var posessedRoles = {};
   
     for (let roleTitle in roles) {
-      let roleName = roles[roleTitle];
-      let guildRole = guild.roles.find(r => r.name == roleName);
+      let roleId = roles[roleTitle];
   
       let hasRole = false;
-  
-      if (guildRole !== null) {
-        let roleId = guildRole.id;
-        if(member!==null){
-          hasRole = member.roles.has(roleId);
-        }
+      if(member!==null){
+        hasRole = member.roles.cache.has(roleId);
       }
   
       posessedRoles[roleTitle] = hasRole;

@@ -1,3 +1,4 @@
+const constants = require("../../constants");
 
 /*
 This file describe how to react to some messages
@@ -43,8 +44,46 @@ for the function:
     }
  */
 
-
+//TODO: Separate servers
 module.exports.messagesReactions = [
+  {
+    contains: ["ou alors"],
+    responseReply: "C'est un bot ?",
+    disabled: false,
+    exception: function(client, message, memberRoles) {
+      return message.guild.id != constants.server;
+    }
+  }, {
+    contains: ["ping"],
+    responseReply: "Pong !",
+    disabled: false,
+    exception: function(client, message, memberRoles) {
+      return message.guild.id != constants.server;
+    }
+  }, {
+    contains: [""],
+    responseReact: function(client, message) {
+      return "🗡";
+    },
+    exception: function(client, message, memberRoles) {
+      return message.author.id != constants.user.poui 
+			 || message.channel.id != constants.channels.mute;
+    },
+    disabled: false
+
+
+  //chat des bois
+  }, {
+    contains: ["kalista"],
+    responseReply: "kali quoi ?",
+    disabled: false,
+    exception: function(client, message, memberRoles) {
+      return message.guild.id != constants.chatdesbois.server;
+    }
+  }
+]
+
+oldMessagesReactions = [
   {
     startsWith: ["!snap"],
     disabled: true,
@@ -89,22 +128,22 @@ module.exports.messagesReactions = [
     startsWith: ["!giveaway"],
     disabled: true,
     responseChannel: function(client, message) {
-      const dab = client.emojis.find(e => e.name == "LapinDab");
+      const dab = client.emojis.cache.find(e => e.name == "LapinDab");
       return "RDV aux 6000 follows ! " + dab;
     }
   }, {
     contains: ["kalista"],
     disabled: true,
-    respoinseReply: "kali quoi ?"
+    responseReply: "kali quoi ?"
   }, {
     contains: ["permis"],
     disabled: true,
-    respoinseChannel: "https://www.youtube.com/watch?v=MpQEi1Dw3_k&t=4s&ab_channel=Chatdesbois"
+    responseChannel: "https://www.youtube.com/watch?v=MpQEi1Dw3_k&t=4s&ab_channel=Chatdesbois"
   }, {
     contains: ["ddlc", "doki", "monika", "yuri", "sayori", "natsuki"],
     disabled: false,
     responseReact: function(client, message) {
-      return client.emojis.find(e => e.name == "monika");
+      return client.emojis.cache.find(e => e.name == "monika");
     }
   }, {
     contains: ["pain au chocolat"],
