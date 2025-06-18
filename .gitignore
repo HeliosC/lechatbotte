@@ -59,6 +59,15 @@ typings/
 
 # next.js build output
 .next
+
+
+docker images/*
+start.bat
+
+
+
+
+
 #chat/
 twitch - Copie.js
 test.js
@@ -128,4 +137,3 @@ src/discord/games/bddjdr/unsused dices images/
 test follower bot LOCAL - Copie.js
 index.js
 src/twitch/policeDesBois/config.js
-start.bat
