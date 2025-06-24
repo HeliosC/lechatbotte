@@ -14,6 +14,9 @@ RUN apk add --no-cache \
     ttf-dejavu \
     ttf-freefont
 
+# Update Alpine Linux Package Manager and Install the bash
+RUN apk update && apk add bash
+
 WORKDIR /build
 
 COPY package*.json .
