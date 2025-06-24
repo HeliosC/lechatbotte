@@ -51,14 +51,21 @@ module.exports.messagesReactions = [
     responseReply: "C'est un bot ?",
     disabled: false,
     exception: function(client, message, memberRoles) {
-      return message.guild.id != constants.server;
+      return message.guild.id != constants.helios.server;
+    }
+  }, {
+    contains: ["malphite"],
+    responseReply: "💥 BOOM",
+    disabled: false,
+    exception: function(client, message, memberRoles) {
+      return message.guild.id != constants.helios.server;
     }
   }, {
     contains: ["ping"],
     responseReply: "Pong !",
     disabled: false,
     exception: function(client, message, memberRoles) {
-      return message.guild.id != constants.server;
+      return message.guild.id != constants.helios.server;
     }
   }, {
     contains: [""],
@@ -67,7 +74,7 @@ module.exports.messagesReactions = [
     },
     exception: function(client, message, memberRoles) {
       return message.author.id != constants.user.poui 
-			 || message.channel.id != constants.channels.mute;
+			 || message.channel.id != constants.helios.channels.mute;
     },
     disabled: false
 

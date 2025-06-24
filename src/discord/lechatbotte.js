@@ -1,16 +1,20 @@
-const { Client, MessageAttachment, GatewayIntentBits } = require("discord.js");
+const fs = require('node:fs');
+const path = require('node:path');
+
+const { Client, MessageAttachment, GatewayIntentBits, Events, Collection } = require("discord.js");
 //const Discord = require("discord.js");
 //WEIRD, NEED TO FIND SMTH BETTER
 
 const constants = require('./constants');
-const Dispatcher = require('./Dispatcher');
+const Dispatcher = require('./events/Dispatcher.js');
+const interactionCreate = require('./events/interactionCreate.js');
 
 const BotReactions = require('./actions/BotReactions');
 //const pouepopo = require('./pouepopo.js')
 
-const MotDePasse = require('./games/Motdepasse.js');
-const Connect4 = require('./games/Connect4.js');
-const Quiz = require('./games/Quiz.js');
+//const MotDePasse = require('./games/Motdepasse.js');
+//const Connect4 = require('./games/Connect4.js');
+//const Quiz = require('./games/Quiz.js');
 const JDR = require('./games/JDR.js');
 
 /* Chat Des Bois features */
@@ -36,7 +40,29 @@ function startBot(redisClient) {
 		] 
 	});
 
-	client.on('ready', () => {
+
+	//generate commands object
+	client.commands = new Collection();
+	const foldersPath = path.join(__dirname, 'commands');
+	const commandFolders = fs.readdirSync(foldersPath);
+
+	for (const folder of commandFolders) {
+		const commandsPath = path.join(foldersPath, folder);
+		const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+		for (const file of commandFiles) {
+			const filePath = path.join(commandsPath, file);
+			const command = require(filePath);
+			// Set a new item in the Collection with the key as the command name and the value as the exported module
+			if ('data' in command && 'execute' in command) {
+				client.commands.set(command.data.name, command);
+			} else {
+				console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			}
+		}
+	}
+
+
+	client.once(Events.ClientReady, () => {
 		console.log(`Logged in as ${client.user.tag}!`);
 
 		/*client.channels.cache.find(channel => channel.id == constants.chatdesbois.channels.role)
@@ -48,54 +74,55 @@ function startBot(redisClient) {
 		.then(message => console.log("PROUT2"))
 			.catch(console.error);*/
  	});
-	client.on("error", (e) => console.error(e));
-	client.on("warn", (e) => console.warn(e));
-	client.on("debug", (e) => console.info(e));
+	client.on(Events.Error, (e) => console.error(e));
+	client.on(Events.Warn, (e) => console.warn(e));
+	client.on(Events.Debug, (e) => console.info(e));
 
 	const dispatcher = new Dispatcher(client);
 
 	/******/
 	dispatcher.addComponent(
-		new BotReactions(client,constants.channels,constants.roles,constants.commandPrefix)
+		new BotReactions(client,constants.helios.channels,constants.helios.roles,constants.commandPrefix)
 	);
 	dispatcher.addComponent(
-		new RolesManager(client, constants.channels.role)
+		new RolesManager(client, constants.helios.channels.role)
 	);
 	/*dispatcher.addComponent(
-		new Queue(client, constants.channels.queue, constants.roles)
-	);*/
-	dispatcher.addComponent(
-		new MotDePasse(client, constants.channels.password)
-	);
-	dispatcher.addComponent(
-		new Connect4(client, constants.channels.games, constants.roles)
-	);
-	dispatcher.addComponent(
-		new Quiz(client, constants.channels.quiz)
-	);
-	dispatcher.addComponent(
-		new JDR(client, constants.channels.jdr, redisClient, MessageAttachment)
-	);
-	/*dispatcher.addComponent(
-		new command_manager(client, constants.roles, redisClient)
+		new Queue(client, constants.helios.channels.queue, constants.helios.roles)
 	);*/
 	/*dispatcher.addComponent(
-		new Poulpita(client, constants.roles, redisClient, Discord)
+		new MotDePasse(client, constants.helios.channels.password)
 	);*/
 	/*dispatcher.addComponent(
-		new RedAlert(client, constants.roles, redisClient)
+		new Connect4(client, constants.helios.channels.games, constants.helios.roles)
 	);*/
 	/*dispatcher.addComponent(
-		new Quotes(client, constants.channels, constants.roles, redisClient, Discord)
+		new Quiz(client, constants.helios.channels.quiz)
+	);*/
+	/*dispatcher.addComponent(
+		new JDR(client, constants.helios.channels.jdr, redisClient, MessageAttachment)
+	);*/
+	/*dispatcher.addComponent(
+		new command_manager(client, constants.helios.roles, redisClient)
+	);*/
+	/*dispatcher.addComponent(
+		new Poulpita(client, constants.helios.roles, redisClient, Discord)
+	);*/
+	/*dispatcher.addComponent(
+		new RedAlert(client, constants.helios.roles, redisClient)
+	);*/
+	/*dispatcher.addComponent(
+		new Quotes(client, constants.helios.channels, constants.helios.roles, redisClient, Discord)
 	);*/
 	/******/
 
-	client.on('messageCreate', dispatcher.onMessage.bind(dispatcher));
-	client.on('messageReactionAdd', dispatcher.onReaction.bind(dispatcher));
-	client.on('messageReactionRemove', dispatcher.onReactionRemove.bind(dispatcher));
+	client.on(Events.MessageCreate, dispatcher.onMessage.bind(dispatcher));
+	client.on(Events.MessageReactionAdd, dispatcher.onReaction.bind(dispatcher));
+	client.on(Events.MessageReactionRemove, dispatcher.onReactionRemove.bind(dispatcher));
+	client.on(Events.InteractionCreate, interactionCreate.execute);
 
 	/** Chat Des Bois Welcoming message */
-	client.on('guildMemberAdd', (member) => {
+	client.on(Events.GuildMemberAdd, (member) => {
 		if (member.guild.id == constants.chatdesbois.server) {
 			const h = client.emojis.cache.find(e => e.name == "hidesbois");
 			client.channels.cache.find(c => c.id == constants.chatdesbois.channels.main).send(

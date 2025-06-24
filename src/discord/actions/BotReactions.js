@@ -154,7 +154,7 @@ BotReactions.prototype.reactToMention = function(message, memberRoles) {
   if (message.mentions.everyone) return triggeredAction;
   if (!message.mentions.has(this.botClient.user.id)) return triggeredAction;
 
-  if(message.guild.id == constants.server) {
+  if(message.guild.id == constants.helios.server) {
     if (message.author.id == constants.user.poui) {
       message.react("🗡");
     }
