@@ -18,7 +18,7 @@ function JDR(botClient, channelId, redis) {
 }
 
 JDR.prototype.isConcernedByMessage = function(message) {
-    return true // message.channel.name.indexOf(this.channel) != -1
+    return /*true */ message.channel.name.indexOf(this.channel) != -1
 };
 
 JDR.prototype.onMessage = function(message) {
@@ -31,10 +31,10 @@ JDR.prototype.onMessage = function(message) {
     const command = args.shift().toLowerCase()
 
     //TODO: temporary way to use this command everywhere 
-    if (command == "roll") {
+    /*if (command == "roll") {
         actionTriggered = true;
         this.rollDice(message, args)
-    }
+    }*/
 
     if(message.channel.id == this.channelId && this.redis) {
         if (command == "pick") {
