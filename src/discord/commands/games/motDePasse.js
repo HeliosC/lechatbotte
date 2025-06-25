@@ -96,7 +96,7 @@ module.exports = {
 };
 
 class MotDePasse {
-    static totalTime = 9
+    static totalTime = 90
 
     constructor() {
         this.inGame = false;

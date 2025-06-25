@@ -82,7 +82,13 @@ test = {
 	},
 };
 
-module.exports = if(process.env.ENV == 'prod') prod else test
+let constants
+if(process.env.ENV == 'prod') 
+	constants = prod 
+else 
+	constants = test
+
+module.exports = constants
 
 oldConstants = {
 	botName: "Le Chat Botté",
