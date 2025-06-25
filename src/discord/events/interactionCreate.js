@@ -13,9 +13,11 @@ module.exports = {
 			}
 	
 			try {
-				const channelRequired = command.getChannel?.(Object.values(constants).find(e => e.server === interaction.guildId))
+				const serverConst = Object.values(constants).find(e => e.server === interaction.guildId)
+				const channelRequired = command.getChannel?.(serverConst)
+				const testChannel = serverConst?.channels?.test
 
-				if(!channelRequired || interaction.channelId === channelRequired) {
+				if(!channelRequired || interaction.channelId === channelRequired || interaction.channelId === testChannel) {
 					await command.execute(interaction);
 				} else {
 					await interaction.reply({ content: `Utilisez cette commande dans <#${channelRequired}>`, flags: MessageFlags.Ephemeral });
