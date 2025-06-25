@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
+const { createCanvas } = require('canvas')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -74,11 +75,18 @@ module.exports = {
 };
 
 
-const bleu = "🔵";
+const reactionEmoji = { a: "🇦", b: "🇧", c: "🇨", d: "🇩", e: "🇪", f: "🇫", g: "🇬" }
+//game in message
+const bleu = "🟡";
 const rouge = "🔴";
 const blanc = "⚪️";
 const separator = "----";
-const reactionEmoji = { a: "🇦", b: "🇧", c: "🇨", d: "🇩", e: "🇪", f: "🇫", g: "🇬" }
+//game in canvas
+const unitBetweenCircles = 30
+const circleRadius = unitBetweenCircles / 4
+const bleuColor = '#FDCB58'
+const rougeColor = '#DD2E44'
+const blancColor = '#FFFFFF'
 
 class Connect4DiscordGame {
     constructor(user1, user2) {
@@ -88,6 +96,9 @@ class Connect4DiscordGame {
     
         this.controlsMessage = null;
         this.boardMessage = null;
+
+        this.canvas = createCanvas((this.connect4Game.boardWidth + 1) * unitBetweenCircles, (this.connect4Game.boardHeight + 2) * unitBetweenCircles)
+        this.resetImageRepresentation()
     }
 
     setGameButtonComponents(message) {
@@ -119,18 +130,90 @@ class Connect4DiscordGame {
         } else if (this.connect4Game.boardIsFull()) {
             currentGameStatus = "Match nul";
         } else {
-            currentGameStatus = `\nTour de ${currentPlayerColor}: ${currentPlayer}`;
+            currentGameStatus = `\nTour de ${currentPlayerColor} : ${currentPlayer}`;
         }
     
         return interaction.update({ 
+            content: null,
             embeds: [{
                 color: 3447003,
-                description: this.getGameStringRepresentation()
-                    + "\n" + currentGameStatus
+                description: currentGameStatus,
+                /*description: this.getGameStringRepresentation()
+                    + "\n" + currentGameStatus*/
             }],
+            files: [this.getImageRepresentation()],
             withResponse: true
         });
     };
+
+    resetImageRepresentation() {
+        const margin = unitBetweenCircles/2 - circleRadius
+
+        const ctx = this.canvas.getContext('2d')
+        ctx.fillStyle = '#FFFFFF'
+        ctx.fillRect(0, 0, this.canvas.width - 0, this.canvas.height - 0)
+
+        ctx.fillStyle = '#5094CD'
+        ctx.fillRect(margin, margin, this.canvas.width - 2*margin, this.canvas.height - 2*margin - unitBetweenCircles)
+
+        for(let y = 0; y < this.connect4Game.boardHeight; y++) {
+            for(let x = 0; x < this.connect4Game.boardWidth; x++) {
+                this.drawCircleInCanvas(x, y)
+            }
+        }
+
+        ctx.font = '20px Roboto'
+        ctx.textAlign = "center"
+        ctx.textBaseline = "middle"
+        ctx.lineWidth = unitBetweenCircles / 10
+        Object.keys(reactionEmoji).map((emoji, index) => {
+            const x = unitBetweenCircles * (index + 1)
+            const y = unitBetweenCircles * (this.connect4Game.boardHeight + 1.35)
+            const emojiRadius = 0.9 * unitBetweenCircles / 2
+
+            ctx.fillStyle = '#3B88C3'
+            ctx.fillRect(x - emojiRadius, y - emojiRadius, emojiRadius * 2, emojiRadius * 2)
+
+            ctx.fillStyle = '#FFFFFF'
+            ctx.fillText(emoji.toUpperCase(), x, y) 
+        })
+
+        return this.canvas
+    }
+
+    drawCircleInCanvas(x, y) {
+        function playerToColor(value) {
+            return [blancColor, bleuColor, rougeColor ][value];
+        }
+
+        const ctx = this.canvas.getContext('2d')
+
+        ctx.beginPath()
+        ctx.arc((x + 1) * unitBetweenCircles, (this.connect4Game.boardHeight - y) * unitBetweenCircles, circleRadius, 0, 2 * Math.PI)
+        ctx.fillStyle = playerToColor(this.connect4Game.board[y][x])
+        ctx.fill()
+
+        ctx.strokeStyle = '#FFFFFF'
+        ctx.lineWidth = circleRadius/5
+        ctx.stroke()
+        
+        ctx.closePath()
+    }
+
+    getImageRepresentation() {
+        console.time("Puissance4-GetPNGStream")
+        const attachment = this.canvas.createPNGStream()
+
+        attachment.on('end', () => {
+            console.timeEnd("Puissance4-GetPNGStream")
+        })
+        const file = {
+            attachment,
+            name: 'game.png'
+        }
+
+        return file
+    }
 
     getGameStringRepresentation() {
         let stringLines = []
@@ -155,7 +238,16 @@ class Connect4DiscordGame {
     userReacted(interaction, reaction) {    
         let column = Object.keys(reactionEmoji).indexOf(reaction);            
 
-        this.connect4Game.play(column);
+        const coord = this.connect4Game.play(column);
+        if (!coord) {
+            interaction.update({ 
+                content: null
+            })
+            return
+        }
+        const [line, _] = coord
+
+        this.drawCircleInCanvas(column, line)
         return this.updateBoardMessage(interaction);
     }
 
@@ -163,7 +255,6 @@ class Connect4DiscordGame {
         return this.connect4Game.winner !== null || this.connect4Game.boardIsFull();
     };
 }
-
 
 class Connect4Game {
     static EMPTY = 0
@@ -254,6 +345,8 @@ class Connect4Game {
         this.board[line][column] = this.currentPlayer;
         this.currentPlayer = this.currentPlayer == Connect4Game.PLAYER_1 ? Connect4Game.PLAYER_2 : Connect4Game.PLAYER_1;
     
-        this.checkWinFromPoint(line, column);        
+        this.checkWinFromPoint(line, column);    
+        
+        return [line, column]
     }
 }
