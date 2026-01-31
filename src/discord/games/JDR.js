@@ -134,13 +134,13 @@ JDR.prototype.generateDeck = function(nbCards) {
         }
     }
     card = this.shuffle(card)
-    console.log("nbCards " + nbCards)
-    console.log("card " + card)
+    //console.log("nbCards " + nbCards)
+    //console.log("card " + card)
     if (nbCards != undefined && !isNaN(nbCards)) {
-        console.log("nbCards true")
+        //console.log("nbCards true")
         card = card.slice(0, nbCards)
     }
-    console.log("card " + card)
+    //console.log("card " + card)
     card.push("🃏")
     return card
 }
@@ -213,7 +213,7 @@ JDR.prototype.pickCard = function(message, i = 1) {
 }
 
 JDR.prototype.resetDeck = function(message, i, nbCards) {
-    console.log("message " + message + " i " + i + " nbCards " + nbCards)
+    //console.log("message " + message + " i " + i + " nbCards " + nbCards)
     this.redis.del(`JDR/deck/${i}`, (err0, result0) => {
         this.redis.lpush(`JDR/deck/${i}`, this.generateDeck(nbCards), (err, result) => {
             message.channel.send("Le deck a été reset.")

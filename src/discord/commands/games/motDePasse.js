@@ -64,7 +64,7 @@ module.exports = {
                 })
 
                 buttonCollector.on('collect', async i => {
-                    console.log(i.customId);
+                    //console.log(i.customId);
 
                     if (i.customId === "correct") {
                         game.currentWord = game.getRandomWord();

@@ -15,7 +15,7 @@ const BotReactions = require('./actions/BotReactions');
 //const MotDePasse = require('./games/Motdepasse.js');
 //const Connect4 = require('./games/Connect4.js');
 //const Quiz = require('./games/Quiz.js');
-const JDR = require('./games/JDR.js');
+//const JDR = require('./games/JDR.js');
 
 /* Chat Des Bois features */
 const RolesManager = require('./actions/RolesManager');
@@ -27,6 +27,15 @@ const RolesManager = require('./actions/RolesManager');
 /* Poulpita features */
 //const Poulpita = require('./Poulpita.js');
 
+
+/* 
+* trace / debug / info / warn / error / silent 
+* Only discord log for now
+*/
+const logLevels = { "silent" : 0, "error" : 1, "warn" : 2, "info" : 3, "debug" : 4, "trace" : 5 }
+const LOG_LEVEL = Object.entries(logLevels).find(l => l[0] == process.env.LOG_LEVEL)?.[1] ?? logLevels["trace"]
+
+console.log("LOG LEVEL " + LOG_LEVEL)
 
 function startBot(redisClient) {
 
@@ -74,9 +83,16 @@ function startBot(redisClient) {
 		.then(message => console.log("PROUT2"))
 			.catch(console.error);*/
  	});
-	client.on(Events.Error, (e) => console.error(e));
-	client.on(Events.Warn, (e) => console.warn(e));
-	client.on(Events.Debug, (e) => console.info(e));
+
+	client.on(Events.Error, (e) => {
+		if(logLevels["error"] <= LOG_LEVEL) console.error(e)
+	});
+	client.on(Events.Warn, (e) => {
+		if(logLevels["warn"] <= LOG_LEVEL) console.warn(e)
+	});
+	client.on(Events.Debug, (e) => {
+		if(logLevels["debug"] <= LOG_LEVEL) console.debug(e)
+	});
 
 	const dispatcher = new Dispatcher(client);
 
