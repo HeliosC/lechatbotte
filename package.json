@@ -1,8 +1,12 @@
 {
   "name": "lechatbotte",
   "dependencies": {
+    "axios": "^1.16.0",
     "canvas": "^3.0.0",
-    "discord.js": "^14.0.0"
+    "discord.js": "^14.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "tmi.js": "^1.8.5"
   },
   "version": "1.0.0",
   "main": "index.js",

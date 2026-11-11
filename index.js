@@ -6,7 +6,11 @@ redis.on('connect', function () {
 //require('./src/web/app.js');
 
 const lechatbotte = require('./src/discord/lechatbotte');
-lechatbotte.start()
+//lechatbotte.start()
+
+const botTwitch = require('./src/twitch/madelineDesChamps/bot.js');
+botTwitch.start()
+
 
 /*const twitchBotPoliceDesBois = require('./src/twitch/policeDesBois/bot.js');
 twitchBotPoliceDesBois.start(redis)
